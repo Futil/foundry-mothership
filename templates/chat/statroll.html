@@ -1,0 +1,87 @@
+<div class="mothership" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <div class="showinfo"></div>
+    <div class="showlessinfo"></div>
+
+    <div class="rollcontainer">
+        {{#if isWeapon}}
+        <div class="flexrow">
+            <div class="rollweaponh1">{{item.name}}
+            </div>
+            <div style="text-align: right"><img class="roll-image" src="{{item.img}}" title="{{item.name}}" /></div>
+        </div>
+        {{else}}
+        <div class="rollh1">{{stat.name}}</div>
+        {{/if}}
+
+        {{#if advantage}}
+        <div class="rollh2">A/D</div>
+        {{else}}
+        <div class="rollh2">{{data.resultText.value}}</div>
+        {{/if}}
+
+        <div class="roll-grid">
+            {{#if advantage}}
+            <div class="roll-result">{{data.diceTotal.value}} / {{data.diceTotal.advantageValue}}</div>
+            {{else}}
+            <div class="roll-result">{{data.diceTotal.value}}</div>
+            {{/if}}
+
+            {{#if data.isCreature.value}}
+            <div class="gmonly">
+                <span class="tooltiptext">
+                    {{#each diceData.dice}}
+                    <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                        <label style="color:{{this.color}};">
+                            {{this.result}}
+                        </label>
+                        {{#if this.img}}
+                        <img src='{{this.img}}' />
+                        {{/if}}
+                    </div>
+                    {{/each}}
+                </span>
+            </div>
+            {{else}}
+            <span class="tooltiptext">
+                {{#each diceData.dice}}
+                <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
+                    <label style="color:{{this.color}};">
+                        {{this.result}}
+                    </label>
+                    {{#if this.img}}
+                    <img src='{{this.img}}' />
+                    {{/if}}
+                </div>
+                {{/each}}
+            </span>
+            {{/if}}
+        </div>
+        <div class="roll-target">
+            <div class="valuetext">Target:</div>
+            <div class="roll-targetbox">
+                <div class="value">{{targetValue}}</div>
+            </div>
+        </div>
+        <div class="rollmods">
+            <div class="valuetext">{{stat.name}} ({{this.target}})</div>
+            <div class="valuetext">Mod ({{this.mod}})</div>
+            {{#if useSkill}}
+            <div class="valuetext">{{item.name}} ({{item.data.bonus}})</div>
+            {{/if}}
+            {{#if isWeapon}}
+            <div class="valuetext">{{item.name}} ({{item.data.bonus}})</div>
+            {{/if}}
+        </div>
+        <!-- Damage Roll -->
+        {{#if isWeapon}}
+        <div class="roll-damage">Damage</div>
+        <div>
+            <div class="roll-damagebox">
+                <div class="value">{{data.diceTotal.damageValue}}</div>
+            </div>
+        </div>
+        <div class="rollmods" style="margin-top: 0px;">({{item.data.damage}})</div>
+        {{/if}}
+
+    </div>

@@ -1,0 +1,899 @@
+@import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+/* Global styles */
+.window-app {
+  font-family: "Roboto", sans-serif;
+}
+
+.window-app .window-content {
+  background: #fff;
+  /* font-family: "Montserrat", "Arial Black", sans-serif; */
+}
+
+.mothership ::-webkit-scrollbar-thumb {
+  outline: none;
+  border-radius: 3px;
+  background: black;
+  border: 1px solid white;
+}
+
+.mothership .white{
+  color:white;
+}
+
+.mothership .darkgrey{
+  color:rgb(92, 92, 92);
+}
+/* .chat-message, #chat-form, .textarea{
+  background: white;
+} */
+
+
+.list-roll:hover,
+.list-roll:focus,
+.rollable:hover, .rollable:focus {
+  color: #000;
+  text-shadow: 0 0 10px rgb(112, 112, 112);
+  cursor: pointer;
+}
+
+.grid,
+.grid-2col {
+  display: grid;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  margin: 10px 0;
+  padding: 0;
+}
+.grid-1col {
+  grid-column: span 1 / span 1;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.widegap {
+  gap: 20px;
+  padding: 6px;
+}
+
+.grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4col {
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-5col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-6col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-7col {
+  grid-column: span 7 / span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-8col {
+  grid-column: span 8 / span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.grid-9col {
+  grid-column: span 9 / span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.grid-10col {
+  grid-column: span 10 / span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.grid-11col {
+  grid-column: span 11 / span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.grid-12col {
+  grid-column: span 12 / span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.flex-group-center,
+.flex-group-left,
+.flex-group-right {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  padding: 3px;
+  /* border: 1px solid #999; */
+}
+
+.flex-group-left {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.flex-group-right {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.flex-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.flex-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+/* Styles limited to mothership sheets */
+.mothership .item-form {
+  font-family: "Roboto", sans-serif;
+}
+
+.mothership .char-header {
+  -webkit-box-flex: 0;
+  /* -ms-flex: 0 0 610px;
+  flex: 0 0 610px; */
+  /* overflow: hidden; */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;  
+}
+
+
+
+.mothership .char-header .profile-img {
+  -webkit-box-flex: 0;
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.mothership .char-header .header-fields {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.mothership .char-header .header-grid {
+  display: grid;
+  grid-template-areas:
+  'header header header'
+  'abilities centercol saves '
+  'abilities b saves';
+  grid-gap: 10px;
+  /* background-color: rgb(226, 226, 226); */
+  padding: 2px;
+  grid-template-columns: 256px auto 82px;
+}
+
+.mothership .abilities {grid-area: abilities;}
+.mothership .saves {grid-area: saves;}
+
+.mothership .stress {grid-area: stress;}
+.mothership .health {grid-area: centercol;}
+.mothership .healthspread {width:100px;}
+
+.mothership .char-header h1.charname {
+  height: auto;
+  padding: 0px;
+  margin: 0px 0;
+  border-bottom: 0;
+}
+
+.mothership .char-header h1.charname input {
+  width: 100%;
+  height: auto;
+
+  background: #fff;
+
+  padding-left: 1em;
+  border: 4px solid #111;
+  border-radius: 3em;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+.mothership .sheet-tabs {
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
+}
+
+.mothership .sheet-body,
+.mothership .sheet-body .tab,
+.mothership .sheet-body .tab .editor {
+  height: 100%;
+}
+
+.mothership .tox .tox-editor-container {
+  background: #fff;
+}
+
+.mothership .tox .tox-edit-area {
+  padding: 0 8px;
+}
+
+.mothership .resource-label {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.mothership .tabs {
+  height: 40px;
+  border-top: 2px solid rgb(56, 56, 56);
+  border-bottom: 2px solid rgb(56, 56, 56);
+}
+
+.mothership .tabs .item {
+  line-height: 40px;
+  font-weight: bold;
+}
+
+.mothership .tabs .item.active {
+  text-decoration: underline;
+  text-shadow: none;
+}
+
+.mothership .items-list {
+  list-style: none;
+  margin: 7px 0;
+  padding: 0;
+  /* overflow-y: auto; */
+}
+
+.mothership .items-list .item-header {
+  font-weight: bold;
+}
+
+.mothership .items-list .item {
+  height: 35px;
+  line-height: 24px;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+}
+
+.mothership .skills-list .item {
+  height: 36px;
+  line-height: 21px;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+}
+
+.mothership .items-list .item .item-image {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  margin-right: 5px;
+}
+
+.mothership .roll-image {
+  -webkit-box-flex: 0;
+  flex: 0 24px;
+  margin-right: -9px;
+  width: 46px;
+  border-radius: 0 0 0 16px;
+  /* margin-right: 5px; */
+}
+
+.mothership .items-list .item img {
+  display: block;
+}
+
+.mothership .items-list .item-name {
+  margin: 0;
+}
+
+.mothership .items-list .skill-name {
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: white;
+  /* text-transform: uppercase; */
+  margin-left: 0px;
+  background: #111;
+  padding: 2px;
+  /* padding-left: 8px; */
+  border-radius: 21px;
+  text-align: center;
+  height: 27px;
+  overflow: hidden;
+}
+.mothership .items-list .skill-stat {
+  font-size: medium;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #111;
+  margin-left: 0px;
+  /* background: black; */
+  padding: 2px;
+  padding-left: 8px;
+  border-radius: 21px;
+  text-align: center;
+}
+
+.mothership .items-list .item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+}
+
+.mothership .tab-select {
+  font-size: medium;
+  font-weight: bold;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #111;
+  text-align: center;
+}
+
+.mothership .stresstext {
+  width: 100%;
+  padding: 0.1rem;
+  color: white;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.mothership .smallcircle-input {
+  margin: -0.15em;
+  height: 40px;
+  width: 40px;
+  padding: 0;
+  border: 4px solid #111;
+  border-radius: 3em;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.mothership .mainstatmod-input {
+  margin-top: 13px;
+  height: 26px;
+  width: 44px;
+  padding: 0;
+  border: 2px solid rgb(129, 129, 129);
+  border-radius: 0.1em 1em 0.11em;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-align: center;
+  margin-left: -22px;
+  z-index: 5;
+}
+
+.mothership .mainstatmod-title {
+  position: relative;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 0.7rem;
+  color: rgb(77, 77, 77);
+  line-height: 1;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-left: -35px;
+  pointer-events: none;
+}
+
+.mothership .maxhealth-input {
+  margin: -0.15em;
+  margin-top: 8px;
+  margin-left: -5px;
+
+  border: 0px solid #111;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  background: transparent;
+}
+
+.mothership .greyText{
+  color: grey;
+}
+
+.mothership .darkGreyText{
+  color: rgb(56, 56, 56);
+}
+
+.mothership .sizelarge{
+  font-size: 1.1rem;
+}
+
+.mothership .minmaxwrapper{
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: start;
+    max-height: 50px;
+    width: 145px;
+    padding: 0;
+    border: 4px solid #111;
+    border-radius: 2.5em;
+    background: 0;
+}
+
+.mothership .minmaxtopstat{
+  width: 9rem;
+  grid-template-columns: 1fr 2fr;
+  justify-self: center;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+}
+
+.mothership .minmaxtext{
+  text-align: left;
+  grid-column: 1/-1;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-size: 1.15rem;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mothership .healthmaxtext{
+  text-align: left;
+  grid-column: span 1;
+  font-size: 0.8rem;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mothership .stresslabel {
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
+  background: #111;
+  padding: 0 0.5rem;
+}
+
+.mothership .mainstatwrapper {
+  display: flex;
+}
+
+.mothership .mainstat {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 5em;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+.mothership .mainstatlabel {
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
+  background: #111;
+  padding: 2px 0.5rem;
+}
+
+.mothership .mainstattext {
+  width: 100%;
+  padding: 0.5rem;
+  color: white;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.mothership .circle-input {
+  margin: -0.15em;
+  height: 50px;
+  width: 50px;
+  padding: 0;
+  border: 4px solid #111;
+  border-radius: 3em;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.mothership .textarea-input {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  margin: -0.15em;
+  padding: 9px;
+  padding-top: 2px;
+  border: 2px solid #111;
+  border-radius: 0.8em;
+  font-size: 0.8rem;
+  /* font-weight: bold; */
+  background: white;
+  resize: none;
+}
+
+
+
+.mothership .square-input {
+  margin: -0.15em;
+  height: 45px;
+  width: 45px;
+  padding: 0;
+  border: 4px solid #111;
+  background-color: #fff;
+  border-radius: 0.5em;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+}
+.mothership .savetext {
+  display: block;
+  margin-bottom: .2em;
+  width: 100%;
+  color: white;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mothership .savebackground {
+  border-radius: 10em;
+  background: #111;
+  padding: 0 0.5rem;
+  padding-bottom: 1.3rem;
+  padding-top: 1.3rem;
+      width: 80px;
+}
+
+.mothership .header {
+  grid-area: header;
+  background-color: #000;
+  display: grid;
+  grid-template-columns: 0.25fr 1fr;
+  /* gap: 1.25rem; */
+  align-items: center;
+  grid-column: 1/-1;
+  background: #111;
+  color: white;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.mothership .creature-header-grid {
+  display: grid;
+  grid-template-areas:
+  'header header header'
+  'line line line';
+  grid-gap: 10px;
+  background: #111;
+
+}
+
+
+.mothership .creature-header {
+  display: grid;
+  grid-template-columns: 1fr 7em 7em 5.6em 3em 5em;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  grid-column: 1/-1;
+  color: white;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  height: 27px;
+  grid-area: header;
+  padding: 8px;
+}
+
+.mothership .creature-description-grid{
+  display: grid;
+  grid-template-columns: 1fr 15em;
+}
+
+.mothership .creature-abilities{
+  background: rgb(22, 22, 22);
+  margin: 12px;
+  border: 2px solid white;
+  outline: 5px solid rgb(22, 22, 22);
+  overflow: auto;
+  height: 375px;
+}
+
+.mothership .ship-stats-grid{
+  display: grid;
+  grid-template-columns: 17em 1fr 15em;
+}
+
+
+.mothership .whiteline {
+  border-top: 2px solid white;
+  grid-area: line;
+  margin-bottom: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.mothership .headerinputfield {
+  margin: -0.15em;
+  height: auto;
+  width: 100%;
+  padding-left: 13px;
+  border: 2px solid #111;
+  background-color: #fff;
+  border-radius: 3em;
+  font-size: 0.8rem;
+  margin-right: 1em;
+}
+
+.mothership .creaturename {
+  margin: -0.15em;
+  height: auto;
+  width: 100%;
+  padding-left: 13px;
+  font-size: 1.3rem;
+  color:white;
+  text-transform: uppercase;
+}
+
+.mothership .creaturestat {
+  margin-left: 4px;
+  height: auto;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-family: "Century Gothic", "Diadact Gothic", sans-serif;
+  color:white;
+}
+
+.mothership .creaturedescription {
+  height: 400px;
+  padding: 10px;
+}
+
+.mothership .creature-ability-container {
+  padding: 4px;
+  margin-left: 2px;
+}
+
+.mothership .creature-ability-title {
+  text-align: center;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-family: "Century Gothic", "Diadact Gothic", sans-serif;
+  color:white;
+  font-weight: bold;
+}
+
+.mothership .creature-ability-text {
+  height: auto;
+  font-size: 0.8rem;
+  font-family: "Century Gothic", "Diadact Gothic", sans-serif;
+  color:white;
+}
+
+.mothership .tox.tox-tinymce {
+  min-height: 100%;
+}
+.mothership .editor {
+  height: 100%;
+}
+
+.noborder {
+  border: 0 !important;
+  background: 0 !important;
+}
+
+.mothership .headerinputtext {
+  padding: 0.1rem;
+  color: white;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: left;
+  text-transform: uppercase;
+  margin-right: 10px;
+  margin-top: 3px;
+}
+
+.mothership .headergrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.25rem;
+  padding: 1em;
+}
+
+.mothership .headernamegrid {
+  grid-column: 1/-2;
+}
+
+.mothership .headerrankgrid {
+  /* grid-column: span 3; */
+  display: inline-flex;
+}
+
+.mothership .mothershiplogo {
+  width: 140px;
+  height: auto;
+  border: 0;
+}
+
+.mothership .rollcontainer {
+  border-radius: 10em;
+  background: #fff;
+  padding: 0 0.5rem;
+  padding-bottom: 0.1rem;
+  width: 100%;
+
+  border: 2px solid #111;
+  border-radius: 0em 0em 2em 2em;
+  font-family: "Century Gothic", "Diadact Gothic", sans-serif;
+}
+
+.mothership .rollh1 {
+  width: 90%;
+  margin-top: 0;
+  margin-left: -9px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #111;
+  color: white;
+  border-bottom-right-radius: 1.5em;
+  padding: 5px;
+}
+
+.mothership .rollweaponh1 {
+  height: 34px;
+  margin-top: 0;
+  margin-left: -9px;
+  margin-right: -9px;
+  font-size: 1.0rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #111;
+  border-bottom-right-radius: 1.5em;
+  color: white;
+  padding: 5px;
+  flex: auto;
+}
+
+.mothership .rollh2 {
+  font-size: 1.1rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+  margin-top: 4px;
+  padding: 5px;
+}
+
+.mothership .rollmods {
+  font-size: 0.8rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  /* line-height: 1; */
+  text-align: center;
+  margin-top: -8px;
+  margin-bottom: 3px;
+  padding: 5px;
+  color: grey;
+}
+
+.mothership .rollattribute {
+  width: 100%;
+  padding: 0.5rem;
+  color: black;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.mothership .roll-grid {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  width: 100%;
+}
+
+.mothership .roll-result {
+  padding: 8px;
+  border: 2px solid #111;
+  border-radius: 1em;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  grid-column: 2/span 2;
+}
+
+.mothership .roll-target {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 6rem;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+  background: white;
+  border-radius: 1.5rem;
+  color: #111;
+
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.mothership .roll-targetbox {
+  padding: 2px;
+  border: 2px solid #111;
+  border-radius: 0.3em;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  margin-right: 0px;
+}
+
+.mothership .roll-damage {
+  font-size: 0.9rem;
+  line-height: 1;
+  text-align: center;
+  margin-top: 4px;
+  padding: 5px;
+  color: rgb(117, 0, 0);
+  font-weight: normal;
+  text-transform: uppercase;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+}
+
+.mothership .roll-damagebox {
+  padding: 4px;
+  border: 2px solid rgb(117, 0, 0);
+  border-radius: 1em;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  grid-column: 2/span 2;
+  color: rgb(117, 0, 0);
+  width: 70px;
+  margin: auto;
+}
+
+.mothership .items-tab-grid{
+  grid-template-columns: 50% 50%;
+}
+

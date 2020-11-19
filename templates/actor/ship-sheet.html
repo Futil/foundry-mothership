@@ -1,0 +1,262 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <div class="header">
+        <!-- <img class="mothershiplogo" src="https://images.squarespace-cdn.com/content/5e97675644a24d569352fe17/1587070346832-RKM533ZN7XN778HQEBUW/Mothership-M-Logo-White.png?content-type=image%2Fpng" data-i18n-title="Mothership Logo" title="[Mothership Logo]"> -->
+        <img class="mothershiplogo" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150"
+            width="150" />
+
+        <div class="headergrid" style="grid-template-columns: 1fr 1fr 1fr; padding: 1em;  margin-top: -11px;">
+            <!-- <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150" width="150"/> -->
+
+            <!-- PLAYER NAME -->
+            <div class="headernamegrid">
+                <div class="headerinputtext">NAME</div>
+                <div class="headerinputfield charname"><input name="name" class="noborder" type="text"
+                        value="{{actor.name}}" placeholder="Name" /></div>
+            </div>
+            <!-- CLASS -->
+            <div class="">
+                <div class="headerinputtext">CLASS</div>
+                <div class="headerinputfield charname"><input name="data.class" class="noborder" type="text"
+                        value="{{data.class}}" placeholder="" /></div>
+            </div>
+
+            <!-- RANK -->
+            <div class="">
+                <div class="headerinputtext">Type</div>
+                <div class="headerinputfield charname"><input name="data.type" class="noborder" type="text"
+                        value="{{data.type}}" placeholder="" /></div>
+            </div>
+
+            <!-- Cost -->
+            <div class="">
+                <div class="headerinputtext">Cost</div>
+                <div class="headerinputfield charname"><input name="data.cost" class="noborder" type="text"
+                        value="{{data.cost}}" placeholder="" /></div>
+            </div>
+
+            <!-- Owed -->
+            <div class="">
+                <div class="headerinputtext">Owed</div>
+                <div class="headerinputfield charname"><input name="data.owed" class="noborder" type="text"
+                        value="{{data.owed}}" placeholder="" /></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ship-stats-grid">
+
+        <!-- Stats -->
+        <div class="grid grid-1col widegap">
+            <!-- Armor -->
+            <div class="mainstatwrapper">
+                <div class="resource mainstat">
+                    <div class="mainstatlabel">
+                        <span class="ability-mod stat-roll rollable mainstattext" data-key="armor"
+                            data-label="Armor">Armor</span>
+                    </div>
+                    <input class="circle-input" type="text" name="data.stats.armor.value"
+                        value="{{data.stats.armor.value}}" data-dtype="Number" />
+                </div>
+                <input class="mainstatmod-input" type="text" name="data.stats.armor.mod"
+                    value="{{data.stats.armor.mod}}" data-dtype="Number" />
+                <div class="mainstatmod-title">mod</div>
+            </div>
+
+            <!-- Speed -->
+            <div class="mainstatwrapper">
+                <div class="resource mainstat">
+                    <div class="mainstatlabel">
+                        <span class="ability-mod stat-roll rollable mainstattext" data-key="speed" data-roll="d100"
+                            data-label="Speed">SPEED</span>
+                    </div>
+                    <input class="circle-input" type="text" name="data.stats.speed.value"
+                        value="{{data.stats.speed.value}}" data-dtype="Number" />
+                </div>
+                <input class="mainstatmod-input" type="text" name="data.stats.speed.mod"
+                    value="{{data.stats.speed.mod}}" data-dtype="Number" />
+                <div class="mainstatmod-title">mod</div>
+            </div>
+
+            <!-- Intellect -->
+            <div class="mainstatwrapper">
+                <div class="resource mainstat">
+                    <div class="mainstatlabel">
+                        <span class="ability-mod stat-roll rollable mainstattext" data-key="intellect" data-roll="d100"
+                            data-label="Intellect">INTELLECT</span>
+                    </div>
+                    <input class="circle-input" type="text" name="data.stats.intellect.value"
+                        value="{{data.stats.intellect.value}}" data-dtype="Number" />
+                </div>
+                <input class="mainstatmod-input" type="text" name="data.stats.intellect.mod"
+                    value="{{data.stats.intellect.mod}}" data-dtype="Number" />
+                <div class="mainstatmod-title">mod</div>
+            </div>
+
+            <!-- Combat -->
+            <div class="mainstatwrapper">
+                <div class="resource mainstat">
+                    <div class="mainstatlabel">
+                        <span class="ability-mod stat-roll rollable mainstattext" data-key="combat" data-roll="d100"
+                            data-label="Combat">COMBAT</span>
+                    </div>
+                    <input class="circle-input" type="text" name="data.stats.combat.value"
+                        value="{{data.stats.combat.value}}" data-dtype="Number" />
+                </div>
+                <input class="mainstatmod-input" type="text" name="data.stats.combat.mod"
+                    value="{{data.stats.combat.mod}}" data-dtype="Number" />
+                <div class="mainstatmod-title">mod</div>
+            </div>
+        </div>
+
+        <div style="display: grid;">
+            <br />
+            <div class="resource healthspread minmaxtopstat flex-center">
+                <label for="data.supplies.hull.value" class="resource-label minmaxtext">Hull</label>
+
+                <div class="minmaxwrapper">
+                    <input class="sizelarge circle-input greyText" type="text" name="data.supplies.hull.value"
+                        value="{{data.supplies.hull.value}}" data-dtype="Number" />
+                    <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.hull.max"
+                        value="{{data.supplies.hull.max}}" data-dtype="Number" />
+                </div>
+                <div class="healthmaxtext">MAX</div>
+                <div class="healthmaxtext">CURRENT</div>
+            </div>
+            <br />
+            <div class="resource healthspread minmaxtopstat">
+                <label for="data.supplies.fuel.value" class="resource-label minmaxtext">Fuel</label>
+                <div class="minmaxwrapper">
+                    <input class="sizelarge circle-input greyText" type="text" name="data.supplies.fuel.value"
+                        value="{{data.supplies.fuel.value}}" data-dtype="Number" />
+                    <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.fuel.max"
+                        value="{{data.supplies.fuel.max}}" data-dtype="Number" />
+                </div>
+                <div class="healthmaxtext">MAX</div>
+                <div class="healthmaxtext">CURRENT</div>
+            </div>
+            <br />
+            <div class="resource healthspread minmaxtopstat">
+                <label for="data.supplies.stock.value" class="resource-label minmaxtext">Stock</label>
+                <div class="minmaxwrapper">
+                    <input class="sizelarge circle-input greyText" type="text" name="data.supplies.stock.value"
+                        value="{{data.supplies.stock.value}}" data-dtype="Number" />
+                    <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.stock.max"
+                        value="{{data.supplies.stock.max}}" data-dtype="Number" />
+                </div>
+                <div class="healthmaxtext">MAX</div>
+                <div class="healthmaxtext">CURRENT</div>
+            </div>
+            <br />
+        </div>
+
+        <div class="creature-abilities" style="height: 300px;">
+            <div class="creature-ability-container creature-ability-title">Special Abilities</div>
+            <div class="whiteline"></div>
+            {{#each actor.abilities as |ability id|}}
+            <div class="creature-ability-container item" data-item-id="{{ability._id}}">
+                <div class="creature-ability-title">{{ability.name}}</div>
+                <div class="creature-ability-text itemtext">{{{ability.data.description}}}</div>
+                <div class="item-controls" style="margin-left: 3px; font-size: 0.7rem;">
+                    <a class="item-control item-edit darkgrey" title="Edit Ability"><i class="fas fa-edit"></i></a>
+                    <a class="item-control item-delete darkgrey" title="Delete Ability"><i class="fas fa-trash"></i></a>
+                </div>
+            </div>
+
+            {{/each}}
+            <a class="item-control weapon-create darkgrey " style="margin-left: 5px;" title="Create Ability"
+                data-type="ability"><i class="fas fa-plus"></i>
+                Add</a>
+        </div>
+    </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="mothership sheet-tabs tabs" data-group="primary">
+        <a class="tab-select" data-tab="weapons">Weapons</a>
+        <a class="tab-select" data-tab="cargo">Cargo</a>
+        <a class="tab-select" data-tab="layout">Deck Plan</a>
+        <a class="tab-select" data-tab="description">Bio</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Biography Tab --}}
+        <div class="tab biography" data-group="primary" data-tab="description">
+            {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+        </div>
+        {{!-- Layout Tab --}}
+        <div class="tab biography" data-group="primary" data-tab="layout">
+            <img class="img" style="width: 100%; height: auto;" src="{{data.images.layout}}" data-edit="data.images.layout" title="{{data.images.layout}}" />
+        </div>
+        {{!-- Owned Weapons Tab --}}
+        <div class="tab items" data-group="primary" data-tab="weapons">
+            <!-- WEAPONS -->
+            <ol class="items-list">
+                <li class="item flexrow item-header">
+                    <div class="item-image"></div>
+                    <div class="skill-stat">Name</div>
+                    <div class="skill-stat">Damage</div>
+                    <div class="skill-stat">Ammo</div>
+                    <div class="skill-stat">Shots</div>
+                    <div class="skill-stat">S/M/L</div>
+                    <div class="item-controls">
+                        <a class="item-control weapon-create" title="Create Weapon" data-type="weapon"><i
+                                class="fas fa-plus"></i>
+                            Add</a>
+                    </div>
+                </li>
+                {{#each actor.weapons as |weapon id|}}
+                <li class="item flexrow" data-item-id="{{weapon._id}}">
+                    <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
+                    <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" />
+                    </div>
+                    <div class="skill-name weapon-roll list-roll">{{weapon.name}}</div>
+                    <div class="skill-stat">{{weapon.data.damage}}</div>
+                    <div class="skill-stat weapon-ammo list-roll">{{weapon.data.ammo}}</div>
+                    <div class="skill-stat">{{weapon.data.curShots}}/{{weapon.data.shots}} <i
+                            class="fas fa-sync weapon-reload list-roll"></i></div>
+                    <div class="skill-stat">
+                        {{weapon.data.ranges.short}}/{{weapon.data.ranges.medium}}/{{weapon.data.ranges.long}}
+                    </div>
+                    <div class="item-controls">
+                        <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+        {{!-- Owned Weapons Tab --}}
+        <div class="tab items" data-group="primary" data-tab="cargo">
+            <!-- ITEMS -->
+            <ol class="items-list">
+                <li class="item flexrow item-header">
+                    <div class="item-image"></div>
+                    <div class="skill-stat">Item Name</div>
+                    <div class="skill-stat">Quantity</div>
+                    <div class="skill-stat">Weight</div>
+                    <div class="item-controls">
+                        <a class="item-control item-create" title="Create Item" data-type="item"><i
+                                class="fas fa-plus"></i> Add
+                            Item</a>
+                    </div>
+                </li>
+                {{#each actor.cargo as |item id|}}
+                <li class="item flexrow" data-item-id="{{item._id}}">
+                    <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                    </div>
+                    <h4 class="skill-stat">{{item.name}}</h4>
+                    <div class="skill-stat">{{item.data.quantity}}</div>
+                    <div class="skill-stat">{{item.data.weight}}</div>
+                    <div class="item-controls">
+                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </section>
+</form>

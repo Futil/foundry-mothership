@@ -1,0 +1,218 @@
+{
+  "Actor": {
+    "types": [
+      "character",
+      "creature",
+      "ship"
+    ],
+    "templates": {
+      "base": {
+        "health": {
+          "value": 10,
+          "min": 0,
+          "max": 10,
+          "pool": 1,
+          "maxpools": 1
+        }
+      }
+    },
+    "character": {
+      "templates": [
+        "base"
+      ],
+      "biography": "",
+      "notes": "",
+      "class": {
+        "value": ""
+      },
+      "rank": {
+        "value": ""
+      },
+      "stressdesc": {
+        "value": ""
+      },
+      "xp": {
+        "value": 1
+      },
+      "attributes": {
+        "level": {
+          "value": 1
+        }
+      },
+      "stats": {
+        "strength": {
+          "value": 10,
+          "label": "Strength"
+        },
+        "speed": {
+          "value": 10,
+          "label": "Speed"
+        },
+        "intellect": {
+          "value": 10,
+          "label": "Intellect"
+        },
+        "combat": {
+          "value": 10,
+          "label": "Combat"
+        },
+        "sanity": {
+          "value": 0,
+          "label": "Sanity"
+        },
+        "fear": {
+          "value": 0,
+          "label": "Fear"
+        },
+        "body": {
+          "value": 0,
+          "label": "Body"
+        },
+        "armor": {
+          "value": 0,
+          "label": "Armor"
+        }
+      },
+      "other": {
+        "stress": {
+          "value": 2
+        },
+        "resolve": {
+          "value": 0
+        }
+      }
+    },
+    "creature": {
+      "templates": [
+        "base"
+      ],
+      "biography": "",
+      "description": "This is a description",
+      "xp": {
+        "value": 1
+      },
+      "stats": {
+        "combat": {
+          "value": 10,
+          "label": "Combat"
+        },
+        "instinct": {
+          "value": 10,
+          "label": "Instinct"
+        },
+        "move": {
+          "value": 10,
+          "label": "Move"
+        }
+      }
+    },
+    "ship": {
+      "templates": [
+        "base"
+      ],
+      "biography": "",
+      "description": "This is a description",
+      "type": "",
+      "class": "",
+      "xp": {
+        "value": 1
+      },
+      "images" : {
+        "layout" : "systems/mothership/images/Galloway_Top.png",
+        "beauty" : "systems/mothership/images/Galloway_Top.png"
+      },
+      "stats": {
+        "armor": {
+          "value": 10,
+          "label": "Armor"
+        },
+        "combat": {
+          "value": 10,
+          "label": "Combat"
+        },
+        "intellect": {
+          "value": 10,
+          "label": "Intellect"
+        },
+        "speed": {
+          "value": 10,
+          "label": "Speed"
+        }
+      },
+      "supplies": {
+        "hull": {
+          "value": 10,
+          "max": 10
+        },
+        "fuel": {
+          "value": 10,
+          "max": 10
+        },
+        "stock": {
+          "value": 10,
+          "max": 10
+        }
+      }
+    }
+  },
+  "Item": {
+    "types": [
+      "item",
+      "skill",
+      "weapon",
+      "armor",
+      "ability"
+    ],
+    "templates": {
+      "base": {
+        "description": ""
+      }
+    },
+    "item": {
+      "templates": [
+        "base"
+      ],
+      "quantity": 1,
+      "weight": 0
+    },
+    "skill": {
+      "templates": [
+        "base"
+      ],
+      "rank": "Trained",
+      "bonus": 10
+    },
+    "weapon": {
+      "templates": [
+        "base"
+      ],
+      "damage": "1d10",
+      "ammo": 10,
+      "shots": 1,
+      "curShots": 0,
+      "useAmmo": false,
+      "ammotype": "",
+      "critDmg": "",
+      "critEffect": "",
+      "skillbonus": 0,
+      "ranges": {
+        "short": 0,
+        "medium": 0,
+        "long": 0
+      }
+    },
+    "armor": {
+      "templates": [
+        "base"
+      ],
+      "bonus": 10
+    },
+    "ability": {
+      "templates": [
+        "base"
+      ],
+      "text": "An Ability",
+      "roll": ""
+    }
+  }
+}

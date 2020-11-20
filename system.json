@@ -2,7 +2,7 @@
   "name": "mothership",
   "title": "Mothership",
   "description": "The Mothership system for FoundryVTT!",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "minimumCoreVersion": "0.5.5",
   "compatibleCoreVersion": "0.5.5",
   "templateVersion": 2,
@@ -88,6 +88,6 @@
   "secondaryTokenAttribute": "power",
   "url": "https://github.com/Futil/foundry-mothership",
   "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/master/system.json",
-  "download": "https://github.com/Futil/foundry-mothership/archive/master.zip"
+  "download": "https://github.com/Futil/foundry-mothership/archive/master.zip",
   "license": "LICENSE.txt"
 }

@@ -62,63 +62,98 @@
         </div>
       </div>
 
-      <div class="health grid grid-1col">
-        <div class="resource healthspread minmaxtopstat">
-          <label for="data.health.value" class="resource-label minmaxtext">Health</label>
+      <div class="health grid grid-1col" style="margin-top: 0;">
+        <div class="grid">
+          <!-- Health -->
+          <div class="resource healthspread minmaxtopstat">
+            <label for="data.health.value" class="resource-label minmaxtext">Health</label>
 
-          <div class="minmaxwrapper">
-            <input class="sizelarge circle-input greyText" type="text" name="data.health.value"
-              value="{{data.health.value}}" data-dtype="Number" />
-            <input class="maxhealth-input darkGreyText" type="text" name="data.health.max" value="{{data.health.max}}"
-              data-dtype="Number" />
+            <div class="minmaxwrapper">
+              <input class="maxhealth-input darkGreyText" type="text" name="data.health.value" value="{{data.health.value}}"
+                data-dtype="Number" />
+              <div class="slant"></div>
+              <input class="maxhealth-input darkGreyText" type="text" name="data.health.max"
+                value="{{data.health.max}}" data-dtype="Number" />
+            </div>
+
+            <div class="healthmaxtext">Current</div>
+            <div class="healthmaxtext">Maximum</div>
           </div>
-          <div class="healthmaxtext">MAX</div>
-          <div class="healthmaxtext">CURRENT</div>
+
+          <!-- Hits -->
+          <div class="resource healthspread minmaxtopstat">
+            <label for="data.hits.value" class="resource-label minmaxtext">Hits</label>
+
+            <div class="minmaxwrapper">
+              <input class="maxhealth-input darkGreyText" type="text" name="data.hits.value" value="{{data.hits.value}}"
+                data-dtype="Number" />
+              <div class="slant"></div>
+              <input class="maxhealth-input darkGreyText" type="text" name="data.hits.max"
+                value="{{data.hits.max}}" data-dtype="Number" />
+            </div>
+
+            <div class="healthmaxtext">Current</div>
+            <div class="healthmaxtext">Maximum</div>
+          </div>
+
+          <!-- Stress -->
+          <div class="resource healthspread minmaxtopstat">
+            <label for="data.other.stress.value" class="resource-label minmaxtext">Stress</label>
+
+            <div class="minmaxwrapper">
+              <input class="maxhealth-input darkGreyText" type="text" name="data.other.stress.value" value="{{data.other.stress.value}}"
+                data-dtype="Number" />
+              <div class="slant" style="transform: skewX(0deg);"></div>
+              <input class="maxhealth-input darkGreyText" type="text" name="data.other.stress.min"
+                value="{{data.other.stress.min}}" data-dtype="Number" />
+            </div>
+
+            <div class="healthmaxtext">Current</div>
+            <div class="healthmaxtext">Minimum</div>
+          </div>
+
+          <!-- Resolve -->
+          <div class="resource healthspread minmaxtopstat">
+            <label for="data.other.stress.value" class="resource-label minmaxtext">Resolve</label>
+
+            <div class="valuewrapper">
+              <input class="maxhealth-input darkGreyText" type="text" name="data.other.resolve.value" value="{{data.other.resolve.value}}"
+                data-dtype="Number" />
+            </div>
+          </div>
+
         </div>
 
-        <!-- Patch -->
-        <div class="">
-          <div class="resource-label">PATCH</div>
-          <div class="headerinputfield charname"><input name="data.patch.value" class="noborder" type="text"
-              value="{{data.patch.value}}" placeholder="" /></div>
-        </div>
-        <br />
-        <!-- Trinket -->
-        <div class="">
-          <div class="resource-label">TRINKET</div>
-          <div class="headerinputfield charname"><input name="data.trinket.value" class="noborder" type="text"
-              value="{{data.trinket.value}}" placeholder="" /></div>
-        </div>
-        <br />
         <!-- CLASS -->
-        <div class="">
+        <div class="" style="margin-left: 17px; margin-right: 13px;">
           <div class="resource-label">STRESS & PANIC</div>
-          <textarea name="data.stressdesc.value" rows="3" class="textarea-input" type="text"
+          <textarea name="data.stressdesc.value" rows="2" class="textarea-input" type="text"
             data-target="data.stressdesc.value" placeholder="">{{data.stressdesc.value}}</textarea>
         </div>
+
 
       </div>
 
       <div class="abilities">
-        <div class="grid grid-2col">
+        <!-- <div class="grid grid-2col"> -->
           <!-- STRESS -->
-          <div class="resource mainstat">
+          <!-- <div class="resource mainstat">
             <div class="stresslabel">
               <div class="ability-mod stresstext">STRESS</div>
             </div>
             <input class="smallcircle-input" type="text" name="data.other.stress.value"
               value="{{data.other.stress.value}}" data-dtype="Number" />
-          </div>
+          </div> -->
 
           <!-- RESOLVE -->
-          <div class="resource mainstat">
+          <!-- <div class="resource mainstat">
             <div class="stresslabel">
               <div class="ability-mod stresstext">RESOLVE</div>
             </div>
             <input class="smallcircle-input" type="text" name="data.other.resolve.value"
               value="{{data.other.resolve.value}}" data-dtype="Number" />
-          </div>
-        </div>
+          </div> -->
+        <!-- </div> -->
 
         <div class="grid grid-1col widegap">
           <!-- Strength -->
@@ -257,7 +292,7 @@
         {{#each actor.armors as |armor id|}}
         <li class="item flexrow" data-item-id="{{armor._id}}">
           <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
-          <h4 class="skill-stat list-roll description-roll">{{armor.name}}</h4>
+          <h4 class="skill-name list-roll description-roll">{{armor.name}}</h4>
           <div class="skill-stat">{{armor.data.bonus}}</div>
           <div class="skill-stat">{{armor.data.features}}</div>
           <div class="skill-stat item-equip"><input type="checkbox" name="armor.data.equipped" data-dtype="Boolean"
@@ -284,7 +319,7 @@
         {{#each actor.gear as |item id|}}
         <li class="item flexrow" data-item-id="{{item._id}}">
           <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
-          <h4 class="skill-stat list-roll description-roll">{{item.name}}</h4>
+          <h4 class="skill-name list-roll description-roll">{{item.name}}</h4>
           <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
           <div class="skill-stat">{{item.data.weight}}</div>
           <div class="item-controls">

@@ -6,7 +6,7 @@
         <img class="mothershiplogo" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150"
             width="150" />
 
-        <div class="headergrid" style="grid-template-columns: 1fr 1fr 1fr; padding: 1em;  margin-top: -11px;">
+        <div class="headergrid" style="grid-template-columns: 1fr 1fr 1fr; padding: 1em;">
             <!-- <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150" width="150"/> -->
 
             <!-- PLAYER NAME -->
@@ -112,43 +112,50 @@
 
         <div style="display: grid;">
             <br />
+            <!-- Hull -->
             <div class="resource healthspread minmaxtopstat flex-center">
                 <label for="data.supplies.hull.value" class="resource-label minmaxtext">Hull</label>
 
                 <div class="minmaxwrapper">
-                    <input class="sizelarge circle-input greyText" type="text" name="data.supplies.hull.value"
+                    <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.hull.value"
                         value="{{data.supplies.hull.value}}" data-dtype="Number" />
+                    <div class="slant"></div>
                     <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.hull.max"
                         value="{{data.supplies.hull.max}}" data-dtype="Number" />
                 </div>
-                <div class="healthmaxtext">MAX</div>
-                <div class="healthmaxtext">CURRENT</div>
+
+                <div class="healthmaxtext">Current</div>
+                <div class="healthmaxtext">Maximum</div>
             </div>
-            <br />
-            <div class="resource healthspread minmaxtopstat">
+            <!-- Fuel -->
+            <div class="resource healthspread minmaxtopstat flex-center">
                 <label for="data.supplies.fuel.value" class="resource-label minmaxtext">Fuel</label>
+
                 <div class="minmaxwrapper">
-                    <input class="sizelarge circle-input greyText" type="text" name="data.supplies.fuel.value"
+                    <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.fuel.value"
                         value="{{data.supplies.fuel.value}}" data-dtype="Number" />
+                    <div class="slant"></div>
                     <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.fuel.max"
                         value="{{data.supplies.fuel.max}}" data-dtype="Number" />
                 </div>
-                <div class="healthmaxtext">MAX</div>
-                <div class="healthmaxtext">CURRENT</div>
+
+                <div class="healthmaxtext">Current</div>
+                <div class="healthmaxtext">Maximum</div>
             </div>
-            <br />
-            <div class="resource healthspread minmaxtopstat">
+            <div class="resource healthspread minmaxtopstat flex-center">
                 <label for="data.supplies.stock.value" class="resource-label minmaxtext">Stock</label>
+
                 <div class="minmaxwrapper">
-                    <input class="sizelarge circle-input greyText" type="text" name="data.supplies.stock.value"
+                    <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.stock.value"
                         value="{{data.supplies.stock.value}}" data-dtype="Number" />
+                    <div class="slant"></div>
                     <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.stock.max"
                         value="{{data.supplies.stock.max}}" data-dtype="Number" />
                 </div>
-                <div class="healthmaxtext">MAX</div>
-                <div class="healthmaxtext">CURRENT</div>
+
+                <div class="healthmaxtext">Current</div>
+                <div class="healthmaxtext">Maximum</div>
             </div>
-            <br />
         </div>
 
         <div class="creature-abilities" style="height: 300px;">
@@ -247,7 +254,7 @@
                 <li class="item flexrow" data-item-id="{{module._id}}">
                     <div class="item-image"><img src="{{module.img}}" title="{{module.name}}" width="24" height="24" />
                     </div>
-                    <h4 class="skill-stat list-roll description-roll">{{module.name}}</h4>
+                    <h4 class="skill-name list-roll description-roll">{{module.name}}</h4>
                     <div class="skill-stat list-roll item-quantity">{{module.data.quantity}}</div>
                     <div class="skill-stat">{{module.data.hull}}</div>
                     <div class="skill-stat">{{module.data.feature}}</div>
@@ -269,14 +276,15 @@
                     <div class="skill-stat">Quantity</div>
                     <div class="skill-stat">Weight</div>
                     <div class="item-controls">
-                        <a class="item-control item-create" title="Create Item" data-type="item"><i class="fas fa-plus"></i> Add</a>
+                        <a class="item-control item-create" title="Create Item" data-type="item"><i
+                                class="fas fa-plus"></i> Add</a>
                     </div>
                 </li>
                 {{#each actor.cargo as |item id|}}
                 <li class="item flexrow" data-item-id="{{item._id}}">
                     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
                     </div>
-                    <h4 class="skill-stat list-roll description-roll">{{item.name}}</h4>
+                    <h4 class="skill-name list-roll description-roll">{{item.name}}</h4>
                     <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
                     <div class="skill-stat">{{item.data.weight}}</div>
                     <div class="item-controls">

@@ -73,7 +73,7 @@
       <div class="creature-ability-container creature-ability-title">Special Abilities</div>
       <div class="whiteline"></div>
       {{#each actor.abilities as |ability id|}}
-      <div class="creature-ability-container item"  data-item-id="{{ability._id}}">
+      <div class="creature-ability-container item" data-item-id="{{ability._id}}">
         <div class="creature-ability-title list-roll description-roll">{{ability.name}}</div>
         <div class="creature-ability-text itemtext">{{{ability.data.description}}}</div>
         <div class="item-controls" style="margin-left: 3px; font-size: 0.7rem;">
@@ -81,9 +81,10 @@
           <a class="item-control item-delete darkgrey" title="Delete Ability"><i class="fas fa-trash"></i></a>
         </div>
       </div>
-      
+
       {{/each}}
-      <a class="item-control weapon-create darkgrey " style="margin-left: 5px;" title="Create Ability" data-type="ability"><i class="fas fa-plus"></i>
+      <a class="item-control weapon-create darkgrey " style="margin-left: 5px;" title="Create Ability"
+        data-type="ability"><i class="fas fa-plus"></i>
         Add</a>
     </div>
   </div>
@@ -134,7 +135,7 @@
           </div>
         </li>
         {{/each}}
-        
+
       </ol>
     </div>
   </section>

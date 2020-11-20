@@ -13,6 +13,10 @@
           "max": 10,
           "pool": 1,
           "maxpools": 1
+        },
+        "hits": {
+          "value" : 2,
+          "max" : 2
         }
       }
     },
@@ -75,7 +79,8 @@
       },
       "other": {
         "stress": {
-          "value": 2
+          "value": 2,
+          "min": 0
         },
         "resolve": {
           "value": 0

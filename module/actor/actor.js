@@ -91,22 +91,31 @@ export class MothershipActor extends Actor {
 
     console.log(item);
 
-    if (item.data.useAmmo == true) {
-      if (item.data.curShots > 0) {
-        item.data.curShots -= 1;
-        console.log("Unloading Shots");
-        this.updateEmbeddedEntity('OwnedItem', item);
-      }
-      else {
-        let actor = this;
-        let speaker = ChatMessage.getSpeaker({ actor });
-        ChatMessage.create({
-          speaker,
-          content: item.data.ammo > 0 ? `I need to reload my ` + item.name + "!" : "I'm out of ammo!",
-          type: CHAT_MESSAGE_TYPES.EMOTE
-        },
-          { chatBubble: true });
-        return;
+    if (item.data.useAmmo == true || item.data.shots > 0) {
+      if (item.data.shots == 0) {
+        if (item.data.ammo > 0) {
+          item.data.ammo -= 1;
+          this.updateEmbeddedEntity('OwnedItem', item);
+        } else {
+          return;
+        }
+      } else {
+        if (item.data.curShots > 0) {
+          item.data.curShots -= 1;
+          console.log("Unloading Shots");
+          this.updateEmbeddedEntity('OwnedItem', item);
+        }
+        else {
+          let actor = this;
+          let speaker = ChatMessage.getSpeaker({ actor });
+          ChatMessage.create({
+            speaker,
+            content: item.data.ammo > 0 ? `I need to reload my ` + item.name + "!" : "I'm out of ammo!",
+            type: CHAT_MESSAGE_TYPES.EMOTE
+          },
+            { chatBubble: true });
+          return;
+        }
       }
     }
 
@@ -133,6 +142,11 @@ export class MothershipActor extends Actor {
       close: () => { }
     });
     t.render(true);
+  }
+
+  printDescription(itemId, options = { event: null }) {
+    let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+    this.chatDesc(item);
   }
 
   rollSkill(itemId, options = { event: null }) {
@@ -340,4 +354,45 @@ export class MothershipActor extends Actor {
 
     return diceData;
   }
+
+  // Print the item description into the chat.
+  chatDesc(item) {
+    let itemName = item.name?.charAt(0).toUpperCase() + item.name?.toLowerCase().slice(1);
+    if (!item.name && isNaN(itemName))
+    itemName = item.charAt(0)?.toUpperCase() + item.toLowerCase().slice(1);
+
+    var templateData = {
+      actor: this,
+      stat: {
+        name: itemName.toUpperCase()
+      },
+      item: item,
+      onlyDesc: true,
+    };
+
+    let chatData = {
+      user: game.user._id,
+      speaker: {
+        actor: this._id,
+        token: this.token,
+        alias: this.name
+      }
+    };
+
+    let rollMode = game.settings.get("core", "rollMode");
+    if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
+
+    /*
+            if (this.data.type == "creature") {
+                chatData.whisper = game.user._id;
+            }
+    */
+    let template = 'systems/mothership/templates/chat/statroll.html';
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+
+      ChatMessage.create(chatData);
+    });
+  }
+
 }

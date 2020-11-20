@@ -47,6 +47,7 @@ export class MothershipShipSheet extends ActorSheet {
         const abilities = [];
         const weapons = [];
         const cargo = [];
+        const modules = [];
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
@@ -60,6 +61,8 @@ export class MothershipShipSheet extends ActorSheet {
                 weapons.push(i);
             } else if (i.type === 'item') {
                 cargo.push(i);
+            } else if (i.type === 'module') {
+                modules.push(i);
             }
         }
 
@@ -67,6 +70,7 @@ export class MothershipShipSheet extends ActorSheet {
         actorData.abilities = abilities;
         actorData.weapons = weapons;
         actorData.cargo = cargo;
+        actorData.modules = modules;
 
     }
 
@@ -77,6 +81,8 @@ export class MothershipShipSheet extends ActorSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
 
+        // Create inventory item.
+        html.find('.item-create').click(this._onItemCreate.bind(this));
         // Delete Inventory Item
         html.find('.item-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
@@ -91,6 +97,20 @@ export class MothershipShipSheet extends ActorSheet {
             item.sheet.render(true);
         });
 
+        //Quantity adjuster
+        html.on('mousedown', '.item-quantity', ev => {
+            const li = ev.currentTarget.closest(".item");
+            const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
+            let amount = item.data.quantity;
+
+            if (event.button == 0) {
+                item.data.quantity = Number(amount) + 1;
+            } else if (event.button == 2) {
+                item.data.quantity = Number(amount) - 1;
+            }
+
+            this.actor.updateEmbeddedEntity('OwnedItem', item);
+        });
 
         // Rollable Attributes
         html.find('.stat-roll').click(ev => {
@@ -103,24 +123,19 @@ export class MothershipShipSheet extends ActorSheet {
         //Weapons
         // Add Inventory Item
         html.find('.weapon-create').click(this._onItemCreate.bind(this));
-
-
-
         // Update Inventory Item
         html.find('.weapon-edit').click(ev => {
             const liWeapon = $(ev.currentTarget).parents(".item");
             const weapon = this.actor.getOwnedItem(liWeapon.data("itemId"));
             weapon.sheet.render(true);
         });
-
         // Rollable Weapon
         html.find('.weapon-roll').click(ev => {
             const li = ev.currentTarget.closest(".item");
             this.actor.rollWeapon(li.dataset.itemId, {
                 event: ev
             });
-        }); String
-
+        });
 
         html.on('mousedown', '.weapon-ammo', ev => {
             const li = ev.currentTarget.closest(".item");
@@ -146,11 +161,15 @@ export class MothershipShipSheet extends ActorSheet {
             const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
 
             if (event.button == 0) {
-                item.data.ammo += item.data.curShots;
-                let reloadAmount = Math.min(item.data.ammo, item.data.shots);
-                item.data.curShots = reloadAmount;
+                if (!item.data.useAmmo) {
+                    item.data.curShots = item.data.shots;
+                } else {
+                    item.data.ammo += item.data.curShots;
+                    let reloadAmount = Math.min(item.data.ammo, item.data.shots);
+                    item.data.curShots = reloadAmount;
 
-                item.data.ammo -= reloadAmount;
+                    item.data.ammo -= reloadAmount;
+                }
             }
 
             this.actor.updateEmbeddedEntity('OwnedItem', item);
@@ -164,6 +183,14 @@ export class MothershipShipSheet extends ActorSheet {
             },
                 { chatBubble: true });
 
+        });
+
+        // Rollable Item/Anything with a description that we want to click on.
+        html.find('.description-roll').click(ev => {
+            const li = ev.currentTarget.closest(".item");
+            this.actor.printDescription(li.dataset.itemId, {
+                event: ev
+            });
         });
 
     }

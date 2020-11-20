@@ -4,6 +4,17 @@
     <div class="showlessinfo"></div>
 
     <div class="rollcontainer">
+        {{#if onlyDesc}}
+        <div class="flexrow">
+            <div class="rollweaponh1">{{item.name}}
+            </div>
+            <div style="text-align: right"><img class="roll-image" src="{{item.img}}" title="{{item.name}}" /></div>
+        </div>
+        <div class="description">
+            <div class="body">{{{item.data.description}}}</div>
+            <br/>
+        </div>
+        {{else}}
         {{#if isWeapon}}
         <div class="flexrow">
             <div class="rollweaponh1">{{item.name}}
@@ -82,6 +93,12 @@
             </div>
         </div>
         <div class="rollmods" style="margin-top: 0px;">({{item.data.damage}})</div>
+        {{#if item.data.description}}
+        <div class="description">
+            <div class="header padding">Description</div>
+            <div class="body">{{{item.data.description}}}</div>
+        </div>
         {{/if}}
-
+        {{/if}}
+        {{/if}}
     </div>

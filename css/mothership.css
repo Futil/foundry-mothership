@@ -594,6 +594,10 @@
   text-transform: uppercase;
 }
 
+.mothership .padding{
+  padding: 5px;
+}
+
 .mothership .creature-header-grid {
   display: grid;
   grid-template-areas:

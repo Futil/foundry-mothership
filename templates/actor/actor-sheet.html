@@ -257,7 +257,7 @@
         {{#each actor.armors as |armor id|}}
         <li class="item flexrow" data-item-id="{{armor._id}}">
           <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
-          <h4 class="skill-stat">{{armor.name}}</h4>
+          <h4 class="skill-stat list-roll description-roll">{{armor.name}}</h4>
           <div class="skill-stat">{{armor.data.bonus}}</div>
           <div class="skill-stat">{{armor.data.features}}</div>
           <div class="skill-stat item-equip"><input type="checkbox" name="armor.data.equipped" data-dtype="Boolean"
@@ -284,8 +284,8 @@
         {{#each actor.gear as |item id|}}
         <li class="item flexrow" data-item-id="{{item._id}}">
           <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
-          <h4 class="skill-stat">{{item.name}}</h4>
-          <div class="skill-stat">{{item.data.quantity}}</div>
+          <h4 class="skill-stat list-roll description-roll">{{item.name}}</h4>
+          <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
           <div class="skill-stat">{{item.data.weight}}</div>
           <div class="item-controls">
             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>

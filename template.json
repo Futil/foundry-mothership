@@ -161,7 +161,8 @@
       "skill",
       "weapon",
       "armor",
-      "ability"
+      "ability",
+      "module"
     ],
     "templates": {
       "base": {
@@ -191,10 +192,10 @@
       "shots": 1,
       "curShots": 0,
       "useAmmo": false,
-      "ammotype": "",
+      "ammoType": "",
       "critDmg": "",
       "critEffect": "",
-      "skillbonus": 0,
+      "bonus": 0,
       "ranges": {
         "short": 0,
         "medium": 0,
@@ -213,6 +214,15 @@
       ],
       "text": "An Ability",
       "roll": ""
+    },
+    "module": {
+      "templates": [
+        "base"
+      ],
+      "quantity": 1,
+      "hull": 1,
+      "feature" : "",
+      "offline" : false
     }
   }
 }

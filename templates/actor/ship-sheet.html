@@ -174,6 +174,7 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="mothership sheet-tabs tabs" data-group="primary">
         <a class="tab-select" data-tab="weapons">Weapons</a>
+        <a class="tab-select" data-tab="modules">Modules</a>
         <a class="tab-select" data-tab="cargo">Cargo</a>
         <a class="tab-select" data-tab="layout">Deck Plan</a>
         <a class="tab-select" data-tab="description">Bio</a>
@@ -186,9 +187,11 @@
         <div class="tab biography" data-group="primary" data-tab="description">
             {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
         </div>
+
         {{!-- Layout Tab --}}
         <div class="tab biography" data-group="primary" data-tab="layout">
-            <img class="img" style="width: 100%; height: auto;" src="{{data.images.layout}}" data-edit="data.images.layout" title="{{data.images.layout}}" />
+            <img class="img" style="width: 100%; height: auto;" src="{{data.images.layout}}"
+                data-edit="data.images.layout" title="{{data.images.layout}}" />
         </div>
         {{!-- Owned Weapons Tab --}}
         <div class="tab items" data-group="primary" data-tab="weapons">
@@ -200,11 +203,10 @@
                     <div class="skill-stat">Damage</div>
                     <div class="skill-stat">Ammo</div>
                     <div class="skill-stat">Shots</div>
-                    <div class="skill-stat">S/M/L</div>
                     <div class="item-controls">
-                        <a class="item-control weapon-create" title="Create Weapon" data-type="weapon"><i
-                                class="fas fa-plus"></i>
-                            Add</a>
+                        <a class="item-control weapon-create" title="Create Weapon" data-type="weapon">
+                            <i class="fas fa-plus"></i> Add
+                        </a>
                     </div>
                 </li>
                 {{#each actor.weapons as |weapon id|}}
@@ -217,9 +219,6 @@
                     <div class="skill-stat weapon-ammo list-roll">{{weapon.data.ammo}}</div>
                     <div class="skill-stat">{{weapon.data.curShots}}/{{weapon.data.shots}} <i
                             class="fas fa-sync weapon-reload list-roll"></i></div>
-                    <div class="skill-stat">
-                        {{weapon.data.ranges.short}}/{{weapon.data.ranges.medium}}/{{weapon.data.ranges.long}}
-                    </div>
                     <div class="item-controls">
                         <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
                         <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
@@ -228,7 +227,39 @@
                 {{/each}}
             </ol>
         </div>
-        {{!-- Owned Weapons Tab --}}
+        {{!-- Owned Modules Tab --}}
+        <div class="tab items" data-group="primary" data-tab="modules">
+            <!-- ITEMS -->
+            <ol class="items-list">
+                <li class="item flexrow item-header">
+                    <div class="item-image"></div>
+                    <div class="skill-stat">Module Name</div>
+                    <div class="skill-stat">Quantity</div>
+                    <div class="skill-stat">Hull</div>
+                    <div class="skill-stat">Feature</div>
+                    <div class="item-controls">
+                        <a class="item-control item-create" title="Create Module" data-type="module">
+                            <i class="fas fa-plus"></i> Add
+                        </a>
+                    </div>
+                </li>
+                {{#each actor.modules as |module id|}}
+                <li class="item flexrow" data-item-id="{{module._id}}">
+                    <div class="item-image"><img src="{{module.img}}" title="{{module.name}}" width="24" height="24" />
+                    </div>
+                    <h4 class="skill-stat list-roll description-roll">{{module.name}}</h4>
+                    <div class="skill-stat list-roll item-quantity">{{module.data.quantity}}</div>
+                    <div class="skill-stat">{{module.data.hull}}</div>
+                    <div class="skill-stat">{{module.data.feature}}</div>
+                    <div class="item-controls">
+                        <a class="item-control item-edit" title="Edit Module"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Module"><i class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+        {{!-- Owned Cargo Tab --}}
         <div class="tab items" data-group="primary" data-tab="cargo">
             <!-- ITEMS -->
             <ol class="items-list">
@@ -238,17 +269,15 @@
                     <div class="skill-stat">Quantity</div>
                     <div class="skill-stat">Weight</div>
                     <div class="item-controls">
-                        <a class="item-control item-create" title="Create Item" data-type="item"><i
-                                class="fas fa-plus"></i> Add
-                            Item</a>
+                        <a class="item-control item-create" title="Create Item" data-type="item"><i class="fas fa-plus"></i> Add</a>
                     </div>
                 </li>
                 {{#each actor.cargo as |item id|}}
                 <li class="item flexrow" data-item-id="{{item._id}}">
                     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
                     </div>
-                    <h4 class="skill-stat">{{item.name}}</h4>
-                    <div class="skill-stat">{{item.data.quantity}}</div>
+                    <h4 class="skill-stat list-roll description-roll">{{item.name}}</h4>
+                    <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
                     <div class="skill-stat">{{item.data.weight}}</div>
                     <div class="item-controls">
                         <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>

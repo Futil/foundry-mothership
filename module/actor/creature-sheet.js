@@ -114,7 +114,7 @@ export class MothershipCreatureSheet extends ActorSheet {
             this.actor.rollWeapon(li.dataset.itemId, {
                 event: ev
             });
-        }); String
+        });
 
 
         html.on('mousedown', '.weapon-ammo', ev => {
@@ -141,11 +141,15 @@ export class MothershipCreatureSheet extends ActorSheet {
             const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
 
             if (event.button == 0) {
-                item.data.ammo += item.data.curShots;
-                let reloadAmount = Math.min(item.data.ammo, item.data.shots);
-                item.data.curShots = reloadAmount;
+                if (!item.data.useAmmo) {
+                    item.data.curShots = item.data.shots;
+                } else {
+                    item.data.ammo += item.data.curShots;
+                    let reloadAmount = Math.min(item.data.ammo, item.data.shots);
+                    item.data.curShots = reloadAmount;
 
-                item.data.ammo -= reloadAmount;
+                    item.data.ammo -= reloadAmount;
+                }
             }
 
             this.actor.updateEmbeddedEntity('OwnedItem', item);
@@ -159,6 +163,14 @@ export class MothershipCreatureSheet extends ActorSheet {
             },
                 { chatBubble: true });
 
+        });
+
+        // Rollable Item/Anything with a description that we want to click on.
+        html.find('.description-roll').click(ev => {
+            const li = ev.currentTarget.closest(".item");
+            this.actor.printDescription(li.dataset.itemId, {
+                event: ev
+            });
         });
 
     }

@@ -2,7 +2,7 @@
   "name": "mothership",
   "title": "Mothership",
   "description": "The Mothership system for FoundryVTT!",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "minimumCoreVersion": "0.5.5",
   "compatibleCoreVersion": "0.5.5",
   "templateVersion": 2,

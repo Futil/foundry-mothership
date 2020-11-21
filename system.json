@@ -10,71 +10,7 @@
   "esmodules": ["module/mothership.js"],
   "styles": ["css/mothership.css"],
   "scripts": [],
-  "packs": [
-    {
-        "name": "weapons",
-        "label": "Weapons",
-        "system": "mothership",
-        "path": "packs/weapons.db",
-        "entity": "Item"
-    },
-    {
-        "name": "armor",
-        "label": "Armor",
-        "system": "mothership",
-        "path": "packs/armor.db",
-        "entity": "Item"
-    },
-    {
-        "name": "gear",
-        "label": "Gear",
-        "system": "mothership",
-        "path": "packs/gear.db",
-        "entity": "Item"
-    },
-    {
-        "name": "skills-trained",
-        "label": "Skills - Trained",
-        "system": "mothership",
-        "path": "packs/skills-trained.db",
-        "entity": "Item"
-    },
-    {
-        "name": "skills-expert",
-        "label": "Skills - Expert",
-        "system": "mothership",
-        "path": "packs/skills-expert.db",
-        "entity": "Item"
-    },
-    {
-        "name": "skills-master",
-        "label": "Skills - Master",
-        "system": "mothership",
-        "path": "packs/skills-master.db",
-        "entity": "Item"
-    },
-    {
-        "name": "ship-modules",
-        "label": "Ship - Modules",
-        "system": "mothership",
-        "path": "packs/ship-modules.db",
-        "entity": "Item"
-    },
-    {
-        "name": "ship-weapons",
-        "label": "Ship - Weapons",
-        "system": "mothership",
-        "path": "packs/ship-weapons.db",
-        "entity": "Item"
-    },
-    {
-        "name": "tables",
-        "label": "Tables",
-        "system": "mothership",
-        "path": "packs/tables.db",
-        "entity": "RollTable"
-    }
-],
+  "packs": [],
   "languages": [
     {
       "lang": "en",

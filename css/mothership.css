@@ -826,7 +826,7 @@
 }
 
 .mothership .rollh1 {
-  width: 90%;
+  width: 107%;
   margin-top: 0;
   margin-left: -9px;
   font-size: 1.2rem;
@@ -834,7 +834,7 @@
   text-transform: uppercase;
   background: #111;
   color: white;
-  border-bottom-right-radius: 1.5em;
+  /* border-bottom-right-radius: 0.5em; */
   padding: 5px;
 }
 
@@ -847,10 +847,11 @@
   font-weight: bold;
   text-transform: uppercase;
   background: #111;
-  border-bottom-right-radius: 1.5em;
+  /* border-bottom-right-radius: 1.5em; */
   color: white;
   padding: 5px;
   flex: auto;
+  width: 71%;
 }
 
 .mothership .rollh2 {

@@ -219,18 +219,31 @@
                 {{#each actor.weapons as |weapon id|}}
                 <li class="item flexrow" data-item-id="{{weapon._id}}">
                     <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
-                    <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" />
-                    </div>
+                    <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
                     <div class="skill-name weapon-roll list-roll">{{weapon.name}}</div>
                     <div class="skill-stat">{{weapon.data.damage}}</div>
+                    {{#if weapon.data.useAmmo}}
                     <div class="skill-stat weapon-ammo list-roll">{{weapon.data.ammo}}</div>
+                    {{else}}
+                    <div class="skill-stat">N/A</div>
+                    {{/if}}
+                    {{#if weapon.data.shots}}
                     <div class="skill-stat">{{weapon.data.curShots}}/{{weapon.data.shots}} <i
-                            class="fas fa-sync weapon-reload list-roll"></i></div>
-                    <div class="item-controls">
-                        <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
-                        <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                        class="fas fa-sync weapon-reload list-roll"></i></div>
+                    {{else}}
+                    <div class="skill-stat">N/A</div>
+                    {{/if}}
+                    {{#if weapon.data.ranges.medium}}
+                    <div class="skill-stat">{{weapon.data.ranges.short}}/{{weapon.data.ranges.medium}}/{{weapon.data.ranges.long}}
                     </div>
-                </li>
+                    {{else}}
+                    <div class="skill-stat">CQC</div>
+                    {{/if}}
+                    <div class="item-controls">
+                      <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+                      <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                    </div>
+                  </li>
                 {{/each}}
             </ol>
         </div>

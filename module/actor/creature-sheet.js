@@ -2,6 +2,10 @@
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
+import {
+    DLCreatureSettings
+} from "../settings/creature-settings.js";
+
 export class MothershipCreatureSheet extends ActorSheet {
 
     /** @override */
@@ -12,6 +16,42 @@ export class MothershipCreatureSheet extends ActorSheet {
             width: 700,
             height: 650,
             tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
+        });
+    }
+
+    /**
+     * Extend and override the sheet header buttons
+     * @override
+     */
+    _getHeaderButtons() {
+        let buttons = super._getHeaderButtons();
+        const canConfigure = game.user.isGM || this.actor.owner;
+        if (this.options.editable && canConfigure) {
+            buttons = [{
+                label: 'Creature Settings',
+                class: 'configure-actor',
+                icon: 'fas fa-tasks',
+                onclick: (ev) => this._onConfigureCreature(ev),
+            },].concat(buttons);
+        }
+        return buttons;
+    }
+    /* -------------------------------------------- */
+
+    _onConfigureCreature(event) {
+        event.preventDefault();
+        new DLCreatureSettings(this.actor, {
+            top: this.position.top + 40,
+            left: this.position.left + (this.position.width - 400) / 2
+        }).render(true);
+    }
+
+    async _updateObject(event, formData) {
+        const actor = this.object;
+        const updateData = expandObject(formData);
+
+        await actor.update(updateData, {
+            diff: false
         });
     }
 
@@ -153,16 +193,14 @@ export class MothershipCreatureSheet extends ActorSheet {
             }
 
             this.actor.updateEmbeddedEntity('OwnedItem', item);
-
-            let actor = this.actor;
-            let speaker = ChatMessage.getSpeaker({ actor });
-            ChatMessage.create({
-                speaker,
-                content: `Reloading ` + item.name + "...",
-                type: CHAT_MESSAGE_TYPES.EMOTE
-            },
-                { chatBubble: true });
-
+            // let actor = this.actor;
+            // let speaker = ChatMessage.getSpeaker({ actor });
+            // ChatMessage.create({
+            //     speaker,
+            //     content: `Reloading ` + item.name + "...",
+            //     type: CHAT_MESSAGE_TYPES.EMOTE
+            // },
+            //     { chatBubble: true });
         });
 
         // Rollable Item/Anything with a description that we want to click on.

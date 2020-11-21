@@ -2,50 +2,75 @@
   {{!-- Sheet Header --}}
 
   <header class="creature-header-grid">
+    <!-- Creature NAME -->
+    <input name="name" class="noborder creaturename" style="grid-area:'name';" type="text" value="{{actor.name}}" placeholder="Name" />
     <div class="creature-header">
-
-      <!-- Creature NAME -->
-      <input name="name" class="noborder creaturename" type="text" value="{{actor.name}}" placeholder="Name" />
+      {{#if data.stats.combat.enabled}}
       <!-- Combat -->
       <div class="mainstatwrapper">
-        <div class="resource mainstat">
+        <div class="resource creature-mainstat">
           <span class="ability-mod stat-roll rollable creaturestat" data-key="combat" data-roll="d100"
             data-label="Combat">COMBAT</span>
           <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.combat.value"
             value="{{data.stats.combat.value}}" data-dtype="Number" />
         </div>
       </div>
+      {{/if}}
+      {{#if data.stats.instinct.enabled}}
       <!-- Instinct -->
       <div class="mainstatwrapper">
-        <div class="resource mainstat">
+        <div class="resource creature-mainstat">
           <span class="ability-mod stat-roll rollable creaturestat" data-key="instinct" data-roll="d100"
             data-label="Instinct">Instinct</span>
           <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.instinct.value"
             value="{{data.stats.instinct.value}}" data-dtype="Number" />
         </div>
       </div>
-      <!-- Move -->
+      {{/if}}
+      {{#if data.stats.speed.enabled}}
+      <!-- Speed -->
       <div class="mainstatwrapper">
-        <div class="resource mainstat">
-          <span class="creaturestat" data-key="move" data-roll="d100" data-label="Move">Move</span>
-          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.move.value"
-            value="{{data.stats.move.value}}" data-dtype="Number" />
+        <div class="resource creature-mainstat">
+          <span class="ability-mod stat-roll rollable creaturestat" data-key="speed" data-roll="d100"
+            data-label="Speed">Speed</span>
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.speed.value"
+            value="{{data.stats.speed.value}}" data-dtype="Number" />
         </div>
       </div>
-      <!-- Health / Hits -->
+      {{/if}}
+      {{#if data.stats.loyalty.enabled}}
+      <!-- Loyalty -->
       <div class="mainstatwrapper">
-        <div class="resource mainstat">
-          <span class="creaturestat" data-key="move" data-roll="d100" data-label="Move">Hits</span>
-          <div style="grid-template-columns: 2em 2em; display: flex;">
-            <input class="creaturestat noborder" style="width: 24px;" type="text" name="data.health.maxpools"
-              value="{{data.health.maxpools}}" data-dtype="Number" />
-            <div>
-              (<input class="creaturestat noborder" style="width: 26px;" type="text" name="data.health.max"
-                value="{{data.health.max}}" data-dtype="Number" />)
-            </div>
-          </div>
+        <div class="resource creature-mainstat">
+          <span class="ability-mod stat-roll rollable creaturestat" data-key="loyalty" data-roll="d100"
+            data-label="Speed">Loyalty</span>
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.loyalty.value"
+            value="{{data.stats.loyalty.value}}" data-dtype="Number" />
         </div>
       </div>
+      {{/if}}
+      {{#if data.stats.armor.enabled}}
+      <!-- Armor -->
+      <div class="mainstatwrapper">
+        <div class="resource creature-mainstat">
+          <span class="ability-mod stat-roll rollable creaturestat" data-key="armor" data-roll="d100"
+            data-label="Speed">Armor</span>
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.armor.value"
+            value="{{data.stats.armor.value}}" data-dtype="Number" />
+        </div>
+      </div>
+      {{/if}}
+      {{#if data.stats.sanity.enabled}}
+      <!-- Sanity -->
+      <div class="mainstatwrapper">
+        <div class="resource creature-mainstat">
+          <span class="ability-mod stat-roll rollable creaturestat" data-key="sanity" data-roll="d100"
+            data-label="Speed">Sanity</span>
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.sanity.value"
+            value="{{data.stats.sanity.value}}" data-dtype="Number" />
+        </div>
+      </div>
+      {{/if}}
       <!-- <div class="health grid grid-1col">
         <div class="resource healthspread minmaxtopstat">
           <label for="data.health.value" class="resource-label minmaxtext">Health</label>
@@ -66,6 +91,39 @@
   </header>
   <div class="creature-description-grid">
     <div class="creaturedescription">
+      <div class="grid">
+        <!-- Health -->
+        <div class="resource healthspread minmaxtopstat">
+          <label for="data.health.value" class="resource-label minmaxtext">Health</label>
+  
+          <div class="minmaxwrapper">
+            <input class="maxhealth-input darkGreyText" type="text" name="data.health.value" value="{{data.health.value}}"
+              data-dtype="Number" />
+            <div class="slant"></div>
+            <input class="maxhealth-input darkGreyText" type="text" name="data.health.max" value="{{data.health.max}}"
+              data-dtype="Number" />
+          </div>
+  
+          <div class="healthmaxtext">Current</div>
+          <div class="healthmaxtext">Maximum</div>
+        </div>
+  
+        <!-- Hits -->
+        <div class="resource healthspread minmaxtopstat">
+          <label for="data.hits.value" class="resource-label minmaxtext">Hits</label>
+  
+          <div class="minmaxwrapper">
+            <input class="maxhealth-input darkGreyText" type="text" name="data.hits.value" value="{{data.hits.value}}"
+              data-dtype="Number" />
+            <div class="slant"></div>
+            <input class="maxhealth-input darkGreyText" type="text" name="data.hits.max" value="{{data.hits.max}}"
+              data-dtype="Number" />
+          </div>
+  
+          <div class="healthmaxtext">Current</div>
+          <div class="healthmaxtext">Maximum</div>
+        </div>
+      </div>
       {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
     </div>
     <div class="creature-abilities">

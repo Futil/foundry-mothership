@@ -10,9 +10,7 @@
         "health": {
           "value": 10,
           "min": 0,
-          "max": 10,
-          "pool": 1,
-          "maxpools": 1
+          "max": 10
         },
         "hits": {
           "value" : 2,
@@ -99,15 +97,33 @@
       "stats": {
         "combat": {
           "value": 10,
-          "label": "Combat"
+          "label": "Combat",
+          "enabled" : true
         },
         "instinct": {
           "value": 10,
-          "label": "Instinct"
+          "label": "Instinct",
+          "enabled" : true
         },
-        "move": {
+        "speed": {
           "value": 10,
-          "label": "Move"
+          "label": "Speed",
+          "enabled" : true
+        },
+        "loyalty": {
+          "value": 10,
+          "label": "Loyalty",
+          "enabled" : false
+        },
+        "armor": {
+          "value": 10,
+          "label": "Armor",
+          "enabled" : false
+        },
+        "sanity": {
+          "value": 10,
+          "label": "Sanity",
+          "enabled" : false
         }
       }
     },
@@ -179,7 +195,8 @@
         "base"
       ],
       "quantity": 1,
-      "weight": 0
+      "weight": 0,
+      "cost" : 0
     },
     "skill": {
       "templates": [

@@ -557,6 +557,14 @@
   width: 100%;
 }
 
+.mothership .creature-mainstat {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 3em;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
 .mothership .mainstatlabel {
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
@@ -658,25 +666,21 @@
 .mothership .creature-header-grid {
   display: grid;
   grid-template-areas:
-  'header header header'
+  'name header header'
   'line line line';
-  grid-gap: 10px;
   background: #111;
 
 }
 
 
 .mothership .creature-header {
-  display: grid;
-  grid-template-columns: 1fr 7em 7em 5.6em 3em 5em;
-  grid-template-rows: 1fr 1fr;
+  display: flex ;
+  flex-direction: row-reverse;
   align-items: center;
-  grid-column: 1/-1;
   color: white;
   font-family: "Montserrat", "Arial Black", sans-serif;
   font-weight: bold;
   text-transform: uppercase;
-  height: 27px;
   grid-area: header;
   padding: 8px;
 }
@@ -722,13 +726,14 @@
 }
 
 .mothership .creaturename {
-  margin: -0.15em;
   height: auto;
   width: 100%;
   padding-left: 13px;
   font-size: 1.3rem;
+  font-weight: bold;
   color:white;
   text-transform: uppercase;
+  font-family: "Century Gothic", "Diadact Gothic", sans-serif;
 }
 
 .mothership .creaturestat {
@@ -743,6 +748,13 @@
 .mothership .creaturedescription {
   height: 400px;
   padding: 10px;
+  overflow-y: auto;
+}
+.mothership .creaturedescription .editor-content{
+  overflow-y: visible;
+}
+.mothership .creaturedescription .editor{
+  overflow: visible;
 }
 
 .mothership .creature-ability-container {

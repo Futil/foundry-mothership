@@ -218,6 +218,7 @@
       "ammo": 10,
       "shots": 1,
       "curShots": 0,
+      "shotsPerFire" : 1,
       "useAmmo": false,
       "ammoType": "",
       "critDmg": "",

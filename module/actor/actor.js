@@ -134,7 +134,8 @@ export class MothershipActor extends Actor {
         }
       } else {
         if (item.data.curShots > 0) {
-          item.data.curShots -= 1;
+          let subAmount = Math.max(item.data.shotsPerFire, 1);
+          item.data.curShots = Math.max(item.data.curShots-subAmount, 0);
           console.log("Unloading Shots");
           this.updateEmbeddedEntity('OwnedItem', item);
         }

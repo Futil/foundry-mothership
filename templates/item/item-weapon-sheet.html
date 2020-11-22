@@ -17,16 +17,20 @@
                     <input type="text" name="data.curShots" value="{{data.curShots}}" data-dtype="Number" />
                 </div>
                 <div class="resource">
+                    <label class="resource-label">Shots Per Firing</label>
+                    <input type="text" name="data.shotsPerFire" value="{{data.shotsPerFire}}" data-dtype="String" />
+                </div>
+                <div class="resource">
+                    <label class="resource-label">Use Ammo</label>
+                    <input type="checkbox" name="data.useAmmo" value="{{data.useAmmo}}" {{#if data.useAmmo}}checked{{/if}} data-dtype="Boolean" />
+                </div>
+                <div class="resource">
                     <label class="resource-label">Ammunition</label>
                     <input type="text" name="data.ammo" value="{{data.ammo}}" data-dtype="Number" />
                 </div>
                 <div class="resource">
                     <label class="resource-label">Ammo Type</label>
                     <input type="text" name="data.ammoType" value="{{data.ammoType}}" data-dtype="String" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Use Ammo</label>
-                    <input type="checkbox" name="data.useAmmo" value="{{data.useAmmo}}" {{#if data.useAmmo}}checked{{/if}} data-dtype="Boolean" />
                 </div>
                 <div class="resource">
                     <label class="resource-label">Critical Damage</label>

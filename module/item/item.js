@@ -20,7 +20,7 @@ export class MothershipItem extends Item {
   }
 
   static async _onChatUseSkill(event) {
-    const token = event.currentTarget.closest(".mothership");
+    const token = event.currentTarget.closest(".mosh");
     const actor = this._getChatCardActor(token);
     if (!actor) return;
 

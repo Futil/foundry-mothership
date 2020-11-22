@@ -50,18 +50,18 @@
   /* font-family: "Montserrat", "Arial Black", sans-serif; */
 }
 
-.mothership ::-webkit-scrollbar-thumb {
+.mosh ::-webkit-scrollbar-thumb {
   outline: none;
   border-radius: 3px;
   background: black;
   border: 1px solid white;
 }
 
-.mothership .white{
+.mosh .white{
   color:white;
 }
 
-.mothership .darkgrey{
+.mosh .darkgrey{
   color:rgb(92, 92, 92);
 }
 /* .chat-message, #chat-form, .textarea{
@@ -190,12 +190,12 @@
   justify-content: space-between;
 }
 
-/* Styles limited to mothership sheets */
-.mothership .item-form {
+/* Styles limited to mosh sheets */
+.mosh .item-form {
   font-family: "Roboto", sans-serif;
 }
 
-.mothership .char-header {
+.mosh .char-header {
   -webkit-box-flex: 0;
   /* -ms-flex: 0 0 610px;
   flex: 0 0 610px; */
@@ -216,7 +216,7 @@
 
 
 
-.mothership .char-header .profile-img {
+.mosh .char-header .profile-img {
   -webkit-box-flex: 0;
   width: 100px;
   height: 100px;
@@ -224,13 +224,13 @@
   margin-top: 10px;
 }
 
-.mothership .char-header .header-fields {
+.mosh .char-header .header-fields {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.mothership .char-header .header-grid {
+.mosh .char-header .header-grid {
   display: grid;
   grid-template-areas:
   'header header header'
@@ -242,21 +242,21 @@
   grid-template-columns: 256px auto 82px;
 }
 
-.mothership .abilities {grid-area: abilities;}
-.mothership .saves {grid-area: saves;}
+.mosh .abilities {grid-area: abilities;}
+.mosh .saves {grid-area: saves;}
 
-.mothership .stress {grid-area: stress;}
-.mothership .health {grid-area: centercol;}
-.mothership .healthspread {width:100px;}
+.mosh .stress {grid-area: stress;}
+.mosh .health {grid-area: centercol;}
+.mosh .healthspread {width:100px;}
 
-.mothership .char-header h1.charname {
+.mosh .char-header h1.charname {
   height: auto;
   padding: 0px;
   margin: 0px 0;
   border-bottom: 0;
 }
 
-.mothership .char-header h1.charname input {
+.mosh .char-header h1.charname input {
   width: 100%;
   height: auto;
 
@@ -270,81 +270,81 @@
   text-align: left;
 }
 
-.mothership .sheet-tabs {
+.mosh .sheet-tabs {
   -webkit-box-flex: 0;
   -ms-flex: 0;
   flex: 0;
 }
 
-.mothership .sheet-body,
-.mothership .sheet-body .tab,
-.mothership .sheet-body .tab .editor {
+.mosh .sheet-body,
+.mosh .sheet-body .tab,
+.mosh .sheet-body .tab .editor {
   height: 100%;
 }
 
-.mothership .tox .tox-editor-container {
+.mosh .tox .tox-editor-container {
   background: #fff;
 }
 
-.mothership .tox .tox-edit-area {
+.mosh .tox .tox-edit-area {
   padding: 0 8px;
 }
 
-.mothership .resource-label {
+.mosh .resource-label {
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 3px;
 }
 
-.mothership .tabs {
+.mosh .tabs {
   height: 40px;
   border-top: 2px solid rgb(56, 56, 56);
   border-bottom: 2px solid rgb(56, 56, 56);
 }
 
-.mothership .tabs .item {
+.mosh .tabs .item {
   line-height: 40px;
   font-weight: bold;
 }
 
-.mothership .tabs .item.active {
+.mosh .tabs .item.active {
   text-decoration: underline;
   text-shadow: none;
 }
 
-.mothership .items-list {
+.mosh .items-list {
   list-style: none;
   margin: 7px 0;
   padding: 0;
   /* overflow-y: auto; */
 }
 
-.mothership .items-list .item-header {
+.mosh .items-list .item-header {
   font-weight: bold;
 }
 
-.mothership .items-list .item {
+.mosh .items-list .item {
   height: 35px;
   line-height: 24px;
   padding: 3px 0;
   border-bottom: 1px solid #BBB;
 }
 
-.mothership .skills-list .item {
+.mosh .skills-list .item {
   height: 36px;
   line-height: 21px;
   padding: 3px 0;
   border-bottom: 1px solid #BBB;
 }
 
-.mothership .items-list .item .item-image {
+.mosh .items-list .item .item-image {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 24px;
   flex: 0 0 24px;
   margin-right: 5px;
 }
 
-.mothership .roll-image {
+.mosh .roll-image {
   -webkit-box-flex: 0;
   flex: 0 24px;
   margin-right: -9px;
@@ -353,15 +353,15 @@
   /* margin-right: 5px; */
 }
 
-.mothership .items-list .item img {
+.mosh .items-list .item img {
   display: block;
 }
 
-.mothership .items-list .item-name {
+.mosh .items-list .item-name {
   margin: 0;
 }
 
-.mothership .items-list .skill-name {
+.mosh .items-list .skill-name {
   font-weight: bold;
   font-size: 14px;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -376,7 +376,7 @@
   height: 27px;
   overflow: hidden;
 }
-.mothership .items-list .skill-stat {
+.mosh .items-list .skill-stat {
   font-size: medium;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   color: #111;
@@ -388,14 +388,14 @@
   text-align: center;
 }
 
-.mothership .items-list .item-controls {
+.mosh .items-list .item-controls {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 86px;
   flex: 0 0 86px;
   text-align: right;
 }
 
-.mothership .tab-select {
+.mosh .tab-select {
   font-size: medium;
   font-weight: bold;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -403,7 +403,7 @@
   text-align: center;
 }
 
-.mothership .stresstext {
+.mosh .stresstext {
   width: 100%;
   padding: 0.1rem;
   color: white;
@@ -414,7 +414,7 @@
   text-transform: uppercase;
 }
 
-.mothership .smallcircle-input {
+.mosh .smallcircle-input {
   margin: -0.15em;
   height: 40px;
   width: 40px;
@@ -426,7 +426,7 @@
   text-align: center;
 }
 
-.mothership .mainstatmod-input {
+.mosh .mainstatmod-input {
   margin-top: 13px;
   height: 26px;
   width: 44px;
@@ -441,7 +441,7 @@
   z-index: 5;
 }
 
-.mothership .mainstatmod-title {
+.mosh .mainstatmod-title {
   position: relative;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 0.7rem;
@@ -454,7 +454,7 @@
   pointer-events: none;
 }
 
-.mothership .maxhealth-input {
+.mosh .maxhealth-input {
   margin: auto;
   border: 0px solid #111;
   font-size: 1.8rem;
@@ -463,19 +463,19 @@
   background: transparent;
 }
 
-.mothership .greyText{
+.mosh .greyText{
   color: grey;
 }
 
-.mothership .darkGreyText{
+.mosh .darkGreyText{
   color: rgb(56, 56, 56);
 }
 
-.mothership .sizelarge{
+.mosh .sizelarge{
   font-size: 1.1rem;
 }
 
-.mothership .minmaxwrapper{
+.mosh .minmaxwrapper{
     grid-column: 1/-1;
     display: grid;
     grid-template-columns: 1fr 1px 1fr;
@@ -488,7 +488,7 @@
     background: 0;
 }
 
-.mothership .valuewrapper{
+.mosh .valuewrapper{
   grid-column: 1/-1;
   display: grid;
   width: 145px;
@@ -500,7 +500,7 @@
   margin-top: -15px;
 }
 
-.mothership .minmaxtopstat{
+.mosh .minmaxtopstat{
   width: 8.5rem;
   grid-template-columns: 1fr 1fr;
   justify-self: center;
@@ -510,7 +510,7 @@
   margin-bottom: 7px;
 }
 
-.mothership .minmaxtext{
+.mosh .minmaxtext{
   text-align: left;
   grid-column: 1/-1;
   /* font-family: "Montserrat", "Arial Black", sans-serif; */
@@ -521,13 +521,13 @@
   text-transform: uppercase;
 }
 
-.mothership .slant{
+.mosh .slant{
   border-right: 2px solid #111;
   height: 100%;
   transform: skewX(-15deg);
 }
 
-.mothership .healthmaxtext{
+.mosh .healthmaxtext{
   text-align: left;
   grid-column: span 1;
   font-size: 0.8rem;
@@ -537,18 +537,18 @@
   text-align: center;
 }
 
-.mothership .stresslabel {
+.mosh .stresslabel {
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
   background: #111;
   padding: 0 0.5rem;
 }
 
-.mothership .mainstatwrapper {
+.mosh .mainstatwrapper {
   display: flex;
 }
 
-.mothership .mainstat {
+.mosh .mainstat {
   position: relative;
   display: grid;
   grid-template-columns: 1fr 5em;
@@ -557,7 +557,7 @@
   width: 100%;
 }
 
-.mothership .creature-mainstat {
+.mosh .creature-mainstat {
   position: relative;
   display: grid;
   grid-template-columns: 1fr 3em;
@@ -565,14 +565,14 @@
   gap: 0;
   width: 100%;
 }
-.mothership .mainstatlabel {
+.mosh .mainstatlabel {
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
   background: #111;
   padding: 2px 0.5rem;
 }
 
-.mothership .mainstattext {
+.mosh .mainstattext {
   width: 100%;
   padding: 0.5rem;
   color: white;
@@ -583,7 +583,7 @@
   text-transform: uppercase;
 }
 
-.mothership .circle-input {
+.mosh .circle-input {
   margin: -0.15em;
   height: 50px;
   width: 50px;
@@ -595,7 +595,7 @@
   text-align: center;
 }
 
-.mothership .textarea-input {
+.mosh .textarea-input {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   margin: -0.15em;
   padding: 9px;
@@ -610,7 +610,7 @@
 
 
 
-.mothership .square-input {
+.mosh .square-input {
   margin: -0.15em;
   height: 45px;
   width: 45px;
@@ -622,7 +622,7 @@
   font-weight: bold;
   text-align: center;
 }
-.mothership .savetext {
+.mosh .savetext {
   display: block;
   margin-bottom: .2em;
   width: 100%;
@@ -634,7 +634,7 @@
   text-transform: uppercase;
 }
 
-.mothership .savebackground {
+.mosh .savebackground {
   border-radius: 1em;
   background: #111;
   padding: 0 0.5rem;
@@ -644,7 +644,7 @@
   margin-top: -1px;
 }
 
-.mothership .header {
+.mosh .header {
   grid-area: header;
   background-color: #000;
   display: grid;
@@ -659,11 +659,11 @@
   text-transform: uppercase;
 }
 
-.mothership .padding{
+.mosh .padding{
   padding: 5px;
 }
 
-.mothership .creature-header-grid {
+.mosh .creature-header-grid {
   display: grid;
   grid-template-areas:
   'name header header'
@@ -673,7 +673,7 @@
 }
 
 
-.mothership .creature-header {
+.mosh .creature-header {
   display: flex ;
   flex-direction: row-reverse;
   align-items: center;
@@ -685,12 +685,12 @@
   padding: 8px;
 }
 
-.mothership .creature-description-grid{
+.mosh .creature-description-grid{
   display: grid;
   grid-template-columns: 1fr 15em;
 }
 
-.mothership .creature-abilities{
+.mosh .creature-abilities{
   background: rgb(22, 22, 22);
   margin: 12px;
   border: 2px solid white;
@@ -699,13 +699,13 @@
   height: 375px;
 }
 
-.mothership .ship-stats-grid{
+.mosh .ship-stats-grid{
   display: grid;
   grid-template-columns: 17em 1fr 15em;
 }
 
 
-.mothership .whiteline {
+.mosh .whiteline {
   border-top: 2px solid white;
   grid-area: line;
   margin-bottom: 10px;
@@ -713,7 +713,7 @@
   margin-right: 15px;
 }
 
-.mothership .headerinputfield {
+.mosh .headerinputfield {
   margin: -0.15em;
   height: auto;
   width: 100%;
@@ -725,7 +725,7 @@
   margin-right: 1em;
 }
 
-.mothership .creaturename {
+.mosh .creaturename {
   height: auto;
   width: 100%;
   padding-left: 13px;
@@ -736,7 +736,7 @@
   font-family: "Century Gothic", "Diadact Gothic", sans-serif;
 }
 
-.mothership .creaturestat {
+.mosh .creaturestat {
   margin-left: 4px;
   height: auto;
   font-size: 0.9rem;
@@ -745,24 +745,24 @@
   color:white;
 }
 
-.mothership .creaturedescription {
+.mosh .creaturedescription {
   height: 400px;
   padding: 10px;
   overflow-y: auto;
 }
-.mothership .creaturedescription .editor-content{
+.mosh .creaturedescription .editor-content{
   overflow-y: visible;
 }
-.mothership .creaturedescription .editor{
+.mosh .creaturedescription .editor{
   overflow: visible;
 }
 
-.mothership .creature-ability-container {
+.mosh .creature-ability-container {
   padding: 4px;
   margin-left: 2px;
 }
 
-.mothership .creature-ability-title {
+.mosh .creature-ability-title {
   text-align: center;
   font-size: 0.9rem;
   text-transform: uppercase;
@@ -771,17 +771,17 @@
   font-weight: bold;
 }
 
-.mothership .creature-ability-text {
+.mosh .creature-ability-text {
   height: auto;
   font-size: 0.8rem;
   font-family: "Century Gothic", "Diadact Gothic", sans-serif;
   color:white;
 }
 
-.mothership .tox.tox-tinymce {
+.mosh .tox.tox-tinymce {
   min-height: 100%;
 }
-.mothership .editor {
+.mosh .editor {
   height: 100%;
 }
 
@@ -790,7 +790,7 @@
   background: 0 !important;
 }
 
-.mothership .headerinputtext {
+.mosh .headerinputtext {
   padding: 0.1rem;
   color: white;
   font-family: "Montserrat", "Arial Black", sans-serif;
@@ -802,7 +802,7 @@
   margin-top: 3px;
 }
 
-.mothership .headergrid {
+.mosh .headergrid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 0.25rem;
@@ -810,22 +810,22 @@
   margin-top: -11px;
 }
 
-.mothership .headernamegrid {
+.mosh .headernamegrid {
   grid-column: 1/-2;
 }
 
-.mothership .headerrankgrid {
+.mosh .headerrankgrid {
   /* grid-column: span 3; */
   display: inline-flex;
 }
 
-.mothership .mothershiplogo {
+.mosh .moshlogo {
   width: 140px;
   height: auto;
   border: 0;
 }
 
-.mothership .rollcontainer {
+.mosh .rollcontainer {
   border-radius: 10em;
   background: #fff;
   padding: 0 0.5rem;
@@ -837,7 +837,7 @@
   font-family: "Century Gothic", "Diadact Gothic", sans-serif;
 }
 
-.mothership .rollh1 {
+.mosh .rollh1 {
   width: 107%;
   margin-top: 0;
   margin-left: -9px;
@@ -850,7 +850,7 @@
   padding: 5px;
 }
 
-.mothership .rollweaponh1 {
+.mosh .rollweaponh1 {
   height: 34px;
   margin-top: 0;
   margin-left: -9px;
@@ -866,7 +866,7 @@
   width: 71%;
 }
 
-.mothership .rollh2 {
+.mosh .rollh2 {
   font-size: 1.1rem;
   font-weight: normal;
   text-transform: uppercase;
@@ -876,7 +876,7 @@
   padding: 5px;
 }
 
-.mothership .rollmods {
+.mosh .rollmods {
   font-size: 0.8rem;
   font-weight: normal;
   text-transform: uppercase;
@@ -888,7 +888,7 @@
   color: grey;
 }
 
-.mothership .rollattribute {
+.mosh .rollattribute {
   width: 100%;
   padding: 0.5rem;
   color: black;
@@ -897,7 +897,7 @@
   text-align: center;
 }
 
-.mothership .roll-grid {
+.mosh .roll-grid {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -905,7 +905,7 @@
   width: 100%;
 }
 
-.mothership .roll-result {
+.mosh .roll-result {
   padding: 8px;
   border: 2px solid #111;
   border-radius: 1em;
@@ -915,7 +915,7 @@
   grid-column: 2/span 2;
 }
 
-.mothership .roll-target {
+.mosh .roll-target {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr 6rem;
@@ -933,7 +933,7 @@
   text-align: right;
 }
 
-.mothership .roll-targetbox {
+.mosh .roll-targetbox {
   padding: 2px;
   border: 2px solid #111;
   border-radius: 0.3em;
@@ -943,7 +943,7 @@
   margin-right: 0px;
 }
 
-.mothership .roll-damage {
+.mosh .roll-damage {
   font-size: 0.9rem;
   line-height: 1;
   text-align: center;
@@ -955,7 +955,7 @@
   font-family: "Montserrat", "Arial Black", sans-serif;
 }
 
-.mothership .roll-damagebox {
+.mosh .roll-damagebox {
   padding: 4px;
   border: 2px solid rgb(117, 0, 0);
   border-radius: 1em;
@@ -968,7 +968,7 @@
   margin: auto;
 }
 
-.mothership .items-tab-grid{
+.mosh .items-tab-grid{
   grid-template-columns: 50% 50%;
 }
 

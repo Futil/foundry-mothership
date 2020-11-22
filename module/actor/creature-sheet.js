@@ -11,8 +11,8 @@ export class MothershipCreatureSheet extends ActorSheet {
     /** @override */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            classes: ["mothership", "sheet", "actor", "creature"],
-            template: "systems/mothership/templates/actor/creature-sheet.html",
+            classes: ["mosh", "sheet", "actor", "creature"],
+            template: "systems/mosh/templates/actor/creature-sheet.html",
             width: 700,
             height: 650,
             tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]

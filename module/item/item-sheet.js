@@ -7,7 +7,7 @@ export class MothershipItemSheet extends ItemSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["mothership", "sheet", "item"],
+      classes: ["mosh", "sheet", "item"],
       width: 520,
       height: 480,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
@@ -16,7 +16,7 @@ export class MothershipItemSheet extends ItemSheet {
 
   /** @override */
   get template() {
-    const path = "systems/mothership/templates/item";
+    const path = "systems/mosh/templates/item";
     // Return a single sheet for all item types.
     return `${path}/item-${this.item.data.type}-sheet.html`;
     // Alternatively, you could use the following return statement to do a

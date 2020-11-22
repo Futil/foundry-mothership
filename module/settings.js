@@ -1,5 +1,5 @@
 export const registerSettings = function () {
-    game.settings.register('mothership', 'useCalm', {
+    game.settings.register('mosh', 'useCalm', {
         name: "Use Calm?",
         hint: "Uses the traaa.sh Calm system instead of Stress.",
         default: false,
@@ -7,7 +7,7 @@ export const registerSettings = function () {
         type: Boolean,
         config: true
     });
-    game.settings.register('mothership', 'hideWeight', {
+    game.settings.register('mosh', 'hideWeight', {
         name: "Hide Weight",
         hint: "Hide weight in the items list for players and ships?",
         default: false,

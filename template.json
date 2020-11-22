@@ -144,8 +144,8 @@
         "value": 1
       },
       "images" : {
-        "layout" : "systems/mothership/images/Galloway_Top.png",
-        "beauty" : "systems/mothership/images/Galloway_Top.png"
+        "layout" : "systems/mosh/images/Galloway_Top.png",
+        "beauty" : "systems/mosh/images/Galloway_Top.png"
       },
       "stats": {
         "armor": {
@@ -224,6 +224,7 @@
       "critDmg": "",
       "critEffect": "",
       "bonus": 0,
+      "cost" : 0,
       "ranges": {
         "short": 0,
         "medium": 0,
@@ -249,6 +250,7 @@
       ],
       "quantity": 1,
       "hull": 1,
+      "totalHull" : 1,
       "feature" : "",
       "offline" : false
     }

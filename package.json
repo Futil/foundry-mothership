@@ -1,5 +1,5 @@
 {
-  "name": "mothership",
+  "name": "mosh",
   "version": "1.0.0",
   "description": "CSS compiler for the Mothership system",
   "scripts": {

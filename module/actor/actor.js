@@ -315,7 +315,7 @@ export class MothershipActor extends Actor {
                 chatData.whisper = game.user._id;
             }
     */
-    let template = 'systems/mothership/templates/chat/statroll.html';
+    let template = 'systems/mosh/templates/chat/statroll.html';
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;
       if (game.dice3d) {
@@ -430,7 +430,7 @@ export class MothershipActor extends Actor {
                 chatData.whisper = game.user._id;
             }
     */
-    let template = 'systems/mothership/templates/chat/statroll.html';
+    let template = 'systems/mosh/templates/chat/statroll.html';
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;
 

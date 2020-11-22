@@ -7,8 +7,8 @@ export class MothershipShipSheet extends ActorSheet {
     /** @override */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            classes: ["mothership", "sheet", "actor", "ship"],
-            template: "systems/mothership/templates/actor/ship-sheet.html",
+            classes: ["mosh", "sheet", "actor", "ship"],
+            template: "systems/mosh/templates/actor/ship-sheet.html",
             width: 700,
             height: 650,
             tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
@@ -34,8 +34,8 @@ export class MothershipShipSheet extends ActorSheet {
             data.data.settings = {};
         }
 
-        data.data.settings.useCalm = game.settings.get("mothership", "useCalm");
-        data.data.settings.hideWeight = game.settings.get("mothership", "hideWeight");
+        data.data.settings.useCalm = game.settings.get("mosh", "useCalm");
+        data.data.settings.hideWeight = game.settings.get("mosh", "hideWeight");
 
         return data;
     }
@@ -102,6 +102,10 @@ export class MothershipShipSheet extends ActorSheet {
             const li = $(ev.currentTarget).parents(".item");
             const item = this.actor.getOwnedItem(li.data("itemId"));
             item.sheet.render(true);
+
+            if(item.type == "module"){
+                item.data.totalHull = amount*item.data.hull;
+            }
         });
 
         //Quantity adjuster
@@ -114,6 +118,10 @@ export class MothershipShipSheet extends ActorSheet {
                 item.data.quantity = Number(amount) + 1;
             } else if (event.button == 2) {
                 item.data.quantity = Number(amount) - 1;
+            }
+
+            if(item.type == "module"){
+                item.data.totalHull = item.data.quantity*item.data.hull;
             }
 
             this.actor.updateEmbeddedEntity('OwnedItem', item);

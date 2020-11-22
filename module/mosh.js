@@ -11,7 +11,7 @@ import {
 
 Hooks.once('init', async function () {
 
-  game.mothership = {
+  game.mosh = {
     MothershipActor,
     MothershipItem
   };
@@ -34,21 +34,21 @@ Hooks.once('init', async function () {
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
 
-  Actors.registerSheet("mothership", MothershipActorSheet, {
+  Actors.registerSheet("mosh", MothershipActorSheet, {
     types: ['character'],
     makeDefault: true
   });
-  Actors.registerSheet("mothership", MothershipCreatureSheet, {
+  Actors.registerSheet("mosh", MothershipCreatureSheet, {
     types: ['creature'],
     makeDefault: false
   });
-  Actors.registerSheet("mothership", MothershipShipSheet, {
+  Actors.registerSheet("mosh", MothershipShipSheet, {
     types: ['ship'],
     makeDefault: false
   });
 
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("mothership", MothershipItemSheet, { makeDefault: true });
+  Items.registerSheet("mosh", MothershipItemSheet, { makeDefault: true });
 
   // If you need to add Handlebars helpers, here are a few useful examples:
   Handlebars.registerHelper('concat', function () {
@@ -66,24 +66,6 @@ Hooks.once('init', async function () {
    * Set default values for new actors' tokens
    */
   Hooks.on("preCreateActor", (createData) => {
-    let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL;
-
-    if (createData.type == "creature") {
-      disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
-    }
-
-    // Set wounds, advantage, and display name visibility
-    mergeObject(createData,
-      {
-        "token.bar1": { "attribute": "data.health" },        // Default Bar 1 to Health 
-        // "token.bar2": { "attribute": "data.insanity" },      // Default Bar 2 to Insanity
-        "token.displayName": CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,     // Default display name to be on owner hover
-        "token.displayBars": CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,     // Default display bars to be on owner hover
-        "token.disposition": disposition,                               // Default disposition to neutral
-        "token.name": createData.name                                   // Set token name to actor name
-      })
-
-    // Default characters to HasVision = true and Link Data = true
     if (createData.type == "character") {
       createData.token.vision = true;
       createData.token.actorLink = true;

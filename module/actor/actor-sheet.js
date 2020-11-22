@@ -7,8 +7,8 @@ export class MothershipActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["mothership", "sheet", "actor", "character"],
-      template: "systems/mothership/templates/actor/actor-sheet.html",
+      classes: ["mosh", "sheet", "actor", "character"],
+      template: "systems/mosh/templates/actor/actor-sheet.html",
       width: 742,
       height: 800,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
@@ -34,8 +34,8 @@ export class MothershipActorSheet extends ActorSheet {
     if (data.data.settings == null) {
       data.data.settings = {};
     }
-    data.data.settings.useCalm = game.settings.get("mothership", "useCalm");
-    data.data.settings.hideWeight = game.settings.get("mothership", "hideWeight");
+    data.data.settings.useCalm = game.settings.get("mosh", "useCalm");
+    data.data.settings.hideWeight = game.settings.get("mosh", "hideWeight");
 
     return data;
   }

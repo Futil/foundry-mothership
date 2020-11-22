@@ -5,6 +5,9 @@ import { MothershipCreatureSheet } from "./actor/creature-sheet.js";
 import { MothershipShipSheet } from "./actor/ship-sheet.js";
 import { MothershipItem } from "./item/item.js";
 import { MothershipItemSheet } from "./item/item-sheet.js";
+import {
+  registerSettings
+} from "./settings.js";
 
 Hooks.once('init', async function () {
 
@@ -25,6 +28,8 @@ Hooks.once('init', async function () {
   // Define custom Entity classes
   CONFIG.Actor.entityClass = MothershipActor;
   CONFIG.Item.entityClass = MothershipItem;
+
+  registerSettings();
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);

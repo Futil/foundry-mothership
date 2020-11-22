@@ -24,6 +24,10 @@
       ],
       "biography": "",
       "notes": "",
+      "settings" : {
+        "useCalm" : false
+      },
+      
       "class": {
         "value": ""
       },
@@ -78,7 +82,8 @@
       "other": {
         "stress": {
           "value": 2,
-          "min": 0
+          "min": 0,
+          "label" : "Stress"
         },
         "resolve": {
           "value": 0

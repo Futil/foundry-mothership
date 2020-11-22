@@ -30,6 +30,13 @@ export class MothershipActorSheet extends ActorSheet {
       this._prepareCharacterItems(data);
     }
 
+
+    if (data.data.settings == null) {
+      data.data.settings = {};
+    }
+    data.data.settings.useCalm = game.settings.get("mothership", "useCalm");
+    data.data.settings.hideWeight = game.settings.get("mothership", "hideWeight");
+
     return data;
   }
 
@@ -224,6 +231,18 @@ export class MothershipActorSheet extends ActorSheet {
 
     });
 
+    // Rollable Item/Anything with a description that we want to click on.
+    html.find('.calm-roll').click(ev => {
+      const attribute = this.actor.data.data.other.stress;
+      attribute.label = "Calm";
+      this.actor.rollStress(attribute);
+    });
+    // Rollable Item/Anything with a description that we want to click on.
+    html.find('.stress-roll').click(ev => {
+      const attribute = this.actor.data.data.other.stress;
+      attribute.label = "Stress";
+      this.actor.rollStress(attribute);
+    });
   }
 
   /* -------------------------------------------- */
@@ -304,5 +323,16 @@ export class MothershipActorSheet extends ActorSheet {
       });
     }
   }
+
+  async _updateObject(event, formData) {
+    const actor = this.object;
+    const updateData = expandObject(formData);
+
+    await actor.update(updateData, {
+      diff: false
+    });
+  }
+
+
 
 }

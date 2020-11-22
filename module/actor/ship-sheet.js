@@ -30,6 +30,13 @@ export class MothershipShipSheet extends ActorSheet {
             this._prepareShipItems(data);
         }
 
+        if (data.data.settings == null) {
+            data.data.settings = {};
+        }
+
+        data.data.settings.useCalm = game.settings.get("mothership", "useCalm");
+        data.data.settings.hideWeight = game.settings.get("mothership", "hideWeight");
+
         return data;
     }
 

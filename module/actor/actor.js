@@ -20,6 +20,8 @@ export class MothershipActor extends Actor {
     else if (actorData.type === 'creature') this._prepareCreatureData(actorData);
     else if (actorData.type === 'ship') this._prepareShipData(actorData);
 
+
+
   }
   /**
    * Prepare Character type specific data
@@ -73,6 +75,37 @@ export class MothershipActor extends Actor {
           icon: '<i class="fas fa-check"></i>',
           label: "Roll",
           callback: (html) => this.rollAttribute(attribute, html.find('[id=\"advantage\"]')[0].value)
+        },
+        cancel: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Cancel",
+          callback: () => { }
+        }
+      },
+      default: "roll",
+      close: () => { }
+    });
+    d.render(true);
+  }
+
+  rollStress(attribute) {
+    //this.rollAttribute(attribute, "none");
+    let rollOver = true;
+    if(attribute.label == "Calm")
+      rollOver = false;
+
+    let attLabel = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
+    if (!attribute.label && isNaN(attLabel))
+      attLabel = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
+
+    let d = new Dialog({
+      title: "Select Roll Type",
+      content: "<h2> Advantages/Disadvantage </h2> <select style='margin-bottom:10px;'name='advantage' id='advantage'> <option value='none'>None</option> <option value='advantage'>Advantage/Disadvantage</option></select> <br/>",
+      buttons: {
+        roll: {
+          icon: '<i class="fas fa-check"></i>',
+          label: "Roll",
+          callback: (html) => this.rollAttribute(attribute, html.find('[id=\"advantage\"]')[0].value, '', rollOver)
         },
         cancel: {
           icon: '<i class="fas fa-times"></i>',
@@ -189,7 +222,7 @@ export class MothershipActor extends Actor {
     t.render(true);
   }
 
-  rollAttribute(attribute, advantage, item = "") {
+  rollAttribute(attribute, advantage, item = "", rollOver = false) {
     let attributeName = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
     if (!attribute.label && isNaN(attributeName))
       attributeName = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
@@ -197,7 +230,7 @@ export class MothershipActor extends Actor {
     console.log("Got here baybee");
 
     // Roll
-    let diceformular = "1d100";
+    let diceformular = "1d100-1";
 
     console.log(attribute);
 
@@ -206,6 +239,8 @@ export class MothershipActor extends Actor {
     // }
     let r = new Roll(diceformular, {});
     r.roll();
+
+    console.log(r);
 
     //Advantage roll
     let a = new Roll(diceformular, {});
@@ -226,6 +261,13 @@ export class MothershipActor extends Actor {
 
     let targetValue = attribute.value + mod + (item == "" ? 0 : item.data.bonus);
 
+    //Here's where we handle the result text.
+    let resultText = (r._total < targetValue ? "Success" : "Failure");
+    if(rollOver == true)
+      resultText = (r._total > targetValue ? "Success" : "Failure");
+
+    console.log(attribute.value + attribute.mod);
+
     var templateData = {
       actor: this,
       stat: {
@@ -239,7 +281,7 @@ export class MothershipActor extends Actor {
           damageRoll: damageRoll
         },
         resultText: {
-          value: (r._total < attribute.value + attribute.mod ? "Success" : "Failure")
+          value: resultText
         },
         isCreature: {
           value: this.data.type == "creature" ? true : false

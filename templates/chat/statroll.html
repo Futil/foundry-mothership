@@ -12,7 +12,7 @@
         </div>
         <div class="description">
             <div class="body">{{{item.data.description}}}</div>
-            <br/>
+            <br />
         </div>
         {{else}}
         {{#if isWeapon}}
@@ -36,36 +36,6 @@
             <div class="roll-result">{{data.diceTotal.value}} / {{data.diceTotal.advantageValue}}</div>
             {{else}}
             <div class="roll-result">{{data.diceTotal.value}}</div>
-            {{/if}}
-
-            {{#if data.isCreature.value}}
-            <div class="gmonly">
-                <span class="tooltiptext">
-                    {{#each diceData.dice}}
-                    <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
-                        <label style="color:{{this.color}};">
-                            {{this.result}}
-                        </label>
-                        {{#if this.img}}
-                        <img src='{{this.img}}' />
-                        {{/if}}
-                    </div>
-                    {{/each}}
-                </span>
-            </div>
-            {{else}}
-            <span class="tooltiptext">
-                {{#each diceData.dice}}
-                <div class="{{#if this.dice}}dice{{else}}modifier{{/if}}">
-                    <label style="color:{{this.color}};">
-                        {{this.result}}
-                    </label>
-                    {{#if this.img}}
-                    <img src='{{this.img}}' />
-                    {{/if}}
-                </div>
-                {{/each}}
-            </span>
             {{/if}}
         </div>
         <div class="roll-target">

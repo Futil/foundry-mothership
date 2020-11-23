@@ -308,7 +308,7 @@
           </div>
         </li>
         {{#each actor.armors as |armor id|}}
-        <li class="item flexrow" data-item-id="{{armor._id}}">
+        <li class="item flexrow dropitem" data-item-id="{{armor._id}}">
           <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
           <h4 class="skill-name list-roll description-roll">{{armor.name}}</h4>
           <div class="skill-stat">{{armor.data.bonus}}</div>
@@ -340,7 +340,7 @@
         </li>
         {{#if actor.data.settings.hideWeight}}
           {{#each actor.gear as |item id|}}
-          <li class="item flexrow" data-item-id="{{item._id}}">
+          <li class="item flexrow dropitem" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
             <h4 class="skill-name list-roll description-roll">{{item.name}}</h4>
             <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
@@ -353,7 +353,7 @@
           {{/each}}
         {{else}}
           {{#each actor.gear as |item id|}}
-          <li class="item flexrow" data-item-id="{{item._id}}">
+          <li class="item flexrow dropitem" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
             <h4 class="skill-name list-roll description-roll">{{item.name}}</h4>
             <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
@@ -384,7 +384,7 @@
           </div>
         </li>
         {{#each actor.skills as |skill id|}}
-        <li class="item flexrow" data-item-id="{{skill._id}}">
+        <li class="item flexrow dropitem" data-item-id="{{skill._id}}">
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
           <div class="skill-stat">{{skill.data.rank}}</div>
@@ -414,7 +414,7 @@
           </div>
         </li>
         {{#each actor.weapons as |weapon id|}}
-        <li class="item flexrow" data-item-id="{{weapon._id}}">
+        <li class="item flexrow dropitem" data-item-id="{{weapon._id}}">
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
           <div class="skill-name weapon-roll list-roll">{{weapon.name}}</div>

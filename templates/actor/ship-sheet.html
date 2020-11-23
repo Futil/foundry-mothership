@@ -159,7 +159,7 @@
         </div>
 
         <div class="creature-abilities" style="height: 300px;">
-            <div class="creature-ability-container creature-ability-title">Special Abilities</div>
+            <div class="creature-ability-container creature-ability-title">Notes</div>
             <div class="whiteline"></div>
             {{#each actor.abilities as |ability id|}}
             <div class="creature-ability-container item" data-item-id="{{ability._id}}">
@@ -217,7 +217,7 @@
                     </div>
                 </li>
                 {{#each actor.weapons as |weapon id|}}
-                <li class="item flexrow" data-item-id="{{weapon._id}}">
+                <li class="item flexrow dropitem" data-item-id="{{weapon._id}}">
                     <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
                     <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
                     <div class="skill-name weapon-roll list-roll">{{weapon.name}}</div>
@@ -264,7 +264,7 @@
                     </div>
                 </li>
                 {{#each actor.modules as |module id|}}
-                <li class="item flexrow" data-item-id="{{module._id}}">
+                <li class="item flexrow dropitem" data-item-id="{{module._id}}">
                     <div class="item-image"><img src="{{module.img}}" title="{{module.name}}" width="24" height="24" />
                     </div>
                     <h4 class="skill-name list-roll description-roll">{{module.name}}</h4>
@@ -295,7 +295,7 @@
                     </div>
                 </li>
                 {{#each actor.cargo as |item id|}}
-                <li class="item flexrow" data-item-id="{{item._id}}">
+                <li class="item flexrow dropitem" data-item-id="{{item._id}}">
                     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
                     </div>
                     <h4 class="skill-name list-roll description-roll">{{item.name}}</h4>

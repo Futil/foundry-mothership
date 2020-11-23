@@ -103,8 +103,8 @@ export class MothershipShipSheet extends ActorSheet {
             const item = this.actor.getOwnedItem(li.data("itemId"));
             item.sheet.render(true);
 
-            if(item.type == "module"){
-                item.data.totalHull = amount*item.data.hull;
+            if (item.type == "module") {
+                item.data.totalHull = amount * item.data.hull;
             }
         });
 
@@ -120,8 +120,8 @@ export class MothershipShipSheet extends ActorSheet {
                 item.data.quantity = Number(amount) - 1;
             }
 
-            if(item.type == "module"){
-                item.data.totalHull = item.data.quantity*item.data.hull;
+            if (item.type == "module") {
+                item.data.totalHull = item.data.quantity * item.data.hull;
             }
 
             this.actor.updateEmbeddedEntity('OwnedItem', item);
@@ -198,6 +198,17 @@ export class MothershipShipSheet extends ActorSheet {
             });
         });
 
+
+        // Drag events for macros.
+        if (this.actor.owner) {
+            let handler = ev => this._onDragStart(ev);
+
+            html.find('li.dropitem').each((i, li) => {
+                if (li.classList.contains("inventory-header")) return;
+                li.setAttribute("draggable", true);
+                li.addEventListener("dragstart", handler, false);
+            });
+        }
     }
 
     /* -------------------------------------------- */

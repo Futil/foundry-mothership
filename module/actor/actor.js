@@ -91,7 +91,7 @@ export class MothershipActor extends Actor {
   rollStress(attribute) {
     //this.rollAttribute(attribute, "none");
     let rollOver = true;
-    if(attribute.label == "Calm")
+    if (attribute.label == "Calm")
       rollOver = false;
 
     let attLabel = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
@@ -130,16 +130,71 @@ export class MothershipActor extends Actor {
           item.data.ammo -= 1;
           this.updateEmbeddedEntity('OwnedItem', item);
         } else {
+
+          //Select the stat of the roll.
+          let t = new Dialog({
+            title: "Reload",
+            content: "<h2>Out of Ammo</h2><br/>",
+            buttons: {
+              cancel: {
+                icon: '<i class="fas fa-times"></i>',
+                label: "Cancel",
+                callback: () => { }
+              }
+            },
+            default: "roll",
+            close: () => { }
+          });
+          t.render(true);
           return;
         }
       } else {
         if (item.data.curShots > 0) {
           let subAmount = Math.max(item.data.shotsPerFire, 1);
-          item.data.curShots = Math.max(item.data.curShots-subAmount, 0);
+          item.data.curShots = Math.max(item.data.curShots - subAmount, 0);
           console.log("Unloading Shots");
           this.updateEmbeddedEntity('OwnedItem', item);
         }
         else {
+          if (item.data.ammo > 0 || !item.data.useAmmo) {
+            //Select the stat of the roll.
+            let t = new Dialog({
+              title: "Reload",
+              content: "<h2> Reload? </h2><br/>",
+              buttons: {
+                roll: {
+                  icon: '<i class="fas fa-check"></i>',
+                  label: "Reload",
+                  callback: (html) => this.reloadWeapon(itemId)
+                },
+                cancel: {
+                  icon: '<i class="fas fa-times"></i>',
+                  label: "Cancel",
+                  callback: () => { }
+                }
+              },
+              default: "roll",
+              close: () => { }
+            });
+            t.render(true);
+          } else {
+            //Select the stat of the roll.
+            let t = new Dialog({
+              title: "Reload",
+              content: "<h2>Out of Ammo</h2><br/>",
+              buttons: {
+                cancel: {
+                  icon: '<i class="fas fa-times"></i>',
+                  label: "Cancel",
+                  callback: () => { }
+                }
+              },
+              default: "roll",
+              close: () => { }
+            });
+            t.render(true);
+          }
+
           // let actor = this;
           // let speaker = ChatMessage.getSpeaker({ actor });
           // ChatMessage.create({
@@ -177,6 +232,25 @@ export class MothershipActor extends Actor {
     });
     t.render(true);
   }
+
+  reloadWeapon(itemId, options = { event: null }) {
+    let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+
+    if (event.button == 0) {
+      if (!item.data.useAmmo) {
+        item.data.curShots = item.data.shots;
+      } else {
+        item.data.ammo += item.data.curShots;
+        let reloadAmount = Math.min(item.data.ammo, item.data.shots);
+        item.data.curShots = reloadAmount;
+
+        item.data.ammo -= reloadAmount;
+      }
+    }
+
+    this.updateEmbeddedEntity('OwnedItem', item);
+  }
+
 
   printDescription(itemId, options = { event: null }) {
     let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
@@ -247,12 +321,12 @@ export class MothershipActor extends Actor {
     let a = new Roll(diceformular, {});
     a.roll();
 
-    if(a._total == 100){
+    if (a._total == 100) {
       r.results[0] = 0;
       r._total = 0;
     }
 
-    if(a._total == 100){
+    if (a._total == 100) {
       r.results[0] = 0;
       a._total = 0;
     }
@@ -274,7 +348,7 @@ export class MothershipActor extends Actor {
 
     //Here's where we handle the result text.
     let resultText = (r._total < targetValue ? "Success" : "Failure");
-    if(rollOver == true)
+    if (rollOver == true)
       resultText = (r._total > targetValue ? "Success" : "Failure");
 
     console.log(attribute.value + attribute.mod);
@@ -412,7 +486,7 @@ export class MothershipActor extends Actor {
   chatDesc(item) {
     let itemName = item.name?.charAt(0).toUpperCase() + item.name?.toLowerCase().slice(1);
     if (!item.name && isNaN(itemName))
-    itemName = item.charAt(0)?.toUpperCase() + item.toLowerCase().slice(1);
+      itemName = item.charAt(0)?.toUpperCase() + item.toLowerCase().slice(1);
 
     var templateData = {
       actor: this,

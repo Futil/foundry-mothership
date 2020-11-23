@@ -170,6 +170,7 @@ export class MothershipActorSheet extends ActorSheet {
     // Rollable Weapon
     html.find('.weapon-roll').click(ev => {
       const li = ev.currentTarget.closest(".item");
+
       this.actor.rollWeapon(li.dataset.itemId, {
         event: ev
       });
@@ -243,6 +244,18 @@ export class MothershipActorSheet extends ActorSheet {
       attribute.label = "Stress";
       this.actor.rollStress(attribute);
     });
+
+    // Drag events for macros.
+    if (this.actor.owner) {
+      let handler = ev => this._onDragStart(ev);
+
+      html.find('li.dropitem').each((i, li) => {
+        if (li.classList.contains("inventory-header")) return;
+        li.setAttribute("draggable", true);
+        li.addEventListener("dragstart", handler, false);
+      });
+    }
+
   }
 
   /* -------------------------------------------- */

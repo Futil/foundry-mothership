@@ -140,14 +140,14 @@ export class MothershipActor extends Actor {
           this.updateEmbeddedEntity('OwnedItem', item);
         }
         else {
-          let actor = this;
-          let speaker = ChatMessage.getSpeaker({ actor });
-          ChatMessage.create({
-            speaker,
-            content: item.data.ammo > 0 ? `I need to reload my ` + item.name + "!" : "I'm out of ammo!",
-            type: CHAT_MESSAGE_TYPES.EMOTE
-          },
-            { chatBubble: true });
+          // let actor = this;
+          // let speaker = ChatMessage.getSpeaker({ actor });
+          // ChatMessage.create({
+          //   speaker,
+          //   content: item.data.ammo > 0 ? `I need to reload my ` + item.name + "!" : "I'm out of ammo!",
+          //   type: CHAT_MESSAGE_TYPES.EMOTE
+          // },
+          //   { chatBubble: true });
           return;
         }
       }
@@ -231,7 +231,7 @@ export class MothershipActor extends Actor {
     console.log("Got here baybee");
 
     // Roll
-    let diceformular = "1d100-1";
+    let diceformular = "1d100";
 
     console.log(attribute);
 
@@ -246,6 +246,16 @@ export class MothershipActor extends Actor {
     //Advantage roll
     let a = new Roll(diceformular, {});
     a.roll();
+
+    if(a._total == 100){
+      r.results[0] = 0;
+      r._total = 0;
+    }
+
+    if(a._total == 100){
+      r.results[0] = 0;
+      a._total = 0;
+    }
 
     let damageRoll = 0;
     if (item.type == "weapon") {

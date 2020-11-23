@@ -188,16 +188,6 @@ export class MothershipShipSheet extends ActorSheet {
             }
 
             this.actor.updateEmbeddedEntity('OwnedItem', item);
-
-            let actor = this.actor;
-            let speaker = ChatMessage.getSpeaker({ actor });
-            ChatMessage.create({
-                speaker,
-                content: `Reloading ` + item.name + "...",
-                type: CHAT_MESSAGE_TYPES.EMOTE
-            },
-                { chatBubble: true });
-
         });
 
         // Rollable Item/Anything with a description that we want to click on.

@@ -53,6 +53,7 @@
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="description">Description</a>
         <a class="item" data-tab="ranges">Ranges</a>
+        <a class="item" data-tab="item">Item</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -77,6 +78,20 @@
                 <div class="resource">
                     <label class="resource-label">Long Range</label>
                     <input type="text" name="data.ranges.long" value="{{data.ranges.long}}" data-dtype="Number" />
+                </div>
+            </div>
+        </div>
+
+        {{!-- Item Tab --}}
+        <div class="tab ranges" data-group="primary" data-tab="item">
+            <div class="grid grid-3col">
+                <div class="resource">
+                    <label class="resource-label">Value</label>
+                    <input type="text" name="data.cost" value="{{data.cost}}" data-dtype="Number" />
+                </div>
+                <div class="resource">
+                    <label class="resource-label">Weight</label>
+                    <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />
                 </div>
             </div>
         </div>

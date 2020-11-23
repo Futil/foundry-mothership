@@ -329,7 +329,7 @@ export class MothershipActor extends Actor {
     }
 
     if (a._total == 100) {
-      r.results[0] = 0;
+      a.results[0] = 0;
       a._total = 0;
     }
 

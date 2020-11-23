@@ -100,7 +100,7 @@ async function createMothershipMacro(data, slot) {
   if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
   const item = data.data;
 
-  console.log(item);
+  console.log(data);
 
   // Create the macro command
   let command = `game.mosh.rollItemMacro("${item.name}");`;
@@ -134,7 +134,7 @@ function rollItemMacro(itemName) {
   if (speaker.token) actor = game.actors.tokens[speaker.token];
   if (!actor) actor = game.actors.get(speaker.actor);
   const item = actor ? actor.items.find(i => i.name === itemName) : null;
-  if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item with the id ${itemId}`);
+  if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
 
   console.log();
 

@@ -317,11 +317,13 @@ export class MothershipActor extends Actor {
 
     console.log(r);
 
+    let rSplit = (""+r._total).split("");
+
     //Advantage roll
     let a = new Roll(diceformular, {});
     a.roll();
 
-    if (a._total == 100) {
+    if (r._total == 100) {
       r.results[0] = 0;
       r._total = 0;
     }
@@ -346,10 +348,28 @@ export class MothershipActor extends Actor {
 
     let targetValue = attribute.value + mod + (item == "" ? 0 : item.data.bonus);
 
+    let critical = false;
+    
+    if(r._total == 0)
+      critical = true;
+    else if(rSplit[0] == rSplit[1]){
+      critical = true;
+    }
+
     //Here's where we handle the result text.
-    let resultText = (r._total < targetValue ? "Success" : "Failure");
-    if (rollOver == true)
-      resultText = (r._total > targetValue ? "Success" : "Failure");
+    let resultText = "";
+
+    if (rollOver == true){
+      if(critical)
+        resultText = (r._total > targetValue ? "Critical Success" : "Critical Failure");
+      else
+        resultText = (r._total > targetValue ? "Success" : "Failure");
+    } else {
+      if(critical)
+        resultText = (r._total < targetValue ? "Critical Success" : "Critical Failure");
+      else
+        resultText = (r._total < targetValue ? "Success" : "Failure");
+    }
 
     console.log(attribute.value + attribute.mod);
 
@@ -378,6 +398,7 @@ export class MothershipActor extends Actor {
       targetValue: targetValue,
       useSkill: item.type == "skill" ? true : false,
       isWeapon: item.type == "weapon" ? true : false,
+      critical: critical,
       advantage: advantage == "advantage" ? true : false,
       diceData
     };

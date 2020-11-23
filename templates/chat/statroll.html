@@ -63,6 +63,32 @@
             </div>
         </div>
         <div class="rollmods" style="margin-top: 0px;">({{item.data.damage}})</div>
+        <br/>
+        {{#if item.data.ranges.medium}}
+        <div class="rollmods">Range: {{item.data.ranges.short}}/{{item.data.ranges.medium}}/{{item.data.ranges.long}}
+        </div>
+        {{else}}
+        <div class="rollmods">Range: CQC</div>
+        {{/if}}
+
+        {{#if item.data.shots}}
+        <div class="rollmods">Shots: {{item.data.curShots}}/{{item.data.shots}}</div>
+        {{else}}
+            {{#if item.data.useAmmo}}
+            <div class="rollmods">Ammo: {{item.data.ammo}}</div>
+            {{/if}}
+        {{/if}}
+        
+        {{#if critical}}
+        <div class="description">
+            <div class="header padding">Critical</div>
+            <br/>
+            <div class="body">Crit Damage: [[/r {{item.data.critDmg}}]]</div>
+            <div class="body">Crit Effect: {{item.data.critEffect}}</div>
+        </div>
+        <br/>
+        {{/if}}
+
         {{#if item.data.description}}
         <div class="description">
             <div class="header padding">Description</div>

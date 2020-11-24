@@ -1,8 +1,8 @@
 {
   "name": "mosh",
-  "title": "Mothership",
-  "description": "The unofficial Mothership system for FoundryVTT",
-  "version": "0.1.1b",
+  "title": "MoSh - Mothership RPG",
+  "description": "The unofficial Mothership system for FoundryVTT.",
+  "version": "0.1.1c",
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.7.7",
   "templateVersion": 2,

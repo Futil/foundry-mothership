@@ -14,8 +14,12 @@ Hooks.once('init', async function () {
   game.mosh = {
     MothershipActor,
     MothershipItem,
-    rollItemMacro
+    rollItemMacro,
+    rollStatMacro
   };
+
+  registerSettings();
+
 
   /**
    * Set an initiative formula for the system
@@ -30,7 +34,6 @@ Hooks.once('init', async function () {
   CONFIG.Actor.entityClass = MothershipActor;
   CONFIG.Item.entityClass = MothershipItem;
 
-  registerSettings();
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
@@ -108,15 +111,15 @@ async function createMothershipMacro(data, slot) {
 
   let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));
   if (!macro) {
-      macro = await Macro.create({
-          name: item.name,
-          type: "script",
-          img: item.img,
-          command: command,
-          flags: {
-              "mosh.itemMacro": true
-          }
-      });
+    macro = await Macro.create({
+      name: item.name,
+      type: "script",
+      img: item.img,
+      command: command,
+      flags: {
+        "mosh.itemMacro": true
+      }
+    });
   }
   game.user.assignHotbarMacro(macro, slot);
   return false;
@@ -138,13 +141,43 @@ function rollItemMacro(itemName) {
 
   console.log();
 
-  if(item.type == "weapon"){
+  if (item.type == "weapon") {
     return actor.rollWeapon(item.id);
-  } else if(item.type == "item" || item.type == "armor" || item.type == "ability"){
+  } else if (item.type == "item" || item.type == "armor" || item.type == "ability") {
     return actor.printDescription(item.id);
-  } else if(item.type == "skill"){
+  } else if (item.type == "skill") {
     return actor.rollSkill(item.id);
   }
-  
+
   console.error("No item type found: " + item);
+}
+
+
+/**
+ * Roll Stat.
+ * @param {string} statName
+ * @return {Promise}
+ */
+function rollStatMacro() {
+  var selected = canvas.tokens.controlled;
+  const speaker = ChatMessage.getSpeaker();
+
+  if (selected.length == 0) {
+    selected = game.actors.tokens[speaker.token];
+  }
+
+  let actor;
+  if (speaker.token) actor = game.actors.tokens[speaker.token];
+  if (!actor) actor = game.actors.get(speaker.actor);
+    const stat = actor ? Object.entries(actor.data.data.stats) : null;
+  
+
+  // if (stat == null) {
+  //   ui.notifications.info("Stat not found on token");
+  //   return;
+  // }
+
+  console.log(stat);
+
+  return actor.rollStatSelect(stat);
 }

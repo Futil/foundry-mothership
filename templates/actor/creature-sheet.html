@@ -166,7 +166,7 @@
       <ol class="items-list">
         <li class="item flexrow item-header">
           <div class="item-image"></div>
-          <div class="skill-stat">Name</div>
+          <div class="skill-stat" style="flex-grow: 2;">Name</div>
           <div class="skill-stat">Damage</div>
           <div class="skill-stat">Ammo</div>
           <div class="skill-stat">Shots</div>
@@ -180,7 +180,7 @@
         <li class="item flexrow  dropitem" data-item-id="{{weapon._id}}">
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
-          <div class="skill-name weapon-roll list-roll">{{weapon.name}}</div>
+          <div class="skill-name weapon-roll list-roll" style="flex-grow: 2;">{{weapon.name}}</div>
           <div class="skill-stat">{{weapon.data.damage}}</div>
           {{#if weapon.data.useAmmo}}
           <div class="skill-stat weapon-ammo list-roll">{{weapon.data.ammo}}</div>

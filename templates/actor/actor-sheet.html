@@ -299,9 +299,9 @@
         <li class="item flexrow item-header">
           <div class="item-image"></div>
           <div class="skill-stat">Armor Name</div>
-          <div class="skill-stat">Save Bonus</div>
+          <div class="skill-stat" style="flex-grow: 0.5;">Save Bonus</div>
           <div class="skill-stat">Features</div>
-          <div class="skill-stat">Equipped</div>
+          <div class="skill-stat" style="flex-grow: 0.5;">Equipped</div>
           <div class="item-controls">
             <a class="item-control item-create" title="Create Armor" data-type="armor"><i class="fas fa-plus"></i> Add
               Armor</a>
@@ -311,9 +311,9 @@
         <li class="item flexrow dropitem" data-item-id="{{armor._id}}">
           <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
           <h4 class="skill-name list-roll description-roll">{{armor.name}}</h4>
-          <div class="skill-stat">{{armor.data.bonus}}</div>
+          <div class="skill-stat" style="flex-grow: 0.5;">{{armor.data.bonus}}%</div>
           <div class="skill-stat">{{armor.data.features}}</div>
-          <div class="skill-stat item-equip"><input type="checkbox" name="armor.data.equipped" data-dtype="Boolean"
+          <div class="skill-stat item-equip" style="flex-grow: 0.5;"><input type="checkbox" name="armor.data.equipped" data-dtype="Boolean"
               {{checked armor.data.equipped}} /></div>
           <div class="item-controls">
             <a class="item-control item-edit" title="Edit Armor"><i class="fas fa-edit"></i></a>
@@ -326,7 +326,7 @@
       <ol class="items-list">
         <li class="item flexrow item-header">
           <div class="item-image"></div>
-          <div class="skill-stat">Item Name</div>
+          <div class="skill-stat" style="flex-grow: 1.5;">Item Name</div>
           <div class="skill-stat">Quantity</div>
           {{#if data.settings.hideWeight}}
           {{else}}
@@ -342,7 +342,7 @@
           {{#each actor.gear as |item id|}}
           <li class="item flexrow dropitem" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
-            <h4 class="skill-name list-roll description-roll">{{item.name}}</h4>
+            <h4 class="skill-name list-roll description-roll" style="flex-grow: 1.5;">{{item.name}}</h4>
             <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
             <div class="skill-stat">{{item.data.cost}}</div>
             <div class="item-controls">
@@ -355,7 +355,7 @@
           {{#each actor.gear as |item id|}}
           <li class="item flexrow dropitem" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
-            <h4 class="skill-name list-roll description-roll">{{item.name}}</h4>
+            <h4 class="skill-name list-roll description-roll" style="flex-grow: 2;">{{item.name}}</h4>
             <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
             <div class="skill-stat">{{item.data.weight}}</div>
             <div class="skill-stat">{{item.data.cost}}</div>
@@ -403,7 +403,7 @@
       <ol class="items-list">
         <li class="item flexrow item-header">
           <div class="item-image"></div>
-          <div class="skill-stat">Weapon Name</div>
+          <div class="skill-stat" style="flex-grow: 2;">Weapon Name</div>
           <div class="skill-stat">Damage</div>
           <div class="skill-stat">Ammo</div>
           <div class="skill-stat">Shots</div>
@@ -417,7 +417,7 @@
         <li class="item flexrow dropitem" data-item-id="{{weapon._id}}">
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
-          <div class="skill-name weapon-roll list-roll">{{weapon.name}}</div>
+          <div class="skill-name weapon-roll list-roll" style="flex-grow: 2;">{{weapon.name}}</div>
           <div class="skill-stat">{{weapon.data.damage}}</div>
           {{#if weapon.data.useAmmo}}
           <div class="skill-stat weapon-ammo list-roll">{{weapon.data.ammo}}</div>

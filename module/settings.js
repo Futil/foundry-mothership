@@ -5,7 +5,10 @@ export const registerSettings = function () {
         default: false,
         scope: 'world',
         type: Boolean,
-        config: true
+        config: true,
+        onChange: value => { // A callback function which triggers when the setting is changed
+            console.log("useCalm set to " + value)
+          }
     });
     game.settings.register('mosh', 'hideWeight', {
         name: "Hide Weight",
@@ -13,6 +16,9 @@ export const registerSettings = function () {
         default: false,
         scope: 'world',
         type: Boolean,
-        config: true
+        config: true,
+        onChange: value => { // A callback function which triggers when the setting is changed
+            console.log("hideWeight set to " + value)
+          }
     });
 };

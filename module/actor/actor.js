@@ -20,23 +20,12 @@ export class MothershipActor extends Actor {
     else if (actorData.type === 'creature') this._prepareCreatureData(actorData);
     else if (actorData.type === 'ship') this._prepareShipData(actorData);
 
-
-
   }
   /**
    * Prepare Character type specific data
    */
   _prepareCharacterData(actorData) {
     const data = actorData.data;
-
-    // Make modifications to data here. For example:
-
-    // Loop through ability scores, and add their modifiers to our sheet output.
-    // for (let [key, stat] of Object.entries(data.stats)) {
-    //   // Calculate the modifier using d20 rules.
-    //   //stats.mod = Math.floor((stats.value - 10) / 2);
-    //   stat.label = key.toUpperCase();
-    // }
 
     let armorBonus = 0;
     const armors = this.getEmbeddedCollection("OwnedItem").filter(e => "armor" === e.type);
@@ -60,7 +49,39 @@ export class MothershipActor extends Actor {
     const data = actorData.data;
   }
 
+  rollStatSelect(statList) {
+
+    let selectList = "";
+
+    statList.forEach(stat => selectList += "<option value='"+stat[0]+"'>" + stat[1].label + "</option>")
+    statList.forEach(stat => console.log(stat[0]));
+
+    console.log(statList);
+
+    let d = new Dialog({
+      title: "Select Roll Type",
+      content: "<h2> Stat </h2> <select style='margin-bottom:10px;'name='stat' id='stat'> " + selectList + "</select> <br/>",
+      buttons: {
+        roll: {
+          icon: '<i class="fas fa-check"></i>',
+          label: "Roll",
+          callback: (html) => this.rollStat(this.data.data.stats[html.find('[id=\"stat\"]')[0].value])
+        },
+        cancel: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Cancel",
+          callback: () => { }
+        }
+      },
+      default: "roll",
+      close: () => { }
+    });
+    d.render(true);
+  }
+
   rollStat(attribute) {
+    console.log(attribute);
+
     let attLabel = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
     if (!attribute.label && isNaN(attLabel))
       attLabel = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
@@ -317,7 +338,7 @@ export class MothershipActor extends Actor {
 
     console.log(r);
 
-    let rSplit = (""+r._total).split("");
+    let rSplit = ("" + r._total).split("");
 
     //Advantage roll
     let a = new Roll(diceformular, {});
@@ -349,23 +370,23 @@ export class MothershipActor extends Actor {
     let targetValue = attribute.value + mod + (item == "" ? 0 : item.data.bonus);
 
     let critical = false;
-    
-    if(r._total == 0)
+
+    if (r._total == 0)
       critical = true;
-    else if(rSplit[0] == rSplit[1]){
+    else if (rSplit[0] == rSplit[1]) {
       critical = true;
     }
 
     //Here's where we handle the result text.
     let resultText = "";
 
-    if (rollOver == true){
-      if(critical)
+    if (rollOver == true) {
+      if (critical)
         resultText = (r._total > targetValue ? "Critical Success" : "Critical Failure");
       else
         resultText = (r._total > targetValue ? "Success" : "Failure");
     } else {
-      if(critical)
+      if (critical)
         resultText = (r._total < targetValue ? "Critical Success" : "Critical Failure");
       else
         resultText = (r._total < targetValue ? "Success" : "Failure");

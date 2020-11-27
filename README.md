@@ -10,3 +10,5 @@ Features:
   -Customizeable creature sheets with selectable stats.
   
   -Macro support for weapons, items, stats, and skills.
+
+Mothership is the property of Tuesday Knight Games, and can be purchased at https://mothershiprpg.com/

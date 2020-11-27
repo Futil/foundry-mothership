@@ -1,5 +1,7 @@
 # MoSh - Unofficial Mothership RPG
-An unofficial implementation of Tuesday Night's Mothership role playing system.
+An unofficial implementation of Tuesday Knight's Mothership role playing system.
+
+Mothership is the property of Tuesday Knight Games, and can be purchased at https://mothershiprpg.com/
 
 **Features:**
 
@@ -11,4 +13,4 @@ An unofficial implementation of Tuesday Night's Mothership role playing system.
   
   -Macro support for weapons, items, stats, and skills.
 
-Mothership is the property of Tuesday Knight Games, and can be purchased at https://mothershiprpg.com/
+

@@ -1,9 +1,9 @@
 # MoSh - Unofficial Mothership RPG
 An unofficial implementation of Tuesday Night's Mothership role playing system.
 
-Features:
+**Features:**
 
-  -Sheets styled to appear similar to printout sheets.
+  -Character sheets styled to resemble the official printout sheets.
   
   -Automated Skill, Weapon, and Stat rolls, with built in advantage/disadvantage system.
   

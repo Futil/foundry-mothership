@@ -293,7 +293,6 @@
     </div>
     {{!-- Owned Items Tab --}}
     <div class="tab items" data-group="primary" data-tab="items">
-
       <!-- ARMOR -->
       <ol class="items-list">
         <li class="item flexrow item-header">
@@ -366,8 +365,14 @@
           </li>
           {{/each}}
         {{/if}}
-
       </ol>
+      {{#unless data.settings.hideWeight}}
+      <div class="item flex-group-left item-header">
+        <div class="skill-stat" style="flex-grow: 1.5;">Carrying Capacity: {{data.weight.capacity}}</div>
+        <div class="skill-stat">Current Weight: {{data.weight.current}}</div>
+      </div>
+      {{/unless}}
+
     </div>
     {{!-- Owned Skills Tab --}}
     <div class="tab items" data-group="primary" data-tab="skills">

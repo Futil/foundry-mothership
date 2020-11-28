@@ -56,6 +56,7 @@ export class MothershipActorSheet extends ActorSheet {
     const weapons = [];
     const armors = [];
 
+    let curWeight = 0;
     // Iterate through items, allocating to containers
     // let totalWeight = 0;
     for (let i of sheetData.items) {
@@ -64,6 +65,7 @@ export class MothershipActorSheet extends ActorSheet {
 
       if (i.type === 'item') {
         gear.push(i);
+        curWeight+=item.weight;
       } else if (i.type === 'skill') {
         skills.push(i);
       } else if (i.type === 'armor') {
@@ -72,6 +74,17 @@ export class MothershipActorSheet extends ActorSheet {
         weapons.push(i);
       }
     }
+
+    if(actorData.data.weight == undefined){
+      actorData.data.weight = {
+        "current" : 0,
+        "capacity" : 0
+      };
+    }
+
+    actorData.data.weight.capacity = Math.ceil((actorData.data.stats.strength.value/10) + 3);
+    actorData.data.weight.current = curWeight;
+    console.log("Current Weight: " + curWeight + " Capacity: " + actorData.data.weight.capacity);
 
     // Assign and return
     actorData.gear = gear;

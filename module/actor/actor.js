@@ -323,10 +323,10 @@ export class MothershipActor extends Actor {
     if (!attribute.label && isNaN(attributeName))
       attributeName = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
 
-    console.log("Got here baybee");
-
+    let isStress = (attribute.label == "Stress" ? true : false);
     // Roll
-    let diceformular = "1d100";
+    let diceformular = (isStress ? "2d10" : "1d100");
+  
 
     console.log(attribute);
 
@@ -371,11 +371,8 @@ export class MothershipActor extends Actor {
 
     let critical = false;
 
-    if (r._total == 0)
+    if (r._total == 0 && !isStress || rSplit[0] == rSplit[1] && !isStress)
       critical = true;
-    else if (rSplit[0] == rSplit[1]) {
-      critical = true;
-    }
 
     //Here's where we handle the result text.
     let resultText = "";

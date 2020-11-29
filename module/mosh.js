@@ -66,16 +66,6 @@ Hooks.once('init', async function () {
   });
 
 
-  /**
-   * Set default values for new actors' tokens
-   */
-  Hooks.on("preCreateActor", (createData) => {
-    if (createData.type == "character") {
-      createData.token.vision = true;
-      createData.token.actorLink = true;
-    }
-  })
-
   Handlebars.registerHelper('toLowerCase', function (str) {
     return str.toLowerCase();
   });
@@ -85,6 +75,34 @@ Hooks.once("ready", async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createMothershipMacro(data, slot));
 });
+
+/**
+ * Set default values for new actors' tokens
+ */
+Hooks.on("preCreateActor", (createData) => {
+  let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL;
+
+  if (createData.type == "creature") {
+    disposition = CONST.TOKEN_DISPOSITIONS.HOSTILE
+  }
+
+  // Set wounds, advantage, and display name visibility
+  mergeObject(createData,
+    {
+      "token.bar1": { "attribute": "health" },        // Default Bar 1 to Health 
+      "token.bar2": { "attribute": "hits" },      // Default Bar 2 to Insanity
+      "token.displayName": CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,     // Default display name to be on owner hover
+      "token.displayBars": CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,     // Default display bars to be on owner hover
+      "token.disposition": disposition,                               // Default disposition to neutral
+      "token.name": createData.name                                   // Set token name to actor name
+    })
+
+
+  if (createData.type == "character") {
+    createData.token.vision = true;
+    createData.token.actorLink = true;
+  }
+})
 
 
 /* -------------------------------------------- */
@@ -169,8 +187,8 @@ function rollStatMacro() {
   let actor;
   if (speaker.token) actor = game.actors.tokens[speaker.token];
   if (!actor) actor = game.actors.get(speaker.actor);
-    const stat = actor ? Object.entries(actor.data.data.stats) : null;
-  
+  const stat = actor ? Object.entries(actor.data.data.stats) : null;
+
 
   // if (stat == null) {
   //   ui.notifications.info("Stat not found on token");

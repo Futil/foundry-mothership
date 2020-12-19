@@ -11,7 +11,7 @@ Mothership is the property of Tuesday Knight Games, and can be purchased at http
   
   -Customizeable creature sheets with selectable stats.
   
-  -Macro support for weapons, items, stats, and skills.\
+  -Macro support for weapons, items, stats, and skills.
   
   **Screenshots**
   

@@ -81,6 +81,11 @@ export class MothershipActorSheet extends ActorSheet {
         "capacity" : 0
       };
     }
+    if(actorData.data.credits == undefined){
+      actorData.data.credits = {
+        "value" : 0,
+      };
+    }
 
     actorData.data.weight.capacity = Math.ceil((actorData.data.stats.strength.value/10) + 3);
     actorData.data.weight.current = curWeight;

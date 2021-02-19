@@ -527,12 +527,27 @@ export class MothershipActor extends Actor {
     if (!item.name && isNaN(itemName))
       itemName = item.charAt(0)?.toUpperCase() + item.toLowerCase().slice(1);
 
+    
+    var rollInsert = '';
+    
+    if(item.data.roll){
+      let r = new Roll(item.data.roll, {});
+      r.roll();
+
+      rollInsert = '\
+        <div class="rollh2" style="text-transform: lowercase;">'+item.data.roll+'</div>\
+        <div class="roll-grid">\
+          <div class="roll-result">'+r._total+'</div>\
+        </div>';
+    }
+
     var templateData = {
       actor: this,
       stat: {
         name: itemName.toUpperCase()
       },
       item: item,
+      insert: rollInsert,
       onlyDesc: true,
     };
 

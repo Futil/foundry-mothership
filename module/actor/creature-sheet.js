@@ -25,7 +25,7 @@ export class MothershipCreatureSheet extends ActorSheet {
      */
     _getHeaderButtons() {
         let buttons = super._getHeaderButtons();
-        const canConfigure = game.user.isGM || this.actor.owner;
+        const canConfigure = game.user.isGM || this.actor.isOwner;
         if (this.options.editable && canConfigure) {
             buttons = [{
                 label: 'Creature Settings',
@@ -70,7 +70,7 @@ export class MothershipCreatureSheet extends ActorSheet {
             this._prepareCreatureItems(data);
         }
 
-        return data;
+        return data.data;
     }
 
     /**
@@ -81,7 +81,7 @@ export class MothershipCreatureSheet extends ActorSheet {
      * @return {undefined}
      */
     _prepareCreatureItems(sheetData) {
-        const actorData = sheetData.actor;
+        const actorData = sheetData.data;
 
         // Initialize containers.
         const abilities = [];
@@ -89,7 +89,7 @@ export class MothershipCreatureSheet extends ActorSheet {
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
-        for (let i of sheetData.items) {
+        for (let i of sheetData.data.items) {
             let item = i.data;
             i.img = i.img || DEFAULT_TOKEN;
 
@@ -115,14 +115,14 @@ export class MothershipCreatureSheet extends ActorSheet {
         // Delete Inventory Item
         html.find('.item-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
-            this.actor.deleteOwnedItem(li.data("itemId"));
+            this.actor.deleteEmbeddedDocuments("Item",[li.data("itemId")]);
             li.slideUp(200, () => this.render(false));
         });
 
         // Update Inventory Item
         html.find('.item-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
-            const item = this.actor.getOwnedItem(li.data("itemId"));
+            const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
             item.sheet.render(true);
         });
 
@@ -143,8 +143,8 @@ export class MothershipCreatureSheet extends ActorSheet {
 
         // Update Inventory Item
         html.find('.weapon-edit').click(ev => {
-            const liWeapon = $(ev.currentTarget).parents(".item");
-            const weapon = this.actor.getOwnedItem(liWeapon.data("itemId"));
+            const li = $(ev.currentTarget).parents(".item");
+            const weapon = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
             weapon.sheet.render(true);
         });
 
@@ -159,7 +159,7 @@ export class MothershipCreatureSheet extends ActorSheet {
 
         html.on('mousedown', '.weapon-ammo', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
             let amount = item.data.ammo;
 
             if (event.button == 0) {
@@ -172,13 +172,13 @@ export class MothershipCreatureSheet extends ActorSheet {
                 }
             }
 
-            this.actor.updateEmbeddedEntity('OwnedItem', item);
+            this.actor.updateEmbeddedDocuments('Item', [item]);
         });
 
         //Reload Shots
         html.on('mousedown', '.weapon-reload', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
 
             if (event.button == 0) {
                 if (!item.data.useAmmo) {
@@ -192,7 +192,7 @@ export class MothershipCreatureSheet extends ActorSheet {
                 }
             }
 
-            this.actor.updateEmbeddedEntity('OwnedItem', item);
+            this.actor.updateEmbeddedDocuments('Item', [item]);
             // let actor = this.actor;
             // let speaker = ChatMessage.getSpeaker({ actor });
             // ChatMessage.create({
@@ -212,7 +212,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         });
 
         // Drag events for macros.
-        if (this.actor.owner) {
+        if (this.actor.isOwner) {
             let handler = ev => this._onDragStart(ev);
 
             html.find('li.dropitem').each((i, li) => {

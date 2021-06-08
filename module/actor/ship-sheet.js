@@ -24,7 +24,7 @@ export class MothershipShipSheet extends ActorSheet {
         //   for (let attr of Object.values(data.data.attributes)) {
         //     attr.isCheckbox = attr.dtype === "Boolean";
         //   }
-
+        console.log(data);
         // Prepare items.
         if (this.actor.data.type == 'ship') {
             this._prepareShipItems(data);
@@ -37,7 +37,11 @@ export class MothershipShipSheet extends ActorSheet {
         data.data.settings.useCalm = game.settings.get("mosh", "useCalm");
         data.data.settings.hideWeight = game.settings.get("mosh", "hideWeight");
 
-        return data;
+        let maxHull = data.data.data.supplies.hull.max;
+
+        data.data.data.supplies.hull.percentage = " [ "+Math.round(maxHull * 0.25)+" | "+Math.round(maxHull * 0.5)+" | "+Math.round(maxHull * 0.75)+" ]";
+
+        return data.data;
     }
 
     /**
@@ -48,7 +52,7 @@ export class MothershipShipSheet extends ActorSheet {
      * @return {undefined}
      */
     _prepareShipItems(sheetData) {
-        const actorData = sheetData.actor;
+        const actorData = sheetData.data;
 
         // Initialize containers.
         const abilities = [];
@@ -58,7 +62,7 @@ export class MothershipShipSheet extends ActorSheet {
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
-        for (let i of sheetData.items) {
+        for (let i of sheetData.data.items) {
             let item = i.data;
             i.img = i.img || DEFAULT_TOKEN;
 
@@ -93,15 +97,17 @@ export class MothershipShipSheet extends ActorSheet {
         // Delete Inventory Item
         html.find('.item-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
-            this.actor.deleteOwnedItem(li.data("itemId"));
+            this.actor.deleteEmbeddedDocuments("Item",[li.data("itemId")]);
             li.slideUp(200, () => this.render(false));
         });
 
         // Update Inventory Item
         html.find('.item-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
-            const item = this.actor.getOwnedItem(li.data("itemId"));
+            const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
             item.sheet.render(true);
+
+            let amount = item.data.quantity;
 
             if (item.type == "module") {
                 item.data.totalHull = amount * item.data.hull;
@@ -111,7 +117,7 @@ export class MothershipShipSheet extends ActorSheet {
         //Quantity adjuster
         html.on('mousedown', '.item-quantity', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
             let amount = item.data.quantity;
 
             if (event.button == 0) {
@@ -124,7 +130,7 @@ export class MothershipShipSheet extends ActorSheet {
                 item.data.totalHull = item.data.quantity * item.data.hull;
             }
 
-            this.actor.updateEmbeddedEntity('OwnedItem', item);
+            this.actor.updateEmbeddedDocuments('Item', [item]);
         });
 
         // Rollable Attributes
@@ -140,8 +146,8 @@ export class MothershipShipSheet extends ActorSheet {
         html.find('.weapon-create').click(this._onItemCreate.bind(this));
         // Update Inventory Item
         html.find('.weapon-edit').click(ev => {
-            const liWeapon = $(ev.currentTarget).parents(".item");
-            const weapon = this.actor.getOwnedItem(liWeapon.data("itemId"));
+            const li = $(ev.currentTarget).parents(".item");
+            const weapon = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
             weapon.sheet.render(true);
         });
         // Rollable Weapon
@@ -154,7 +160,7 @@ export class MothershipShipSheet extends ActorSheet {
 
         html.on('mousedown', '.weapon-ammo', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
             let amount = item.data.ammo;
 
             if (event.button == 0) {
@@ -167,13 +173,13 @@ export class MothershipShipSheet extends ActorSheet {
                 }
             }
 
-            this.actor.updateEmbeddedEntity('OwnedItem', item);
+            this.actor.updateEmbeddedDocuments('Item', [item]);
         });
 
         //Reload Shots
         html.on('mousedown', '.weapon-reload', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedEntity("OwnedItem", li.dataset.itemId))
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
 
             if (event.button == 0) {
                 if (!item.data.useAmmo) {
@@ -187,7 +193,7 @@ export class MothershipShipSheet extends ActorSheet {
                 }
             }
 
-            this.actor.updateEmbeddedEntity('OwnedItem', item);
+            this.actor.updateEmbeddedDocuments('Item', [item]);
         });
 
         // Rollable Item/Anything with a description that we want to click on.
@@ -200,7 +206,7 @@ export class MothershipShipSheet extends ActorSheet {
 
 
         // Drag events for macros.
-        if (this.actor.owner) {
+        if (this.actor.isOwner) {
             let handler = ev => this._onDragStart(ev);
 
             html.find('li.dropitem').each((i, li) => {

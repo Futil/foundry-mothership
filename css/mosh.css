@@ -296,6 +296,20 @@
   margin-bottom: 3px;
 }
 
+.mosh .faded-label {
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  color:rgb(129, 129, 129);
+  font-weight:normal;
+
+  text-align: left;
+  grid-column: 1/-1;
+  /* font-family: "Montserrat", "Arial Black", sans-serif; */
+  font-size: 1.1rem;
+  line-height: 1;
+  text-align: center;
+}
+
 .mosh .tabs {
   height: 40px;
   border-top: 2px solid rgb(56, 56, 56);

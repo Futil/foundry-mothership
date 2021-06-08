@@ -3,7 +3,7 @@
 
   <header class="creature-header-grid">
     <!-- Creature NAME -->
-    <input name="name" class="noborder creaturename" style="grid-area:'name';" type="text" value="{{actor.name}}" placeholder="Name" />
+    <input name="name" class="noborder creaturename" style="grid-area:'name';" type="text" value="{{name}}" placeholder="Name" />
     <div class="creature-header">
       {{#if data.stats.combat.enabled}}
       <!-- Combat -->
@@ -124,13 +124,13 @@
           <div class="healthmaxtext">Maximum</div>
         </div>
       </div>
-      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+      {{editor content=data.description target="data.description" button=true owner=owner editable=true}}
     </div>
     <div class="creature-abilities">
-      <img class="img noborder" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="auto" width="100%" />
+      <img class="img noborder" src="{{img}}" data-edit="img" title="{{name}}" height="auto" width="100%" />
       <div class="creature-ability-container creature-ability-title">Special Abilities</div>
       <div class="whiteline"></div>
-      {{#each actor.abilities as |ability id|}}
+      {{#each abilities as |ability id|}}
       <li style="margin-top: -12px" class="creature-ability-container item dropitem" data-item-id="{{ability._id}}">
         <div class="creature-ability-title list-roll description-roll">{{ability.name}}</div>
         <div class="creature-ability-text itemtext">{{{ability.data.description}}}</div>
@@ -158,7 +158,7 @@
 
     {{!-- Biography Tab --}}
     <div class="tab biography" data-group="primary" data-tab="description">
-      {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+      {{editor content=data.biography target="data.biography" button=true owner=owner editable=true}}
     </div>
     {{!-- Owned Weapons Tab --}}
     <div class="tab items" data-group="primary" data-tab="weapons">
@@ -176,7 +176,7 @@
               Add</a>
           </div>
         </li>
-        {{#each actor.weapons as |weapon id|}}
+        {{#each weapons as |weapon id|}}
         <li class="item flexrow  dropitem" data-item-id="{{weapon._id}}">
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>

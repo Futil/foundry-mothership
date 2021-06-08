@@ -3,17 +3,17 @@
     {{!-- Sheet Header --}}
     <div class="header">
         <!-- <img class="moshlogo" src="https://images.squarespace-cdn.com/content/5e97675644a24d569352fe17/1587070346832-RKM533ZN7XN778HQEBUW/Mothership-M-Logo-White.png?content-type=image%2Fpng" data-i18n-title="Mothership Logo" title="[Mothership Logo]"> -->
-        <img class="moshlogo" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150"
+        <img class="moshlogo" src="{{img}}" data-edit="img" title="{{name}}" height="150"
             width="150" />
 
         <div class="headergrid" style="grid-template-columns: 1fr 1fr 1fr; padding: 1em;">
-            <!-- <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150" width="150"/> -->
+            <!-- <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}" height="150" width="150"/> -->
 
             <!-- PLAYER NAME -->
             <div class="headernamegrid">
                 <div class="headerinputtext">NAME</div>
                 <div class="headerinputfield charname"><input name="name" class="noborder" type="text"
-                        value="{{actor.name}}" placeholder="Name" /></div>
+                        value="{{name}}" placeholder="Name" /></div>
             </div>
             <!-- CLASS -->
             <div class="">
@@ -115,6 +115,7 @@
             <!-- Hull -->
             <div class="resource healthspread minmaxtopstat flex-center">
                 <label for="data.supplies.hull.value" class="resource-label minmaxtext">Hull</label>
+                <div class="faded-label">{{data.supplies.hull.percentage}}</div>
 
                 <div class="minmaxwrapper">
                     <input class="maxhealth-input darkGreyText" type="text" name="data.supplies.hull.value"
@@ -127,6 +128,8 @@
                 <div class="healthmaxtext">Current</div>
                 <div class="healthmaxtext">Maximum</div>
             </div>
+
+
             <!-- Fuel -->
             <div class="resource healthspread minmaxtopstat flex-center">
                 <label for="data.supplies.fuel.value" class="resource-label minmaxtext">Fuel</label>
@@ -161,7 +164,7 @@
         <div class="creature-abilities" style="height: 300px;">
             <div class="creature-ability-container creature-ability-title">Notes</div>
             <div class="whiteline"></div>
-            {{#each actor.abilities as |ability id|}}
+            {{#each abilities as |ability id|}}
             <div class="creature-ability-container item" data-item-id="{{ability._id}}">
                 <div class="creature-ability-title">{{ability.name}}</div>
                 <div class="creature-ability-text itemtext">{{{ability.data.description}}}</div>
@@ -216,7 +219,7 @@
                         </a>
                     </div>
                 </li>
-                {{#each actor.weapons as |weapon id|}}
+                {{#each weapons as |weapon id|}}
                 <li class="item flexrow dropitem" data-item-id="{{weapon._id}}">
                     <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
                     <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
@@ -257,7 +260,7 @@
                         </a>
                     </div>
                 </li>
-                {{#each actor.modules as |module id|}}
+                {{#each modules as |module id|}}
                 <li class="item flexrow dropitem" data-item-id="{{module._id}}">
                     <div class="item-image"><img src="{{module.img}}" title="{{module.name}}" width="24" height="24" />
                     </div>
@@ -288,7 +291,7 @@
                                 class="fas fa-plus"></i> Add</a>
                     </div>
                 </li>
-                {{#each actor.cargo as |item id|}}
+                {{#each cargo as |item id|}}
                 <li class="item flexrow dropitem" data-item-id="{{item._id}}">
                     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
                     </div>

@@ -28,7 +28,7 @@ export class MothershipActor extends Actor {
     const data = actorData.data;
 
     let armorBonus = 0;
-    const armors = this.getEmbeddedCollection("OwnedItem").filter(e => "armor" === e.type);
+    const armors = this.getEmbeddedCollection("Item").filter(e => "armor" === e.type);
 
     for (let armor of armors) {
       if (armor.data.equipped) {
@@ -141,7 +141,7 @@ export class MothershipActor extends Actor {
   }
 
   rollWeapon(itemId, options = { event: null }) {
-    let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+    let item = duplicate(this.getEmbeddedDocument("Item",itemId));
 
     console.log(item);
 
@@ -149,7 +149,7 @@ export class MothershipActor extends Actor {
       if (item.data.shots == 0) {
         if (item.data.ammo > 0) {
           item.data.ammo -= 1;
-          this.updateEmbeddedEntity('OwnedItem', item);
+          this.updateEmbeddedDocuments('Item', [item]);
         } else {
 
           //Select the stat of the roll.
@@ -174,7 +174,7 @@ export class MothershipActor extends Actor {
           let subAmount = Math.max(item.data.shotsPerFire, 1);
           item.data.curShots = Math.max(item.data.curShots - subAmount, 0);
           console.log("Unloading Shots");
-          this.updateEmbeddedEntity('OwnedItem', item);
+          this.updateEmbeddedDocuments('Item', [item]);
         }
         else {
           if (item.data.ammo > 0 || !item.data.useAmmo) {
@@ -255,8 +255,8 @@ export class MothershipActor extends Actor {
   }
 
   reloadWeapon(itemId, options = { event: null }) {
-    let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
-
+    let item = duplicate(this.getEmbeddedDocument("Item",itemId));
+    
     if (event.button == 0) {
       if (!item.data.useAmmo) {
         item.data.curShots = item.data.shots;
@@ -269,17 +269,17 @@ export class MothershipActor extends Actor {
       }
     }
 
-    this.updateEmbeddedEntity('OwnedItem', item);
+    this.updateEmbeddedDocuments('Item', [item]);
   }
 
 
   printDescription(itemId, options = { event: null }) {
-    let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+    let item = duplicate(this.getEmbeddedDocument("Item",itemId));
     this.chatDesc(item);
   }
 
   rollSkill(itemId, options = { event: null }) {
-    let item = duplicate(this.getEmbeddedEntity("OwnedItem", itemId));
+    let item = duplicate(this.getEmbeddedDocument("Item",itemId));
 
     // let attLabel = skill.label?.charAt(0).toUpperCase() + skill.label?.toLowerCase().slice(1);
     // if (!skill.label && isNaN(attLabel))
@@ -422,9 +422,9 @@ export class MothershipActor extends Actor {
     };
 
     let chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: this._id,
+        actor: this.id,
         token: this.token,
         alias: this.name
       }
@@ -552,9 +552,9 @@ export class MothershipActor extends Actor {
     };
 
     let chatData = {
-      user: game.user._id,
+      user: game.user.id,
       speaker: {
-        actor: this._id,
+        actor: this.id,
         token: this.token,
         alias: this.name
       }

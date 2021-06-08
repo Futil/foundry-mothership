@@ -30,7 +30,7 @@ export class MothershipItemSheet extends ItemSheet {
   /** @override */
   getData() {
     const data = super.getData();
-    return data;
+    return data.data;
   }
 
   /* -------------------------------------------- */

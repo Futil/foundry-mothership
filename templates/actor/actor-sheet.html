@@ -13,7 +13,7 @@
 
       <div class="header">
         <!-- <img class="moshlogo" src="https://images.squarespace-cdn.com/content/5e97675644a24d569352fe17/1587070346832-RKM533ZN7XN778HQEBUW/Mothership-M-Logo-White.png?content-type=image%2Fpng" data-i18n-title="Mothership Logo" title="[Mothership Logo]"> -->
-        <img class="moshlogo" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150"
+        <img class="moshlogo" src="{{img}}" data-edit="img" title="{{name}}" height="150"
           width="150" />
 
         <div class="headergrid">
@@ -23,7 +23,7 @@
           <div class="headernamegrid">
             <div class="headerinputtext">NAME</div>
             <div class="headerinputfield charname"><input name="name" class="noborder" type="text"
-                value="{{actor.name}}" placeholder="Name" /></div>
+                value="{{name}}" placeholder="Name" /></div>
           </div>
           <div class="">
             <div class="headerinputtext">Credits</div>
@@ -306,7 +306,7 @@
               Armor</a>
           </div>
         </li>
-        {{#each actor.armors as |armor id|}}
+        {{#each armors as |armor id|}}
         <li class="item flexrow dropitem" data-item-id="{{armor._id}}">
           <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
           <h4 class="skill-name list-roll description-roll">{{armor.name}}</h4>
@@ -337,8 +337,8 @@
               Item</a>
           </div>
         </li>
-        {{#if actor.data.settings.hideWeight}}
-          {{#each actor.gear as |item id|}}
+        {{#if data.settings.hideWeight}}
+          {{#each gear as |item id|}}
           <li class="item flexrow dropitem" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
             <h4 class="skill-name list-roll description-roll" style="flex-grow: 1.5;">{{item.name}}</h4>
@@ -351,7 +351,7 @@
           </li>
           {{/each}}
         {{else}}
-          {{#each actor.gear as |item id|}}
+          {{#each gear as |item id|}}
           <li class="item flexrow dropitem" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
             <h4 class="skill-name list-roll description-roll" style="flex-grow: 1.5;">{{item.name}}</h4>
@@ -388,7 +388,7 @@
               Skill</a>
           </div>
         </li>
-        {{#each actor.skills as |skill id|}}
+        {{#each skills as |skill id|}}
         <li class="item flexrow dropitem" data-item-id="{{skill._id}}">
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
@@ -418,7 +418,7 @@
               Add</a>
           </div>
         </li>
-        {{#each actor.weapons as |weapon id|}}
+        {{#each weapons as |weapon id|}}
         <li class="item flexrow dropitem" data-item-id="{{weapon._id}}">
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>

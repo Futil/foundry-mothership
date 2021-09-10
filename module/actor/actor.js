@@ -29,10 +29,11 @@ export class MothershipActor extends Actor {
 
     let armorBonus = 0;
     const armors = this.getEmbeddedCollection("Item").filter(e => "armor" === e.type);
-
+    
     for (let armor of armors) {
-      if (armor.data.equipped) {
-        armorBonus += armor.data.bonus;
+      console.log(armor);
+      if (armor.data.data.equipped) {
+        armorBonus += armor.data.data.bonus;
       }
     }
     data.stats.armor.mod = armorBonus;

@@ -132,7 +132,11 @@ export class MothershipCreatureSheet extends ActorSheet {
             const div = $(ev.currentTarget);
             const statName = div.data("key");
             const attribute = this.actor.data.data.stats[statName];
-            this.actor.rollStat(attribute);
+
+            var shifted = false;
+            if (ev.shiftKey) shifted = true;
+
+            this.actor.rollStat(attribute, shifted);
         });
 
         //Weapons

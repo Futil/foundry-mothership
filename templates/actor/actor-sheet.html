@@ -263,6 +263,8 @@
             data-target="{{data.stats.armor.value}}" data-label="Armor">ARMOR</span>
           <input class="square-input" type="text" name="data.stats.armor.value" value="{{data.stats.armor.value}}"
             data-dtype="Number" />
+          <div class="armor-mod" type="text" name="data.stats.armor.total" value=""
+          data-dtype="Number" >{{data.stats.armor.total}}</div>
         </div>
       </div>
 
@@ -284,11 +286,11 @@
 
     {{!-- Biography Tab --}}
     <div class="tab biography" data-group="primary" data-tab="description">
-      {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+      {{editor content=data.biography target="data.biography" button=true owner=owner editable=true}}
     </div>
     {{!-- Notes Tab --}}
     <div class="tab biography" data-group="primary" data-tab="notes">
-      {{editor content=data.notes target="data.notes" button=true owner=owner editable=editable}}
+      {{editor content=data.notes target="data.notes" button=true owner=owner editable=true}}
     </div>
     {{!-- Owned Items Tab --}}
     <div class="tab items" data-group="primary" data-tab="items">

@@ -636,6 +636,24 @@
   font-weight: bold;
   text-align: center;
 }
+
+.mosh .armor-mod {
+  margin: -8px;
+  height: 24px;
+  width: 35px;
+  /* padding: 0; */
+  border: 3px solid #111;
+  background-color: #111;
+  border-radius: 0.6em;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  color: white;
+  top: 8px;
+  right: -19px;
+}
+
 .mosh .savetext {
   display: block;
   margin-bottom: .2em;
@@ -928,6 +946,7 @@
   text-align: center;
   grid-column: 2/span 2;
 }
+
 
 .mosh .roll-target {
   box-sizing: border-box;

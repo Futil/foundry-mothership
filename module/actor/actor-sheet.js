@@ -172,12 +172,15 @@ export class MothershipActorSheet extends ActorSheet {
       weapon.sheet.render(true);
     });
 
-    // Rollable Attributes
+
     html.find('.stat-roll').click(ev => {
       const div = $(ev.currentTarget);
       const statName = div.data("key");
       const attribute = this.actor.data.data.stats[statName];
-      this.actor.rollStat(attribute);
+      var shifted = false;
+      if (ev.shiftKey) shifted = true;
+
+      this.actor.rollStat(attribute, shifted);
     });
 
     // Rollable Skill
@@ -284,6 +287,7 @@ export class MothershipActorSheet extends ActorSheet {
    * @private
    */
   _onItemCreate(event) {
+
     event.preventDefault();
     const header = event.currentTarget;
     // Get the type of item to create.
@@ -298,8 +302,10 @@ export class MothershipActorSheet extends ActorSheet {
       type: type,
       data: data
     };
+
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data["type"];
+
 
     // Finally, create the item!
     return this.actor.createOwnedItem(itemData);
@@ -328,8 +334,44 @@ export class MothershipActorSheet extends ActorSheet {
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data["type"];
 
+    let d = new Dialog({
+      title: "New Skill",
+      content: "<h2> Name </h2>\
+                <input type='text' id='name' name='name' value='New Skill'>\
+                <h2> Rank </h2> <select style='margin-bottom:10px;'name='rank' id='rank'>\
+                <option value='Trained'>Trained</option>\
+                <option value='Expert'>Expert</option>\
+                <option value='Master'>Master</option></select> <br/>",
+      buttons: {
+        roll: {
+          icon: '<i class="fas fa-check"></i>',
+          label: "Create",
+          callback: (html) => {
+            var rank = html.find('[id=\"rank\"]')[0].value;
+            if(rank == "Trained")
+              itemData.data.bonus = 10;
+            if(rank == "Expert")
+              itemData.data.bonus = 15;
+            if(rank == "Master")
+              itemData.data.bonus = 20;
+
+            itemData.data.rank = rank;
+            itemData.name = html.find('[id=\"name\"]')[0].value
+            this.actor.createOwnedItem(itemData);}
+        },
+        cancel: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Cancel",
+          callback: () => { }
+        }
+      },
+      default: "roll",
+      close: () => { }
+    });
+    d.render(true);
+
     // Finally, create the item!
-    return this.actor.createOwnedItem(itemData);
+    return ;
   }
 
 

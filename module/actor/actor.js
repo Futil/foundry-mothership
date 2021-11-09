@@ -31,12 +31,13 @@ export class MothershipActor extends Actor {
     const armors = this.getEmbeddedCollection("Item").filter(e => "armor" === e.type);
     
     for (let armor of armors) {
-      console.log(armor);
       if (armor.data.data.equipped) {
         armorBonus += armor.data.data.bonus;
       }
     }
     data.stats.armor.mod = armorBonus;
+    data.stats.armor.total = armorBonus+data.stats.armor.value;
+
   }
 
   /**
@@ -80,7 +81,7 @@ export class MothershipActor extends Actor {
     d.render(true);
   }
 
-  rollStat(attribute) {
+  rollStat(attribute, shifted = false) {
     console.log(attribute);
 
     let attLabel = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
@@ -88,26 +89,30 @@ export class MothershipActor extends Actor {
       attLabel = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
 
     //this.rollAttribute(attribute, "none");
-
-    let d = new Dialog({
-      title: "Select Roll Type",
-      content: "<h2> Advantages/Disadvantage </h2> <select style='margin-bottom:10px;'name='advantage' id='advantage'> <option value='none'>None</option> <option value='advantage'>Advantage/Disadvantage</option></select> <br/>",
-      buttons: {
-        roll: {
-          icon: '<i class="fas fa-check"></i>',
-          label: "Roll",
-          callback: (html) => this.rollAttribute(attribute, html.find('[id=\"advantage\"]')[0].value)
+    if(shifted){
+    this.rollAttribute(attribute, 'None');
+    }
+    else {
+      let d = new Dialog({
+        title: "Select Roll Type",
+        content: "<h2> Advantages/Disadvantage </h2> <select style='margin-bottom:10px;'name='advantage' id='advantage'> <option value='none'>None</option> <option value='advantage'>Advantage/Disadvantage</option></select> <br/>",
+        buttons: {
+          roll: {
+            icon: '<i class="fas fa-check"></i>',
+            label: "Roll",
+            callback: (html) => this.rollAttribute(attribute, html.find('[id=\"advantage\"]')[0].value)
+          },
+          cancel: {
+            icon: '<i class="fas fa-times"></i>',
+            label: "Cancel",
+            callback: () => { }
+          }
         },
-        cancel: {
-          icon: '<i class="fas fa-times"></i>',
-          label: "Cancel",
-          callback: () => { }
-        }
-      },
-      default: "roll",
-      close: () => { }
-    });
-    d.render(true);
+        default: "roll",
+        close: () => { }
+      });
+      d.render(true);
+    }
   }
 
   rollStress(attribute) {

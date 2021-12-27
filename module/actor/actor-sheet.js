@@ -179,7 +179,6 @@ export class MothershipActorSheet extends ActorSheet {
       const attribute = this.actor.data.data.stats[statName];
       var shifted = false;
       if (ev.shiftKey) shifted = true;
-
       this.actor.rollStat(attribute, shifted);
     });
 

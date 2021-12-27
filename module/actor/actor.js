@@ -147,6 +147,7 @@ export class MothershipActor extends Actor {
   }
 
   rollWeapon(itemId, options = { event: null }) {
+
     let item = duplicate(this.getEmbeddedDocument("Item",itemId));
 
     console.log(item);
@@ -333,22 +334,17 @@ export class MothershipActor extends Actor {
     // Roll
     let diceformular = (isStress ? "2d10" : "1d100");
   
-
-    console.log(attribute);
-
     // if (advantage != undefined && advantage != NaN && advantage != 0) {
     //     diceformular = diceformular + "+" + advantage + "d6kh";
     // }
     let r = new Roll(diceformular, {});
-    r.roll();
-
-    console.log(r);
+    r.evaluate({async: false});
 
     let rSplit = ("" + r._total).split("");
 
     //Advantage roll
     let a = new Roll(diceformular, {});
-    a.roll();
+    a.evaluate({async: false});
 
     if (r._total == 100) {
       r.results[0] = 0;
@@ -363,7 +359,7 @@ export class MothershipActor extends Actor {
     let damageRoll = 0;
     if (item.type == "weapon") {
       damageRoll = new Roll(item.data.damage);
-      damageRoll.roll();
+      damageRoll.evaluate({async: false});
       console.log(damageRoll);
     }
 
@@ -394,8 +390,6 @@ export class MothershipActor extends Actor {
       else
         resultText = (r._total < targetValue ? "Success" : "Failure");
     }
-
-    console.log(attribute.value + attribute.mod);
 
     var templateData = {
       actor: this,
@@ -538,7 +532,7 @@ export class MothershipActor extends Actor {
     
     if(item.data.roll){
       let r = new Roll(item.data.roll, {});
-      r.roll();
+      r.evaluate({async: false});
 
       rollInsert = '\
         <div class="rollh2" style="text-transform: lowercase;">'+item.data.roll+'</div>\

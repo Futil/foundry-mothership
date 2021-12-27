@@ -31,8 +31,8 @@ Hooks.once('init', async function () {
   };
 
   // Define custom Entity classes
-  CONFIG.Actor.entityClass = MothershipActor;
-  CONFIG.Item.entityClass = MothershipItem;
+  CONFIG.Actor.documentClass  = MothershipActor;
+  CONFIG.Item.documentClass  = MothershipItem;
 
 
   // Register sheet application classes

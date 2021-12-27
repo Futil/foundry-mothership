@@ -76,10 +76,11 @@ Hooks.once("ready", async function () {
   Hooks.on("hotbarDrop", (bar, data, slot) => createMothershipMacro(data, slot));
 });
 
+//Hooks.on("preCreateActor", (createData) => {
 /**
  * Set default values for new actors' tokens
  */
-Hooks.on("preCreateActor", (createData) => {
+ Hooks.on("preCreateActor", (document, createData, options, userId) => {
   let disposition = CONST.TOKEN_DISPOSITIONS.NEUTRAL;
 
   if (createData.type == "creature") {

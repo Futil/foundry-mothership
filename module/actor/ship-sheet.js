@@ -243,7 +243,7 @@ export class MothershipShipSheet extends ActorSheet {
         delete itemData.data["type"];
 
         // Finally, create the item!
-        return this.actor.createOwnedItem(itemData);
+        return this.actor.createEmbeddedDocuments("Item",[itemData]);
     }
 
 

@@ -307,7 +307,7 @@ export class MothershipActorSheet extends ActorSheet {
 
 
     // Finally, create the item!
-    return this.actor.createOwnedItem(itemData);
+    return this.actor.createEmbeddedDocuments("Item",[itemData]);
   }
 
   /**
@@ -356,7 +356,8 @@ export class MothershipActorSheet extends ActorSheet {
 
             itemData.data.rank = rank;
             itemData.name = html.find('[id=\"name\"]')[0].value
-            this.actor.createOwnedItem(itemData);}
+            this.actor.createEmbeddedDocuments("Item",[itemData]);
+          }
         },
         cancel: {
           icon: '<i class="fas fa-times"></i>',

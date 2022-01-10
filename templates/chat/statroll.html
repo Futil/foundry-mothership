@@ -104,4 +104,11 @@
             <div class="body">{{{item.data.description}}}</div>
         </div>
         {{/if}}
+        {{#if data.panic}}
+        <div class="description">
+            <div class="header padding" style="color: red;">Panic</div>
+            <div class="body">{{{data.panicText}}}</div>
+            <br/>
+        </div>
+        {{/if}}
     </div>

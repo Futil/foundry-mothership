@@ -43,10 +43,10 @@
         </div>
     </div>
 
-    <div class="ship-stats-grid">
+    <div class="ship-stats-grid" style="margin-top: 10px;">
 
         <!-- Stats -->
-        <div class="grid grid-1col widegap">
+        <div class="grid grid-1col widegap" style="width: 98%;">
             <!-- Armor -->
             <div class="mainstatwrapper">
                 <div class="resource mainstat">
@@ -59,7 +59,7 @@
                 </div>
                 <input class="mainstatmod-input" type="text" name="data.stats.armor.mod"
                     value="{{data.stats.armor.mod}}" data-dtype="Number" />
-                <div class="mainstatmod-title">mod</div>
+                <div class="mainstatmod-title">+</div>
             </div>
 
             <!-- Speed -->
@@ -74,7 +74,7 @@
                 </div>
                 <input class="mainstatmod-input" type="text" name="data.stats.speed.mod"
                     value="{{data.stats.speed.mod}}" data-dtype="Number" />
-                <div class="mainstatmod-title">mod</div>
+                <div class="mainstatmod-title">+</div>
             </div>
 
             <!-- Intellect -->
@@ -89,7 +89,7 @@
                 </div>
                 <input class="mainstatmod-input" type="text" name="data.stats.intellect.mod"
                     value="{{data.stats.intellect.mod}}" data-dtype="Number" />
-                <div class="mainstatmod-title">mod</div>
+                <div class="mainstatmod-title">+</div>
             </div>
 
             <!-- Combat -->
@@ -104,14 +104,13 @@
                 </div>
                 <input class="mainstatmod-input" type="text" name="data.stats.combat.mod"
                     value="{{data.stats.combat.mod}}" data-dtype="Number" />
-                <div class="mainstatmod-title">mod</div>
+                <div class="mainstatmod-title">+</div>
             </div>
         </div>
 
-        <div style="display: grid;">
-            <br />
+        <div class="grid grid-1col">
             <!-- Hull -->
-            <div class="resource healthspread minmaxtopstat flex-center">
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: 12px 19px;">
                 <label for="data.supplies.hull.value" class="resource-label minmaxtext">Hull</label>
                 <div class="faded-label">{{data.supplies.hull.percentage}}</div>
 
@@ -159,7 +158,7 @@
             </div>
         </div>
 
-        <div class="creature-abilities" style="height: 300px;">
+        <div class="creature-abilities" style="height: 220px;">
             <div class="creature-ability-container creature-ability-title">Notes</div>
             <div class="whiteline"></div>
             {{#each abilities as |ability id|}}

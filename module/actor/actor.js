@@ -325,15 +325,18 @@ export class MothershipActor extends Actor {
     t.render(true);
   }
 
-  rollAttribute(attribute, advantage, item = "", rollOver = false) {
+  async rollAttribute(attribute, advantage, item = "", rollOver = false) {
     let attributeName = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
     if (!attribute.label && isNaN(attributeName))
       attributeName = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
 
     let isStress = (attribute.label == "Stress" ? true : false);
     // Roll
-    let diceformular = (isStress ? "2d10" : "1d100");
-  
+    let firstEdition = game.settings.get("mosh", "firstEdition");
+
+    let diceformular = (isStress ? (firstEdition ? "1d20" : "2d10") : "1d100");
+
+
     // if (advantage != undefined && advantage != NaN && advantage != 0) {
     //     diceformular = diceformular + "+" + advantage + "d6kh";
     // }
@@ -376,6 +379,24 @@ export class MothershipActor extends Actor {
     if (r._total == 0 && !isStress || rSplit[0] == rSplit[1] && !isStress)
       critical = true;
 
+
+    let panic = false;
+    let panicText = '';
+    if(isStress && r._total < attribute.value && firstEdition){
+      await(async () => {
+        // const contents = await game.packs.get("Tables").getContent();
+        // const table= contents.find(i => i.name === `Panic`);
+        let tableLocation = game.settings.get("mosh", "panicTable");
+        const documentIndex = game.packs.get(tableLocation).index.getName("Panic");
+        const doc = await game.packs.get(tableLocation).getDocument(documentIndex._id);
+        panic = true;
+        panicText = doc.getResultsForRoll(r._total)[0].data.text;
+
+        //then just put your normal table rolling command using `table`
+        })()
+
+    }
+
     //Here's where we handle the result text.
     let resultText = "";
 
@@ -408,7 +429,9 @@ export class MothershipActor extends Actor {
         },
         isCreature: {
           value: this.data.type == "creature" ? true : false
-        }
+        },
+        panic: panic,
+        panicText : panicText
       },
       target: attribute.value,
       mod: mod,

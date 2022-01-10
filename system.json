@@ -2,7 +2,7 @@
   "name": "mosh",
   "title": "MoSh - Unofficial Mothership",
   "description": "The unofficial Mothership system for FoundryVTT.",
-  "version": "0.1.7b",
+  "version": "0.2.0",
   "minimumCoreVersion": "0.8.6",
   "compatibleCoreVersion": "V9",
   "templateVersion": 2,
@@ -10,7 +10,15 @@
   "esmodules": ["module/mosh.js"],
   "styles": ["css/mosh.css"],
   "scripts": [],
-  "packs": [],
+  "packs": [
+    {
+      "name": "tables",
+      "label": "Tables",
+      "system": "mosh",
+      "path": "packs/tables.db",
+      "entity": "RollTable"
+    }
+  ],
   "languages": [
     {
       "lang": "en",

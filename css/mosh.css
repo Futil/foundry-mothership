@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap');
 
 @include-when-export url(https://fonts.loli.net/css?family=PT+Serif:400,400italic,700,700italic&subset=latin,cyrillic-ext,cyrillic,latin-ext);
 
@@ -83,7 +84,7 @@
   grid-column: span 2 / span 2;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2px;
-  margin: 10px 0;
+  /* margin: 10px 0; */
   padding: 0;
 }
 .grid-1col {
@@ -92,8 +93,7 @@
 }
 
 .widegap {
-  gap: 30px;
-  padding: 6px;
+  gap: 16px;
 }
 
 .grid-3col {
@@ -190,6 +190,14 @@
   justify-content: space-between;
 }
 
+.flex {
+  display: flex;
+  justify-content:space-evenly;
+  align-items: center;
+  flex: auto;
+}
+
+
 /* Styles limited to mosh sheets */
 .mosh .item-form {
   font-family: "Roboto", sans-serif;
@@ -234,12 +242,11 @@
   display: grid;
   grid-template-areas:
   'header header header'
-  'abilities centercol saves '
-  'abilities b saves';
+  'abilities centercol saves ';
   grid-gap: 10px;
   /* background-color: rgb(226, 226, 226); */
   padding: 2px;
-  grid-template-columns: 256px auto 82px;
+  grid-template-columns: 238px auto 82px;
 }
 
 .mosh .abilities {grid-area: abilities;}
@@ -247,7 +254,7 @@
 
 .mosh .stress {grid-area: stress;}
 .mosh .health {grid-area: centercol;}
-.mosh .healthspread {width:100px;}
+.mosh .healthspread {width:96%;}
 
 .mosh .char-header h1.charname {
   height: auto;
@@ -282,6 +289,13 @@
   height: 100%;
 }
 
+.sheet nav.sheet-tabs {
+  /* border-top: 2px solid black;
+  border-bottom: 2px solid black; */
+  background: black;
+  color: white;
+}
+
 .mosh .tox .tox-editor-container {
   background: #fff;
 }
@@ -290,10 +304,38 @@
   padding: 0 8px;
 }
 
+.mosh .origin {
+  width: 0;
+  height: 0;
+}
+
+.mosh .seperatorLine{
+  border-bottom: 2px solid #111;
+  height: 0;
+  width: 100%;
+}
+
+.mosh .skill_training_frame{
+  height: 47px;
+  background: rgb(230,230,230);
+  border-radius: 9px;
+  font-family: "Roboto", sans-serif;
+  font-size: 11pt;
+  font-weight: 400;
+  padding: 8px;
+}
+.mosh .skill_training_text{
+  font-family: "Roboto", sans-serif;
+  font-size: 11pt;
+  font-weight: 500;
+  color: grey;
+}
+
 .mosh .resource-label {
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 3px;
+  text-align: center;
 }
 
 .mosh .faded-label {
@@ -400,6 +442,7 @@
   padding-left: 8px;
   border-radius: 21px;
   text-align: center;
+  white-space: nowrap;
 }
 
 .mosh .items-list .item-controls {
@@ -413,7 +456,7 @@
   font-size: medium;
   font-weight: bold;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  color: #111;
+  color: white;
   text-align: center;
 }
 
@@ -441,37 +484,40 @@
 }
 
 .mosh .mainstatmod-input {
-  margin-top: 13px;
   height: 26px;
-  width: 44px;
-  padding: 0;
-  border: 2px solid rgb(129, 129, 129);
-  border-radius: 0.1em 1em 0.11em;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  width: 28px;
+  /* padding: 0; */
+  border: 0;
+  border-radius: 7.7em;
+  color: rgb(151, 100, 100);
   font-size: 0.85rem;
   font-weight: bold;
   text-align: center;
   margin-left: -22px;
   z-index: 5;
+  background: white;
+  top: 7px;
+  left: 13px;
+  position: relative;
+  background: lightgrey;
 }
 
 .mosh .mainstatmod-title {
   position: relative;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 0.7rem;
-  color: rgb(77, 77, 77);
+  color: lightgrey;
+  font-size: 1rem;
   line-height: 1;
-  text-align: center;
-  font-weight: bold;
   text-transform: uppercase;
-  margin-left: -35px;
+  margin-left: -38px;
   pointer-events: none;
+  top: 13px;
+  left: 12px;
 }
 
 .mosh .maxhealth-input {
   margin: auto;
   border: 0px solid #111;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
   background: transparent;
@@ -485,50 +531,63 @@
   color: rgb(56, 56, 56);
 }
 
-.mosh .sizelarge{
-  font-size: 1.1rem;
+.mosh .whiteText{
+  color: white;
 }
 
-.mosh .minmaxwrapper{
-    grid-column: 1/-1;
-    display: grid;
-    grid-template-columns: 1fr 1px 1fr;
-    align-items: start;
-    width: 145px;
-    height: 50px;
-    padding: 0;
-    border: 4px solid #111;
-    border-radius: 1.5em;
-    background: 0;
+.mosh .sizelarge{
+  font-size: 1.1rem;
 }
 
 .mosh .valuewrapper{
   grid-column: 1/-1;
   display: grid;
-  width: 145px;
-  height: 50px;
+  align-items: start;
+  height: 40px;
   padding: 0;
-  border: 4px solid #111;
+  border: 2px solid #111;
   border-radius: 1.5em;
   background: 0;
-  margin-top: -15px;
 }
 
+.mosh .armorWrapper{
+  grid-column: 1/-1;
+  display: grid;
+  align-items: start;
+  height: 40px;
+  padding: 0;
+  border: 2px solid #111;
+  border-radius: 0.3em;
+  background: black;
+  width: 100%;
+}
+
+
 .mosh .minmaxtopstat{
-  width: 8.5rem;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.3fr 1.1fr 0.4fr;
   justify-self: center;
   display: grid;
   justify-items: center;
-  gap: 3px;
-  margin-bottom: 7px;
+}
+
+.mosh .minmaxwrapper{
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: start;
+  height: 40px;
+  padding: 0;
+  border: 2px solid #111;
+  border-radius: 1.5em;
+  background: 0;
 }
 
 .mosh .minmaxtext{
   text-align: left;
   grid-column: 1/-1;
   /* font-family: "Montserrat", "Arial Black", sans-serif; */
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: bold;
   line-height: 1;
   text-align: center;
@@ -542,11 +601,9 @@
 }
 
 .mosh .healthmaxtext{
-  text-align: left;
   grid-column: span 1;
-  font-size: 0.8rem;
-  /* font-family: "Montserrat", "Arial Black", sans-serif; */
-  font-weight: bold;
+  font-size: 0.7rem;
+  font-weight: 500;
   line-height: 1;
   text-align: center;
 }
@@ -560,6 +617,7 @@
 
 .mosh .mainstatwrapper {
   display: flex;
+  width: 95%;
 }
 
 .mosh .mainstat {
@@ -568,7 +626,7 @@
   grid-template-columns: 1fr 5em;
   align-items: center;
   gap: 0;
-  width: 100%;
+  width: 98%;
 }
 
 .mosh .creature-mainstat {
@@ -583,15 +641,18 @@
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
   background: #111;
-  padding: 2px 0.5rem;
+  padding: 5px 0.5rem;
+  left: 5px;
+  position: relative;
+  height: 35px;
 }
 
 .mosh .mainstattext {
   width: 100%;
   padding: 0.5rem;
   color: white;
-  font-family: "Montserrat", "Arial Black", sans-serif;
-  font-size: 1.1rem;
+  /* font-family: "Montserrat", "Arial Black", sans-serif; */
+  font-size: 1.3rem;
   font-weight: bold;
   text-align: left;
   text-transform: uppercase;
@@ -602,31 +663,46 @@
   height: 50px;
   width: 50px;
   padding: 0;
-  border: 4px solid #111;
+  border: 2px solid #111;
   border-radius: 3em;
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
+  background: white;
+  z-index: 5;
 }
 
 .mosh .textarea-input {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Roboto", sans-serif;
   margin: -0.15em;
-  padding: 9px;
-  padding-top: 2px;
+  /* padding: 9px; */
   border: 2px solid #111;
   border-radius: 0.8em;
-  font-size: 0.8rem;
-  /* font-weight: bold; */
-  background: white;
+  font-size: 11pt;
+  color: white;
+  font-weight: 500;
+  background: black;
   resize: none;
+  min-height: 0;
+  overflow: hidden;
 }
 
+.mosh .textarea-input-grey {
+  font-family: "Roboto", sans-serif;
+  border: 0;
+  border-radius: 0.8em;
+  font-size: 11pt;
+  font-weight: 500;
+  resize: none;
+  min-height: 0;
+  overflow: hidden;
+  text-align: center;
+}
 
 
 .mosh .square-input {
   margin: -0.15em;
-  height: 45px;
+  height: 42px;
   width: 45px;
   padding: 0;
   border: 4px solid #111;
@@ -638,9 +714,9 @@
 }
 
 .mosh .armor-mod {
-  margin: -8px;
+  margin: 3px;
   height: 24px;
-  width: 35px;
+  width: 28px;
   /* padding: 0; */
   border: 3px solid #111;
   background-color: #111;
@@ -650,7 +726,7 @@
   text-align: center;
   position: relative;
   color: white;
-  top: 8px;
+  top: -2px;
   right: -19px;
 }
 
@@ -667,13 +743,11 @@
 }
 
 .mosh .savebackground {
-  border-radius: 1em;
+  border-radius: 0.3em;
   background: #111;
-  padding: 0 0.5rem;
   padding-bottom: 0.3rem;
-  padding-top: 0.5rem;
-  width: 80px;
-  margin-top: -1px;
+  padding-top: 0.4rem;
+  height: 225px;
 }
 
 .mosh .header {
@@ -733,9 +807,9 @@
 
 .mosh .ship-stats-grid{
   display: grid;
-  grid-template-columns: 17em 1fr 15em;
+  grid-template-columns: 17em 1fr 18em;
 }
-
+ 
 
 .mosh .whiteline {
   border-top: 2px solid white;
@@ -850,6 +924,25 @@
   /* grid-column: span 3; */
   display: inline-flex;
 }
+
+.mosh .circle{
+  color: rgb(22, 22, 22);
+  background: white;
+  border-radius: 10px;
+  /* border: 2px solid black; */
+  width: 15px;
+  height: 15px;
+}
+
+.mosh .circle-f{ /*Filled circle*/
+  color: rgb(22, 22, 22);
+  background: rgb(100, 100, 100);
+  border-radius: 10px;
+  /* border: 2px solid black; */
+  width: 15px;
+  height: 15px;
+}
+
 
 .mosh .profile {
   width: 140px;

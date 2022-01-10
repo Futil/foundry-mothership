@@ -44,16 +44,25 @@
                 value="{{data.rank.value}}" placeholder="" /></div>
           </div>
 
+          {{#if data.settings.firstEdition}}
+          <!-- Pronouns -->
+          <div class="">
+            <div class="headerinputtext">Pronouns</div>
+            <div class="headerinputfield charname"><input name="data.pronouns.value" class="noborder" type="text"
+                value="{{data.pronouns.value}}" placeholder="" /></div>
+          </div>
+          {{else}}
           <!-- XP -->
           <div class="">
             <div class="headerinputtext">XP</div>
             <div class="headerinputfield charname"><input name="data.xp.value" class="noborder" type="text"
                 value="{{data.xp.value}}" placeholder="" /></div>
           </div>
+          {{/if}}
 
           <!-- LEVEL -->
           <div class="">
-            <div class="headerinputtext">LEVEL</div>
+            <div class="headerinputtext">{{#if data.settings.firstEdition}}High Score{{else}}LEVEL{{/if}}</div>
             <div class="headerinputfield charname"><input name="data.attributes.level.value" class="noborder"
                 type="text" value="{{data.attributes.level.value}}" placeholder="" /></div>
           </div>
@@ -61,8 +70,7 @@
         </div>
       </div>
 
-      <div class="health grid grid-1col" style="margin-top: 0;">
-        <div class="grid">
+      <div class="health grid grid-2col" style="margin-top: 0; grid-template-rows: 76px 77px 72px;">
           <!-- Health -->
           <div class="resource healthspread minmaxtopstat">
             <label for="data.health.value" class="resource-label minmaxtext">Health</label>
@@ -81,7 +89,13 @@
 
           <!-- Hits -->
           <div class="resource healthspread minmaxtopstat">
-            <label for="data.hits.value" class="resource-label minmaxtext">Hits</label>
+            <label for="data.hits.value" class="resource-label minmaxtext">
+              {{#if data.settings.firstEdition}}
+              Wounds
+              {{else}}
+              Hits
+              {{/if}}
+            </label>
 
             <div class="minmaxwrapper">
               <input class="maxhealth-input darkGreyText" type="text" name="data.hits.value" value="{{data.hits.value}}"
@@ -129,6 +143,8 @@
           </div>
           {{/if}}
 
+          {{#if data.settings.firstEdition}}
+          {{else}}
           <!-- Resolve -->
           <div class="resource healthspread minmaxtopstat">
             <label for="data.other.stress.value" class="resource-label minmaxtext">Resolve</label>
@@ -138,16 +154,40 @@
                 data-dtype="Number" />
             </div>
           </div>
+          {{/if}}
 
-        </div>
+          {{#if data.settings.firstEdition}}
+          <!-- Armor -->
+          <div class="resource healthspread minmaxtopstat" style="grid-column-start: 2; grid-column-end: 3;">
+            <label for="data.stats.armor.value" class="resource-label minmaxtext">Armor Points</label>
 
-        <!-- CLASS -->
-        <div class="" style="margin-left: 17px; margin-right: 13px;">
-          <div class="resource-label">STRESS & PANIC</div>
-          <textarea name="data.stressdesc.value" rows="2" class="textarea-input" type="text"
-            data-target="data.stressdesc.value" placeholder="">{{data.stressdesc.value}}</textarea>
-        </div>
+            <div class="armorWrapper" style="    width: 100%;">
+              <div class="maxhealth-input whiteText" type="text"
+                data-dtype="Number" >{{data.stats.armor.mod}}</div>
+            </div>
+          </div>
+          {{/if}}
 
+          <!-- CLASS -->
+          <div class="" style="margin-left: 6px; margin-right: 0px; flex: 0; grid-column-start: 1; grid-column-end: 3;">
+            {{#if data.settings.firstEdition}}
+            <div class="resource-label">TRAUMA RESPONSE</div>
+            {{else}}
+            <div class="resource-label">STRESS RESPONSE</div>
+            {{/if}}
+            {{#if data.settings.firstEdition}}
+            <textarea name="data.stressdesc.value" rows="2" class="textarea-input" type="text"
+              data-target="data.stressdesc.value" placeholder="" style="height: 50px;">{{data.stressdesc.value}}</textarea>
+            {{else}}
+            <textarea name="data.stressdesc.value" rows="2" class="textarea-input" type="text"
+              data-target="data.stressdesc.value" placeholder="" style="height: 90px;">{{data.stressdesc.value}}</textarea>
+            {{/if}}
+          </div>
+
+          <!-- XP -->
+          <!-- <div class="char-pip-button list-roll flex" data-key="xp" data-label="XP" data-max="8"  data-min="0">
+            {{{data.xp.html}}}
+          </div> -->
 
       </div>
 
@@ -172,7 +212,12 @@
           </div> -->
         <!-- </div> -->
 
+        {{#if data.settings.firstEdition}}
         <div class="grid grid-1col widegap">
+        {{else}}
+        <div class="grid grid-1col widegap" style="gap: 24px">
+        {{/if}}
+
           <!-- Strength -->
           <div class="mainstatwrapper">
             <div class="resource mainstat">
@@ -185,7 +230,7 @@
             </div>
             <input class="mainstatmod-input" type="text" name="data.stats.strength.mod"
               value="{{data.stats.strength.mod}}" data-dtype="Number" />
-            <div class="mainstatmod-title">mod</div>
+            <div class="mainstatmod-title">+</div>
           </div>
 
           <!-- Speed -->
@@ -200,7 +245,7 @@
             </div>
             <input class="mainstatmod-input" type="text" name="data.stats.speed.mod" value="{{data.stats.speed.mod}}"
               data-dtype="Number" />
-            <div class="mainstatmod-title">mod</div>
+            <div class="mainstatmod-title">+</div>
           </div>
 
           <!-- Intellect -->
@@ -215,7 +260,7 @@
             </div>
             <input class="mainstatmod-input" type="text" name="data.stats.intellect.mod"
               value="{{data.stats.intellect.mod}}" data-dtype="Number" />
-            <div class="mainstatmod-title">mod</div>
+            <div class="mainstatmod-title">+</div>
           </div>
 
           <!-- Combat -->
@@ -230,12 +275,16 @@
             </div>
             <input class="mainstatmod-input" type="text" name="data.stats.combat.mod" value="{{data.stats.combat.mod}}"
               data-dtype="Number" />
-            <div class="mainstatmod-title">mod</div>
+            <div class="mainstatmod-title">+</div>
           </div>
         </div>
       </div>
       <!-- SAVES -->
+      {{#if data.settings.firstEdition}}
       <div class="saves grid grid-1col savebackground">
+      {{else}}
+      <div class="saves grid grid-1col savebackground" style = "height: 264px;">
+      {{/if}}
         <!-- Sanity -->
         <div class="resource flex-group-center">
           <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-label="Sanity" data-key="sanity"
@@ -257,6 +306,8 @@
           <input class="square-input" type="text" name="data.stats.body.value" value="{{data.stats.body.value}}"
             data-dtype="Number" />
         </div>
+
+        {{#unless data.settings.firstEdition}}
         <!-- Armor -->
         <div class="resource flex-group-center">
           <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="armor"
@@ -266,10 +317,15 @@
           <div class="armor-mod" type="text" name="data.stats.armor.total" value=""
           data-dtype="Number" >{{data.stats.armor.total}}</div>
         </div>
+        {{/unless}}
+
       </div>
 
     </div>
   </header>
+
+    
+
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="mosh sheet-tabs tabs" data-group="primary">
@@ -299,7 +355,11 @@
         <li class="item flexrow item-header">
           <div class="item-image"></div>
           <div class="skill-stat">Armor Name</div>
+          {{#if data.settings.firstEdition}}
+          <div class="skill-stat" style="flex-grow: 0.5;">Armor Points</div>
+          {{else}}
           <div class="skill-stat" style="flex-grow: 0.5;">Save Bonus</div>
+          {{/if}}
           <div class="skill-stat">Features</div>
           <div class="skill-stat" style="flex-grow: 0.5;">Equipped</div>
           <div class="item-controls">
@@ -311,7 +371,7 @@
         <li class="item flexrow dropitem" data-item-id="{{armor._id}}">
           <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
           <h4 class="skill-name list-roll description-roll">{{armor.name}}</h4>
-          <div class="skill-stat" style="flex-grow: 0.5;">{{armor.data.bonus}}%</div>
+          <div class="skill-stat" style="flex-grow: 0.5;">{{armor.data.bonus}}</div>
           <div class="skill-stat">{{armor.data.features}}</div>
           <div class="skill-stat item-equip" style="flex-grow: 0.5;"><input type="checkbox" name="armor.data.equipped" data-dtype="Boolean"
               {{checked armor.data.equipped}} /></div>
@@ -402,7 +462,51 @@
         </li>
         {{/each}}
       </ol>
+
+      {{#if data.settings.firstEdition}}
+
+      <!-- XP -->
+      <div class="minmaxtext" style="line-height: 1.5; text-transform: none; font-weight: 500;">Skill Training</div>
+      <div class ="skill_training_frame">
+        <div class="grid grid-2col" style="grid-template-columns: 283px auto;">
+          <div class="char-pip-button list-roll flex" style="position: relative; top: -7px;" data-key="xp" data-label="XP" data-max="16"  data-min="0">
+            {{{data.xp.html}}}
+          </div>
+          <textarea name="data.xp.selectedSkill" rows="2" class="textarea-input-grey" type="text"
+          data-target="data.xp.selectedSkill" placeholder="" style="height: 32px;">{{data.xp.selectedSkill}}</textarea>
+        </div>
+      </div>
+
+    </br>
+      <div class="seperatorLine"></div>
+
+      <!-- Conditions -->
+      <ol class="items-list">
+        <li class="item flexrow item-header">
+          <div class="skill-stat">Condition</div>
+          <div class="skill-stat" style = "flex: 0.2;">Treatment</div>
+          <div class="item-controls">
+            <a class="item-control item-create" title="Create Condition" data-type="condition"><i class="fas fa-plus"></i></a>
+          </div>
+        </li>
+        {{#each conditions as |condition id|}}
+        <li class="item flexrow dropitem" data-item-id="{{condition._id}}">
+          <div class="skill-name description-roll list-roll" style = "background: #1b0000;">{{condition.data.description}}</div>
+          <div class="treatment-button list-roll flex" style="position: relative; flex: 0.2;" data-key="condition" data-label="condition" data-max="3"  data-min="0">
+            {{{condition.data.treatment.html}}}
+          </div>
+          <div class="item-controls">
+            <a class="item-control skill-edit" title="Edit Condition"><i class="fas fa-edit"></i></a>
+            <a class="item-control item-delete" title="Delete Condition"><i class="fas fa-trash"></i></a>
+          </div>
+        </li>
+        {{/each}}
+      </ol>
+
+      {{/if}}
     </div>
+
+
     {{!-- Owned Weapons Tab --}}
     <div class="tab items" data-group="primary" data-tab="weapons">
       <!-- WEAPONS -->

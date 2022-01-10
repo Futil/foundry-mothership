@@ -37,6 +37,9 @@
       "rank": {
         "value": ""
       },
+      "pronouns": {
+        "value": ""
+      },
       "credits": {
         "value": ""
       },
@@ -44,7 +47,9 @@
         "value": ""
       },
       "xp": {
-        "value": 0
+        "value": 0,
+        "html" : 0,
+        "selectedSkill" : ""
       },
       "attributes": {
         "level": {
@@ -103,7 +108,8 @@
       "biography": "",
       "description": "This is a description",
       "xp": {
-        "value": 1
+        "value": 1,
+        "html": ""
       },
       "stats": {
         "combat": {
@@ -197,7 +203,8 @@
       "weapon",
       "armor",
       "ability",
-      "module"
+      "module",
+      "condition"
     ],
     "templates": {
       "base": {
@@ -245,6 +252,15 @@
         "base"
       ],
       "bonus": 10
+    },
+    "condition": {
+      "templates": [
+        "base"
+      ],
+      "treatment" : {
+        "value" : 0,
+        "html" : ""
+      }
     },
     "ability": {
       "templates": [

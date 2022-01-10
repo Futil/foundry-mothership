@@ -9,7 +9,7 @@ export class MothershipActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["mosh", "sheet", "actor", "character"],
       template: "systems/mosh/templates/actor/actor-sheet.html",
-      width: 742,
+      width: 700,
       height: 800,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
     });
@@ -22,7 +22,9 @@ export class MothershipActorSheet extends ActorSheet {
     const data = super.getData();
 
     data.dtypes = ["String", "Number", "Boolean"];
-    
+
+    const superData = data.data.data;
+
     for (let attr of Object.values(data.data.data.attributes)) {
       attr.isCheckbox = attr.dtype === "Boolean";
     }
@@ -38,7 +40,39 @@ export class MothershipActorSheet extends ActorSheet {
     }
     data.data.data.settings.useCalm = game.settings.get("mosh", "useCalm");
     data.data.data.settings.hideWeight = game.settings.get("mosh", "hideWeight");
+    data.data.data.settings.firstEdition = game.settings.get("mosh", "firstEdition");
 
+
+    //SKILL XP BUTTONS
+    superData.xp.html = '';
+    if(superData.xp.html == ''){
+      for(let i = 1; i <= 15; i ++){
+        if(i > superData.xp.value){
+          if(i % 5){
+            superData.xp.html += '<div class="circle"></div>';
+          }
+          else { //If a special one
+            let trainLevel = 'Trained';
+            if(i == 10) trainLevel = 'Expert';
+            else if(i == 15) trainLevel = 'Master';
+            superData.xp.html += '<div class="circle" style="background:rgb(200,200,200);"><div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -60px;">'+trainLevel+'</div></div>';
+          }
+        }
+        else{
+        if(i % 5){
+          superData.xp.html += '<div class="circle-f"></div>';
+        }
+        else { //If a special one
+          let trainLevel = 'Trained';
+          if(i == 10) trainLevel = 'Expert';
+          else if(i == 15) trainLevel = 'Master';
+          superData.xp.html += '<div class="circle-f" style="background:black;"><div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -60px; color:black;">'+trainLevel+'</div></div>';
+        }
+
+        }
+      }
+    }
+    //END SKILL XP
 
     return data.data;
   }
@@ -57,6 +91,7 @@ export class MothershipActorSheet extends ActorSheet {
     const skills = [];
     const weapons = [];
     const armors = [];
+    const conditions = [];
 
     let curWeight = 0;
     // Iterate through items, allocating to containers
@@ -74,6 +109,27 @@ export class MothershipActorSheet extends ActorSheet {
         armors.push(i);
       } else if (i.type === 'weapon') {
         weapons.push(i);
+      } else if (i.type === 'condition') {
+        // We'll handle the pip html here.
+        if (item.treatment == null) {
+          item.treatment = {
+            "value": 0,
+            "html": ""
+          };
+        }
+        let pipHtml = "";
+        for (let i = 0; i < 3; i++) {
+          if (i < item.treatment.value){
+            pipHtml += '<i class="fas fa-circle"></i>';
+          }
+          else{
+            pipHtml += '<i class="far fa-circle"></i>';
+          }
+        }
+
+        item.treatment.html = pipHtml;
+
+        conditions.push(i);
       }
     }
 
@@ -98,6 +154,7 @@ export class MothershipActorSheet extends ActorSheet {
     actorData.skills = skills;
     actorData.armors = armors;
     actorData.weapons = weapons;
+    actorData.conditions = conditions;
 
   }
 
@@ -107,6 +164,57 @@ export class MothershipActorSheet extends ActorSheet {
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
+
+    html.on('mousedown', '.char-pip-button', ev => {
+      const data = super.getData();
+
+      const div = $(ev.currentTarget);
+      const targetName = div.data("key");
+      const attribute = data.data.data[targetName];
+
+      let amount = attribute.value;
+      let max = div.data("max");
+      let min = div.data("min");
+
+      if (event.button == 0) {
+        if (amount < max) {
+          attribute.value = Number(amount) + 1;
+        }
+      } else if (event.button == 2) {
+        if (amount > min) {
+          attribute.value = Number(amount) - 1;
+        }
+      }
+
+      let updated = {
+        html: '',
+        value: attribute.value
+      }
+
+      const updateString = "data."+targetName;
+
+      this.actor.update({[updateString] : updated});
+    });
+
+    html.on('mousedown', '.treatment-button', ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+
+      let amount = item.data.treatment.value;
+
+      if (event.button == 0) {
+        if (amount < 3) {
+          item.data.treatment.value = Number(amount) + 1;
+        }
+      } else if (event.button == 2) {
+        if (amount > 0) {
+          item.data.treatment.value = Number(amount) - 1;
+        }
+      }
+
+      this.actor.updateEmbeddedDocuments('Item', [item]);
+    });
+
 
     // Update Inventory Item
     html.find('.item-equip').click(ev => {

@@ -5,7 +5,7 @@ export const registerSettings = function () {
         default: true,
         scope: 'world',
         type: Boolean,
-        config: true,
+        config: false,
         onChange: value => { // A callback function which triggers when the setting is changed
             console.log("newArmorandCombat set to " + value)
           }

@@ -2,10 +2,10 @@ export const registerSettings = function () {
     game.settings.register('mosh', 'firstEdition', {
         name: "1e Rules",
         hint: "Use the 1st edition rules and character sheet.",
-        default: true,
+        default: false,
         scope: 'world',
         type: Boolean,
-        config: false,
+        config: true,
         onChange: value => { // A callback function which triggers when the setting is changed
             console.log("newArmorandCombat set to " + value)
           }

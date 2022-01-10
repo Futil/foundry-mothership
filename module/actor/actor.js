@@ -334,7 +334,7 @@ export class MothershipActor extends Actor {
     // Roll
     let firstEdition = game.settings.get("mosh", "firstEdition");
 
-    let diceformular = (isStress ? (firstEdition ? "2d10" : "1d20") : "1d100");
+    let diceformular = (isStress ? (firstEdition ? "1d20" : "2d10") : "1d100");
 
 
     // if (advantage != undefined && advantage != NaN && advantage != 0) {

@@ -244,7 +244,11 @@
       "ranges": {
         "short": 0,
         "medium": 0,
-        "long": 0
+        "long": 0,
+        "value" : ""
+      },
+      "settings" : {
+        "firstEdition" : false
       }
     },
     "armor": {

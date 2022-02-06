@@ -44,6 +44,10 @@
                     <label class="resource-label">Skill Bonus</label>
                     <input type="text" name="data.bonus" value="{{data.bonus}}" data-dtype="Number" />
                 </div>
+                <div class="resource">
+                    <label class="resource-label">Range</label>
+                    <input type="text" name="data.ranges.value" value="{{data.ranges.value}}" data-dtype="String" />
+                </div>
                 <hr />
             </div>
         </div>
@@ -52,7 +56,7 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="description">Description</a>
-        <a class="item" data-tab="ranges">Ranges</a>
+        <!-- <a class="item" data-tab="ranges">Ranges</a> -->
         <a class="item" data-tab="item">Item</a>
     </nav>
 

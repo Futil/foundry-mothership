@@ -96,6 +96,11 @@ export class MothershipCreatureSheet extends ActorSheet {
             if (i.type === 'ability') {
                 abilities.push(i);
             } else if (i.type === 'weapon') {
+                if(item.ranges.value == "" && item.ranges.medium > 0){
+                    item.ranges.value = item.ranges.short + "/" + item.ranges.medium + "/" + item.ranges.long;
+                    item.ranges.medium = 0;
+                }
+
                 weapons.push(i);
             }
         }

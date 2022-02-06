@@ -108,6 +108,12 @@ export class MothershipActorSheet extends ActorSheet {
       } else if (i.type === 'armor') {
         armors.push(i);
       } else if (i.type === 'weapon') {
+        //We need to update this from the old system.    
+        if(item.ranges.value == "" && item.ranges.medium > 0){
+          item.ranges.value = item.ranges.short + "/" + item.ranges.medium + "/" + item.ranges.long;
+          item.ranges.medium = 0;
+        }
+
         weapons.push(i);
       } else if (i.type === 'condition') {
         // We'll handle the pip html here.

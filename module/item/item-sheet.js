@@ -30,6 +30,15 @@ export class MothershipItemSheet extends ItemSheet {
   /** @override */
   getData() {
     const data = super.getData();
+    const superData = data.data.data;
+
+    if(data.data.type == "weapon"){
+      if(superData.ranges.value == "" && superData.ranges.medium > 0){
+        superData.ranges.value = superData.ranges.short + "/" + superData.ranges.medium + "/" + superData.ranges.long;
+        superData.ranges.medium = 0;
+      }
+    }
+
     return data.data;
   }
 

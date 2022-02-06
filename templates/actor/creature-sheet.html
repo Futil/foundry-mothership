@@ -193,12 +193,15 @@
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
-          {{#if weapon.data.ranges.medium}}
-          <div class="skill-stat">{{weapon.data.ranges.short}}/{{weapon.data.ranges.medium}}/{{weapon.data.ranges.long}}
-          </div>
+          
+          {{#if weapon.data.ranges.value}}
+          <!-- <div class="skill-stat">{{weapon.data.ranges.short}}/{{weapon.data.ranges.medium}}/{{weapon.data.ranges.long}} -->
+          <!-- </div> -->
+          <div class="skill-stat">{{weapon.data.ranges.value}}</div>
           {{else}}
           <div class="skill-stat">CQC</div>
           {{/if}}
+
           <div class="item-controls">
             <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>

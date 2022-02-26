@@ -255,7 +255,8 @@
       "templates": [
         "base"
       ],
-      "bonus": 10
+      "bonus": 10,
+      "value" : 0
     },
     "condition": {
       "templates": [

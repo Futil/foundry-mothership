@@ -240,6 +240,7 @@
       "critDmg": "",
       "critEffect": "",
       "bonus": 0,
+      "weight": 0,
       "cost" : 0,
       "ranges": {
         "short": 0,
@@ -256,7 +257,8 @@
         "base"
       ],
       "bonus": 10,
-      "value" : 0
+      "weight": 0,
+      "cost" : 0
     },
     "condition": {
       "templates": [

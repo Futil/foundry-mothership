@@ -382,7 +382,7 @@ export class MothershipActor extends Actor {
 
     let panic = false;
     let panicText = '';
-    if(isStress && r._total < attribute.value && firstEdition){
+    if(isStress && r._total <= attribute.value && firstEdition){
       await(async () => {
         // const contents = await game.packs.get("Tables").getContent();
         // const table= contents.find(i => i.name === `Panic`);

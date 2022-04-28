@@ -102,11 +102,12 @@ export class MothershipActorSheet extends ActorSheet {
 
       if (i.type === 'item') {
         gear.push(i);
-        curWeight+=item.weight;
+        curWeight+=item.weight*item.quantity;
       } else if (i.type === 'skill') {
         skills.push(i);
       } else if (i.type === 'armor') {
         armors.push(i);
+        curWeight+=item.weight;
       } else if (i.type === 'weapon') {
         //We need to update this from the old system.    
         if(item.ranges.value == "" && item.ranges.medium > 0){
@@ -115,6 +116,7 @@ export class MothershipActorSheet extends ActorSheet {
         }
 
         weapons.push(i);
+        curWeight+=item.weight;
       } else if (i.type === 'condition') {
         // We'll handle the pip html here.
         if (item.treatment == null) {

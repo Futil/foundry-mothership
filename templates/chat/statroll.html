@@ -82,7 +82,7 @@
         
         {{#if critical}}
         <div class="description">
-            <div class="header padding">Critical</div>
+            <div class="header padding" style = "grid: none;">Critical</div>
             <br/>
             <div class="body">Crit Damage: [[/r {{item.data.critDmg}}]]</div>
             <div class="body">Crit Effect: {{item.data.critEffect}}</div>
@@ -92,7 +92,7 @@
 
         {{#if item.data.description}}
         <div class="description">
-            <div class="header padding">Description</div>
+            <div class="header padding" style = "grid: none;">Description</div>
             <div class="body">{{{item.data.description}}}</div>
         </div>
         {{/if}}
@@ -100,13 +100,13 @@
         {{/if}}
         {{#if useSkill}}
         <div class="description">
-            <div class="header padding">Description</div>
+            <div class="header padding" style = "grid: none;">Description</div>
             <div class="body">{{{item.data.description}}}</div>
         </div>
         {{/if}}
         {{#if data.panic}}
         <div class="description">
-            <div class="header padding" style="color: red;">Panic</div>
+            <div class="header padding" style="color: red; grid: none;">Panic</div>
             <div class="body">{{{data.panicText}}}</div>
             <br/>
         </div>

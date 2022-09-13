@@ -6,15 +6,15 @@
             <div class="grid grid-3col">
               <div class="resource">
                 <label class="resource-label">Quantity</label>
-                  <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number"/>
+                  <input type="text" name="system.quantity" value="{{system.quantity}}" data-dtype="Number"/>
               </div>
               <div class="resource">
                 <label class="resource-label">Weight</label>
-                  <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number"/>
+                  <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number"/>
               </div>
               <div class="resource">
                 <label class="resource-label">Value</label>
-                  <input type="text" name="data.cost" value="{{data.cost}}" data-dtype="Number"/>
+                  <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="Number"/>
               </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=true}}
+            {{editor target="system.description" button=true owner=owner editable=true}}
         </div>
 
         {{!-- Attributes Tab --}}

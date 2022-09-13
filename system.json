@@ -1,29 +1,30 @@
 {
-  "name": "mosh",
   "title": "MoSh - Unofficial Mothership",
   "description": "The unofficial Mothership system for FoundryVTT.",
-  "version": "0.2.3",
-  "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "V9",
-  "templateVersion": 2,
-  "author": "Futilrevenge",
-  "esmodules": ["module/mosh.js"],
-  "styles": ["css/mosh.css"],
-  "scripts": [],
+  "version": "0.3.0",
+  "esmodules": [
+    "module/mosh.js"
+  ],
+  "styles": [
+    "css/mosh.css"
+  ],
   "packs": [
     {
       "name": "tables",
       "label": "Tables",
       "system": "mosh",
       "path": "packs/tables.db",
-      "entity": "RollTable"
+      "type": "RollTable",
+      "private": false,
+      "flags": {}
     }
   ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json"
+      "path": "lang/en.json",
+      "flags": {}
     }
   ],
   "gridDistance": 1,
@@ -33,5 +34,16 @@
   "url": "https://github.com/Futil/foundry-mothership",
   "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/master/system.json",
   "download": "https://github.com/Futil/foundry-mothership/archive/master.zip",
-  "license": "LICENSE.txt"
+  "license": "LICENSE.txt",
+  "id": "mosh",
+  "authors": [
+    {
+      "name": "Futilrevenge",
+      "flags": {}
+    }
+  ],
+  "compatibility": {
+    "minimum": "V10",
+    "verified": "V10"
+  }
 }

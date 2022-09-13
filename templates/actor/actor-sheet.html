@@ -26,45 +26,45 @@
           </div>
           <div class="">
             <div class="headerinputtext">Credits</div>
-            <div class="headerinputfield charname"><input name="data.credits.value" class="noborder" type="text"
-              value="{{data.credits.value}}" placeholder="" /></div>
+            <div class="headerinputfield charname"><input name="system.credits.value" class="noborder" type="text"
+              value="{{system.credits.value}}" placeholder="" /></div>
           </div>
 
           <!-- CLASS -->
           <div class="">
             <div class="headerinputtext">CLASS</div>
-            <div class="headerinputfield charname"><input name="data.class.value" class="noborder" type="text"
-                value="{{data.class.value}}" placeholder="" /></div>
+            <div class="headerinputfield charname"><input name="system.class.value" class="noborder" type="text"
+                value="{{system.class.value}}" placeholder="" /></div>
           </div>
 
           <!-- RANK -->
           <div class="">
             <div class="headerinputtext">RANK</div>
-            <div class="headerinputfield charname"><input name="data.rank.value" class="noborder" type="text"
-                value="{{data.rank.value}}" placeholder="" /></div>
+            <div class="headerinputfield charname"><input name="system.rank.value" class="noborder" type="text"
+                value="{{system.rank.value}}" placeholder="" /></div>
           </div>
 
-          {{#if data.settings.firstEdition}}
+          {{#if system.settings.firstEdition}}
           <!-- Pronouns -->
           <div class="">
             <div class="headerinputtext">Pronouns</div>
-            <div class="headerinputfield charname"><input name="data.pronouns.value" class="noborder" type="text"
-                value="{{data.pronouns.value}}" placeholder="" /></div>
+            <div class="headerinputfield charname"><input name="system.pronouns.value" class="noborder" type="text"
+                value="{{system.pronouns.value}}" placeholder="" /></div>
           </div>
           {{else}}
           <!-- XP -->
           <div class="">
             <div class="headerinputtext">XP</div>
-            <div class="headerinputfield charname"><input name="data.xp.value" class="noborder" type="text"
-                value="{{data.xp.value}}" placeholder="" /></div>
+            <div class="headerinputfield charname"><input name="system.xp.value" class="noborder" type="text"
+                value="{{system.xp.value}}" placeholder="" /></div>
           </div>
           {{/if}}
 
           <!-- LEVEL -->
           <div class="">
-            <div class="headerinputtext">{{#if data.settings.firstEdition}}High Score{{else}}LEVEL{{/if}}</div>
-            <div class="headerinputfield charname"><input name="data.attributes.level.value" class="noborder"
-                type="text" value="{{data.attributes.level.value}}" placeholder="" /></div>
+            <div class="headerinputtext">{{#if system.settings.firstEdition}}High Score{{else}}LEVEL{{/if}}</div>
+            <div class="headerinputfield charname"><input name="system.attributes.level.value" class="noborder"
+                type="text" value="{{system.attributes.level.value}}" placeholder="" /></div>
           </div>
 
         </div>
@@ -73,14 +73,14 @@
       <div class="health grid grid-2col" style="margin-top: 0; grid-template-rows: 76px 77px 72px;">
           <!-- Health -->
           <div class="resource healthspread minmaxtopstat">
-            <label for="data.health.value" class="resource-label minmaxtext">Health</label>
+            <label for="system.health.value" class="resource-label minmaxtext">Health</label>
 
             <div class="minmaxwrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="data.health.value" value="{{data.health.value}}"
+              <input class="maxhealth-input darkGreyText" type="text" name="system.health.value" value="{{system.health.value}}"
                 data-dtype="Number" />
               <div class="slant"></div>
-              <input class="maxhealth-input darkGreyText" type="text" name="data.health.max"
-                value="{{data.health.max}}" data-dtype="Number" />
+              <input class="maxhealth-input darkGreyText" type="text" name="system.health.max"
+                value="{{system.health.max}}" data-dtype="Number" />
             </div>
 
             <div class="healthmaxtext">Current</div>
@@ -89,8 +89,8 @@
 
           <!-- Hits -->
           <div class="resource healthspread minmaxtopstat">
-            <label for="data.hits.value" class="resource-label minmaxtext">
-              {{#if data.settings.firstEdition}}
+            <label for="system.hits.value" class="resource-label minmaxtext">
+              {{#if system.settings.firstEdition}}
               Wounds
               {{else}}
               Hits
@@ -98,28 +98,28 @@
             </label>
 
             <div class="minmaxwrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="data.hits.value" value="{{data.hits.value}}"
+              <input class="maxhealth-input darkGreyText" type="text" name="system.hits.value" value="{{system.hits.value}}"
                 data-dtype="Number" />
               <div class="slant"></div>
-              <input class="maxhealth-input darkGreyText" type="text" name="data.hits.max"
-                value="{{data.hits.max}}" data-dtype="Number" />
+              <input class="maxhealth-input darkGreyText" type="text" name="system.hits.max"
+                value="{{system.hits.max}}" data-dtype="Number" />
             </div>
 
             <div class="healthmaxtext">Current</div>
             <div class="healthmaxtext">Maximum</div>
           </div>
 
-          {{#if data.settings.useCalm}}
+          {{#if system.settings.useCalm}}
           <!-- Calm -->
           <div class="resource healthspread minmaxtopstat">
-            <label for="data.other.stress.value" class="resource-label minmaxtext rollable calm-roll">Calm</label>
+            <label for="system.other.stress.value" class="resource-label minmaxtext rollable calm-roll">Calm</label>
 
             <div class="minmaxwrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="data.other.stress.value" value="{{data.other.stress.value}}"
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.value" value="{{system.other.stress.value}}"
                 data-dtype="Number" />
               <div class="slant" style="transform: skewX(0deg);"></div>
-              <input class="maxhealth-input darkGreyText" type="text" name="data.other.stress.min"
-                value="{{data.other.stress.min}}" data-dtype="Number" />
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.min"
+                value="{{system.other.stress.min}}" data-dtype="Number" />
             </div>
 
             <div class="healthmaxtext">Current</div>
@@ -128,14 +128,14 @@
           {{else}}
           <!-- Stress -->
           <div class="resource healthspread minmaxtopstat">
-            <label for="data.other.stress.value" class="resource-label minmaxtext rollable stress-roll">Stress</label>
+            <label for="system.other.stress.value" class="resource-label minmaxtext rollable stress-roll">Stress</label>
 
             <div class="minmaxwrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="data.other.stress.value" value="{{data.other.stress.value}}"
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.value" value="{{system.other.stress.value}}"
                 data-dtype="Number" />
               <div class="slant" style="transform: skewX(0deg);"></div>
-              <input class="maxhealth-input darkGreyText" type="text" name="data.other.stress.min"
-                value="{{data.other.stress.min}}" data-dtype="Number" />
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.min"
+                value="{{system.other.stress.min}}" data-dtype="Number" />
             </div>
 
             <div class="healthmaxtext">Current</div>
@@ -143,50 +143,50 @@
           </div>
           {{/if}}
 
-          {{#if data.settings.firstEdition}}
+          {{#if system.settings.firstEdition}}
           {{else}}
           <!-- Resolve -->
           <div class="resource healthspread minmaxtopstat">
-            <label for="data.other.stress.value" class="resource-label minmaxtext">Resolve</label>
+            <label for="system.other.stress.value" class="resource-label minmaxtext">Resolve</label>
 
             <div class="valuewrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="data.other.resolve.value" value="{{data.other.resolve.value}}"
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.resolve.value" value="{{system.other.resolve.value}}"
                 data-dtype="Number" />
             </div>
           </div>
           {{/if}}
 
-          {{#if data.settings.firstEdition}}
+          {{#if system.settings.firstEdition}}
           <!-- Armor -->
           <div class="resource healthspread minmaxtopstat" style="grid-column-start: 2; grid-column-end: 3;">
-            <label for="data.stats.armor.value" class="resource-label minmaxtext">Armor Points</label>
+            <label for="system.stats.armor.value" class="resource-label minmaxtext">Armor Points</label>
 
             <div class="armorWrapper" style="    width: 100%;">
               <div class="maxhealth-input whiteText" type="text"
-                data-dtype="Number" >{{data.stats.armor.mod}}</div>
+                data-dtype="Number" >{{system.stats.armor.mod}}</div>
             </div>
           </div>
           {{/if}}
 
           <!-- CLASS -->
           <div class="" style="margin-left: 6px; margin-right: 0px; flex: 0; grid-column-start: 1; grid-column-end: 3;">
-            {{#if data.settings.firstEdition}}
+            {{#if system.settings.firstEdition}}
             <div class="resource-label">TRAUMA RESPONSE</div>
             {{else}}
             <div class="resource-label">STRESS RESPONSE</div>
             {{/if}}
-            {{#if data.settings.firstEdition}}
-            <textarea name="data.stressdesc.value" rows="2" class="textarea-input" type="text"
-              data-target="data.stressdesc.value" placeholder="" style="height: 50px;">{{data.stressdesc.value}}</textarea>
+            {{#if system.settings.firstEdition}}
+            <textarea name="system.stressdesc.value" rows="2" class="textarea-input" type="text"
+              data-target="system.stressdesc.value" placeholder="" style="height: 50px;">{{system.stressdesc.value}}</textarea>
             {{else}}
-            <textarea name="data.stressdesc.value" rows="2" class="textarea-input" type="text"
-              data-target="data.stressdesc.value" placeholder="" style="height: 90px;">{{data.stressdesc.value}}</textarea>
+            <textarea name="system.stressdesc.value" rows="2" class="textarea-input" type="text"
+              data-target="system.stressdesc.value" placeholder="" style="height: 90px;">{{system.stressdesc.value}}</textarea>
             {{/if}}
           </div>
 
           <!-- XP -->
           <!-- <div class="char-pip-button list-roll flex" data-key="xp" data-label="XP" data-max="8"  data-min="0">
-            {{{data.xp.html}}}
+            {{{system.xp.html}}}
           </div> -->
 
       </div>
@@ -198,8 +198,8 @@
             <div class="stresslabel">
               <div class="ability-mod stresstext">STRESS</div>
             </div>
-            <input class="smallcircle-input" type="text" name="data.other.stress.value"
-              value="{{data.other.stress.value}}" data-dtype="Number" />
+            <input class="smallcircle-input" type="text" name="system.other.stress.value"
+              value="{{system.other.stress.value}}" data-dtype="Number" />
           </div> -->
 
           <!-- RESOLVE -->
@@ -207,12 +207,12 @@
             <div class="stresslabel">
               <div class="ability-mod stresstext">RESOLVE</div>
             </div>
-            <input class="smallcircle-input" type="text" name="data.other.resolve.value"
-              value="{{data.other.resolve.value}}" data-dtype="Number" />
+            <input class="smallcircle-input" type="text" name="system.other.resolve.value"
+              value="{{system.other.resolve.value}}" data-dtype="Number" />
           </div> -->
         <!-- </div> -->
 
-        {{#if data.settings.firstEdition}}
+        {{#if system.settings.firstEdition}}
         <div class="grid grid-1col widegap">
         {{else}}
         <div class="grid grid-1col widegap" style="gap: 24px">
@@ -225,11 +225,11 @@
                 <span class="ability-mod stat-roll rollable mainstattext" data-key="strength"
                   data-label="Strength">STRENGTH</span>
               </div>
-              <input class="circle-input" type="text" name="data.stats.strength.value"
-                value="{{data.stats.strength.value}}" data-dtype="Number" />
+              <input class="circle-input" type="text" name="system.stats.strength.value"
+                value="{{system.stats.strength.value}}" data-dtype="Number" />
             </div>
-            <input class="mainstatmod-input" type="text" name="data.stats.strength.mod"
-              value="{{data.stats.strength.mod}}" data-dtype="Number" />
+            <input class="mainstatmod-input" type="text" name="system.stats.strength.mod"
+              value="{{system.stats.strength.mod}}" data-dtype="Number" />
             <div class="mainstatmod-title">+</div>
           </div>
 
@@ -240,10 +240,10 @@
                 <span class="ability-mod stat-roll rollable mainstattext" data-key="speed" data-roll="d100"
                   data-label="Speed">SPEED</span>
               </div>
-              <input class="circle-input" type="text" name="data.stats.speed.value" value="{{data.stats.speed.value}}"
+              <input class="circle-input" type="text" name="system.stats.speed.value" value="{{system.stats.speed.value}}"
                 data-dtype="Number" />
             </div>
-            <input class="mainstatmod-input" type="text" name="data.stats.speed.mod" value="{{data.stats.speed.mod}}"
+            <input class="mainstatmod-input" type="text" name="system.stats.speed.mod" value="{{system.stats.speed.mod}}"
               data-dtype="Number" />
             <div class="mainstatmod-title">+</div>
           </div>
@@ -255,11 +255,11 @@
                 <span class="ability-mod stat-roll rollable mainstattext" data-key="intellect" data-roll="d100"
                   data-label="Intellect">INTELLECT</span>
               </div>
-              <input class="circle-input" type="text" name="data.stats.intellect.value"
-                value="{{data.stats.intellect.value}}" data-dtype="Number" />
+              <input class="circle-input" type="text" name="system.stats.intellect.value"
+                value="{{system.stats.intellect.value}}" data-dtype="Number" />
             </div>
-            <input class="mainstatmod-input" type="text" name="data.stats.intellect.mod"
-              value="{{data.stats.intellect.mod}}" data-dtype="Number" />
+            <input class="mainstatmod-input" type="text" name="system.stats.intellect.mod"
+              value="{{system.stats.intellect.mod}}" data-dtype="Number" />
             <div class="mainstatmod-title">+</div>
           </div>
 
@@ -270,17 +270,17 @@
                 <span class="ability-mod stat-roll rollable mainstattext" data-key="combat" data-roll="d100"
                   data-label="Combat">COMBAT</span>
               </div>
-              <input class="circle-input" type="text" name="data.stats.combat.value" value="{{data.stats.combat.value}}"
+              <input class="circle-input" type="text" name="system.stats.combat.value" value="{{system.stats.combat.value}}"
                 data-dtype="Number" />
             </div>
-            <input class="mainstatmod-input" type="text" name="data.stats.combat.mod" value="{{data.stats.combat.mod}}"
+            <input class="mainstatmod-input" type="text" name="system.stats.combat.mod" value="{{system.stats.combat.mod}}"
               data-dtype="Number" />
             <div class="mainstatmod-title">+</div>
           </div>
         </div>
       </div>
       <!-- SAVES -->
-      {{#if data.settings.firstEdition}}
+      {{#if system.settings.firstEdition}}
       <div class="saves grid grid-1col savebackground">
       {{else}}
       <div class="saves grid grid-1col savebackground" style = "height: 264px;">
@@ -288,34 +288,34 @@
         <!-- Sanity -->
         <div class="resource flex-group-center">
           <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-label="Sanity" data-key="sanity"
-            data-target="{{data.stats.sanity.value}}">SANITY</span>
-          <input class="square-input" type="text" name="data.stats.sanity.value" value="{{data.stats.sanity.value}}"
+            data-target="{{system.stats.sanity.value}}">SANITY</span>
+          <input class="square-input" type="text" name="system.stats.sanity.value" value="{{system.stats.sanity.value}}"
             data-dtype="Number" />
         </div>
         <!-- Fear -->
         <div class="resource flex-group-center">
           <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="fear"
-            data-target="{{data.stats.fear.value}}" data-label="Fear">FEAR</span>
-          <input class="square-input" type="text" name="data.stats.fear.value" value="{{data.stats.fear.value}}"
+            data-target="{{system.stats.fear.value}}" data-label="Fear">FEAR</span>
+          <input class="square-input" type="text" name="system.stats.fear.value" value="{{system.stats.fear.value}}"
             data-dtype="Number" />
         </div>
         <!-- Body -->
         <div class="resource flex-group-center">
           <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="body"
-            data-target="{{data.stats.body.value}}" data-label="Body">BODY</span>
-          <input class="square-input" type="text" name="data.stats.body.value" value="{{data.stats.body.value}}"
+            data-target="{{system.stats.body.value}}" data-label="Body">BODY</span>
+          <input class="square-input" type="text" name="system.stats.body.value" value="{{system.stats.body.value}}"
             data-dtype="Number" />
         </div>
 
-        {{#unless data.settings.firstEdition}}
+        {{#unless system.settings.firstEdition}}
         <!-- Armor -->
         <div class="resource flex-group-center">
           <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="armor"
-            data-target="{{data.stats.armor.value}}" data-label="Armor">ARMOR</span>
-          <input class="square-input" type="text" name="data.stats.armor.value" value="{{data.stats.armor.value}}"
+            data-target="{{system.stats.armor.value}}" data-label="Armor">ARMOR</span>
+          <input class="square-input" type="text" name="system.stats.armor.value" value="{{system.stats.armor.value}}"
             data-dtype="Number" />
-          <div class="armor-mod" type="text" name="data.stats.armor.total" value=""
-          data-dtype="Number" >{{data.stats.armor.total}}</div>
+          <div class="armor-mod" type="text" name="system.stats.armor.total" value=""
+          data-dtype="Number" >{{system.stats.armor.total}}</div>
         </div>
         {{/unless}}
 
@@ -342,11 +342,11 @@
 
     {{!-- Biography Tab --}}
     <div class="tab biography" data-group="primary" data-tab="description">
-      {{editor content=data.biography target="data.biography" button=true owner=owner editable=true}}
+      {{editor target="system.biography" button=true owner=owner editable=true}}
     </div>
     {{!-- Notes Tab --}}
     <div class="tab biography" data-group="primary" data-tab="notes">
-      {{editor content=data.notes target="data.notes" button=true owner=owner editable=true}}
+      {{editor target="system.notes" button=true owner=owner editable=true}}
     </div>
     {{!-- Owned Items Tab --}}
     <div class="tab items" data-group="primary" data-tab="items">
@@ -355,7 +355,7 @@
         <li class="item flexrow item-header">
           <div class="item-image"></div>
           <div class="skill-stat">Armor Name</div>
-          {{#if data.settings.firstEdition}}
+          {{#if system.settings.firstEdition}}
           <div class="skill-stat" style="flex-grow: 0.5;">Armor Points</div>
           {{else}}
           <div class="skill-stat" style="flex-grow: 0.5;">Save Bonus</div>
@@ -371,10 +371,10 @@
         <li class="item flexrow dropitem" data-item-id="{{armor._id}}">
           <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
           <h4 class="skill-name list-roll description-roll">{{armor.name}}</h4>
-          <div class="skill-stat" style="flex-grow: 0.5;">{{armor.data.bonus}}</div>
-          <div class="skill-stat">{{armor.data.features}}</div>
-          <div class="skill-stat item-equip" style="flex-grow: 0.5;"><input type="checkbox" name="armor.data.equipped" data-dtype="Boolean"
-              {{checked armor.data.equipped}} /></div>
+          <div class="skill-stat" style="flex-grow: 0.5;">{{armor.system.bonus}}</div>
+          <div class="skill-stat">{{armor.system.features}}</div>
+          <div class="skill-stat item-equip" style="flex-grow: 0.5;"><input type="checkbox" name="armor.system.equipped" data-dtype="Boolean"
+              {{checked armor.system.equipped}} /></div>
           <div class="item-controls">
             <a class="item-control item-edit" title="Edit Armor"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="Delete Armor"><i class="fas fa-trash"></i></a>
@@ -388,7 +388,7 @@
           <div class="item-image"></div>
           <div class="skill-stat" style="flex-grow: 1.5;">Item Name</div>
           <div class="skill-stat">Quantity</div>
-          {{#if data.settings.hideWeight}}
+          {{#if system.settings.hideWeight}}
           {{else}}
           <div class="skill-stat">Weight</div>
           {{/if}}
@@ -398,13 +398,13 @@
               Item</a>
           </div>
         </li>
-        {{#if data.settings.hideWeight}}
+        {{#if system.settings.hideWeight}}
           {{#each gear as |item id|}}
           <li class="item flexrow dropitem" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
             <h4 class="skill-name list-roll description-roll" style="flex-grow: 1.5;">{{item.name}}</h4>
-            <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
-            <div class="skill-stat">{{item.data.cost}}</div>
+            <div class="skill-stat list-roll item-quantity">{{item.system.quantity}}</div>
+            <div class="skill-stat">{{item.system.cost}}</div>
             <div class="item-controls">
               <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
               <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
@@ -416,9 +416,9 @@
           <li class="item flexrow dropitem" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
             <h4 class="skill-name list-roll description-roll" style="flex-grow: 1.5;">{{item.name}}</h4>
-            <div class="skill-stat list-roll item-quantity">{{item.data.quantity}}</div>
-            <div class="skill-stat">{{item.data.weight}}</div>
-            <div class="skill-stat">{{item.data.cost}}</div>
+            <div class="skill-stat list-roll item-quantity">{{item.system.quantity}}</div>
+            <div class="skill-stat">{{item.system.weight}}</div>
+            <div class="skill-stat">{{item.system.cost}}</div>
             <div class="item-controls">
               <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
               <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
@@ -427,10 +427,10 @@
           {{/each}}
         {{/if}}
       </ol>
-      {{#unless data.settings.hideWeight}}
+      {{#unless system.settings.hideWeight}}
       <div class="item flex-group-left item-header">
-        <div class="skill-stat" style="flex-grow: 1.5;">Carrying Capacity: {{data.weight.capacity}}</div>
-        <div class="skill-stat">Current Weight: {{data.weight.current}}</div>
+        <div class="skill-stat" style="flex-grow: 1.5;">Carrying Capacity: {{system.weight.capacity}}</div>
+        <div class="skill-stat">Current Weight: {{system.weight.current}}</div>
       </div>
       {{/unless}}
 
@@ -453,8 +453,8 @@
         <li class="item flexrow dropitem" data-item-id="{{skill._id}}">
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
-          <div class="skill-stat">{{skill.data.rank}}</div>
-          <div class="skill-stat">{{skill.data.bonus}}</div>
+          <div class="skill-stat">{{skill.system.rank}}</div>
+          <div class="skill-stat">{{skill.system.bonus}}</div>
           <div class="item-controls">
             <a class="item-control skill-edit" title="Edit Skill"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="Delete Skill"><i class="fas fa-trash"></i></a>
@@ -463,17 +463,17 @@
         {{/each}}
       </ol>
 
-      {{#if data.settings.firstEdition}}
+      {{#if system.settings.firstEdition}}
 
       <!-- XP -->
       <div class="minmaxtext" style="line-height: 1.5; text-transform: none; font-weight: 500;">Skill Training</div>
       <div class ="skill_training_frame">
         <div class="grid grid-2col" style="grid-template-columns: 283px auto;">
           <div class="char-pip-button list-roll flex" style="position: relative; top: -7px;" data-key="xp" data-label="XP" data-max="16"  data-min="0">
-            {{{data.xp.html}}}
+            {{{system.xp.html}}}
           </div>
-          <textarea name="data.xp.selectedSkill" rows="2" class="textarea-input-grey" type="text"
-          data-target="data.xp.selectedSkill" placeholder="" style="height: 32px;">{{data.xp.selectedSkill}}</textarea>
+          <textarea name="system.xp.selectedSkill" rows="2" class="textarea-input-grey" type="text"
+          data-target="system.xp.selectedSkill" placeholder="" style="height: 32px;">{{system.xp.selectedSkill}}</textarea>
         </div>
       </div>
 
@@ -491,11 +491,11 @@
         </li>
         {{#each conditions as |condition id|}}
         <li class="item flexrow dropitem" data-item-id="{{condition._id}}">
-          <div class="skill-name description-roll list-roll" style = "background: #1b0000;">{{condition.data.description}}</div>
+          <div class="skill-name description-roll list-roll" style = "background: #1b0000;">{{condition.system.description}}</div>
 
-          {{#if condition.data.treatment.html}}
+          {{#if condition.system.treatment.html}}
           <div class="treatment-button list-roll flex" style="position: relative; flex: 0.2;" data-key="condition" data-label="condition" data-max="3"  data-min="0">
-            {{{condition.data.treatment.html}}}
+            {{{condition.system.treatment.html}}}
           </div>
           {{else}}
           <div class="treatment-button list-roll flex" style="position: relative; flex: 0.2;" data-key="condition" data-label="condition" data-max="3"  data-min="0">
@@ -537,23 +537,23 @@
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
           <div class="skill-name weapon-roll list-roll" style="flex-grow: 2;">{{weapon.name}}</div>
-          <div class="skill-stat">{{weapon.data.damage}}</div>
-          {{#if weapon.data.useAmmo}}
-          <div class="skill-stat weapon-ammo list-roll">{{weapon.data.ammo}}</div>
+          <div class="skill-stat">{{weapon.system.damage}}</div>
+          {{#if weapon.system.useAmmo}}
+          <div class="skill-stat weapon-ammo list-roll">{{weapon.system.ammo}}</div>
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
-          {{#if weapon.data.shots}}
-          <div class="skill-stat">{{weapon.data.curShots}}/{{weapon.data.shots}} <i
+          {{#if weapon.system.shots}}
+          <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}} <i
               class="fas fa-sync weapon-reload list-roll"></i></div>
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
 
-          {{#if weapon.data.ranges.value}}
-          <!-- <div class="skill-stat">{{weapon.data.ranges.short}}/{{weapon.data.ranges.medium}}/{{weapon.data.ranges.long}} -->
+          {{#if weapon.system.ranges.value}}
+          <!-- <div class="skill-stat">{{weapon.system.ranges.short}}/{{weapon.system.ranges.medium}}/{{weapon.system.ranges.long}} -->
           <!-- </div> -->
-          <div class="skill-stat">{{weapon.data.ranges.value}}</div>
+          <div class="skill-stat">{{weapon.system.ranges.value}}</div>
           {{else}}
           <div class="skill-stat">CQC</div>
           {{/if}}

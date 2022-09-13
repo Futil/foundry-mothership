@@ -66,7 +66,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         //   }
 
         // Prepare items.
-        if (this.actor.data.type == 'creature') {
+        if (this.actor.type == 'creature') {
             this._prepareCreatureItems(data);
         }
 
@@ -82,15 +82,15 @@ export class MothershipCreatureSheet extends ActorSheet {
      */
     _prepareCreatureItems(sheetData) {
         const actorData = sheetData.data;
-
+        
         // Initialize containers.
         const abilities = [];
         const weapons = [];
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
-        for (let i of sheetData.data.items) {
-            let item = i.data;
+        for (let i of sheetData.items) {
+            let item = i.system;
             i.img = i.img || DEFAULT_TOKEN;
 
             if (i.type === 'ability') {
@@ -136,7 +136,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         html.find('.stat-roll').click(ev => {
             const div = $(ev.currentTarget);
             const statName = div.data("key");
-            const attribute = this.actor.data.data.stats[statName];
+            const attribute = this.actor.system.stats[statName];
 
             var shifted = false;
             if (ev.shiftKey) shifted = true;
@@ -169,15 +169,15 @@ export class MothershipCreatureSheet extends ActorSheet {
         html.on('mousedown', '.weapon-ammo', ev => {
             const li = ev.currentTarget.closest(".item");
             const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
-            let amount = item.data.ammo;
+            let amount = item.system.ammo;
 
             if (event.button == 0) {
                 if (amount >= 0) {
-                    item.data.ammo = Number(amount) + 1;
+                    item.system.ammo = Number(amount) + 1;
                 }
             } else if (event.button == 2) {
                 if (amount > 0) {
-                    item.data.ammo = Number(amount) - 1;
+                    item.system.ammo = Number(amount) - 1;
                 }
             }
 
@@ -190,14 +190,14 @@ export class MothershipCreatureSheet extends ActorSheet {
             const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
 
             if (event.button == 0) {
-                if (!item.data.useAmmo) {
-                    item.data.curShots = item.data.shots;
+                if (!item.system.useAmmo) {
+                    item.system.curShots = item.system.shots;
                 } else {
-                    item.data.ammo += item.data.curShots;
-                    let reloadAmount = Math.min(item.data.ammo, item.data.shots);
-                    item.data.curShots = reloadAmount;
+                    item.system.ammo += item.system.curShots;
+                    let reloadAmount = Math.min(item.system.ammo, item.system.shots);
+                    item.system.curShots = reloadAmount;
 
-                    item.data.ammo -= reloadAmount;
+                    item.system.ammo -= reloadAmount;
                 }
             }
 
@@ -276,7 +276,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         console.log(super.getData());
 
         if (dataset.roll) {
-            let roll = new Roll(dataset.roll, this.actor.data.data);
+            let roll = new Roll(dataset.roll, this.actor.system);
             let label = dataset.label ? `Rolling ${dataset.label} to score under ${dataset.target}` : '';
             roll.roll().toMessage({
                 speaker: ChatMessage.getSpeaker({ actor: this.actor }),

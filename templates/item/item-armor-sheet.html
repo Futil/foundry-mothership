@@ -6,15 +6,15 @@
             <div class="grid grid-2col">
               <div class="resource">
                 <label class="resource-label">Save Bonus</label>
-                  <input type="text" name="data.bonus" value="{{data.bonus}}" data-dtype="Number"/>
+                  <input type="text" name="system.bonus" value="{{system.bonus}}" data-dtype="Number"/>
               </div>
               <div class="resource">
                 <label class="resource-label">Features</label>
-                  <input type="text" name="data.features" value="{{data.features}}" data-dtype="String"/>
+                  <input type="text" name="system.features" value="{{system.features}}" data-dtype="String"/>
               </div>
               <div class="resource">
                 <label class="resource-label">Equipped</label>
-                <input type="checkbox" name="data.equipped" data-dtype="Boolean" {{checked data.equipped}}/>
+                <input type="checkbox" name="system.equipped" data-dtype="Boolean" {{checked system.equipped}}/>
             </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=true}}
+            {{editor target="system.description" button=true owner=owner editable=true}}
         </div>
 
         {{!-- Item Tab --}}
@@ -39,11 +39,11 @@
             <div class="grid grid-3col">
                 <div class="resource">
                     <label class="resource-label">Value</label>
-                    <input type="text" name="data.cost" value="{{data.cost}}" data-dtype="Number" />
+                    <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
                 </div>
                 <div class="resource">
                     <label class="resource-label">Weight</label>
-                    <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />
+                    <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
                 </div>
             </div>
         </div>

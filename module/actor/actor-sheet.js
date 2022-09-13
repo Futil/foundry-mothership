@@ -23,24 +23,24 @@ export class MothershipActorSheet extends ActorSheet {
 
     data.dtypes = ["String", "Number", "Boolean"];
 
-    const superData = data.data.data;
-
-    for (let attr of Object.values(data.data.data.attributes)) {
+    const superData = data.data.system;
+    
+    for (let attr of Object.values(data.data.system.attributes)) {
       attr.isCheckbox = attr.dtype === "Boolean";
     }
 
     // Prepare items.
-    if (this.actor.data.type == 'character') {
+    if (this.actor.type == 'character') {
       this._prepareCharacterItems(data);
     }
 
 
-    if (data.data.data.settings == null) {
-      data.data.data.settings = {};
+    if (data.data.system.settings == null) {
+      data.data.system.settings = {};
     }
-    data.data.data.settings.useCalm = game.settings.get("mosh", "useCalm");
-    data.data.data.settings.hideWeight = game.settings.get("mosh", "hideWeight");
-    data.data.data.settings.firstEdition = game.settings.get("mosh", "firstEdition");
+    data.data.system.settings.useCalm = game.settings.get("mosh", "useCalm");
+    data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
+    data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
 
 
     //SKILL XP BUTTONS
@@ -86,6 +86,8 @@ export class MothershipActorSheet extends ActorSheet {
    */
   _prepareCharacterItems(sheetData) {
     const actorData = sheetData.data;
+    console.log(sheetData);
+    console.log("sheetdata Above");
     // Initialize containers.
     const gear = [];
     const skills = [];
@@ -96,8 +98,8 @@ export class MothershipActorSheet extends ActorSheet {
     let curWeight = 0;
     // Iterate through items, allocating to containers
     // let totalWeight = 0;
-    for (let i of sheetData.data.items) {
-      let item = i.data;
+    for (let i of sheetData.items) {
+      let item = i.system;
       i.img = i.img || DEFAULT_TOKEN;
 
       if (i.type === 'item') {
@@ -141,20 +143,20 @@ export class MothershipActorSheet extends ActorSheet {
       }
     }
 
-    if(actorData.data.weight == undefined){
-      actorData.data.weight = {
+    if(actorData.system.weight == undefined){
+      actorData.system.weight = {
         "current" : 0,
         "capacity" : 0
       };
     }
-    if(actorData.data.credits == undefined){
-      actorData.data.credits = {
+    if(actorData.system.credits == undefined){
+      actorData.system.credits = {
         "value" : 0,
       };
     }
 
-    actorData.data.weight.capacity = Math.ceil((actorData.data.stats.strength.value/10) + 3);
-    actorData.data.weight.current = curWeight;
+    actorData.system.weight.capacity = Math.ceil((actorData.system.stats.strength.value/10) + 3);
+    actorData.system.weight.current = curWeight;
     //console.log("Current Weight: " + curWeight + " Capacity: " + actorData.data.weight.capacity);
 
     // Assign and return
@@ -208,15 +210,15 @@ export class MothershipActorSheet extends ActorSheet {
       const li = ev.currentTarget.closest(".item");
       const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
 
-      let amount = item.data.treatment.value;
+      let amount = item.system.treatment.value;
 
       if (event.button == 0) {
         if (amount < 3) {
-          item.data.treatment.value = Number(amount) + 1;
+          item.system.treatment.value = Number(amount) + 1;
         }
       } else if (event.button == 2) {
         if (amount > 0) {
-          item.data.treatment.value = Number(amount) - 1;
+          item.system.treatment.value = Number(amount) - 1;
         }
       }
 
@@ -229,7 +231,7 @@ export class MothershipActorSheet extends ActorSheet {
       const li = ev.currentTarget.closest(".item");
       const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
 
-      item.data.equipped = !item.data.equipped;
+      item.system.equipped = !item.system.equipped;
       this.actor.updateEmbeddedDocuments('Item', [item]);
     });
 
@@ -247,12 +249,12 @@ export class MothershipActorSheet extends ActorSheet {
     html.on('mousedown', '.item-quantity', ev => {
       const li = ev.currentTarget.closest(".item");
       const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
-      let amount = item.data.quantity;
+      let amount = item.system.quantity;
 
       if (event.button == 0) {
-        item.data.quantity = Number(amount) + 1;
+        item.system.quantity = Number(amount) + 1;
       } else if (event.button == 2) {
-        item.data.quantity = Number(amount) - 1;
+        item.system.quantity = Number(amount) - 1;
       }
 
       this.actor.updateEmbeddedDocuments('Item', [item]);
@@ -292,7 +294,7 @@ export class MothershipActorSheet extends ActorSheet {
     html.find('.stat-roll').click(ev => {
       const div = $(ev.currentTarget);
       const statName = div.data("key");
-      const attribute = this.actor.data.data.stats[statName];
+      const attribute = this.actor.system.stats[statName];
       var shifted = false;
       if (ev.shiftKey) shifted = true;
       this.actor.rollStat(attribute, shifted);
@@ -326,15 +328,15 @@ export class MothershipActorSheet extends ActorSheet {
     html.on('mousedown', '.weapon-ammo', ev => {
       const li = ev.currentTarget.closest(".item");
       const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
-      let amount = item.data.ammo;
+      let amount = item.system.ammo;
 
       if (event.button == 0) {
         if (amount >= 0) {
-          item.data.ammo = Number(amount) + 1;
+          item.system.ammo = Number(amount) + 1;
         }
       } else if (event.button == 2) {
         if (amount > 0) {
-          item.data.ammo = Number(amount) - 1;
+          item.system.ammo = Number(amount) - 1;
         }
       }
 
@@ -346,14 +348,14 @@ export class MothershipActorSheet extends ActorSheet {
       const li = ev.currentTarget.closest(".item");
       const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
 
-      if (!item.data.useAmmo) {
-        item.data.curShots = item.data.shots;
+      if (!item.system.useAmmo) {
+        item.system.curShots = item.system.shots;
       } else {
-        item.data.ammo += item.data.curShots;
-        let reloadAmount = Math.min(item.data.ammo, item.data.shots);
-        item.data.curShots = reloadAmount;
+        item.system.ammo += item.system.curShots;
+        let reloadAmount = Math.min(item.system.ammo, item.system.shots);
+        item.system.curShots = reloadAmount;
 
-        item.data.ammo -= reloadAmount;
+        item.system.ammo -= reloadAmount;
       }
 
       this.actor.updateEmbeddedDocuments('Item', [item]);
@@ -370,13 +372,13 @@ export class MothershipActorSheet extends ActorSheet {
 
     // Rollable Item/Anything with a description that we want to click on.
     html.find('.calm-roll').click(ev => {
-      const attribute = this.actor.data.data.other.stress;
+      const attribute = this.actor.system.other.stress;
       attribute.label = "Calm";
       this.actor.rollStress(attribute);
     });
     // Rollable Item/Anything with a description that we want to click on.
     html.find('.stress-roll').click(ev => {
-      const attribute = this.actor.data.data.other.stress;
+      const attribute = this.actor.system.other.stress;
       attribute.label = "Stress";
       this.actor.rollStress(attribute);
     });
@@ -502,7 +504,7 @@ export class MothershipActorSheet extends ActorSheet {
     const dataset = element.dataset;
 
     if (dataset.roll) {
-      let roll = new Roll(dataset.roll, this.actor.data.data);
+      let roll = new Roll(dataset.roll, this.actor.system);
       let label = dataset.label ? `Rolling ${dataset.label} to score under ${dataset.target}` : '';
       roll.roll().toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),

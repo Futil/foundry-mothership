@@ -5,7 +5,7 @@
             <h1 class="charname"><input name="name" type="text" value="{{name}}" placeholder="Name"/></h1>
             <div class="resource">
                 <label class="resource-label">Description</label>
-                  <input type="text" name="data.description" value="{{data.description}}" data-dtype="Text"/>
+                  <input type="text" name="system.description" value="{{system.description}}" data-dtype="Text"/>
             </div>
         </div>
     </header>
@@ -20,7 +20,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=true}}
+            {{editor content=system.description target="system.description" button=true owner=owner editable=true}}
         </div>
     </section> -->
 </form>

@@ -10,8 +10,8 @@ export class MothershipActor extends Actor {
   prepareData() {
     super.prepareData();
 
-    const actorData = this.data;
-    const data = actorData.data;
+    const actorData = this;
+    const data = actorData.system;
     const flags = actorData.flags;
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
@@ -25,14 +25,14 @@ export class MothershipActor extends Actor {
    * Prepare Character type specific data
    */
   _prepareCharacterData(actorData) {
-    const data = actorData.data;
+    const data = actorData.system;
 
     let armorBonus = 0;
     const armors = this.getEmbeddedCollection("Item").filter(e => "armor" === e.type);
     
     for (let armor of armors) {
-      if (armor.data.data.equipped) {
-        armorBonus += armor.data.data.bonus;
+      if (armor.system.equipped) {
+        armorBonus += armor.system.bonus;
       }
     }
     data.stats.armor.mod = armorBonus;
@@ -44,11 +44,11 @@ export class MothershipActor extends Actor {
    * Prepare Character type specific data
    */
   _prepareCreatureData(actorData) {
-    const data = actorData.data;
+    const data = actorData;
   }
 
   _prepareShipData(actorData) {
-    const data = actorData.data;
+    const data = actorData;
   }
 
   rollStatSelect(statList) {
@@ -67,7 +67,7 @@ export class MothershipActor extends Actor {
         roll: {
           icon: '<i class="fas fa-check"></i>',
           label: "Roll",
-          callback: (html) => this.rollStat(this.data.data.stats[html.find('[id=\"stat\"]')[0].value])
+          callback: (html) => this.rollStat(this.system.stats[html.find('[id=\"stat\"]')[0].value])
         },
         cancel: {
           icon: '<i class="fas fa-times"></i>',
@@ -152,10 +152,10 @@ export class MothershipActor extends Actor {
 
     console.log(item);
 
-    if (item.data.useAmmo == true || item.data.shots > 0) {
-      if (item.data.shots == 0) {
-        if (item.data.ammo > 0) {
-          item.data.ammo -= 1;
+    if (item.system.useAmmo == true || item.system.shots > 0) {
+      if (item.system.shots == 0) {
+        if (item.system.ammo > 0) {
+          item.system.ammo -= 1;
           this.updateEmbeddedDocuments('Item', [item]);
         } else {
 
@@ -177,14 +177,14 @@ export class MothershipActor extends Actor {
           return;
         }
       } else {
-        if (item.data.curShots > 0) {
-          let subAmount = Math.max(item.data.shotsPerFire, 1);
-          item.data.curShots = Math.max(item.data.curShots - subAmount, 0);
+        if (item.system.curShots > 0) {
+          let subAmount = Math.max(item.system.shotsPerFire, 1);
+          item.system.curShots = Math.max(item.system.curShots - subAmount, 0);
           console.log("Unloading Shots");
           this.updateEmbeddedDocuments('Item', [item]);
         }
         else {
-          if (item.data.ammo > 0 || !item.data.useAmmo) {
+          if (item.system.ammo > 0 || !item.system.useAmmo) {
             //Select the stat of the roll.
             let t = new Dialog({
               title: "Reload",
@@ -227,7 +227,7 @@ export class MothershipActor extends Actor {
           // let speaker = ChatMessage.getSpeaker({ actor });
           // ChatMessage.create({
           //   speaker,
-          //   content: item.data.ammo > 0 ? `I need to reload my ` + item.name + "!" : "I'm out of ammo!",
+          //   content: item.system.ammo > 0 ? `I need to reload my ` + item.name + "!" : "I'm out of ammo!",
           //   type: CHAT_MESSAGE_TYPES.EMOTE
           // },
           //   { chatBubble: true });
@@ -242,12 +242,14 @@ export class MothershipActor extends Actor {
       content: "<h2> Advantage/Disadvantage </h2> <select style='margin-bottom:10px;'name='advantage' id='advantage'>\
         <option value='none'>None</option>\
         <option value='advantage'>Advantage/Disadvantage</option>\
-        </select> <br/>",
+        </select> <br/>\
+        \
+        <h2> Skill Bonus </h2> <input style='margin-bottom:10px;' name='bonus' id='bonus' value='"+item.system.bonus+"'></input><br/>",
       buttons: {
         roll: {
           icon: '<i class="fas fa-check"></i>',
           label: "Roll",
-          callback: (html) => this.rollAttribute(this.data.data.stats["combat"], html.find('[id=\"advantage\"]')[0].value, item)
+          callback: (html) => this.rollAttribute(this.system.stats["combat"], html.find('[id=\"advantage\"]')[0].value, item, false, html.find('[id=\"bonus\"]')[0].value)
         },
         cancel: {
           icon: '<i class="fas fa-times"></i>',
@@ -265,14 +267,14 @@ export class MothershipActor extends Actor {
     let item = duplicate(this.getEmbeddedDocument("Item",itemId));
     
     if (event.button == 0) {
-      if (!item.data.useAmmo) {
-        item.data.curShots = item.data.shots;
+      if (!item.system.useAmmo) {
+        item.system.curShots = item.system.shots;
       } else {
-        item.data.ammo += item.data.curShots;
-        let reloadAmount = Math.min(item.data.ammo, item.data.shots);
-        item.data.curShots = reloadAmount;
+        item.system.ammo += item.system.curShots;
+        let reloadAmount = Math.min(item.system.ammo, item.system.shots);
+        item.system.curShots = reloadAmount;
 
-        item.data.ammo -= reloadAmount;
+        item.system.ammo -= reloadAmount;
       }
     }
 
@@ -311,7 +313,7 @@ export class MothershipActor extends Actor {
         roll: {
           icon: '<i class="fas fa-check"></i>',
           label: "Roll",
-          callback: (html) => this.rollAttribute(this.data.data.stats[html.find('[id=\"stat\"]')[0].value], html.find('[id=\"advantage\"]')[0].value, item)
+          callback: (html) => this.rollAttribute(this.system.stats[html.find('[id=\"stat\"]')[0].value], html.find('[id=\"advantage\"]')[0].value, item)
         },
         cancel: {
           icon: '<i class="fas fa-times"></i>',
@@ -325,7 +327,7 @@ export class MothershipActor extends Actor {
     t.render(true);
   }
 
-  async rollAttribute(attribute, advantage, item = "", rollOver = false) {
+  async rollAttribute(attribute, advantage, item = "", rollOver = false, bonus = 0) {
     let attributeName = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
     if (!attribute.label && isNaN(attributeName))
       attributeName = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
@@ -361,7 +363,7 @@ export class MothershipActor extends Actor {
 
     let damageRoll = 0;
     if (item.type == "weapon") {
-      damageRoll = new Roll(item.data.damage);
+      damageRoll = new Roll(item.system.damage);
       damageRoll.evaluate({async: false});
       console.log(damageRoll);
     }
@@ -370,9 +372,9 @@ export class MothershipActor extends Actor {
     const diceData = this.formatDice(r);
 
     let mod = 0;
-    if (attribute.mod > 0) mod = attribute.mod;
-
-    let targetValue = attribute.value + mod + (item == "" ? 0 : item.data.bonus);
+    if (attribute.mod > 0) mod += attribute.mod;
+    console.log("Bonus: " + mod);
+    let targetValue = attribute.value + mod + (item == "" ? 0 : parseInt(bonus));
 
     let critical = false;
 
@@ -428,7 +430,7 @@ export class MothershipActor extends Actor {
           value: resultText
         },
         isCreature: {
-          value: this.data.type == "creature" ? true : false
+          value: this.type == "creature" ? true : false
         },
         panic: panic,
         panicText : panicText
@@ -441,6 +443,7 @@ export class MothershipActor extends Actor {
       isWeapon: item.type == "weapon" ? true : false,
       critical: critical,
       advantage: advantage == "advantage" ? true : false,
+      bonus: bonus,
       diceData
     };
 
@@ -553,12 +556,12 @@ export class MothershipActor extends Actor {
     
     var rollInsert = '';
     
-    if(item.data.roll){
-      let r = new Roll(item.data.roll, {});
+    if(item.system.roll){
+      let r = new Roll(item.system.roll, {});
       r.evaluate({async: false});
 
       rollInsert = '\
-        <div class="rollh2" style="text-transform: lowercase;">'+item.data.roll+'</div>\
+        <div class="rollh2" style="text-transform: lowercase;">'+item.system.roll+'</div>\
         <div class="roll-grid">\
           <div class="roll-result">'+r._total+'</div>\
         </div>';

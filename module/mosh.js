@@ -188,7 +188,7 @@ function rollStatMacro() {
   let actor;
   if (speaker.token) actor = game.actors.tokens[speaker.token];
   if (!actor) actor = game.actors.get(speaker.actor);
-  const stat = actor ? Object.entries(actor.data.data.stats) : null;
+  const stat = actor ? Object.entries(actor.system.stats) : null;
 
 
   // if (stat == null) {

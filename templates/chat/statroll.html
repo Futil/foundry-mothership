@@ -12,7 +12,7 @@
         </div>
         {{{insert}}}
         <div class="description">
-            <div class="body">{{{item.data.description}}}</div>
+            <div class="body">{{{item.system.description}}}</div>
             <br />
         </div>
         {{else}}
@@ -49,10 +49,10 @@
             <div class="valuetext">{{stat.name}} ({{this.target}})</div>
             <div class="valuetext">Mod ({{this.mod}})</div>
             {{#if useSkill}}
-            <div class="valuetext">{{item.name}} ({{item.data.bonus}})</div>
+            <div class="valuetext">{{item.name}} ({{item.system.bonus}})</div>
             {{/if}}
             {{#if isWeapon}}
-            <div class="valuetext">{{item.name}} ({{item.data.bonus}})</div>
+            <div class="valuetext">{{item.name}} ({{bonus}})</div>
             {{/if}}
         </div>
         <!-- Damage Roll -->
@@ -63,20 +63,20 @@
                 <div class="value">{{data.diceTotal.damageValue}}</div>
             </div>
         </div>
-        <div class="rollmods" style="margin-top: 0px;">({{item.data.damage}})</div>
+        <div class="rollmods" style="margin-top: 0px;">({{item.system.damage}})</div>
         <br/>
-        {{#if item.data.ranges.medium}}
-        <div class="rollmods">Range: {{item.data.ranges.short}}/{{item.data.ranges.medium}}/{{item.data.ranges.long}}
+        {{#if item.system.ranges.medium}}
+        <div class="rollmods">Range: {{item.system.ranges.short}}/{{item.system.ranges.medium}}/{{item.system.ranges.long}}
         </div>
         {{else}}
         <div class="rollmods">Range: CQC</div>
         {{/if}}
 
-        {{#if item.data.shots}}
-        <div class="rollmods">Shots: {{item.data.curShots}}/{{item.data.shots}}</div>
+        {{#if item.system.shots}}
+        <div class="rollmods">Shots: {{item.system.curShots}}/{{item.system.shots}}</div>
         {{else}}
-            {{#if item.data.useAmmo}}
-            <div class="rollmods">Ammo: {{item.data.ammo}}</div>
+            {{#if item.system.useAmmo}}
+            <div class="rollmods">Ammo: {{item.system.ammo}}</div>
             {{/if}}
         {{/if}}
         
@@ -84,16 +84,16 @@
         <div class="description">
             <div class="header padding" style = "grid: none;">Critical</div>
             <br/>
-            <div class="body">Crit Damage: [[/r {{item.data.critDmg}}]]</div>
-            <div class="body">Crit Effect: {{item.data.critEffect}}</div>
+            <div class="body">Crit Damage: [[/r {{item.system.critDmg}}]]</div>
+            <div class="body">Crit Effect: {{item.system.critEffect}}</div>
         </div>
         <br/>
         {{/if}}
 
-        {{#if item.data.description}}
+        {{#if item.system.description}}
         <div class="description">
             <div class="header padding" style = "grid: none;">Description</div>
-            <div class="body">{{{item.data.description}}}</div>
+            <div class="body">{{{item.system.description}}}</div>
         </div>
         {{/if}}
         {{/if}}
@@ -101,7 +101,7 @@
         {{#if useSkill}}
         <div class="description">
             <div class="header padding" style = "grid: none;">Description</div>
-            <div class="body">{{{item.data.description}}}</div>
+            <div class="body">{{{item.system.description}}}</div>
         </div>
         {{/if}}
         {{#if data.panic}}

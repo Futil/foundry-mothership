@@ -5,80 +5,80 @@
     <!-- Creature NAME -->
     <input name="name" class="noborder creaturename" style="grid-area:'name';" type="text" value="{{name}}" placeholder="Name" />
     <div class="creature-header">
-      {{#if data.stats.combat.enabled}}
+      {{#if system.stats.combat.enabled}}
       <!-- Combat -->
       <div class="mainstatwrapper">
         <div class="resource creature-mainstat">
           <span class="ability-mod stat-roll rollable creaturestat" data-key="combat" data-roll="d100"
             data-label="Combat">COMBAT</span>
-          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.combat.value"
-            value="{{data.stats.combat.value}}" data-dtype="Number" />
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="system.stats.combat.value"
+            value="{{system.stats.combat.value}}" data-dtype="Number" />
         </div>
       </div>
       {{/if}}
-      {{#if data.stats.instinct.enabled}}
+      {{#if system.stats.instinct.enabled}}
       <!-- Instinct -->
       <div class="mainstatwrapper">
         <div class="resource creature-mainstat">
           <span class="ability-mod stat-roll rollable creaturestat" data-key="instinct" data-roll="d100"
             data-label="Instinct">Instinct</span>
-          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.instinct.value"
-            value="{{data.stats.instinct.value}}" data-dtype="Number" />
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="system.stats.instinct.value"
+            value="{{system.stats.instinct.value}}" data-dtype="Number" />
         </div>
       </div>
       {{/if}}
-      {{#if data.stats.speed.enabled}}
+      {{#if system.stats.speed.enabled}}
       <!-- Speed -->
       <div class="mainstatwrapper">
         <div class="resource creature-mainstat">
           <span class="ability-mod stat-roll rollable creaturestat" data-key="speed" data-roll="d100"
             data-label="Speed">Speed</span>
-          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.speed.value"
-            value="{{data.stats.speed.value}}" data-dtype="Number" />
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="system.stats.speed.value"
+            value="{{system.stats.speed.value}}" data-dtype="Number" />
         </div>
       </div>
       {{/if}}
-      {{#if data.stats.loyalty.enabled}}
+      {{#if system.stats.loyalty.enabled}}
       <!-- Loyalty -->
       <div class="mainstatwrapper">
         <div class="resource creature-mainstat">
           <span class="ability-mod stat-roll rollable creaturestat" data-key="loyalty" data-roll="d100"
             data-label="Speed">Loyalty</span>
-          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.loyalty.value"
-            value="{{data.stats.loyalty.value}}" data-dtype="Number" />
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="system.stats.loyalty.value"
+            value="{{system.stats.loyalty.value}}" data-dtype="Number" />
         </div>
       </div>
       {{/if}}
-      {{#if data.stats.armor.enabled}}
+      {{#if system.stats.armor.enabled}}
       <!-- Armor -->
       <div class="mainstatwrapper">
         <div class="resource creature-mainstat">
           <span class="ability-mod stat-roll rollable creaturestat" data-key="armor" data-roll="d100"
             data-label="Speed">Armor</span>
-          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.armor.value"
-            value="{{data.stats.armor.value}}" data-dtype="Number" />
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="system.stats.armor.value"
+            value="{{system.stats.armor.value}}" data-dtype="Number" />
         </div>
       </div>
       {{/if}}
-      {{#if data.stats.sanity.enabled}}
+      {{#if system.stats.sanity.enabled}}
       <!-- Sanity -->
       <div class="mainstatwrapper">
         <div class="resource creature-mainstat">
           <span class="ability-mod stat-roll rollable creaturestat" data-key="sanity" data-roll="d100"
             data-label="Speed">Sanity</span>
-          <input class="creaturestat noborder" style="width: 30px;" type="text" name="data.stats.sanity.value"
-            value="{{data.stats.sanity.value}}" data-dtype="Number" />
+          <input class="creaturestat noborder" style="width: 30px;" type="text" name="system.stats.sanity.value"
+            value="{{system.stats.sanity.value}}" data-dtype="Number" />
         </div>
       </div>
       {{/if}}
       <!-- <div class="health grid grid-1col">
         <div class="resource healthspread minmaxtopstat">
-          <label for="data.health.value" class="resource-label minmaxtext">Health</label>
+          <label for="system.health.value" class="resource-label minmaxtext">Health</label>
 
           <div class="minmaxwrapper">
-            <input class="sizelarge circle-input greyText" type="text" name="data.health.value"
-              value="{{data.health.value}}" data-dtype="Number" />
-            <input class="maxhealth-input darkGreyText" type="text" name="data.health.max" value="{{data.health.max}}"
+            <input class="sizelarge circle-input greyText" type="text" name="system.health.value"
+              value="{{system.health.value}}" data-dtype="Number" />
+            <input class="maxhealth-input darkGreyText" type="text" name="system.health.max" value="{{system.health.max}}"
               data-dtype="Number" />
           </div>
           <div class="healthmaxtext">MAX</div>
@@ -94,13 +94,13 @@
       <div class="grid">
         <!-- Health -->
         <div class="resource healthspread minmaxtopstat">
-          <label for="data.health.value" class="resource-label minmaxtext">Health</label>
+          <label for="system.health.value" class="resource-label minmaxtext">Health</label>
   
           <div class="minmaxwrapper">
-            <input class="maxhealth-input darkGreyText" type="text" name="data.health.value" value="{{data.health.value}}"
+            <input class="maxhealth-input darkGreyText" type="text" name="system.health.value" value="{{system.health.value}}"
               data-dtype="Number" />
             <div class="slant"></div>
-            <input class="maxhealth-input darkGreyText" type="text" name="data.health.max" value="{{data.health.max}}"
+            <input class="maxhealth-input darkGreyText" type="text" name="system.health.max" value="{{system.health.max}}"
               data-dtype="Number" />
           </div>
   
@@ -110,13 +110,13 @@
   
         <!-- Hits -->
         <div class="resource healthspread minmaxtopstat">
-          <label for="data.hits.value" class="resource-label minmaxtext">Hits</label>
+          <label for="system.hits.value" class="resource-label minmaxtext">Hits</label>
   
           <div class="minmaxwrapper">
-            <input class="maxhealth-input darkGreyText" type="text" name="data.hits.value" value="{{data.hits.value}}"
+            <input class="maxhealth-input darkGreyText" type="text" name="system.hits.value" value="{{system.hits.value}}"
               data-dtype="Number" />
             <div class="slant"></div>
-            <input class="maxhealth-input darkGreyText" type="text" name="data.hits.max" value="{{data.hits.max}}"
+            <input class="maxhealth-input darkGreyText" type="text" name="system.hits.max" value="{{system.hits.max}}"
               data-dtype="Number" />
           </div>
   
@@ -124,7 +124,7 @@
           <div class="healthmaxtext">Maximum</div>
         </div>
       </div>
-      {{editor content=data.description target="data.description" button=true owner=owner editable=true}}
+      {{editor target="system.description" button=true owner=owner editable=true}}
     </div>
     <div class="creature-abilities">
       <img class="img profile noborder" src="{{img}}" data-edit="img" title="{{name}}" style="height:auto; width:100%;" />
@@ -133,13 +133,12 @@
       {{#each abilities as |ability id|}}
       <li style="margin-top: -12px" class="creature-ability-container item dropitem" data-item-id="{{ability._id}}">
         <div class="creature-ability-title list-roll description-roll">{{ability.name}}</div>
-        <div class="creature-ability-text itemtext">{{{ability.data.description}}}</div>
+        <div class="creature-ability-text itemtext">{{{ability.system.description}}}</div>
         <div class="item-controls" style="margin-left: 3px; font-size: 0.7rem;">
           <a class="item-control item-edit darkgrey" title="Edit Ability"><i class="fas fa-edit"></i></a>
           <a class="item-control item-delete darkgrey" title="Delete Ability"><i class="fas fa-trash"></i></a>
         </div>
       </li>
-
       {{/each}}
       <a class="item-control weapon-create darkgrey " style="margin-left: 5px;" title="Create Ability"
         data-type="ability"><i class="fas fa-plus"></i>
@@ -158,7 +157,7 @@
 
     {{!-- Biography Tab --}}
     <div class="tab biography" data-group="primary" data-tab="description">
-      {{editor content=data.biography target="data.biography" button=true owner=owner editable=true}}
+      {{editor target="system.biography" button=true owner=owner editable=true}}
     </div>
     {{!-- Owned Weapons Tab --}}
     <div class="tab items" data-group="primary" data-tab="weapons">
@@ -181,23 +180,23 @@
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
           <div class="skill-name weapon-roll list-roll" style="flex-grow: 2;">{{weapon.name}}</div>
-          <div class="skill-stat">{{weapon.data.damage}}</div>
-          {{#if weapon.data.useAmmo}}
-          <div class="skill-stat weapon-ammo list-roll">{{weapon.data.ammo}}</div>
+          <div class="skill-stat">{{weapon.system.damage}}</div>
+          {{#if weapon.system.useAmmo}}
+          <div class="skill-stat weapon-ammo list-roll">{{weapon.system.ammo}}</div>
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
-          {{#if weapon.data.shots}}
-          <div class="skill-stat">{{weapon.data.curShots}}/{{weapon.data.shots}} <i
+          {{#if weapon.system.shots}}
+          <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}} <i
               class="fas fa-sync weapon-reload list-roll"></i></div>
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
           
-          {{#if weapon.data.ranges.value}}
-          <!-- <div class="skill-stat">{{weapon.data.ranges.short}}/{{weapon.data.ranges.medium}}/{{weapon.data.ranges.long}} -->
+          {{#if weapon.system.ranges.value}}
+          <!-- <div class="skill-stat">{{weapon.system.ranges.short}}/{{weapon.system.ranges.medium}}/{{weapon.system.ranges.long}} -->
           <!-- </div> -->
-          <div class="skill-stat">{{weapon.data.ranges.value}}</div>
+          <div class="skill-stat">{{weapon.system.ranges.value}}</div>
           {{else}}
           <div class="skill-stat">CQC</div>
           {{/if}}

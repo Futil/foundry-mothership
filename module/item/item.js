@@ -10,9 +10,9 @@ export class MothershipItem extends Item {
     super.prepareData();
 
     // Get the Item's data
-    const itemData = this.data;
-    const actorData = this.actor ? this.actor.data : {};
-    const data = itemData.data;
+    const itemData = this;
+    const actorData = this.actor ? this.actor.system : {};
+    const data = itemData.system;
   }
 
   static chatListeners(html) {

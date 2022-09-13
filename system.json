@@ -1,4 +1,5 @@
 {
+  "id": "mosh",
   "title": "MoSh - Unofficial Mothership",
   "description": "The unofficial Mothership system for FoundryVTT.",
   "version": "0.3.0",
@@ -35,7 +36,7 @@
   "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/master/system.json",
   "download": "https://github.com/Futil/foundry-mothership/archive/master.zip",
   "license": "LICENSE.txt",
-  "id": "mosh",
+
   "authors": [
     {
       "name": "Futilrevenge",
@@ -43,7 +44,8 @@
     }
   ],
   "compatibility": {
-    "minimum": "V10",
-    "verified": "V10"
+    "minimum": "10",
+    "verified": "10",
+    "maximum": "10"
   }
 }

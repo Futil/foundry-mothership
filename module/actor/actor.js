@@ -372,6 +372,11 @@ export class MothershipActor extends Actor {
     const diceData = this.formatDice(r);
 
     let mod = 0;
+    if(item.type == "skill"){
+      mod += item.system.bonus;
+    }
+
+    
     if (attribute.mod > 0) mod += attribute.mod;
     console.log("Bonus: " + mod);
     let targetValue = attribute.value + mod + (item == "" ? 0 : parseInt(bonus));

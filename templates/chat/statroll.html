@@ -65,12 +65,8 @@
         </div>
         <div class="rollmods" style="margin-top: 0px;">({{item.system.damage}})</div>
         <br/>
-        {{#if item.system.ranges.medium}}
-        <div class="rollmods">Range: {{item.system.ranges.short}}/{{item.system.ranges.medium}}/{{item.system.ranges.long}}
-        </div>
-        {{else}}
-        <div class="rollmods">Range: CQC</div>
-        {{/if}}
+        
+        <div class="rollmods">Range: {{range}}</div>
 
         {{#if item.system.shots}}
         <div class="rollmods">Shots: {{item.system.curShots}}/{{item.system.shots}}</div>

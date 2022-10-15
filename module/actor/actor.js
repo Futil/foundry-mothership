@@ -338,7 +338,10 @@ export class MothershipActor extends Actor {
 
     let diceformular = (isStress ? (firstEdition ? "1d20" : "2d10") : "1d100");
 
-
+    if(isNaN(bonus)){
+      bonus = 0;
+      item.system.bonus = 0;
+    }
     // if (advantage != undefined && advantage != NaN && advantage != 0) {
     //     diceformular = diceformular + "+" + advantage + "d6kh";
     // }
@@ -361,11 +364,14 @@ export class MothershipActor extends Actor {
       a._total = 0;
     }
 
+    let range = "CQC";
     let damageRoll = 0;
     if (item.type == "weapon") {
       damageRoll = new Roll(item.system.damage);
       damageRoll.evaluate({async: false});
       console.log(damageRoll);
+      range = item.system.ranges.value;
+
     }
 
     // Format Dice
@@ -446,6 +452,7 @@ export class MothershipActor extends Actor {
       targetValue: targetValue,
       useSkill: item.type == "skill" ? true : false,
       isWeapon: item.type == "weapon" ? true : false,
+      range: range,
       critical: critical,
       advantage: advantage == "advantage" ? true : false,
       bonus: bonus,

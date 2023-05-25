@@ -355,12 +355,12 @@ export class MothershipActor extends Actor {
     a.evaluate({async: false});
 
     if (r._total == 100) {
-      r.results[0] = 0;
+      //r.results[0] = 0;
       r._total = 0;
     }
 
     if (a._total == 100) {
-      a.results[0] = 0;
+      //a.results[0] = 0;
       a._total = 0;
     }
 

@@ -2,7 +2,7 @@ export const registerSettings = function () {
     game.settings.register('mosh', 'firstEdition', {
         name: "1e Rules",
         hint: "Use the 1st edition rules and character sheet.",
-        default: false,
+        default: true,
         scope: 'world',
         type: Boolean,
         config: true,

@@ -16,8 +16,11 @@
       "system": "mosh",
       "path": "packs/tables.db",
       "type": "RollTable",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     }
   ],
   "languages": [
@@ -36,7 +39,6 @@
   "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/master/system.json",
   "download": "https://github.com/Futil/foundry-mothership/archive/master.zip",
   "license": "LICENSE.txt",
-
   "authors": [
     {
       "name": "Futilrevenge",
@@ -44,8 +46,7 @@
     }
   ],
   "compatibility": {
-    "minimum": "10",
-    "verified": "10",
-    "maximum": "10"
+    "minimum": "0.8.6",
+    "verified": "10"
   }
 }

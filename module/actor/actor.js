@@ -383,7 +383,7 @@ export class MothershipActor extends Actor {
     }
 
     
-    if (attribute.mod > 0) mod += attribute.mod;
+    if (attribute.mod != 0) mod += attribute.mod;
     console.log("Bonus: " + mod);
     let targetValue = attribute.value + mod + (item == "" ? 0 : parseInt(bonus));
 

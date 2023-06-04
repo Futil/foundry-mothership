@@ -155,8 +155,6 @@ async function createMothershipMacro(data, slot) {
   return false;
 }
 
-
-
 /* -------------------------------------------- */
 /*  Actor from JSON                             */
 /* -------------------------------------------- */
@@ -414,7 +412,7 @@ async function createActorFromJson(jsonData) {
     newActor.items = items
   } catch (err) {
     console.error(err);
-    ui.notifications.error("Invalid JSON data");
+    ui.notifications.error("Invalid JSON, make sure you exported it from the Mothership Companion App");
     return;
   }
 
@@ -426,32 +424,46 @@ async function createActorFromJson(jsonData) {
 
   try {
     await Actor.create(newActor);
-    ui.notifications.info("Actor created successfully");
+    ui.notifications.info("Character imported successfully!");
   } catch (err) {
     console.error(err);
-    ui.notifications.error("Failed to create actor");
+    ui.notifications.error("Failed to import character, check console for more details.");
   }
 }
 
 let d = new Dialog({
-  title: "Create Actor from JSON",
-  content: `<p>Paste your JSON data below:</p><textarea id="json-data" rows="6" style="width:100%;"></textarea>`,
+  title: "Mothership Companion JSON Import",
+  content: `
+  <form>
+    <div class="form-group">
+      <label>JSON File:</label>
+      <input type="file" id="json-upload" accept=".json">
+    </div>
+  </form>
+  `,
   buttons: {
-    save: {
-      icon: '<i class="fas fa-check"></i>',
-      label: "Create",
-      callback: (html) => {
-        const jsonData = html.find('#json-data').val();
-        createActorFromJson(jsonData);
+      upload: {
+          label: "Upload",
+          callback: (html) => {
+              let fileInput = html.find('#json-upload')[0];
+              let file = fileInput.files[0];
+              let reader = new FileReader();
+
+              reader.onload = (event) => {
+                  let contents = event.target.result;
+                  createActorFromJson(contents);
+              };
+
+              reader.onerror = (event) => {
+                  console.error(`File could not be read: ${event.target.error}`);
+              };
+
+              reader.readAsText(file);
+          }
       }
-    },
-    cancel: {
-      icon: '<i class="fas fa-times"></i>',
-      label: "Cancel"
-    }
   },
-  default: "save"
-});
+  default: "upload"
+})
 d.render(true);
 
 

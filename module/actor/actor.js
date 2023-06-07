@@ -359,6 +359,8 @@ export class MothershipActor extends Actor {
       r._total = 0;
     }
 
+    console.log(r);
+
     if (a._total == 100) {
       //a.results[0] = 0;
       a._total = 0;
@@ -385,6 +387,14 @@ export class MothershipActor extends Actor {
     
     if (attribute.mod != 0) mod += attribute.mod;
     console.log("Bonus: " + mod);
+
+
+    
+
+    if(isNaN(mod)) mod = 0;
+
+    console.log("Bonus: " + mod);
+
     let targetValue = attribute.value + mod + (item == "" ? 0 : parseInt(bonus));
 
     let critical = false;

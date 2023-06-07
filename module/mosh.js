@@ -106,7 +106,10 @@ Hooks.on("preCreateActor", (document, createData, options, userId) => {
 })
 
 Hooks.on('renderSidebarTab', async (app, html) => {
-  if (app.options.id == "actors") {
+  console.log(app);
+  console.log(app.options.id);
+  if (app.options.id == "actors" || app.title == "Actors Directory") {
+    console.log("testing~");
     let button = $(`<button class="import-json"><i class="fas fa-file-import"></i> Import JSON</button>`);
     button.click(function () {
       d.render(true);

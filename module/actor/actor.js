@@ -369,7 +369,22 @@ export class MothershipActor extends Actor {
     let range = "CQC";
     let damageRoll = 0;
     if (item.type == "weapon") {
-      damageRoll = new Roll(item.system.damage);
+
+      if(item.system.damage.includes("[+]")){
+        var newRoll = item.system.damage.replace("[+]", "");
+        newRoll = "{"+newRoll+", "+newRoll+"}kh";
+        console.log(newRoll);
+        damageRoll = new Roll(newRoll);
+      } else if(item.system.damage.includes("[-]")){
+        var newRoll = item.system.damage.replace("[-]", "");
+        newRoll = "{"+newRoll+", "+newRoll+"}kl";
+        console.log(newRoll);
+        damageRoll = new Roll(newRoll);
+      } 
+      else {
+        damageRoll = new Roll(item.system.damage);
+      }
+
       damageRoll.evaluate({async: false});
       console.log(damageRoll);
       range = item.system.ranges.value;
@@ -491,6 +506,8 @@ export class MothershipActor extends Actor {
       chatData.content = content;
       if (game.dice3d) {
         game.dice3d.showForRoll(r, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+        if(damageRoll)
+        game.dice3d.showForRoll(damageRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
 
       } else {
         chatData.sound = CONFIG.sounds.dice;

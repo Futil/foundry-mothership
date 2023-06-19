@@ -370,7 +370,7 @@ async function createActorFromJson(jsonData) {
           "ammoType": "",
           "critDmg": actorData.weapons[i].critical,
           "critEffect": "",
-          "damage": actorData.weapons[i].damageString
+          "damage": actorData.weapons[i].damageString.replace("DMG", "")
         },
         "img": "icons/svg/item-bag.svg",
       })

@@ -164,6 +164,8 @@ async function createMothershipMacro(data, slot) {
 // If there's a better place for these, please do move them
 let skillValues = {
   "archeology": { "value": 10, "rank": "Trained" },
+  "archaelogy": { "value": 10, "rank": "Trained" }, //The mobile app has a typo so needs this.
+  "archaeology": { "value": 10, "rank": "Trained" },
   "art": { "value": 10, "rank": "Trained" },
   "athletics": { "value": 10, "rank": "Trained" },
   "botany": { "value": 10, "rank": "Trained" },
@@ -348,8 +350,9 @@ async function createActorFromJson(jsonData) {
     }
     // Weapons
     for (let i = 0; i < actorData.weapons.length; i++) {
+      console.log(actorData.weapons[i]);
       items.push({
-        "name": actorData.weapons[i].weaponType,
+        "name": actorData.weapons[i].name,
         "type": "weapon",
         "system": {
           "description": actorData.weapons[i].special,
@@ -377,6 +380,11 @@ async function createActorFromJson(jsonData) {
     }
     // Skills
     for (let i = 0; i < actorData.skills.length; i++) {
+
+      if(actorData.skills[i] == undefined) continue;
+      console.log(actorData.skills[i]);
+      console.log(skillValues[actorData.skills[i].toLowerCase()]);
+
       // Really betting for the app to only export base skills, if in the future
       // they add custom skills, they'll need to be checked if they even exist
       let words = actorData.skills[i].split(/(?=[A-Z])/);

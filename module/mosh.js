@@ -98,10 +98,14 @@ Hooks.on("preCreateActor", (document, createData, options, userId) => {
       "token.name": createData.name                                   // Set token name to actor name
     })
 
+    console.log(createData);
+    console.log("Created!");
 
   if (createData.type == "character") {
-    createData.token.vision = true;
-    createData.token.actorLink = true;
+    console.log("Got here");
+    const prototypeToken = { disposition: 1, actorLink: true, vision: true}; // Set disposition to "Friendly"
+    document.updateSource({ prototypeToken });
+    
   }
 })
 

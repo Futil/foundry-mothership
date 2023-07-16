@@ -359,7 +359,6 @@ export class MothershipActor extends Actor {
       r._total = 0;
     }
 
-    console.log(r);
 
     if (a._total == 100) {
       //a.results[0] = 0;
@@ -386,7 +385,6 @@ export class MothershipActor extends Actor {
       }
 
       damageRoll.evaluate({async: false});
-      console.log(damageRoll);
       range = item.system.ranges.value;
 
     }
@@ -401,14 +399,8 @@ export class MothershipActor extends Actor {
 
     
     if (attribute.mod != 0) mod += attribute.mod;
-    console.log("Bonus: " + mod);
-
-
-    
 
     if(isNaN(mod)) mod = 0;
-
-    console.log("Bonus: " + mod);
 
     let targetValue = attribute.value + mod + (item == "" ? 0 : parseInt(bonus));
 
@@ -505,10 +497,11 @@ export class MothershipActor extends Actor {
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;
       if (game.dice3d) {
-        game.dice3d.showForRoll(r, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-        if(damageRoll)
-        game.dice3d.showForRoll(damageRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-
+        if(!damageRoll)
+          game.dice3d.showForRoll(r, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+        else
+          game.dice3d.showForRoll(damageRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
+        
       } else {
         chatData.sound = CONFIG.sounds.dice;
         ChatMessage.create(chatData);

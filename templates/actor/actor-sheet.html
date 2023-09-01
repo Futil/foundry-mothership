@@ -129,15 +129,13 @@
           <!-- Stress -->
           <div class="resource healthspread minmaxtopstat">
             <label for="system.other.stress.value" class="resource-label minmaxtext rollable stress-roll">Stress</label>
-
             <div class="minmaxwrapper">
               <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.value" value="{{system.other.stress.value}}"
                 data-dtype="Number" />
-              <div class="slant" style="transform: skewX(0deg);"></div>
+              <div class="slant"></div>
               <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.min"
                 value="{{system.other.stress.min}}" data-dtype="Number" />
             </div>
-
             <div class="healthmaxtext">Current</div>
             <div class="healthmaxtext">Minimum</div>
           </div>
@@ -159,12 +157,14 @@
           {{#if system.settings.firstEdition}}
           <!-- Armor -->
           <div class="resource healthspread minmaxtopstat" style="grid-column-start: 2; grid-column-end: 3;">
-            <label for="system.stats.armor.value" class="resource-label minmaxtext">Armor Points</label>
-
-            <div class="armorWrapper" style="    width: 100%;">
-              <div class="maxhealth-input whiteText" type="text"
-                data-dtype="Number" >{{system.stats.armor.mod}}</div>
+            <label for="system.stats.armor.value" class="resource-label minmaxtext">Armors</label>
+            <div class="minmaxwrapper">
+              <input class="maxhealth-input darkGreyText" type="text" name="system.stats.armor.mod" value="{{system.stats.armor.mod}}" data-dtype="Number" />
+              <div class="slant"></div>
+              <input class="maxhealth-input darkGreyText" type="text" name="system.stats.armor.damageReduction" value="{{system.stats.armor.damageReduction}}" data-dtype="Number" />				 
             </div>
+            <div class="healthmaxtext">Armor Points</div>
+            <div class="healthmaxtext">DMG Reduction</div>
           </div>
           {{/if}}
 
@@ -291,6 +291,8 @@
             data-target="{{system.stats.sanity.value}}">SANITY</span>
           <input class="square-input" type="text" name="system.stats.sanity.value" value="{{system.stats.sanity.value}}"
             data-dtype="Number" />
+          <div class="mainstatmod-title">+</div>
+          <input class="mainstatmod-input" type="text" name="system.stats.sanity.mod" value="{{system.stats.sanity.mod}}" data-dtype="Number" />
         </div>
         <!-- Fear -->
         <div class="resource flex-group-center">
@@ -298,6 +300,8 @@
             data-target="{{system.stats.fear.value}}" data-label="Fear">FEAR</span>
           <input class="square-input" type="text" name="system.stats.fear.value" value="{{system.stats.fear.value}}"
             data-dtype="Number" />
+          <div class="mainstatmod-title">+</div>
+          <input class="mainstatmod-input" type="text" name="system.stats.fear.mod" value="{{system.stats.fear.mod}}" data-dtype="Number" />
         </div>
         <!-- Body -->
         <div class="resource flex-group-center">
@@ -305,6 +309,8 @@
             data-target="{{system.stats.body.value}}" data-label="Body">BODY</span>
           <input class="square-input" type="text" name="system.stats.body.value" value="{{system.stats.body.value}}"
             data-dtype="Number" />
+          <div class="mainstatmod-title">+</div>
+          <input class="mainstatmod-input" type="text" name="system.stats.body.mod" value="{{system.stats.body.mod}}" data-dtype="Number" />
         </div>
 
         {{#unless system.settings.firstEdition}}
@@ -351,31 +357,41 @@
     {{!-- Owned Items Tab --}}
     <div class="tab items" data-group="primary" data-tab="items">
       <!-- ARMOR -->
-      <ol class="items-list">
-        <li class="item flexrow item-header">
-          <div class="item-image"></div>
-          <div class="skill-stat">Armor Name</div>
+      <ol class="items-list" role="table">
+        <li class="item flexrow item-header" role="rowgroup">
+          <div class="item-image" role="cell"></div>
+          <div class="skill-stat" style="flex-grow: 2.5;" role="cell">Armor Name</div>
           {{#if system.settings.firstEdition}}
-          <div class="skill-stat" style="flex-grow: 0.5;">Armor Points</div>
+          <div class="skill-stat" role="cell">AP/DR</div>
           {{else}}
-          <div class="skill-stat" style="flex-grow: 0.5;">Save Bonus</div>
+          <div class="skill-stat" role="cell">Save Bonus</div>
           {{/if}}
-          <div class="skill-stat">Features</div>
-          <div class="skill-stat" style="flex-grow: 0.5;">Equipped</div>
-          <div class="item-controls">
-            <a class="item-control item-create" title="Create Armor" data-type="armor"><i class="fas fa-plus"></i> Add
-              Armor</a>
+		  <div class="skill-stat" role="cell">Speed</div>
+		  <div class="skill-stat" role="cell">O<sup>2</sup></div>
+          <div class="skill-stat" style="flex-grow: 0.5;" role="cell">Equipped</div>
+          <div class="item-controls" role="cell">
+            <a class="item-control item-create" title="Create Armor" data-type="armor"><i class="fas fa-plus"></i> Add</a>
+					   
           </div>
         </li>
         {{#each armors as |armor id|}}
-        <li class="item flexrow dropitem" data-item-id="{{armor._id}}">
-          <div class="item-image"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
-          <h4 class="skill-name list-roll description-roll">{{armor.name}}</h4>
-          <div class="skill-stat" style="flex-grow: 0.5;">{{armor.system.bonus}}</div>
-          <div class="skill-stat">{{armor.system.features}}</div>
-          <div class="skill-stat item-equip" style="flex-grow: 0.5;"><input type="checkbox" name="armor.system.equipped" data-dtype="Boolean"
+        <li class="item flexrow dropitem" data-item-id="{{armor._id}}" role="rowgroup">
+          <div class="item-image" role="cell"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
+          <h4 class="skill-name list-roll description-roll" style="flex-grow: 2.5;" role="cell">{{armor.name}}</h4>
+          {{#if armor.system.damageReduction}}
+		  <div class="skill-stat" role="cell">{{armor.system.bonus}}/{{armor.system.damageReduction}}</div>
+		  {{else}}
+		  <div class="skill-stat" role="cell">{{armor.system.bonus}}</div>
+		  {{/if}}
+		  <div class="skill-stat">{{armor.system.speed}}</div>
+		  {{#if armor.system.oxygenMax}}
+          <div class="skill-stat" role="cell">{{armor.system.oxygenRemaining}}/{{armor.system.oxygenMax}}</div>
+          {{else}}
+          <div class="skill-stat" role="cell">&nbsp;</div>
+          {{/if}}
+          <div class="skill-stat item-equip" role="cell"><input type="checkbox" name="armor.system.equipped" data-dtype="Boolean"
               {{checked armor.system.equipped}} /></div>
-          <div class="item-controls">
+          <div class="item-controls" role="cell">
             <a class="item-control item-edit" title="Edit Armor"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="Delete Armor"><i class="fas fa-trash"></i></a>
           </div>
@@ -394,8 +410,7 @@
           {{/if}}
           <div class="skill-stat">Value</div>
           <div class="item-controls">
-            <a class="item-control item-create" title="Create Item" data-type="item"><i class="fas fa-plus"></i> Add
-              Item</a>
+            <a class="item-control item-create" title="Create Item" data-type="item"><i class="fas fa-plus"></i> Add</a>
           </div>
         </li>
         {{#if system.settings.hideWeight}}
@@ -438,20 +453,19 @@
     {{!-- Owned Skills Tab --}}
     <div class="tab items" data-group="primary" data-tab="skills">
       <!-- SKILLS -->
-      <ol class="items-list">
+      <ol class="items-list" style="margin-bottom : 10px;">
         <li class="item flexrow item-header">
+          <div class="item-image"></div>
           <div class="skill-stat">Skill Name</div>
           <div class="skill-stat">Skill Rank</div>
           <div class="skill-stat">Skill Bonus</div>
-
           <div class="item-controls">
-            <a class="item-control skill-create" title="Create Skill" data-type="skill"><i class="fas fa-plus"></i> Add
-              Skill</a>
+            <a class="item-control skill-create" title="Create Skill" data-type="skill"><i class="fas fa-plus"></i> Add</a>
           </div>
         </li>
         {{#each skills as |skill id|}}
         <li class="item flexrow dropitem" data-item-id="{{skill._id}}">
-          <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
+          <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div>
           <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
           <div class="skill-stat">{{skill.system.rank}}</div>
           <div class="skill-stat">{{skill.system.bonus}}</div>
@@ -466,54 +480,54 @@
       {{#if system.settings.firstEdition}}
 
       <!-- XP -->
-      <div class="minmaxtext" style="line-height: 1.5; text-transform: none; font-weight: 500;">Skill Training</div>
-      <div class ="skill_training_frame">
-        <div class="grid grid-2col" style="grid-template-columns: 283px auto;">
-          <div class="char-pip-button list-roll flex" style="position: relative; top: -7px;" data-key="xp" data-label="XP" data-max="16"  data-min="0">
-            {{{system.xp.html}}}
-          </div>
-          <textarea name="system.xp.selectedSkill" rows="2" class="textarea-input-grey" type="text"
-          data-target="system.xp.selectedSkill" placeholder="" style="height: 32px;">{{system.xp.selectedSkill}}</textarea>
+      <div class ="skill_training_frame" style="margin-bottom : 10px;">
+        <div class="grid grid-3col" style="grid-template-columns: 90px auto 283px ;">
+          <div class="skill-stat" style="position: relative; top: 6px;"><strong>Skill Training</strong></div>
+          <textarea name="system.xp.selectedSkill" rows="2" class="textarea-input-grey" type="text" data-target="system.xp.selectedSkill" placeholder="" style="height: 30px; margin: 0; position: relative; top: 50%; -ms-transform: translateY(-50%); transform: translateY(-50%);">{{system.xp.selectedSkill}}</textarea>
+          <div class="char-pip-button list-roll flex" style="position: relative; top: -7px;" data-key="xp" data-label="XP" data-max="16"  data-min="0">{{{system.xp.html}}}</div>
         </div>
       </div>
 
-    </br>
       <div class="seperatorLine"></div>
 
       <!-- Conditions -->
       <ol class="items-list">
         <li class="item flexrow item-header">
+          <div class="item-image"></div>
           <div class="skill-stat">Condition</div>
-          <div class="skill-stat" style = "flex: 0.2;">Treatment</div>
+          <div class="skill-stat">Severity</div>
+          <div class="skill-stat">Treatment</div>
           <div class="item-controls">
-            <a class="item-control item-create" title="Create Condition" data-type="condition"><i class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Create Condition" data-type="condition"><i class="fas fa-plus"></i> Add</a>
           </div>
         </li>
         {{#each conditions as |condition id|}}
         <li class="item flexrow dropitem" data-item-id="{{condition._id}}">
-          <div class="skill-name description-roll list-roll" style = "background: #1b0000;">{{condition.system.description}}</div>
-
-          {{#if condition.system.treatment.html}}
-          <div class="treatment-button list-roll flex" style="position: relative; flex: 0.2;" data-key="condition" data-label="condition" data-max="3"  data-min="0">
+          <div class="item-image"><img src="{{condition.img}}" title="{{condition.name}}" width="24" height="24"/></div>
+          <div class="skill-name description-roll list-roll" style = "background: #1b0000;">{{condition.name}}</div>
+          <div class="skill-stat list-roll severity">{{condition.system.severity}}</div>
+          <div class="skill-stat">
+            {{#if condition.system.treatment.html}}
+            <div class="treatment-button list-roll flex" style="margin: 0; position: relative; top: 50%; -ms-transform: translateY(-50%); transform: translateY(-50%);" data-key="condition" data-label="condition" data-max="3"  data-min="0">
             {{{condition.system.treatment.html}}}
-          </div>
-          {{else}}
-          <div class="treatment-button list-roll flex" style="position: relative; flex: 0.2;" data-key="condition" data-label="condition" data-max="3"  data-min="0">
+            </div>
+            {{else}}
+            <div class="treatment-button list-roll flex" style="margin: 0; position: relative; top: 50%; -ms-transform: translateY(-50%); transform: translateY(-50%);" data-key="condition" data-label="condition" data-max="3"  data-min="0">
             {{condition.name}}
+            </div>
+            {{/if}}
           </div>
-          {{/if}}
-
           <div class="item-controls">
             <a class="item-control skill-edit" title="Edit Condition"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="Delete Condition"><i class="fas fa-trash"></i></a>
           </div>
         </li>
+
         {{/each}}
       </ol>
 
       {{/if}}
     </div>
-
 
     {{!-- Owned Weapons Tab --}}
     <div class="tab items" data-group="primary" data-tab="weapons">
@@ -525,10 +539,9 @@
           <div class="skill-stat">Damage</div>
           <div class="skill-stat">Ammo</div>
           <div class="skill-stat">Shots</div>
-          <div class="skill-stat">S/M/L</div>
+          <div class="skill-stat">Range</div>
           <div class="item-controls">
-            <a class="item-control weapon-create" title="Create Weapon" data-type="weapon"><i class="fas fa-plus"></i>
-              Add</a>
+            <a class="item-control weapon-create" title="Create Weapon" data-type="weapon"><i class="fas fa-plus"></i> Add</a>
           </div>
         </li>
 
@@ -549,15 +562,7 @@
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
-
-          {{#if weapon.system.ranges.value}}
-          <!-- <div class="skill-stat">{{weapon.system.ranges.short}}/{{weapon.system.ranges.medium}}/{{weapon.system.ranges.long}} -->
-          <!-- </div> -->
           <div class="skill-stat">{{weapon.system.ranges.value}}</div>
-          {{else}}
-          <div class="skill-stat">CQC</div>
-          {{/if}}
-
           <div class="item-controls">
             <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>

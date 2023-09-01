@@ -1,0 +1,61 @@
+<div class="mosh" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+    {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
+    <div class="showinfo"></div>
+    <div class="showlessinfo"></div>
+    <div class="rollcontainer">
+		{{#if (compare 'str' item.img '===' 'modules/fvtt_mosh_1e_psg/icons/equipment/trinket.png')}}
+		<div class="flexrow">
+			<div class="rollweaponh1" >TRINKET</div>
+			<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
+		</div>
+		{{else if (compare 'str' item.img '===' 'modules/fvtt_mosh_1e_psg/icons/equipment/patch.png')}}
+		<div class="flexrow">
+			<div class="rollweaponh1" >PATCH</div>
+			<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
+		</div>
+		{{else}}
+			{{#if (compare 'int' item.name.length '>=' 22)}}
+			<div class="flexrow">
+				<div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{item.name}}</div>
+				<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
+			</div>
+			{{else}}
+			<div class="flexrow">
+				<div class="rollweaponh1" >{{item.name}}</div>
+				<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
+			</div>
+			{{/if}}
+		{{/if}}
+		{{#if item.system.severity}}
+		<div class="description">
+			<div class="body"><strong>Severity: </strong>{{item.system.severity}}</div>
+		</div>
+		<div style="margin-bottom : 5px;"></div>
+		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
+		<div style="margin-bottom : 5px;"></div>
+        {{/if}}
+		{{#if item.system.bonus}}
+		<div class="description">
+			<div class="body"><strong>Armor Points: </strong>{{item.system.bonus}}</div>
+		</div>
+		<div style="margin-bottom : 5px;"></div>
+		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
+		<div style="margin-bottom : 5px;"></div>
+        {{/if}}
+		{{#if (compare 'str' item.system.description '===' '<p>Trinket</p>')}}
+			<div class="description">
+				<div class="body">{{{item.name}}}</div>
+			</div>
+			<div style="margin-bottom : 16px;"></div>
+		{{else if (compare 'str' item.system.description '===' '<p>Patch</p>')}}
+			<div class="description">
+				<div class="body">{{{item.name}}}</div>
+			</div>
+			<div style="margin-bottom : 16px;"></div>
+		{{else}}
+			<div class="description">
+				<div class="body">{{{item.system.description}}}</div>
+			</div>
+			<div style="margin-bottom : 16px;"></div>
+		{{/if}}
+    </div>

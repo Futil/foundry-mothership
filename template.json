@@ -13,7 +13,7 @@
           "max": 10
         },
         "hits": {
-          "value" : 2,
+          "value" : 0,
           "max" : 2
         }
       }
@@ -59,30 +59,37 @@
       "stats": {
         "strength": {
           "value": 10,
+          "mod": null,
           "label": "Strength"
         },
         "speed": {
           "value": 10,
+          "mod": null,
           "label": "Speed"
         },
         "intellect": {
           "value": 10,
+          "mod": null,
           "label": "Intellect"
         },
         "combat": {
           "value": 10,
+          "mod": null,
           "label": "Combat"
         },
         "sanity": {
-          "value": 0,
+          "value": 10,
+          "mod": null,
           "label": "Sanity"
         },
         "fear": {
-          "value": 0,
+          "value": 10,
+          "mod": null,
           "label": "Fear"
         },
         "body": {
-          "value": 0,
+          "value": 10,
+          "mod": null,
           "label": "Body"
         },
         "armor": {
@@ -94,6 +101,7 @@
         "stress": {
           "value": 2,
           "min": 2,
+          "max": 20,
           "label" : "Stress"
         },
         "resolve": {
@@ -230,6 +238,7 @@
       "templates": [
         "base"
       ],
+      "antiArmor": false,
       "damage": "1d10",
       "ammo": 10,
       "shots": 1,
@@ -237,6 +246,7 @@
       "shotsPerFire" : 1,
       "useAmmo": false,
       "ammoType": "",
+      "wound":"",
       "critDmg": "",
       "critEffect": "",
       "bonus": 0,
@@ -256,7 +266,8 @@
       "templates": [
         "base"
       ],
-      "bonus": 10,
+      "armorPoints": 1,
+      "damageResistance":0,
       "weight": 0,
       "cost" : 0
     },
@@ -264,6 +275,7 @@
       "templates": [
         "base"
       ],
+      "severity": 1,
       "treatment" : {
         "value" : 0,
         "html" : ""

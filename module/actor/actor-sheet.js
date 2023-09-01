@@ -9,8 +9,8 @@ export class MothershipActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["mosh", "sheet", "actor", "character"],
       template: "systems/mosh/templates/actor/actor-sheet.html",
-      width: 700,
-      height: 800,
+      width: 820,
+      height: 820,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
     });
   }
@@ -260,6 +260,20 @@ export class MothershipActorSheet extends ActorSheet {
       this.actor.updateEmbeddedDocuments('Item', [item]);
     });
 
+    //Severity adjuster
+    html.on('mousedown', '.severity', ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      let amount = item.system.severity;
+
+      if (event.button == 0) {
+        item.system.severity = Number(amount) + 1;
+      } else if (event.button == 2 && amount > 1) {
+        item.system.severity = Number(amount) - 1;
+      }
+
+      this.actor.updateEmbeddedDocuments('Item', [item]);
+    });
 
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {

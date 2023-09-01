@@ -626,10 +626,9 @@ export class MothershipActor extends Actor {
                 chatData.whisper = game.user._id;
             }
     */
-    let template = 'systems/mosh/templates/chat/statroll.html';
+    let template = 'systems/mosh/templates/chat/itemroll.html';
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;
-
       ChatMessage.create(chatData);
     });
   }

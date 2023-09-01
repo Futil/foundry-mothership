@@ -40,6 +40,10 @@
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Paragraph */
+p {
+  margin: 0 0;
+}
 
 /* Global styles */
 .window-app {
@@ -246,7 +250,7 @@
   grid-gap: 10px;
   /* background-color: rgb(226, 226, 226); */
   padding: 2px;
-  grid-template-columns: 238px auto 82px;
+  grid-template-columns: 238px auto 100px;
 }
 
 .mosh .abilities {grid-area: abilities;}
@@ -403,8 +407,9 @@
 .mosh .roll-image {
   -webkit-box-flex: 0;
   flex: 0 24px;
+  margin-top: -1px;
   margin-right: -9px;
-  width: 46px;
+  width: 48px;
   border-radius: 0 0 0 16px;
   /* margin-right: 5px; */
 }
@@ -490,6 +495,25 @@
   /* padding: 0; */
   border: 0;
   border-radius: 7.7em;
+  color: rgb(151, 100, 100);
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-align: center;
+  margin-left: -22px;
+  z-index: 5;
+  background: white;
+  top: 8px;
+  left: 13px;
+  position: relative;
+  background: lightgrey;
+}
+
+.mosh .mainsavemod-input {
+  height: 26px;
+  width: 28px;
+  /* padding: 0; */
+  border: 0;
+  border-radius: 0.5em;
   color: rgb(151, 100, 100);
   font-size: 0.85rem;
   font-weight: bold;
@@ -944,7 +968,6 @@
   height: 15px;
 }
 
-
 .mosh .profile {
   width: 140px;
   height: auto;
@@ -957,9 +980,8 @@
   padding: 0 0.5rem;
   padding-bottom: 0.1rem;
   width: 100%;
-
   border: 2px solid #111;
-  border-radius: 0em 0em 2em 2em;
+  border-radius: 0em 0em 0em 0em;
   font-family: "Century Gothic", "Diadact Gothic", sans-serif;
 }
 
@@ -977,7 +999,7 @@
 }
 
 .mosh .rollweaponh1 {
-  height: 34px;
+  height: 32px;
   margin-top: 0;
   margin-left: -9px;
   margin-right: -9px;
@@ -989,7 +1011,7 @@
   color: white;
   padding: 5px;
   flex: auto;
-  width: 71%;
+  width: 70%;
 }
 
 .mosh .rollh2 {

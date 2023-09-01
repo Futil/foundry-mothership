@@ -287,30 +287,36 @@
       {{/if}}
         <!-- Sanity -->
         <div class="resource flex-group-center">
-          <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-label="Sanity" data-key="sanity"
-            data-target="{{system.stats.sanity.value}}">SANITY</span>
+          <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-label="Sanity" data-key="sanity" data-target="{{system.stats.sanity.value}}">SANITY</span>
+        <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
           <input class="square-input" type="text" name="system.stats.sanity.value" value="{{system.stats.sanity.value}}"
-            data-dtype="Number" />
-          <div class="mainstatmod-title">+</div>
-          <input class="mainstatmod-input" type="text" name="system.stats.sanity.mod" value="{{system.stats.sanity.mod}}" data-dtype="Number" />
+          data-dtype="Number" />
+          <div class="mainstatmod-title" style="top: 10px;">+</div>
+          <input class="mainsavemod-input" style="top: 5px;" type="text" name="system.stats.sanity.mod" value="{{system.stats.sanity.mod}}"
+          data-dtype="Number" />
+          </div>	
         </div>
         <!-- Fear -->
         <div class="resource flex-group-center">
-          <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="fear"
-            data-target="{{system.stats.fear.value}}" data-label="Fear">FEAR</span>
+          <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="fear" data-target="{{system.stats.fear.value}}" data-label="Fear">FEAR</span>
+        <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
           <input class="square-input" type="text" name="system.stats.fear.value" value="{{system.stats.fear.value}}"
-            data-dtype="Number" />
-          <div class="mainstatmod-title">+</div>
-          <input class="mainstatmod-input" type="text" name="system.stats.fear.mod" value="{{system.stats.fear.mod}}" data-dtype="Number" />
+          data-dtype="Number" />
+          <div class="mainstatmod-title" style="top: 10px;">+</div>
+          <input class="mainsavemod-input" style="top: 5px;" type="text" name="system.stats.fear.mod" value="{{system.stats.fear.mod}}"
+          data-dtype="Number" />
+          </div>	
         </div>
         <!-- Body -->
         <div class="resource flex-group-center">
-          <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="body"
-            data-target="{{system.stats.body.value}}" data-label="Body">BODY</span>
+          <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="body" data-target="{{system.stats.body.value}}" data-label="Body">BODY</span>
+        <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
           <input class="square-input" type="text" name="system.stats.body.value" value="{{system.stats.body.value}}"
-            data-dtype="Number" />
-          <div class="mainstatmod-title">+</div>
-          <input class="mainstatmod-input" type="text" name="system.stats.body.mod" value="{{system.stats.body.mod}}" data-dtype="Number" />
+          data-dtype="Number" />
+          <div class="mainstatmod-title" style="top: 10px;">+</div>
+          <input class="mainsavemod-input"  style="top: 5px;"type="text" name="system.stats.body.mod" value="{{system.stats.body.mod}}"
+          data-dtype="Number" />
+          </div>	
         </div>
 
         {{#unless system.settings.firstEdition}}

@@ -65,11 +65,30 @@ Hooks.once('init', async function () {
     return outStr;
   });
 
-
   Handlebars.registerHelper('toLowerCase', function (str) {
     return str.toLowerCase();
   });
+
+  Handlebars.registerHelper('compare', function (varType, varOne, comparator, varTwo) {
+    if (varType === 'str') {
+     if (eval('"' + varOne + '"' + comparator + '"' + varTwo+ '"')) {
+       return true
+     } else {
+       return false
+     }
+    } else if (varType === 'int') {
+     if (eval(varOne + comparator + varTwo)) {
+       return true
+     } else {
+       return false
+     }
+    }
+     });
+
 });
+
+
+
 
 Hooks.once("ready", async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to

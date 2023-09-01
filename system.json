@@ -1,7 +1,7 @@
 {
-  "id": "mosh",
-  "title": "MoSh - Unofficial Mothership",
-  "description": "The unofficial Mothership system for FoundryVTT.",
+  "id": "mosh_dev",
+  "title": "MoSh - Unofficial Mothership (dev)",
+  "description": "The unofficial Mothership system for FoundryVTT. Active development branch.",
   "version": "0.4.0",
   "esmodules": [
     "module/mosh.js"

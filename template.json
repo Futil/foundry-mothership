@@ -94,6 +94,7 @@
         },
         "armor": {
           "value": 0,
+          "mod": null,
           "label": "Armor"
         }
       },
@@ -267,9 +268,10 @@
         "base"
       ],
       "armorPoints": 1,
-      "damageResistance":0,
+      "damageReduction":0,
       "speed": "",
-      "oxygen": "",
+      "oxygenMax": 0,
+      "oxygenRemaining": 0,      
       "weight": 0,
       "cost" : 0
     },

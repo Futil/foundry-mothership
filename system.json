@@ -11,10 +11,46 @@
   ],
   "packs": [
     {
-      "name": "tables",
-      "label": "Tables",
+      "name": "conditions",
+      "label": "Conditions",
       "system": "mosh",
-      "path": "packs/tables.db",
+      "path": "packs/conditions.db",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros_hotbar",
+      "label": "Hotbar Macros",
+      "system": "mosh",
+      "path": "packs/macros_hotbar.db",
+      "type": "Macro",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros_triggered",
+      "label": "Triggered Macros",
+      "system": "mosh",
+      "path": "packs/macros_triggered.db",
+      "type": "Macro",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "rolltables",
+      "label": "Rolltables",
+      "system": "mosh",
+      "path": "packs/rolltables.db",
       "type": "RollTable",
       "flags": {},
       "ownership": {

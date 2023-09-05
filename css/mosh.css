@@ -298,6 +298,7 @@ p {
   border-bottom: 2px solid black; */
   background: black;
   color: white;
+  padding: 3px 0;
 }
 
 .mosh .tox .tox-editor-container {
@@ -370,6 +371,14 @@ p {
 .mosh .tabs .item.active {
   text-decoration: underline;
   text-shadow: none;
+}
+
+.mosh .tabs .item.active::before {
+  font-family: "Font Awesome 6 Pro";
+  content: "\f0da";
+  color:white;
+  position: absolute;
+  margin-left: -1rem;
 }
 
 .mosh .items-list {
@@ -464,6 +473,18 @@ p {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   color: white;
   text-align: center;
+}
+
+.mosh .tab-select.active {
+  text-decoration: underline;
+}
+
+.mosh .tab-select.active::before {
+  font-family: "Font Awesome 6 Pro";
+  content: "\f0da";
+  color:white;
+  position: absolute;
+  margin-left: -1rem;
 }
 
 .mosh .stresstext {

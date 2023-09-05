@@ -34,10 +34,15 @@
 		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
 		<div style="margin-bottom : 5px;"></div>
         {{/if}}
-		{{#if item.system.bonus}}
+		{{#if item.system.armorPoints}}
 		<div class="description">
-			<div class="body"><strong>Armor Points: </strong>{{item.system.bonus}}</div>
+			<div class="body"><strong>Armor Points: </strong>{{item.system.armorPoints}}</div>
 		</div>
+		{{#if item.system.damageReduction}}
+		<div class="description">
+			<div class="body"><strong>Damage Reduction: </strong>{{item.system.damageReduction}}</div>
+		</div>
+		{{/if}}
 		<div style="margin-bottom : 5px;"></div>
 		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
 		<div style="margin-bottom : 5px;"></div>

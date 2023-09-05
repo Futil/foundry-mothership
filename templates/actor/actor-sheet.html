@@ -158,9 +158,9 @@
           <!-- Armor -->
           <div class="resource healthspread minmaxtopstat" style="grid-column-start: 2; grid-column-end: 3;">
             <label for="system.stats.armor.value" class="resource-label minmaxtext">Armor</label>
-            <div class="armorWrapper" style="width: 100%;">
+            <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
               <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{system.stats.armor.mod}}</div>
-              <div class="slant" style="border-right: 2px solid #ffffff;"></div>
+              <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
               <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{system.stats.armor.damageReduction}}</div>
             </div>
             <div class="healthmaxtext">Armor Points</div>
@@ -367,7 +367,8 @@
           <div class="item-image" role="cell"></div>
           <div class="skill-stat" style="flex-grow: 2.5;" role="cell">Armor Name</div>
           {{#if system.settings.firstEdition}}
-          <div class="skill-stat" role="cell">AP/DR</div>
+          <div class="skill-stat" role="cell">AP</div>
+          <div class="skill-stat" role="cell">DR</div>
           {{else}}
           <div class="skill-stat" role="cell">Save Bonus</div>
           {{/if}}
@@ -376,7 +377,6 @@
           <div class="skill-stat" style="flex-grow: 0.5;" role="cell">Equipped</div>
           <div class="item-controls" role="cell">
             <a class="item-control item-create" title="Create Armor" data-type="armor"><i class="fas fa-plus"></i> Add</a>
-					   
           </div>
         </li>
         {{#each armors as |armor id|}}
@@ -384,7 +384,8 @@
           <div class="item-image" role="cell"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
           <h4 class="skill-name list-roll description-roll" style="flex-grow: 2.5;" role="cell">{{armor.name}}</h4>
           {{#if armor.system.damageReduction}}
-		  <div class="skill-stat" role="cell">{{armor.system.bonus}}/{{armor.system.damageReduction}}</div>
+		  <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
+		  <div class="skill-stat" role="cell">{{armor.system.damageReduction}}</div>
 		  {{else}}
 		  <div class="skill-stat" role="cell">{{armor.system.bonus}}</div>
 		  {{/if}}

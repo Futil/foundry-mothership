@@ -70,7 +70,7 @@
   "gridDistance": 1,
   "gridUnits": "meter",
   "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "power",
+  "secondaryTokenAttribute": "other.stress",
   "url": "https://github.com/Futil/foundry-mothership",
   "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/dev/system.json",
   "download": "https://github.com/Futil/foundry-mothership/archive/dev.zip",

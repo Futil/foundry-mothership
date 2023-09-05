@@ -11,15 +11,48 @@ export const registerSettings = function () {
           }
     });
 
-    game.settings.register('mosh', 'panicTable', {
-        name: "Panic Table",
-        hint: "Where is our panic table located?",
-        default: "mosh.tables",
+    game.settings.register('mosh', 'rollTable', {
+        name: "Roll Tables",
+        hint: "Where are the rolltables located?",
+        default: "mosh.rolltables",
         scope: 'world',
         type: String,
         config: true,
         onChange: value => { // A callback function which triggers when the setting is changed
-            console.log("panicTable set to " + value)
+            console.log("Rolltables set to " + value)
+          }
+    });
+
+    game.settings.register('mosh', 'macroTarget', {
+        name: "Macro Target",
+        hint: "Who should be the target for macros?",
+        default: "character",
+        scope: 'world',
+        type: String,
+        choices: {
+            "character": "Currently active character for the player",
+            "token": "Currently selected token on the scene"
+          },
+        config: true,
+        onChange: value => { // A callback function which triggers when the setting is changed
+            console.log("Macro target set to " + value)
+          }
+    });
+
+    game.settings.register('mosh', 'critDamage', {
+        name: "Critical Hit Damage",
+        hint: "What should the damage be on a critical hit?",
+        default: "doubleDice",
+        scope: 'world',
+        type: String,
+        choices: {
+            "doubleDamage": "Double the damage value",
+            "doubleDice": "Roll the dice twice",
+            "weaponValue": "Defer to the weapon's crit damage"
+          },
+        config: true,
+        onChange: value => { // A callback function which triggers when the setting is changed
+            console.log("Critical hits set to " + value)
           }
     });
 

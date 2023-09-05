@@ -27,17 +27,19 @@ export class MothershipActor extends Actor {
   _prepareCharacterData(actorData) {
     const data = actorData.system;
 
-    let armorBonus = 0;
+    let armorPoints = 0;
+    let damageReduction = 0;
     const armors = this.getEmbeddedCollection("Item").filter(e => "armor" === e.type);
     
     for (let armor of armors) {
       if (armor.system.equipped) {
-        armorBonus += armor.system.bonus;
+        armorPoints += armor.system.armorPoints;
+        damageReduction += armor.system.damageReduction;
       }
     }
-    data.stats.armor.mod = armorBonus;
-    data.stats.armor.total = armorBonus+data.stats.armor.value;
-
+    data.stats.armor.mod = armorPoints;
+    data.stats.armor.total = armorPoints+data.stats.armor.value;
+    data.stats.armor.damageReduction = damageReduction;
   }
 
   /**
@@ -365,7 +367,7 @@ export class MothershipActor extends Actor {
       a._total = 0;
     }
 
-    let range = "CQC";
+    let range = "N/A";
     let damageRoll = 0;
     if (item.type == "weapon") {
 

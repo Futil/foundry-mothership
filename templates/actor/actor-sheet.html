@@ -157,17 +157,16 @@
           {{#if system.settings.firstEdition}}
           <!-- Armor -->
           <div class="resource healthspread minmaxtopstat" style="grid-column-start: 2; grid-column-end: 3;">
-            <label for="system.stats.armor.value" class="resource-label minmaxtext">Armors</label>
-            <div class="minmaxwrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="system.stats.armor.mod" value="{{system.stats.armor.mod}}" data-dtype="Number" />
-              <div class="slant"></div>
-              <input class="maxhealth-input darkGreyText" type="text" name="system.stats.armor.damageReduction" value="{{system.stats.armor.damageReduction}}" data-dtype="Number" />				 
+            <label for="system.stats.armor.value" class="resource-label minmaxtext">Armor</label>
+            <div class="armorWrapper" style="width: 100%;">
+              <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{system.stats.armor.mod}}</div>
+              <div class="slant" style="border-right: 2px solid #ffffff;"></div>
+              <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{system.stats.armor.damageReduction}}</div>
             </div>
             <div class="healthmaxtext">Armor Points</div>
             <div class="healthmaxtext">DMG Reduction</div>
           </div>
           {{/if}}
-
           <!-- CLASS -->
           <div class="" style="margin-left: 6px; margin-right: 0px; flex: 0; grid-column-start: 1; grid-column-end: 3;">
             {{#if system.settings.firstEdition}}

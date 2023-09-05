@@ -8,8 +8,8 @@ export class MothershipItemSheet extends ItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["mosh", "sheet", "item"],
-      width: 520,
-      height: 480,
+      width: 600,
+      height: 500,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }

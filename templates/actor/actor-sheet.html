@@ -383,17 +383,13 @@
         <li class="item flexrow dropitem" data-item-id="{{armor._id}}" role="rowgroup">
           <div class="item-image" role="cell"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
           <h4 class="skill-name list-roll description-roll" style="flex-grow: 2.5;" role="cell">{{armor.name}}</h4>
-          {{#if armor.system.damageReduction}}
 		  <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
 		  <div class="skill-stat" role="cell">{{armor.system.damageReduction}}</div>
-		  {{else}}
-		  <div class="skill-stat" role="cell">{{armor.system.bonus}}</div>
-		  {{/if}}
 		  <div class="skill-stat">{{armor.system.speed}}</div>
 		  {{#if armor.system.oxygenMax}}
-          <div class="skill-stat" role="cell">{{armor.system.oxygenRemaining}}/{{armor.system.oxygenMax}}</div>
+          <div class="skill-stat" role="cell">{{armor.system.oxygenCurrent}}/{{armor.system.oxygenMax}}</div>
           {{else}}
-          <div class="skill-stat" role="cell">&nbsp;</div>
+          <div class="skill-stat" role="cell">N/A></div>
           {{/if}}
           <div class="skill-stat item-equip" role="cell"><input type="checkbox" name="armor.system.equipped" data-dtype="Boolean"
               {{checked armor.system.equipped}} /></div>

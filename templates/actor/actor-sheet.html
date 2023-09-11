@@ -432,7 +432,7 @@
           {{#each gear as |item id|}}
           <li class="item flexrow dropitem" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
-            <h4 class="skill-name list-roll description-roll" style="flex-grow: 1.5;">{{item.name}}</h4>
+            <h4 class="skill-name list-roll description-roll" style="flex-grow: 1.54;">{{item.name}}</h4>
             <div class="skill-stat list-roll item-quantity">{{item.system.quantity}}</div>
             <div class="skill-stat">{{item.system.weight}}</div>
             <div class="skill-stat">{{item.system.cost}}</div>
@@ -551,7 +551,7 @@
         <li class="item flexrow dropitem" data-item-id="{{weapon._id}}">
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
-          <div class="skill-name weapon-roll list-roll" style="flex-grow: 2;">{{weapon.name}}</div>
+          <div class="skill-name weapon-roll list-roll" style="flex-grow: 2.05;">{{weapon.name}}</div>
           {{#if weapon.system.antiArmor}}
           <div class="skill-stat">{{weapon.system.damage}} (AA)</div>
           {{else}}

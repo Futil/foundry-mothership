@@ -365,7 +365,7 @@
       <ol class="items-list" role="table">
         <li class="item flexrow item-header" role="rowgroup">
           <div class="item-image" role="cell"></div>
-          <div class="skill-stat" style="flex-grow: 2.5;" role="cell">Armor Name</div>
+          <div class="skill-stat" style="flex-grow: 1.5;" role="cell">Armor Name</div>
           {{#if system.settings.firstEdition}}
           <div class="skill-stat" role="cell">AP</div>
           <div class="skill-stat" role="cell">DR</div>
@@ -374,7 +374,7 @@
           {{/if}}
 		  <div class="skill-stat" role="cell">Speed</div>
 		  <div class="skill-stat" role="cell">O<sup>2</sup></div>
-          <div class="skill-stat" style="flex-grow: 0.5;" role="cell">Equipped</div>
+          <div class="skill-stat" role="cell">Equipped</div>
           <div class="item-controls" role="cell">
             <a class="item-control item-create" title="Create Armor" data-type="armor"><i class="fas fa-plus"></i> Add</a>
           </div>
@@ -382,7 +382,7 @@
         {{#each armors as |armor id|}}
         <li class="item flexrow dropitem" data-item-id="{{armor._id}}" role="rowgroup">
           <div class="item-image" role="cell"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
-          <h4 class="skill-name list-roll description-roll" style="flex-grow: 2.5;" role="cell">{{armor.name}}</h4>
+          <h4 class="skill-name list-roll description-roll" style="flex-grow: 1.5;" role="cell">{{armor.name}}</h4>
 		  <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
 		  <div class="skill-stat" role="cell">{{armor.system.damageReduction}}</div>
 		  <div class="skill-stat">{{armor.system.speed}}</div>
@@ -552,7 +552,11 @@
           <!-- <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div> -->
           <div class="item-image"><img src="{{weapon.img}}" title="{{weapon.name}}" width="24" height="24" /></div>
           <div class="skill-name weapon-roll list-roll" style="flex-grow: 2;">{{weapon.name}}</div>
+          {{#if weapon.system.antiArmor}}
+          <div class="skill-stat">{{weapon.system.damage}} (AA)</div>
+          {{else}}
           <div class="skill-stat">{{weapon.system.damage}}</div>
+          {{/if}}
           {{#if weapon.system.useAmmo}}
           <div class="skill-stat weapon-ammo list-roll">{{weapon.system.ammo}}</div>
           {{else}}
@@ -564,7 +568,11 @@
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
+          {{#if weapon.system.ranges.value}}
           <div class="skill-stat">{{weapon.system.ranges.value}}</div>
+          {{else}}
+          <div class="skill-stat">N/A</div>
+          {{/if}}
           <div class="item-controls">
             <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>

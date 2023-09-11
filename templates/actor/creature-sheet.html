@@ -110,8 +110,11 @@
   
         <!-- Hits -->
         <div class="resource healthspread minmaxtopstat">
+          {{#if system.settings.firstEdition}}
           <label for="system.hits.value" class="resource-label minmaxtext">WOUNDS</label>
-  
+          {{else}}
+          <label for="system.hits.value" class="resource-label minmaxtext">HITS</label>
+          {{/if}}  
           <div class="minmaxwrapper">
             <input class="maxhealth-input darkGreyText" type="text" name="system.hits.value" value="{{system.hits.value}}"
               data-dtype="Number" />

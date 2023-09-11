@@ -70,6 +70,13 @@ export class MothershipCreatureSheet extends ActorSheet {
             this._prepareCreatureItems(data);
         }
 
+        if (data.data.system.settings == null) {
+            data.data.system.settings = {};
+        }
+        data.data.system.settings.useCalm = game.settings.get("mosh", "useCalm");
+        data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
+        data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
+      
         return data.data;
     }
 

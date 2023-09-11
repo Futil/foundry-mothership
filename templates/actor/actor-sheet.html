@@ -365,7 +365,7 @@
       <ol class="items-list" role="table">
         <li class="item flexrow item-header" role="rowgroup">
           <div class="item-image" role="cell"></div>
-          <div class="skill-stat" style="flex-grow: 1.5;" role="cell">Armor Name</div>
+          <div class="skill-stat" style="flex-grow: 2.5;" role="cell">Armor Name</div>
           {{#if system.settings.firstEdition}}
           <div class="skill-stat" role="cell">AP</div>
           <div class="skill-stat" role="cell">DR</div>
@@ -373,7 +373,7 @@
           <div class="skill-stat" role="cell">Save Bonus</div>
           {{/if}}
 		  <div class="skill-stat" role="cell">Speed</div>
-		  <div class="skill-stat" role="cell">O<sup>2</sup></div>
+		  <div class="skill-stat" role="cell">Oxygen</div>
           <div class="skill-stat" role="cell">Equipped</div>
           <div class="item-controls" role="cell">
             <a class="item-control item-create" title="Create Armor" data-type="armor"><i class="fas fa-plus"></i> Add</a>
@@ -382,7 +382,7 @@
         {{#each armors as |armor id|}}
         <li class="item flexrow dropitem" data-item-id="{{armor._id}}" role="rowgroup">
           <div class="item-image" role="cell"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
-          <h4 class="skill-name list-roll description-roll" style="flex-grow: 1.5;" role="cell">{{armor.name}}</h4>
+          <h4 class="skill-name list-roll description-roll" style="flex-grow: 2.6;" role="cell">{{armor.name}}</h4>
 		  <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
 		  <div class="skill-stat" role="cell">{{armor.system.damageReduction}}</div>
 		  <div class="skill-stat">{{armor.system.speed}}</div>

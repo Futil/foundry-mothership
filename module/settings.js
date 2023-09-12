@@ -31,7 +31,7 @@ export const registerSettings = function () {
         type: String,
         choices: {
             "character": "Currently active character for the player",
-            "token": "Currently selected token on the scene"
+            "token": "Currently selected token(s) on the scene"
           },
         config: true,
         onChange: value => { // A callback function which triggers when the setting is changed

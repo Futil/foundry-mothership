@@ -53,7 +53,155 @@ export class MothershipActor extends Actor {
     const data = actorData;
   }
 
-  rollStatSelect(statList) {
+  //central roll parsing function | TAKES dice: '1d10 [+]' | RETURNS '{1d10,1d10}kh'
+  //IN PROGRESS
+  parseDiceRoll(rollString) {
+    //init vars
+    rollAdvDis = rollString.includes("[");
+    //translate rollString into foundry roll string format
+    if (rollAdvDis === true) {
+      //extract dice needed
+      rollDice = rollString.substr(0,rollString.indexOf("[")).concat(',',rollString.substr(0,rollString.indexOf("[")));
+      //make adv/dis template
+      rollTemplate = '{[diceSet]}';
+      //make foundry roll string
+      rollStringParsed = rollTemplate.replace("[diceSet]",rollDice);
+    } else {
+      rollStringParsed = rollString;
+    }
+    //roll dice
+    let macroRoll = await new Roll(rollStringParsed).evaluate();
+    //assign to vars + replace 10s with 0s
+    if (rollAdvDis === true) {
+      //get values
+      rollA1 = macroRoll.dice[0].results[0].result;
+      rollB1 = macroRoll.dice[1].results[0].result;
+      //replace 10s
+      if (rollA1 === 10) {rollA1 = 0;}
+      if (rollB1 === 10) {rollB1 = 0;}
+    } else {
+      //get values
+      rollA1 = macroRoll.dice[0].results[0].result;
+      //replace 10s
+      if (rollA1 === 10) {rollA1= 0;}
+    }
+    //choose best value based on Adv/Dis
+    if (rollAdvDis === true) {
+      if (rollString.includes("[+]") === true) {
+        if(rollA1 > rollB1) { 
+          finalRoll = rollA1;
+        } else {
+          finalRoll = rollB1;
+        }
+      } else if (rollString.includes("[-]") === true) {
+        if(rollA1 < rollB1) { 
+          finalRoll = rollA1;
+        } else {
+          finalRoll = rollB1;
+        }
+      }
+    } else {
+      finalRoll = rollA1;
+    }
+
+  }
+
+  //central roll parsing function | TAKES rollResult: [Foundry result object], zeroIsZero: true | RETURNS returns the result as an integer, where 0 is interpreted as 0
+  //IN PROGRESS
+  parseDiceResult(rollResult,zeroIsZero) {
+    //init vars
+    rollAdvDis = rollString.includes("[");
+    //translate rollString into foundry roll string format
+    if (rollAdvDis === true) {
+      //extract dice needed
+      rollDice = rollString.substr(0,rollString.indexOf("[")).concat(',',rollString.substr(0,rollString.indexOf("[")));
+      //make adv/dis template
+      rollTemplate = '{[diceSet]}';
+      //make foundry roll string
+      rollStringParsed = rollTemplate.replace("[diceSet]",rollDice);
+    } else {
+      rollStringParsed = rollString;
+    }
+    //roll dice
+    let macroRoll = await new Roll(rollStringParsed).evaluate();
+    //assign to vars + replace 10s with 0s
+    if (rollAdvDis === true) {
+      //get values
+      rollA1 = macroRoll.dice[0].results[0].result;
+      rollB1 = macroRoll.dice[1].results[0].result;
+      //replace 10s
+      if (rollA1 === 10) {rollA1 = 0;}
+      if (rollB1 === 10) {rollB1 = 0;}
+    } else {
+      //get values
+      rollA1 = macroRoll.dice[0].results[0].result;
+      //replace 10s
+      if (rollA1 === 10) {rollA1= 0;}
+    }
+    //choose best value based on Adv/Dis
+    if (rollAdvDis === true) {
+      if (rollString.includes("[+]") === true) {
+        if(rollA1 > rollB1) { 
+          finalRoll = rollA1;
+        } else {
+          finalRoll = rollB1;
+        }
+      } else if (rollString.includes("[-]") === true) {
+        if(rollA1 < rollB1) { 
+          finalRoll = rollA1;
+        } else {
+          finalRoll = rollB1;
+        }
+      }
+    } else {
+      finalRoll = rollA1;
+    }
+
+  }
+
+  //central table rolling function | TAKES table name: 'Panic Check', table result: 3 | RETURNS chat message showing 3rd roll table result for Panic Check
+  //IN PROGRESS
+  rollTable(tableName,tableResult) {
+    //init variables
+      //detect roll table location
+
+      //detect macro target preference
+      //detect if 3d dice 
+
+
+    //get table result
+    tableResult = game.tables.getName("Death Save").getResultsForRoll(finalRoll);
+    //create chat message template
+    macroResult = `
+      <div class="mosh">
+        <div class="rollcontainer">
+          <div class="flexrow" style="margin-bottom : 5px;">
+            <div class="rollweaponh1">${tableResult[0].parent.name}</div>
+            <div style="text-align: right"><img class="roll-image" src="${tableResult[0].img}" title="${tableResult[0].parent.name}" /></div>
+          </div>
+          <div class="description" style="margin-bottom : 20px;">${tableResult[0].text}</div>
+        </div>
+      </div>
+    `;
+    //make message ID
+    chatId = randomID();
+    //get speaker character
+    activeCharacter = canvas.scene.data.tokens.find(token => token.name = game.user.character.name);
+    //make message
+    macroMsg = await macroRoll.toMessage({
+      id: chatId,
+      user: game.user._id,
+      speaker: ChatMessage.getSpeaker({token: activeCharacter}),
+      content: macroResult
+    },{keepId:true});
+    //make dice
+    await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+
+  }
+
+
+
+/*   rollStatSelect(statList) { //REMOVEME? candidate for removal
 
     let selectList = "";
 
@@ -81,9 +229,9 @@ export class MothershipActor extends Actor {
       close: () => { }
     });
     d.render(true);
-  }
+  } */
 
-  rollStat(attribute, shifted = false) {
+/*   rollStat(attribute, shifted = false) { //REMOVEME? candidate for removal
     console.log(attribute);
 
     let attLabel = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
@@ -115,9 +263,9 @@ export class MothershipActor extends Actor {
       });
       d.render(true);
     }
-  }
+  } */
 
-  rollStress(attribute) {
+/*   rollStress(attribute) { //REMOVEME? candidate for removal
     //this.rollAttribute(attribute, "none");
     let rollOver = true;
     if (attribute.label == "Calm")
@@ -146,9 +294,9 @@ export class MothershipActor extends Actor {
       close: () => { }
     });
     d.render(true);
-  }
+  } */
 
-  rollWeapon(itemId, options = { event: null }) {
+/*   rollWeapon(itemId, options = { event: null }) { //REMOVEME? candidate for removal
 
     let item = duplicate(this.getEmbeddedDocument("Item",itemId));
 
@@ -263,7 +411,7 @@ export class MothershipActor extends Actor {
       close: () => { }
     });
     t.render(true);
-  }
+  } */
 
   reloadWeapon(itemId, options = { event: null }) {
     let item = duplicate(this.getEmbeddedDocument("Item",itemId));
@@ -289,7 +437,7 @@ export class MothershipActor extends Actor {
     this.chatDesc(item);
   }
 
-  rollSkill(itemId, options = { event: null }) {
+/*   rollSkill(itemId, options = { event: null }) { //REMOVEME? candidate for removal
     let item = duplicate(this.getEmbeddedDocument("Item",itemId));
 
     // let attLabel = skill.label?.charAt(0).toUpperCase() + skill.label?.toLowerCase().slice(1);
@@ -327,9 +475,9 @@ export class MothershipActor extends Actor {
       close: () => { }
     });
     t.render(true);
-  }
+  } */
 
-  async rollAttribute(attribute, advantage, item = "", rollOver = false, bonus = 0) {
+/*   async rollAttribute(attribute, advantage, item = "", rollOver = false, bonus = 0) { //REMOVEME? candidate for removal
     let attributeName = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
     if (!attribute.label && isNaN(attributeName))
       attributeName = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
@@ -490,11 +638,11 @@ export class MothershipActor extends Actor {
     let rollMode = game.settings.get("core", "rollMode");
     if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
 
-    /*
+    //comment this out:
             if (this.data.type == "creature") {
                 chatData.whisper = game.user._id;
             }
-    */
+    
     let template = 'systems/mosh/templates/chat/statroll.html';
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;
@@ -509,9 +657,9 @@ export class MothershipActor extends Actor {
         ChatMessage.create(chatData);
       }
     });
-  }
+  } */
 
-  formatDice(diceRoll) {
+/*   formatDice(diceRoll) { //REMOVEME? candidate for removal
     let diceData = { dice: [] };
 
     if (diceRoll != null) {
@@ -579,7 +727,7 @@ export class MothershipActor extends Actor {
     }
 
     return diceData;
-  }
+  } */
 
   // Print the item description into the chat.
   chatDesc(item) {

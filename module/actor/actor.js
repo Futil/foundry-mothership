@@ -63,22 +63,22 @@ export class MothershipActor extends Actor {
       if (rollString.includes("[-]")) {
         //use appropriate keep setting
         if (advantage === 'min') {
-          rollTemplate = '{[diceSet]}kh';
+          let rollTemplate = '{[diceSet]}kh';
         } else {
-          rollTemplate = '{[diceSet]}kl';
+          let rollTemplate = '{[diceSet]}kl';
         }
       } else if (rollString.includes("[+]")) {
         //use appropriate keep setting
         if (advantage === 'min') {
-          rollTemplate = '{[diceSet]}kl';
+          let rollTemplate = '{[diceSet]}kl';
         } else {
-          rollTemplate = '{[diceSet]}kh';
+          let rollTemplate = '{[diceSet]}kh';
         }
       }
       //make foundry roll string
-      rollStringParsed = rollTemplate.replace("[diceSet]",rollDice);
+      let rollStringParsed = rollTemplate.replace("[diceSet]",rollDice);
     } else {
-      rollStringParsed = rollString;
+      let rollStringParsed = rollString;
     }
     //return string in foundry format
     return rollStringParsed;

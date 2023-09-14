@@ -54,149 +54,263 @@ export class MothershipActor extends Actor {
   }
 
   //central roll parsing function | TAKES dice: '1d10 [+]' | RETURNS '{1d10,1d10}kh'
-  //IN PROGRESS
-  parseDiceRoll(rollString) {
-    //init vars
-    rollAdvDis = rollString.includes("[");
+  parseRollString(rollString,advantage) {
     //translate rollString into foundry roll string format
-    if (rollAdvDis === true) {
+    if (rollString.includes("[")) {
       //extract dice needed
-      rollDice = rollString.substr(0,rollString.indexOf("[")).concat(',',rollString.substr(0,rollString.indexOf("[")));
-      //make adv/dis template
-      rollTemplate = '{[diceSet]}';
+      let rollDice = rollString.substr(0,rollString.indexOf("[")).trim().concat(',',rollString.substr(0,rollString.indexOf("[")).trim());
+      //set template based on adv or dis
+      if (rollString.includes("[-]")) {
+        //use appropriate keep setting
+        if (advantage === 'min') {
+          rollTemplate = '{[diceSet]}kh';
+        } else {
+          rollTemplate = '{[diceSet]}kl';
+        }
+      } else if (rollString.includes("[+]")) {
+        //use appropriate keep setting
+        if (advantage === 'min') {
+          rollTemplate = '{[diceSet]}kl';
+        } else {
+          rollTemplate = '{[diceSet]}kh';
+        }
+      }
       //make foundry roll string
       rollStringParsed = rollTemplate.replace("[diceSet]",rollDice);
     } else {
       rollStringParsed = rollString;
     }
-    //roll dice
-    let macroRoll = await new Roll(rollStringParsed).evaluate();
-    //assign to vars + replace 10s with 0s
-    if (rollAdvDis === true) {
-      //get values
-      rollA1 = macroRoll.dice[0].results[0].result;
-      rollB1 = macroRoll.dice[1].results[0].result;
-      //replace 10s
-      if (rollA1 === 10) {rollA1 = 0;}
-      if (rollB1 === 10) {rollB1 = 0;}
-    } else {
-      //get values
-      rollA1 = macroRoll.dice[0].results[0].result;
-      //replace 10s
-      if (rollA1 === 10) {rollA1= 0;}
-    }
-    //choose best value based on Adv/Dis
-    if (rollAdvDis === true) {
-      if (rollString.includes("[+]") === true) {
-        if(rollA1 > rollB1) { 
-          finalRoll = rollA1;
-        } else {
-          finalRoll = rollB1;
-        }
-      } else if (rollString.includes("[-]") === true) {
-        if(rollA1 < rollB1) { 
-          finalRoll = rollA1;
-        } else {
-          finalRoll = rollB1;
-        }
-      }
-    } else {
-      finalRoll = rollA1;
-    }
-
+    //return string in foundry format
+    return rollStringParsed;
   }
 
-  //central roll parsing function | TAKES rollResult: [Foundry result object], zeroIsZero: true | RETURNS returns the result as an integer, where 0 is interpreted as 0
-  //IN PROGRESS
-  parseDiceResult(rollResult,zeroIsZero) {
-    //init vars
-    rollAdvDis = rollString.includes("[");
-    //translate rollString into foundry roll string format
-    if (rollAdvDis === true) {
-      //extract dice needed
-      rollDice = rollString.substr(0,rollString.indexOf("[")).concat(',',rollString.substr(0,rollString.indexOf("[")));
-      //make adv/dis template
-      rollTemplate = '{[diceSet]}';
-      //make foundry roll string
-      rollStringParsed = rollTemplate.replace("[diceSet]",rollDice);
-    } else {
-      rollStringParsed = rollString;
-    }
-    //roll dice
-    let macroRoll = await new Roll(rollStringParsed).evaluate();
-    //assign to vars + replace 10s with 0s
-    if (rollAdvDis === true) {
-      //get values
-      rollA1 = macroRoll.dice[0].results[0].result;
-      rollB1 = macroRoll.dice[1].results[0].result;
-      //replace 10s
-      if (rollA1 === 10) {rollA1 = 0;}
-      if (rollB1 === 10) {rollB1 = 0;}
-    } else {
-      //get values
-      rollA1 = macroRoll.dice[0].results[0].result;
-      //replace 10s
-      if (rollA1 === 10) {rollA1= 0;}
-    }
-    //choose best value based on Adv/Dis
-    if (rollAdvDis === true) {
-      if (rollString.includes("[+]") === true) {
-        if(rollA1 > rollB1) { 
-          finalRoll = rollA1;
-        } else {
-          finalRoll = rollB1;
+  //central roll parsing function | TAKES rollResult: [Foundry roll object], zeroTo99: true, checkCrit: true, rollTarget: 41 | RETURNS enriched Foundry roll object
+  //IN PROGRESS, still translating from macro
+  parseRollResult(rollString,rollResult,zeroTo99,checkCrit,rollTarget,comparison) {
+    //create enriched roll result object for us to work with
+    let enrichedRollResult = rollResult;
+    //alter roll result object
+      //change data point: change each 100 or 10 result to zero
+      if (zeroTo99) {
+        //1d10 changes
+        if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d10') {
+          //modify each die
+          if (enrichedRollResult.dice[0].results[0].result === 10) {enrichedRollResult.dice[0].results[0].result = 0;}
+          if (enrichedRollResult.dice[1].results[0].result === 10) {enrichedRollResult.dice[0].results[0].result = 0;}
+        //1d100 changes
+        } else if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d100') {
+          //modify each die
+          if (enrichedRollResult.dice[0].results[0].result === 100) {enrichedRollResult.dice[0].results[0].result = 0;}
+          if (enrichedRollResult.dice[1].results[0].result === 100) {enrichedRollResult.dice[0].results[0].result = 0;}
         }
-      } else if (rollString.includes("[-]") === true) {
-        if(rollA1 < rollB1) { 
-          finalRoll = rollA1;
+        //pick a new winner if [-] or [+]
+        if (rollString.includes("[")) {
+          //if [-] pick a new lowest number
+          if (rollResult.formula.includes("kl")) {
+            //set result value
+            let newTotal = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+          //if [+] pick a new highest number
+          } else if (rollResult.formula.includes("kh")) {
+            //set result value
+            let newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+          }
+        //use new value if a regular roll
         } else {
-          finalRoll = rollB1;
+          //set result value
+          let newTotal = enrichedRollResult.dice[0].results[0].result;
+        }
+        //update final roll result
+        enrichedRollResult.result = newTotal.toString();
+        enrichedRollResult.total = newTotal;
+      }
+    //enrich roll result object
+      //add data point: detect critical 
+      if (checkCrit) {
+        //prepare list of critical rolls
+        let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
+        //check for crit
+        if (doubles.has(enrichedRollResult.total)) {
+          enrichedRollResult.critical = true;
+        } else {
+          enrichedRollResult.critical = false;
         }
       }
-    } else {
-      finalRoll = rollA1;
-    }
-
+      //add data point: detect success/failure
+      if (rollTarget) {
+        //check for auto failure
+        if (enrichedRollResult.total >= 90) {
+          //result >= 90 is a failure
+          enrichedRollResult.success = false;
+        } else {
+          //compare values based on compararison setting
+          if (comparison === '<') {
+            //check against being under the target
+            if (enrichedRollResult.total < rollTarget) {
+              //result >= target is a failure
+              enrichedRollResult.success = true;
+            } else {
+              //result < target is a success
+              enrichedRollResult.success = false;
+            }
+          } else {
+            //check against being over the target
+            if (enrichedRollResult.total > rollTarget) {
+              //result < target is a failure
+              enrichedRollResult.success = true;
+            } else {
+              //result < target is a success
+              enrichedRollResult.success = false;
+            }
+          }
+        }
+      }
+      //add data point: interactive roll HTML
+        //prepare variables
+          //prepare formula
+          if (rollTarget) {
+            //show dice against target
+            let diceFormula = rollString + ' ' + comparison + ' ' + rollTarget;
+          } else {
+            //just show the dice
+            let diceFormula = rollString;
+          }
+          //prepare dice block
+            //create dice block html
+            let diceBlock = ``;
+            //loop through rolls
+            enrichedRollResult.dice.forEach(function(roll){ 
+              //add header for this roll
+              diceBlock = diceBlock + `
+                <section class="tooltip-part">
+                  <div class="dice">
+              `;
+              //add formula and result for this roll
+              diceBlock = diceBlock + `
+                    <header class="part-header flexrow">
+                      <span class="part-formula">${roll.formula}</span>
+                      <span class="part-total">${roll.total.toString()}</span>
+                    </header>
+              `;
+              //loop through dice
+              roll.results.forEach(function(die) { 
+                //set highlight if crit is asked for -------------------------------------REWRITE for die result, only do this if checkCrit is true, combine these two into one
+                if (checkCrit) {
+                  //check for crit
+                  if (doubles.has(die.result)) {
+                    //check for success
+                    if (rollTarget) {
+                      //check for auto failure
+                      if (die.result >= 90) {
+                        //result >= 90 is a failure, no highlight needed
+                        let critHighlight = ' min';
+                      } else {
+                        //compare values based on compararison setting
+                        if (comparison === '<') {
+                          //check against being under the target
+                          if (die.result < rollTarget) {
+                            //result >= target is a failure
+                            let critHighlight = ' min';
+                          } else {
+                            //result < target is a success
+                            let critHighlight = ' max';
+                          }
+                        } else {
+                          //check against being over the target
+                          if (die.result > rollTarget) {
+                            //result < target is a failure
+                            let critHighlight = ' min';
+                          } else {
+                            //result < target is a success
+                            let critHighlight = ' max';
+                          }
+                        }
+                      }
+                    }
+                  } else {
+                    //no highlight needed
+                    let critHighlight = '';
+                  }
+                } else {
+                  //no highlight needed
+                  let critHighlight = '';
+                }
+                //add header for this die
+                diceBlock = diceBlock + `
+                    <ol class="dice-rolls">
+                `;
+                //add formula and result for this die
+                diceBlock = diceBlock + `
+                      <li class="roll die d${roll.faces.toString()}${critHighlight}">${die.result.toString()}</li>
+                `;
+                //add footer for this die
+                diceBlock = diceBlock + `
+                    </ol>
+                `;
+              });
+              //add footer for this roll
+              diceBlock = diceBlock + `
+                  </div>
+                </section>
+              `;
+            });
+        //set final roll variables in to template
+        let rollHtml = `
+          <div class="dice-roll">
+            <div class="dice-result">
+              <div class="dice-formula">${diceFormula}</div>
+              <div class="dice-tooltip" style="display: none;">
+                ${diceBlock}
+              </div>
+              <h4 class="dice-total">${enrichedRollResult.total}</h4>
+            </div>
+          </div>
+        `;
+        //update final roll html string
+        enrichedRollResult.rollHTML = rollHtml;
+    //return the enriched roll result object
+    return enrichedRollResult;
   }
 
   //central table rolling function | TAKES table name: 'Panic Check', table result: 3 | RETURNS chat message showing 3rd roll table result for Panic Check
-  //IN PROGRESS
-  rollTable(tableName,tableResult) {
-    //init variables
-      //detect roll table location
-
-      //detect macro target preference
-      //detect if 3d dice 
-
-
-    //get table result
-    tableResult = game.tables.getName("Death Save").getResultsForRoll(finalRoll);
-    //create chat message template
-    macroResult = `
-      <div class="mosh">
-        <div class="rollcontainer">
-          <div class="flexrow" style="margin-bottom : 5px;">
-            <div class="rollweaponh1">${tableResult[0].parent.name}</div>
-            <div style="text-align: right"><img class="roll-image" src="${tableResult[0].img}" title="${tableResult[0].parent.name}" /></div>
+  async rollTable(tableName,rollString,advantage) {
+    //roll the dice
+      //parse the roll string
+      let parsedRollString = parseRollString(rollString,advantage);
+      //roll the dice
+      let rollResult = await new Roll(parsedRollString).evaluate();
+      //interpret the results
+      let parsedRollResult = parseRollResult(rollString,rollResult,true,false,null,null);
+    //fetch the table result
+      //get rolltable location
+      let tableLocation = game.settings.get('mosh','rollTable');
+      //get table result
+      let tableResult = game.packs.get(tableLocation).index.getName(tableName).getResultsForRoll(parsedRollResult.total);
+    //prepare chat message
+      //make the overall template
+      let messageTemplate = `
+        <div class="mosh">
+          <div class="rollcontainer">
+            <div class="flexrow" style="margin-bottom : 5px;">
+              <div class="rollweaponh1">${tableResult[0].parent.name}</div>
+              <div style="text-align: right"><img class="roll-image" src="${tableResult[0].img}" title="${tableResult[0].parent.name}" /></div>
+            </div>
+            ${parsedRollResult.rollHTML}
+            <div class="description" style="margin-bottom : 20px;">${tableResult[0].text}</div>
           </div>
-          <div class="description" style="margin-bottom : 20px;">${tableResult[0].text}</div>
         </div>
-      </div>
-    `;
-    //make message ID
-    chatId = randomID();
-    //get speaker character
-    activeCharacter = canvas.scene.data.tokens.find(token => token.name = game.user.character.name);
-    //make message
-    macroMsg = await macroRoll.toMessage({
-      id: chatId,
-      user: game.user._id,
-      speaker: ChatMessage.getSpeaker({token: activeCharacter}),
-      content: macroResult
-    },{keepId:true});
-    //make dice
-    await game.dice3d.waitFor3DAnimationByMessageID(chatId);
-
+      `;
+    //push chat message
+      //make message ID
+      let chatId = randomID();
+      //make message
+      macroMsg = await rollResult.toMessage({
+        id: chatId,
+        user: game.user.id,
+        speaker: {actor: this.id, token: this.token, alias: this.name},
+        content: macroResult
+      },{keepId:true});
+      //make dice
+      await game.dice3d.waitFor3DAnimationByMessageID(chatId);
   }
 
 

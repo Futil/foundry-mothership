@@ -53,6 +53,129 @@ export class MothershipActor extends Actor {
     const data = actorData;
   }
 
+  //central flavor text library for all chat messages
+  getFlavorText (type,name,context) {
+    //create library
+    let textLibrary = {
+      //rolltable flavor text
+      table: {
+        death: {
+          save: {
+            android: ``,
+            human: `You knock on death's door.`
+          },
+        },
+        wound: {
+          check: {
+            android: ``,
+            human: ``
+          },
+        },
+        panic: {
+          check: {
+            android: `You lose motor control for a moment as your sensory inputs flicker.`,
+            human: `Your heartbeat races out of control and you start to feel dizzy.`
+          },
+        }
+      },
+      //condition flavor text
+      item: {
+        condition: {
+          add: {
+            android: ``,
+            human: `You now suffer from this condition.`
+          },
+          increase: {
+            android: ``,
+            human: `Your condition worsens.`
+          },
+          bleed: {
+            android: `Your sensors detect significant nanofluid loss.`,
+            human: `You feel dizzy as you bleed out.`
+          }
+        }
+      },
+      //attribute flavor text
+      attribute: {
+        //stress flavor text
+        stress: {
+          increase: {
+            android: `Power surges through your chest and you start to overheat.`,
+            human: `You feel tightness in your chest and start to sweat.`
+          },
+          hitCeiling: {
+            android: ``,
+            human: `You hit rock bottom.`
+          },
+          pastCeiling: {
+            android: ``,
+            human: `You feel a part of yourself drift away.`
+          },
+          decrease: {
+            android: `You soft-reset, purging unnecessary background processes.`,
+            human: `You feel a sense of calm wash over you.`
+          },
+          hitFloor: {
+            android: ``,
+            human: `You attain complete peace of mind.`
+          },
+          pastFloor: {
+            android: ``,
+            human: `You are already as calm as possible.`
+          }
+        },
+        //stat/save flavor text
+        stat: {
+          check: {
+            android: ``,
+            human: `You gain some confidence in your skills.`
+          },
+          save: {
+            android: ``,
+            human: ``
+          }
+        },
+        //health flavor text
+        health: {
+          increase: {
+            android: `System resources free up and you feel energized.`,
+            human: `You feel a burst of energy.`
+          },
+          decrease: {
+            android: `Your pain receptors indicate core damage.`,
+            human: `You wince from the pain.`
+          }
+        },
+        //wounds flavor text
+        wounds: {
+          increase: {
+            android: ``,
+            human: ``
+          },
+          decrease: {
+            android: `Your pain receptors indicate permanent damage.`,
+            human: `You scream out from immense pain.`
+          }
+        },
+        //radiation flavor text
+        radiation: {
+          damage: {
+            android: `Catastro▒ic d⟑ta ▓loss de|/~ ⋥t⋱d`,
+            human: `You stare into blackness and feel completely unable to pull yourself out of it.`
+          }
+        }
+      }
+    };
+    //set full path to include class type
+    if (this.system.class.value.toLowerCase() === 'android') {
+      //return class appropriate text
+      return textLibrary[type][name][context].android;
+    } else {
+      //return class appropriate text
+      return textLibrary[type][name][context].human;
+    }
+  };
+
   //central roll parsing function | TAKES dice: '1d10 [+]' | RETURNS '{1d10,1d10}kh'
   parseRollString(rollString,advantage) {
     //init vars
@@ -96,6 +219,7 @@ export class MothershipActor extends Actor {
     let enrichedRollResult = rollResult;
     let newTotal = 0;
     let diceFormula = ``;
+    let compareIcon = ``;
     let diceBlock = ``;
     let critHighlight = ``;
     let rollHtml = ``;
@@ -173,10 +297,16 @@ export class MothershipActor extends Actor {
       }
       //add data point: interactive roll HTML
         //prepare variables
+          //make comparison icon
+          if (comparison === '<') {
+            compareIcon = '<i class="fas fa-angle-left"></i>';
+          } else {
+            compareIcon = '<i class="fas fa-angle-right"></i>';
+          }
           //prepare formula
           if (rollTarget) {
             //show dice against target
-            diceFormula = rollString + ' ' + comparison + ' ' + rollTarget;
+            diceFormula = rollString + ' ' + compareIcon + ' ' + rollTarget;
           } else {
             //just show the dice
             diceFormula = rollString;
@@ -260,7 +390,7 @@ export class MothershipActor extends Actor {
             });
         //set final roll variables in to template
         rollHtml = `
-          <div class="dice-roll">
+          <div class="dice-roll" style="margin-bottom: 10px;">
             <div class="dice-result">
               <div class="dice-formula">${diceFormula}</div>
               <div class="dice-tooltip" style="display: none;">

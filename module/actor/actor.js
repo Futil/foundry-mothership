@@ -221,7 +221,7 @@ export class MothershipActor extends Actor {
     let diceFormula = ``;
     let compareIcon = ``;
     let outcome = ``;
-    let outcomeBlock = ``;
+    let outcomeHtml = ``;
     let diceBlock = ``;
     let critHighlight = ``;
     let rollHtml = ``;
@@ -310,11 +310,13 @@ export class MothershipActor extends Actor {
             outcome = `CRITICAL ` + outcome;
           }
         //make HTML
-        outcomeBlock = `
+        outcomeHtml = `
           <div style="font-size: 1.1rem; margin-top : -10px; margin-bottom : 5px;">
             <strong>${outcome}</strong>
           </div>
         `;
+        //update final roll html string
+        enrichedRollResult.outcomeHTML = outcomeHtml;
       //add data point: interactive roll HTML
         //prepare variables
           //make comparison icon
@@ -421,7 +423,7 @@ export class MothershipActor extends Actor {
           </div>
         `;
         //update final roll html string
-        enrichedRollResult.rollHTML = rollHtml;
+        enrichedRollResult.rollHtml = rollHtml;
     //return the enriched roll result object
     return enrichedRollResult;
   }
@@ -458,11 +460,11 @@ export class MothershipActor extends Actor {
               <div class="rollweaponh1">${tableResult[0].parent.name}</div>
               <div style="text-align: right"><img class="roll-image" src="${tableResult[0].img}" title="${tableResult[0].parent.name}" /></div>
             </div>
-            ${outcomeBlock}
+            ${parsedRollResult.outcomeHtml}
             <div class="description" style="margin-bottom: 10px;">
               <div class="body">${flavorText}</div>
             </div>
-            ${parsedRollResult.rollHTML}
+            ${parsedRollResult.rollHtml}
             <div class="description" style="margin-bottom : 20px;">${tableResult[0].text}</div>
           </div>
         </div>

@@ -55,30 +55,34 @@ export class MothershipActor extends Actor {
 
   //central roll parsing function | TAKES dice: '1d10 [+]' | RETURNS '{1d10,1d10}kh'
   parseRollString(rollString,advantage) {
+    //init vars
+    let rollDice = ``;
+    let rollTemplate = ``;
+    let rollStringParsed = ``;
     //translate rollString into foundry roll string format
-    if (rollString.includes("[")) {
+    if (rollString.includes('[')) {
       //extract dice needed
-      let rollDice = rollString.substr(0,rollString.indexOf("[")).trim().concat(',',rollString.substr(0,rollString.indexOf("[")).trim());
+      rollDice = rollString.substr(0,rollString.indexOf('[')).trim().concat(',',rollString.substr(0,rollString.indexOf('[')).trim());
       //set template based on adv or dis
-      if (rollString.includes("[-]")) {
+      if (rollString.includes('[-]')) {
         //use appropriate keep setting
         if (advantage === 'min') {
-          let rollTemplate = '{[diceSet]}kh';
+          rollTemplate = '{[diceSet]}kh';
         } else {
-          let rollTemplate = '{[diceSet]}kl';
+          rollTemplate = '{[diceSet]}kl';
         }
-      } else if (rollString.includes("[+]")) {
+      } else if (rollString.includes('[+]')) {
         //use appropriate keep setting
         if (advantage === 'min') {
-          let rollTemplate = '{[diceSet]}kl';
+          rollTemplate = '{[diceSet]}kl';
         } else {
-          let rollTemplate = '{[diceSet]}kh';
+          rollTemplate = '{[diceSet]}kh';
         }
       }
       //make foundry roll string
-      let rollStringParsed = rollTemplate.replace("[diceSet]",rollDice);
+      rollStringParsed = rollTemplate.replace('[diceSet]',rollDice);
     } else {
-      let rollStringParsed = rollString;
+      rollStringParsed = rollString;
     }
     //return string in foundry format
     return rollStringParsed;
@@ -87,8 +91,14 @@ export class MothershipActor extends Actor {
   //central roll parsing function | TAKES rollResult: [Foundry roll object], zeroTo99: true, checkCrit: true, rollTarget: 41 | RETURNS enriched Foundry roll object
   //IN PROGRESS, still translating from macro
   parseRollResult(rollString,rollResult,zeroTo99,checkCrit,rollTarget,comparison) {
-    //create enriched roll result object for us to work with
+    //init vars
+    let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
     let enrichedRollResult = rollResult;
+    let newTotal = 0;
+    let diceFormula = ``;
+    let diceBlock = ``;
+    let critHighlight = ``;
+    let rollHtml = ``;
     //alter roll result object
       //change data point: change each 100 or 10 result to zero
       if (zeroTo99) {
@@ -108,16 +118,16 @@ export class MothershipActor extends Actor {
           //if [-] pick a new lowest number
           if (rollResult.formula.includes("kl")) {
             //set result value
-            let newTotal = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            newTotal = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
           //if [+] pick a new highest number
           } else if (rollResult.formula.includes("kh")) {
             //set result value
-            let newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
           }
         //use new value if a regular roll
         } else {
           //set result value
-          let newTotal = enrichedRollResult.dice[0].results[0].result;
+          newTotal = enrichedRollResult.dice[0].results[0].result;
         }
         //update final roll result
         enrichedRollResult.result = newTotal.toString();
@@ -126,8 +136,6 @@ export class MothershipActor extends Actor {
     //enrich roll result object
       //add data point: detect critical 
       if (checkCrit) {
-        //prepare list of critical rolls
-        let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
         //check for crit
         if (doubles.has(enrichedRollResult.total)) {
           enrichedRollResult.critical = true;
@@ -169,14 +177,12 @@ export class MothershipActor extends Actor {
           //prepare formula
           if (rollTarget) {
             //show dice against target
-            let diceFormula = rollString + ' ' + comparison + ' ' + rollTarget;
+            diceFormula = rollString + ' ' + comparison + ' ' + rollTarget;
           } else {
             //just show the dice
-            let diceFormula = rollString;
+            diceFormula = rollString;
           }
           //prepare dice block
-            //create dice block html
-            let diceBlock = ``;
             //loop through rolls
             enrichedRollResult.dice.forEach(function(roll){ 
               //add header for this roll
@@ -202,37 +208,37 @@ export class MothershipActor extends Actor {
                       //check for auto failure
                       if (die.result >= 90) {
                         //result >= 90 is a failure, no highlight needed
-                        let critHighlight = ' min';
+                        critHighlight = ' min';
                       } else {
                         //compare values based on compararison setting
                         if (comparison === '<') {
                           //check against being under the target
                           if (die.result < rollTarget) {
                             //result >= target is a failure
-                            let critHighlight = ' min';
+                            critHighlight = ' min';
                           } else {
                             //result < target is a success
-                            let critHighlight = ' max';
+                            critHighlight = ' max';
                           }
                         } else {
                           //check against being over the target
                           if (die.result > rollTarget) {
                             //result < target is a failure
-                            let critHighlight = ' min';
+                            critHighlight = ' min';
                           } else {
                             //result < target is a success
-                            let critHighlight = ' max';
+                            critHighlight = ' max';
                           }
                         }
                       }
                     }
                   } else {
                     //no highlight needed
-                    let critHighlight = '';
+                    critHighlight = '';
                   }
                 } else {
                   //no highlight needed
-                  let critHighlight = '';
+                  critHighlight = '';
                 }
                 //add header for this die
                 diceBlock = diceBlock + `
@@ -273,6 +279,12 @@ export class MothershipActor extends Actor {
 
   //central table rolling function | TAKES table name: 'Panic Check', table result: 3 | RETURNS chat message showing 3rd roll table result for Panic Check
   async rollTable(tableName,rollString,advantage) {
+    //init vars
+    let messageTemplate = ``;
+    let chatId = randomID();
+
+
+
     //roll the dice
       //parse the roll string
       let parsedRollString = this.parseRollString(rollString,advantage);
@@ -300,10 +312,8 @@ export class MothershipActor extends Actor {
         </div>
       `;
     //push chat message
-      //make message ID
-      let chatId = randomID();
       //make message
-      macroMsg = await rollResult.toMessage({
+      let macroMsg = await rollResult.toMessage({
         id: chatId,
         user: game.user.id,
         speaker: {actor: this.id, token: this.token, alias: this.name},

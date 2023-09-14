@@ -317,7 +317,7 @@ export class MothershipActor extends Actor {
         id: chatId,
         user: game.user.id,
         speaker: {actor: this.id, token: this.token, alias: this.name},
-        content: macroResult
+        content: messageTemplate
       },{keepId:true});
       //make dice
       await game.dice3d.waitFor3DAnimationByMessageID(chatId);

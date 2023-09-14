@@ -130,8 +130,7 @@ export class MothershipActor extends Actor {
           newTotal = enrichedRollResult.dice[0].results[0].result;
         }
         //update final roll result
-        enrichedRollResult.result = newTotal.toString();
-        enrichedRollResult.total = newTotal;
+        enrichedRollResult._total = newTotal;
       }
     //enrich roll result object
       //add data point: detect critical 

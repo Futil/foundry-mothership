@@ -42,7 +42,7 @@ new Dialog({
     <div class ="macro_window" style="margin-bottom : 7px;">
       <div class="grid grid-2col" style="grid-template-columns: 150px auto">
         <div class="macro_img"><img src="systems/mosh/images/icons/ui/rolltables/death_save.png" style="border:none"/></div>
-        <div class="macro_desc"><h3>Death Save</h3>Your character is incapacitated when you receive a fatal wound, or once your Current Wounds equal your Maximum Wounds. As soon as someone spends a turn checking your vitals, make a <strong>Death Save</strong> to reveal your fate. If your death seems imminent, make your last moments count: save someone’s life, solve an important mystery, give the others time to escape.</div>    
+        <div class="macro_desc"><h3>Death Save</h3>Your character is incapacitated when you receive a fatal wound, or once your Current Wounds equal your Maximum Wounds. As soon as someone spends a turn checking your vitals, make a <strong>Death Save</strong> to reveal your fate. If your death seems imminent, make your last moments count: save someone’s life, solve an important mystery, or give the others time to escape.</div>    
       </div>
     </div>
     <h4>Select your roll type:</h4>

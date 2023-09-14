@@ -54,7 +54,7 @@ export class MothershipActor extends Actor {
   }
 
   //central flavor text library for all chat messages
-  getFlavorText (type,name,context) {
+  getFlavorText (type,context,action) {
     //create library
     let textLibrary = {
       //rolltable flavor text
@@ -169,10 +169,10 @@ export class MothershipActor extends Actor {
     //set full path to include class type
     if (this.system.class.value.toLowerCase() === 'android') {
       //return class appropriate text
-      return textLibrary[type][name][context].android;
+      return textLibrary[type][context][action].android;
     } else {
       //return class appropriate text
-      return textLibrary[type][name][context].human;
+      return textLibrary[type][context][action].human;
     }
   };
 
@@ -220,6 +220,8 @@ export class MothershipActor extends Actor {
     let newTotal = 0;
     let diceFormula = ``;
     let compareIcon = ``;
+    let outcome = ``;
+    let outcomeBlock = ``;
     let diceBlock = ``;
     let critHighlight = ``;
     let rollHtml = ``;
@@ -295,6 +297,24 @@ export class MothershipActor extends Actor {
           }
         }
       }
+      //add data point: outcome HTML
+        //prepare outcome
+          //success
+          if (enrichedRollResult.success) {
+            outcome = `SUCCESS!`;
+          } else {
+            outcome = `FAILURE!`;
+          }
+          //crit
+          if (enrichedRollResult.critical) {
+            outcome = `CRITICAL ` + outcome;
+          }
+        //make HTML
+        outcomeBlock = `
+          <div style="font-size: 1.1rem; margin-top : -10px; margin-bottom : 5px;">
+            <strong>${outcome}</strong>
+          </div>
+        `;
       //add data point: interactive roll HTML
         //prepare variables
           //make comparison icon
@@ -427,6 +447,8 @@ export class MothershipActor extends Actor {
       let tableData = await game.packs.get(tableLocation).getDocument(tableIndex._id);
       //get table result
       let tableResult = tableData.getResultsForRoll(parsedRollResult.total);
+      //get flavor text
+      let flavorText = this.getFlavorText('table','death','save');
     //prepare chat message
       //make the overall template
       messageTemplate = `
@@ -435,6 +457,10 @@ export class MothershipActor extends Actor {
             <div class="flexrow" style="margin-bottom : 5px;">
               <div class="rollweaponh1">${tableResult[0].parent.name}</div>
               <div style="text-align: right"><img class="roll-image" src="${tableResult[0].img}" title="${tableResult[0].parent.name}" /></div>
+            </div>
+            ${outcomeBlock}
+            <div class="description" style="margin-bottom: 10px;">
+              <div class="body">${flavorText}</div>
             </div>
             ${parsedRollResult.rollHTML}
             <div class="description" style="margin-bottom : 20px;">${tableResult[0].text}</div>

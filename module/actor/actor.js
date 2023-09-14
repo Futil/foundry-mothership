@@ -275,11 +275,11 @@ export class MothershipActor extends Actor {
   async rollTable(tableName,rollString,advantage) {
     //roll the dice
       //parse the roll string
-      let parsedRollString = parseRollString(rollString,advantage);
+      let parsedRollString = this.parseRollString(rollString,advantage);
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
-      let parsedRollResult = parseRollResult(rollString,rollResult,true,false,null,null);
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,true,false,null,null);
     //fetch the table result
       //get rolltable location
       let tableLocation = game.settings.get('mosh','rollTable');

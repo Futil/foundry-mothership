@@ -50,17 +50,17 @@ new Dialog({
   buttons: {
     button1: {
       label: `Advantage`,
-      callback: () => prepTableRoll(`Death Save`,`1d10 [+]`),
+      callback: () => prepTableRoll(`Death Save`,`1d10 [+]`,`min`),
       icon: `<i class="fas fa-angle-double-up"></i>`
     },
     button2: {
       label: `Normal`,
-      callback: () => prepTableRoll(`Death Save`,`1d10`),
+      callback: () => prepTableRoll(`Death Save`,`1d10`,`min`),
       icon: `<i class="fas fa-minus"></i>`
     },
     button3: {
       label: `Disadvantage`,
-      callback: () => prepTableRoll(`Death Save`,`1d10 [-]`),
+      callback: () => prepTableRoll(`Death Save`,`1d10 [-]`,`min`),
       icon: `<i class="fas fa-angle-double-down"></i>`
     }
   }

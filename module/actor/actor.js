@@ -291,8 +291,12 @@ export class MothershipActor extends Actor {
     //fetch the table result
       //get rolltable location
       let tableLocation = game.settings.get('mosh','rollTable');
+      //get table index
+      let tableIndex = game.packs.get(tableLocation).index.getName(tableName);
+      //get table data
+      let tableData = await game.packs.get(tableLocation).getDocument(tableIndex._id);
       //get table result
-      let tableResult = game.packs.get(tableLocation).index.getName(tableName).getResultsForRoll(parsedRollResult.total);
+      let tableResult = tableData.getResultsForRoll(parsedRollResult.total);
     //prepare chat message
       //make the overall template
       messageTemplate = `

@@ -260,7 +260,7 @@ export class MothershipActor extends Actor {
               `;
             });
         //set final roll variables in to template
-        let rollHtml = `
+        rollHtml = `
           <div class="dice-roll">
             <div class="dice-result">
               <div class="dice-formula">${diceFormula}</div>
@@ -282,9 +282,6 @@ export class MothershipActor extends Actor {
     //init vars
     let messageTemplate = ``;
     let chatId = randomID();
-
-
-
     //roll the dice
       //parse the roll string
       let parsedRollString = this.parseRollString(rollString,advantage);
@@ -299,7 +296,7 @@ export class MothershipActor extends Actor {
       let tableResult = game.packs.get(tableLocation).index.getName(tableName).getResultsForRoll(parsedRollResult.total);
     //prepare chat message
       //make the overall template
-      let messageTemplate = `
+      messageTemplate = `
         <div class="mosh">
           <div class="rollcontainer">
             <div class="flexrow" style="margin-bottom : 5px;">

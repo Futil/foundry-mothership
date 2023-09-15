@@ -61,14 +61,14 @@ export class MothershipActor extends Actor {
       table: {
         death: {
           save: {
-            android: ``,
+            android: `tbd`,
             human: `You knock on death's door.`
           },
         },
         wound: {
           check: {
-            android: ``,
-            human: ``
+            android: `tbd`,
+            human: `tbd`
           },
         },
         panic: {
@@ -82,11 +82,11 @@ export class MothershipActor extends Actor {
       item: {
         condition: {
           add: {
-            android: ``,
+            android: `You now suffer from this condition.`,
             human: `You now suffer from this condition.`
           },
           increase: {
-            android: ``,
+            android: `Your condition worsens.`,
             human: `Your condition worsens.`
           },
           bleed: {
@@ -104,11 +104,11 @@ export class MothershipActor extends Actor {
             human: `You feel tightness in your chest and start to sweat.`
           },
           hitCeiling: {
-            android: ``,
+            android: `tbd`,
             human: `You hit rock bottom.`
           },
           pastCeiling: {
-            android: ``,
+            android: `tbd`,
             human: `You feel a part of yourself drift away.`
           },
           decrease: {
@@ -116,23 +116,23 @@ export class MothershipActor extends Actor {
             human: `You feel a sense of calm wash over you.`
           },
           hitFloor: {
-            android: ``,
+            android: `tbd`,
             human: `You attain complete peace of mind.`
           },
           pastFloor: {
-            android: ``,
+            android: `tbd`,
             human: `You are already as calm as possible.`
           }
         },
         //stat/save flavor text
         stat: {
           check: {
-            android: ``,
+            android: `tbd`,
             human: `You gain some confidence in your skills.`
           },
           save: {
-            android: ``,
-            human: ``
+            android: `tbd`,
+            human: `tbd`
           }
         },
         //health flavor text
@@ -149,8 +149,8 @@ export class MothershipActor extends Actor {
         //wounds flavor text
         wounds: {
           increase: {
-            android: ``,
-            human: ``
+            android: `tbd`,
+            human: `tbd`
           },
           decrease: {
             android: `Your pain receptors indicate permanent damage.`,
@@ -189,14 +189,14 @@ export class MothershipActor extends Actor {
       //set template based on adv or dis
       if (rollString.includes('[-]')) {
         //use appropriate keep setting
-        if (advantage === 'min') {
+        if (advantage === 'low') {
           rollTemplate = '{[diceSet]}kh';
         } else {
           rollTemplate = '{[diceSet]}kl';
         }
       } else if (rollString.includes('[+]')) {
         //use appropriate keep setting
-        if (advantage === 'min') {
+        if (advantage === 'low') {
           rollTemplate = '{[diceSet]}kl';
         } else {
           rollTemplate = '{[diceSet]}kh';
@@ -211,9 +211,9 @@ export class MothershipActor extends Actor {
     return rollStringParsed;
   }
 
-  //central roll parsing function | TAKES rollResult: [Foundry roll object], zeroTo99: true, checkCrit: true, rollTarget: 41 | RETURNS enriched Foundry roll object
+  //central roll parsing function | TAKES rollResult: [Foundry roll object], zeroBased: true, checkCrit: true, rollTarget: 41 | RETURNS enriched Foundry roll object
   //IN PROGRESS, still translating from macro
-  parseRollResult(rollString,rollResult,zeroTo99,checkCrit,rollTarget,comparison) {
+  parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison) {
     //init vars
     let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
     let enrichedRollResult = rollResult;
@@ -227,17 +227,17 @@ export class MothershipActor extends Actor {
     let rollHtml = ``;
     //alter roll result object
       //change data point: change each 100 or 10 result to zero
-      if (zeroTo99) {
+      if (zeroBased) {
         //1d10 changes
         if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d10') {
           //modify each die
           if (enrichedRollResult.dice[0].results[0].result === 10) {enrichedRollResult.dice[0].results[0].result = 0;}
-          if (enrichedRollResult.dice[1].results[0].result === 10) {enrichedRollResult.dice[0].results[0].result = 0;}
+          if (enrichedRollResult.dice[1].results[0].result === 10) {enrichedRollResult.dice[1].results[0].result = 0;}
         //1d100 changes
         } else if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d100') {
           //modify each die
           if (enrichedRollResult.dice[0].results[0].result === 100) {enrichedRollResult.dice[0].results[0].result = 0;}
-          if (enrichedRollResult.dice[1].results[0].result === 100) {enrichedRollResult.dice[0].results[0].result = 0;}
+          if (enrichedRollResult.dice[1].results[0].result === 100) {enrichedRollResult.dice[1].results[0].result = 0;}
         }
         //pick a new winner if [-] or [+]
         if (rollString.includes("[")) {
@@ -316,7 +316,7 @@ export class MothershipActor extends Actor {
           </div>
         `;
         //update final roll html string
-        enrichedRollResult.outcomeHTML = outcomeHtml;
+        enrichedRollResult.outcomeHtml = outcomeHtml;
       //add data point: interactive roll HTML
         //prepare variables
           //make comparison icon
@@ -429,17 +429,23 @@ export class MothershipActor extends Actor {
   }
 
   //central table rolling function | TAKES table name: 'Panic Check', table result: 3 | RETURNS chat message showing 3rd roll table result for Panic Check
-  async rollTable(tableName,rollString,advantage) {
+  async rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
     //init vars
     let messageTemplate = ``;
     let chatId = randomID();
+    let rollTarget = null;
+    //pull stat to roll against, if needed
+    if(rollAgainst){
+      //set rollTarget
+      rollTarget = this[rollAgainst].value;
+    }
     //roll the dice
       //parse the roll string
-      let parsedRollString = this.parseRollString(rollString,advantage);
+      let parsedRollString = this.parseRollString(rollString,aimFor);
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
-      let parsedRollResult = this.parseRollResult(rollString,rollResult,true,false,null,null);
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
     //fetch the table result
       //get rolltable location
       let tableLocation = game.settings.get('mosh','rollTable');
@@ -451,6 +457,15 @@ export class MothershipActor extends Actor {
       let tableResult = tableData.getResultsForRoll(parsedRollResult.total);
       //get flavor text
       let flavorText = this.getFlavorText('table','death','save');
+    //make any custom changes to table results
+      //panic check #19 customiziation
+      if(tableName === 'Panic Check' && parsedRollResult.total === 19) {
+        if (this.system.class.value.toLowerCase() === 'android') {
+          tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","SHORT CIRCUIT.");
+        } else {
+          tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","HEART ATTACK.");
+        }
+      }
     //prepare chat message
       //make the overall template
       messageTemplate = `

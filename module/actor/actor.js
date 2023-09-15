@@ -66,16 +66,36 @@ export class MothershipActor extends Actor {
           },
         },
         wound: {
-          check: {
+          blunt: {
+            android: `tbd`,
+            human: `tbd`
+          },
+          bleeding: {
+            android: `tbd`,
+            human: `tbd`
+          },
+          gunshot: {
+            android: `tbd`,
+            human: `tbd`
+          },
+          fire: {
+            android: `tbd`,
+            human: `tbd`
+          },
+          gore: {
             android: `tbd`,
             human: `tbd`
           },
         },
         panic: {
-          check: {
+          fail: {
             android: `You lose motor control for a moment as your sensory inputs flicker.`,
             human: `Your heartbeat races out of control and you start to feel dizzy.`
           },
+          succeed: {
+            android: `tbd`,
+            human: `You take a deep breath and regain your composure.`
+          }
         }
       },
       //condition flavor text

@@ -1,12 +1,14 @@
 //run the death save
-async function prepTableRoll(tableName,rollString) {
+async function prepTableRoll(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
   //determine who to run the macro for
-  if (game.settings.get("mosh", "macroTarget") === 'character') {
+  if (game.settings.get('mosh','macroTarget') === 'character') {
     //roll the table for the player's 'Selected Character'
-    game.user.character.rollTable(tableName,rollString);
-  } else if (game.settings.get("mosh", "macroTarget") === 'token') {
+    game.user.character.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
+  } else if (game.settings.get('mosh','macroTarget') === 'token') {
     //roll the table for all selected tokens
-    canvas.tokens.controlled.foreach(rollTable(tableName,rollString));
+    canvas.tokens.controlled.foreach(function(token){
+      token.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
+    });
   }
 }
 
@@ -50,17 +52,17 @@ new Dialog({
   buttons: {
     button1: {
       label: `Advantage`,
-      callback: () => prepTableRoll(`Death Save`,`1d10 [+]`,`min`),
+      callback: () => prepTableRoll(`Death Save`,`1d10 [+]`,`low`,true,false,null,null),
       icon: `<i class="fas fa-angle-double-up"></i>`
     },
     button2: {
       label: `Normal`,
-      callback: () => prepTableRoll(`Death Save`,`1d10`,`min`),
+      callback: () => prepTableRoll(`Death Save`,`1d10`,`low`,true,false,null,null),
       icon: `<i class="fas fa-minus"></i>`
     },
     button3: {
       label: `Disadvantage`,
-      callback: () => prepTableRoll(`Death Save`,`1d10 [-]`,`min`),
+      callback: () => prepTableRoll(`Death Save`,`1d10 [-]`,`low`,true,false,null,null),
       icon: `<i class="fas fa-angle-double-down"></i>`
     }
   }

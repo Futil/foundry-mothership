@@ -59,41 +59,49 @@ export class MothershipActor extends Actor {
     let textLibrary = {
       //rolltable flavor text
       table: {
-        death: {
-          save: {
-            android: `tbd`,
+        death_save: {
+          roll: {
+            android: `You knock on death's door.`,
             human: `You knock on death's door.`
-          },
+          }
         },
-        wound: {
-          blunt: {
-            android: `tbd`,
-            human: `tbd`
-          },
-          bleeding: {
-            android: `tbd`,
-            human: `tbd`
-          },
-          gunshot: {
-            android: `tbd`,
-            human: `tbd`
-          },
-          fire: {
-            android: `tbd`,
-            human: `tbd`
-          },
-          gore: {
-            android: `tbd`,
-            human: `tbd`
-          },
+        blunt_force_wound: {
+          roll: {
+            android: `You brace for the worst.`,
+            human: `You brace for the worst.`
+          }
         },
-        panic: {
-          fail: {
+        bleeding_wound: {
+          roll: {
+            android: `You brace for the worst.`,
+            human: `You brace for the worst.`
+          }
+        },
+        gunshot_wound: {
+          roll: {
+            android: `You brace for the worst.`,
+            human: `You brace for the worst.`
+          }
+        },
+        fire_explosive_wound: {
+          roll: {
+            android: `You brace for the worst.`,
+            human: `You brace for the worst.`
+          }
+        },
+        gore_massive_wound: {
+          roll: {
+            android: `You brace for the worst.`,
+            human: `You brace for the worst.`
+          }
+        },
+        panic_check: {
+          roll: {
             android: `You lose motor control for a moment as your sensory inputs flicker.`,
             human: `Your heartbeat races out of control and you start to feel dizzy.`
           },
-          succeed: {
-            android: `tbd`,
+          success: {
+            android: `System resources free up and you regain control.`,
             human: `You take a deep breath and regain your composure.`
           }
         }
@@ -124,11 +132,11 @@ export class MothershipActor extends Actor {
             human: `You feel tightness in your chest and start to sweat.`
           },
           hitCeiling: {
-            android: `tbd`,
+            android: `System performance grinds to a halt.`,
             human: `You hit rock bottom.`
           },
           pastCeiling: {
-            android: `tbd`,
+            android: `You sense unrecoverable data loss.`,
             human: `You feel a part of yourself drift away.`
           },
           decrease: {
@@ -136,23 +144,23 @@ export class MothershipActor extends Actor {
             human: `You feel a sense of calm wash over you.`
           },
           hitFloor: {
-            android: `tbd`,
+            android: `You attain perfect focus and clarity. `,
             human: `You attain complete peace of mind.`
           },
           pastFloor: {
-            android: `tbd`,
+            android: `You are already as focused as possible.`,
             human: `You are already as calm as possible.`
           }
         },
         //stat/save flavor text
         stat: {
           check: {
-            android: `tbd`,
+            android: `You gain some confidence in your skills.`,
             human: `You gain some confidence in your skills.`
           },
           save: {
-            android: `tbd`,
-            human: `tbd`
+            android: `You gain some confidence in your abilities.`,
+            human: `You gain some confidence in your abilities.`
           }
         },
         //health flavor text
@@ -169,8 +177,8 @@ export class MothershipActor extends Actor {
         //wounds flavor text
         wounds: {
           increase: {
-            android: `tbd`,
-            human: `tbd`
+            android: `System resources free up and you feel energized.`,
+            human: `You feel a burst of energy.`
           },
           decrease: {
             android: `Your pain receptors indicate permanent damage.`,
@@ -457,6 +465,7 @@ export class MothershipActor extends Actor {
   async rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
     //init vars
     let messageTemplate = ``;
+    let flavorText = ``;
     let chatId = randomID();
     let rollTarget = null;
     let valueAddress = [];
@@ -483,16 +492,25 @@ export class MothershipActor extends Actor {
       let tableData = await game.packs.get(tableLocation).getDocument(tableIndex._id);
       //get table result
       let tableResult = tableData.getResultsForRoll(parsedRollResult.total);
-      //get flavor text
-      let flavorText = this.getFlavorText('table','death','save');
-    //make any custom changes to table results
+
+    //make any custom changes to chat message
       //panic check #19 customiziation
-      if(tableName === 'Panic Check' && parsedRollResult.total === 19) {
+      if (tableName === 'Panic Check' && parsedRollResult.total === 19) {
         if (this.system.class.value.toLowerCase() === 'android') {
           tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","SHORT CIRCUIT.");
         } else {
           tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","HEART ATTACK.");
         }
+      }
+      //account for successfel rolls against target
+      if(tableName === 'Panic Check' && parsedRollResult.success === true) {
+        //assign flavor text
+        let flavorText = this.getFlavorText('table',tableName.replace('& ','').toLowerCase(),'success');
+        //remove table result
+        tableResult[0].text = ``;
+      } else {
+        //assign flavor text
+        let flavorText = this.getFlavorText('table',tableName.replace('& ','').toLowerCase(),'roll');
       }
     //prepare chat message
       //make the overall template

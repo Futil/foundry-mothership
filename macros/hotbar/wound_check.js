@@ -132,4 +132,4 @@ new Dialog({
       icon: `<i class="fas fa-angle-double-down"></i>`
     }
   }
-},{width: 600,height: 265}).render(true);
+},{width: 600,height: 650}).render(true);

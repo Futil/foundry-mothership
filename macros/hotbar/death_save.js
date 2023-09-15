@@ -6,8 +6,8 @@ async function prepTableRoll(tableName,rollString,aimFor,zeroBased,checkCrit,rol
     game.user.character.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
   } else if (game.settings.get('mosh','macroTarget') === 'token') {
     //roll the table for all selected tokens
-    canvas.tokens.controlled.foreach(function(token){
-      token.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
+    canvas.tokens.controlled.forEach(function(token){
+      token.actor.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
     });
   }
 }

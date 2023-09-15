@@ -296,27 +296,27 @@ export class MothershipActor extends Actor {
             }
           }
         }
+        //add data point: outcome HTML
+          //prepare outcome
+            //success
+            if (enrichedRollResult.success) {
+              outcome = `SUCCESS!`;
+            } else {
+              outcome = `FAILURE!`;
+            }
+            //crit
+            if (enrichedRollResult.critical) {
+              outcome = `CRITICAL ` + outcome;
+            }
+          //make HTML
+          outcomeHtml = `
+            <div style="font-size: 1.1rem; margin-top : -10px; margin-bottom : 5px;">
+              <strong>${outcome}</strong>
+            </div>
+          `;
+          //update final roll html string
+          enrichedRollResult.outcomeHtml = outcomeHtml;
       }
-      //add data point: outcome HTML
-        //prepare outcome
-          //success
-          if (enrichedRollResult.success) {
-            outcome = `SUCCESS!`;
-          } else {
-            outcome = `FAILURE!`;
-          }
-          //crit
-          if (enrichedRollResult.critical) {
-            outcome = `CRITICAL ` + outcome;
-          }
-        //make HTML
-        outcomeHtml = `
-          <div style="font-size: 1.1rem; margin-top : -10px; margin-bottom : 5px;">
-            <strong>${outcome}</strong>
-          </div>
-        `;
-        //update final roll html string
-        enrichedRollResult.outcomeHtml = outcomeHtml;
       //add data point: interactive roll HTML
         //prepare variables
           //make comparison icon

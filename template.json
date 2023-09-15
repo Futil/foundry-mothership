@@ -59,37 +59,37 @@
       "stats": {
         "strength": {
           "value": 10,
-          "mod": null,
+          "mod": 0,
           "label": "Strength"
         },
         "speed": {
           "value": 10,
-          "mod": null,
+          "mod": 0,
           "label": "Speed"
         },
         "intellect": {
           "value": 10,
-          "mod": null,
+          "mod": 0,
           "label": "Intellect"
         },
         "combat": {
           "value": 10,
-          "mod": null,
+          "mod": 0,
           "label": "Combat"
         },
         "sanity": {
           "value": 10,
-          "mod": null,
+          "mod": 0,
           "label": "Sanity"
         },
         "fear": {
           "value": 10,
-          "mod": null,
+          "mod": 0,
           "label": "Fear"
         },
         "body": {
           "value": 10,
-          "mod": null,
+          "mod": 0,
           "label": "Body"
         },
         "armor": {

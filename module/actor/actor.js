@@ -225,6 +225,11 @@ export class MothershipActor extends Actor {
     let diceBlock = ``;
     let critHighlight = ``;
     let rollHtml = ``;
+    //init new fields in enriched roll result
+    enrichedRollResult.critical = false;
+    enrichedRollResult.success = false;
+    enrichedRollResult.outcomeHtml = ``;
+    enrichedRollResult.rollHtml = ``;
     //alter roll result object
       //change data point: change each 100 or 10 result to zero
       if (zeroBased) {
@@ -434,10 +439,13 @@ export class MothershipActor extends Actor {
     let messageTemplate = ``;
     let chatId = randomID();
     let rollTarget = null;
+    let valueAddress = [];
     //pull stat to roll against, if needed
     if(rollAgainst){
+      //turn string address into array
+      valueAddress = rollAgainst.split('.');
       //set rollTarget
-      rollTarget = this[rollAgainst].value;
+      rollTarget = valueAddress.reduce((a, v) => a[v], this);
     }
     //roll the dice
       //parse the roll string

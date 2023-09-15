@@ -291,25 +291,25 @@ async function createActorFromJson(jsonData) {
         "attributes": { "level": { "value": actorData.highScore } },
         "stats": {
           "strength": {
-            "value": actorData.strength, "label": "Strength", "mod": null
+            "value": actorData.strength, "label": "Strength", "mod": 0
           },
           "speed": {
-            "value": actorData.speed, "label": "Speed", "mod": null
+            "value": actorData.speed, "label": "Speed", "mod": 0
           },
           "intellect": {
-            "value": actorData.intellect, "label": "Intellect", "mod": null
+            "value": actorData.intellect, "label": "Intellect", "mod": 0
           },
           "combat": {
-            "value": actorData.combat, "label": "Combat", "mod": null
+            "value": actorData.combat, "label": "Combat", "mod": 0
           },
           "sanity": {
-            "value": actorData.sanity, "label": "Sanity"
+            "value": actorData.sanity, "label": "Sanity", "mod": 0
           },
           "fear": {
-            "value": actorData.fear, "label": "Fear"
+            "value": actorData.fear, "label": "Fear", "mod": 0
           },
           "body": {
-            "value": actorData.body, "label": "Body"
+            "value": actorData.body, "label": "Body", "mod": 0
           }
         },
         "other": {

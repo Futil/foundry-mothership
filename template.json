@@ -10,11 +10,13 @@
         "health": {
           "value": 10,
           "min": 0,
-          "max": 10
+          "max": 10,
+          "label" : "Health"
         },
         "hits": {
           "value" : 0,
-          "max" : 2
+          "max" : 2,
+          "label" : "Wounds"
         }
       }
     },
@@ -22,6 +24,18 @@
       "templates": [
         "base"
       ],
+      "stress": {
+        "value": 2,
+        "min": 2,
+        "max": 20,
+        "label" : "Stress"
+      },
+      "resolve": {
+        "value": 0,
+        "min": 0,
+        "max": 85,
+        "label" : "Resolve"
+      },
       "biography": "",
       "notes": "",
       "weight" : {
@@ -97,17 +111,6 @@
           "mod": 0,
           "damageReduction": 0,
           "label": "Armor"
-        }
-      },
-      "other": {
-        "stress": {
-          "value": 2,
-          "min": 2,
-          "max": 20,
-          "label" : "Stress"
-        },
-        "resolve": {
-          "value": 0
         }
       }
     },

@@ -356,7 +356,7 @@ export class MothershipActorSheet extends ActorSheet {
 
     // Rollable Item/Anything with a description that we want to click on.
     html.find('.calm-roll').click(ev => {
-      const attribute = this.actor.system.other.stress;
+      const attribute = this.actor.system.stress;
       attribute.label = "Calm";
       this.actor.rollStress(attribute);
     });

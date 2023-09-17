@@ -833,13 +833,8 @@ export class MothershipActor extends Actor {
         //exit function
         return;
       }
-
-//////////////////////////need to update choose XYZ functions to respect rollString if its passed
-
-//////////////////////////find a way to make the above 3 functions just return the needed information
-
-/////////////////////////////// need to get the relevant stats and prepare for rolling   SET ROLLTARGET
-
+    //retrieve the attribute (and its mod if available)
+    let rollTarget = this.actor.system.stats[attribute].value + this.actor.system.stats[attribute].mod;
     //roll the dice
       //parse the roll string
       let parsedRollString = this.parseRollString(rollString,aimFor);
@@ -851,6 +846,14 @@ export class MothershipActor extends Actor {
 
 //all sorts of stuff
 //I LEFT OFF HERE :)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////need to update choose XYZ functions to respect rollString if its passed
+
+//////////////////////////find a way to make the above 3 functions just return the needed information
+
+/////////////////////////////// need to get the relevant stats and prepare for rolling   SET ROLLTARGET
+
 
 
     //push chat message

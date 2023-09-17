@@ -135,7 +135,7 @@
         "speed": {
           "value": 10,
           "label": "Speed",
-          "enabled" : true
+          "enabled" : false
         },
         "loyalty": {
           "value": 10,

@@ -492,7 +492,6 @@ export class MothershipActor extends Actor {
       let tableData = await game.packs.get(tableLocation).getDocument(tableIndex._id);
       //get table result
       let tableResult = tableData.getResultsForRoll(parsedRollResult.total);
-
     //make any custom changes to chat message
       //panic check #19 customiziation
       if (tableName === 'Panic Check' && parsedRollResult.total === 19) {

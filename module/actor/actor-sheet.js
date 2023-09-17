@@ -304,31 +304,23 @@ export class MothershipActorSheet extends ActorSheet {
       weapon.sheet.render(true);
     });
 
-
+    // Rollable Attribute
     html.find('.stat-roll').click(ev => {
       const div = $(ev.currentTarget);
       const statName = div.data("key");
-      const attribute = this.actor.system.stats[statName];
-      var shifted = false;
-      if (ev.shiftKey) shifted = true;
-      this.actor.rollStat(attribute, shifted);
+      this.actor.rollCheck(null,'low',statName,null,null);
     });
 
     // Rollable Skill
     html.find('.skill-roll').click(ev => {
       const li = event.currentTarget.closest(".item");
-      this.actor.rollSkill(li.dataset.itemId, {
-        event: event
-      });
+      this.actor.rollCheck(null,null,null,li.dataset.itemId,null);
     });
 
     // Rollable Weapon
     html.find('.weapon-roll').click(ev => {
       const li = ev.currentTarget.closest(".item");
-
-      this.actor.rollWeapon(li.dataset.itemId, {
-        event: ev
-      });
+      this.actor.rollCheck(null,'low','combat',null,li.dataset.itemId);
     });
 
     // Rollable Item/Anything with a description that we want to click on.
@@ -339,11 +331,11 @@ export class MothershipActorSheet extends ActorSheet {
       });
     });
 
+    //increase ammo
     html.on('mousedown', '.weapon-ammo', ev => {
       const li = ev.currentTarget.closest(".item");
       const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
       let amount = item.system.ammo;
-
       if (event.button == 0) {
         if (amount >= 0) {
           item.system.ammo = Number(amount) + 1;
@@ -353,35 +345,13 @@ export class MothershipActorSheet extends ActorSheet {
           item.system.ammo = Number(amount) - 1;
         }
       }
-
       this.actor.updateEmbeddedDocuments('Item', [item]);
     });
 
     //Reload Shots
     html.on('mousedown', '.weapon-reload', ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
-
-      if (!item.system.useAmmo) {
-        item.system.curShots = item.system.shots;
-      } else {
-        item.system.ammo += item.system.curShots;
-        let reloadAmount = Math.min(item.system.ammo, item.system.shots);
-        item.system.curShots = reloadAmount;
-
-        item.system.ammo -= reloadAmount;
-      }
-
-      this.actor.updateEmbeddedDocuments('Item', [item]);
-
-      let actor = this.actor;
-      let speaker = ChatMessage.getSpeaker({ actor });
-      ChatMessage.create({
-        speaker,
-        content: `Reloading ` + item.name + "..."
-      },
-        { chatBubble: true });
-
+      this.actor.reloadWeapon(li.dataset.itemId);
     });
 
     // Rollable Item/Anything with a description that we want to click on.
@@ -390,6 +360,7 @@ export class MothershipActorSheet extends ActorSheet {
       attribute.label = "Calm";
       this.actor.rollStress(attribute);
     });
+    
     // Rollable Item/Anything with a description that we want to click on.
     html.find('.stress-roll').click(ev => {
       //roll hotbar macro for stress

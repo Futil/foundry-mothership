@@ -240,7 +240,6 @@ export class MothershipActor extends Actor {
   }
 
   //central roll parsing function | TAKES rollResult: [Foundry roll object], zeroBased: true, checkCrit: true, rollTarget: 41 | RETURNS enriched Foundry roll object
-  //IN PROGRESS, still translating from macro
   parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison) {
     //init vars
     let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
@@ -541,223 +540,328 @@ export class MothershipActor extends Actor {
       await game.dice3d.waitFor3DAnimationByMessageID(chatId);
   }
 
-
-
-/*   rollStatSelect(statList) { //REMOVEME? candidate for removal
-
-    let selectList = "";
-
-    statList.forEach(stat => selectList += "<option value='"+stat[0]+"'>" + stat[1].label + "</option>")
-    statList.forEach(stat => console.log(stat[0]));
-
-    console.log(statList);
-
-    let d = new Dialog({
-      title: "Select Roll Type",
-      content: "<h2> Stat </h2> <select style='margin-bottom:10px;'name='stat' id='stat'> " + selectList + "</select> <br/>",
+  //central adding addribute function | TAKES skill | RETURNS player selected attribute
+  chooseAttribute(rollString,aimFor,attribute,skill,weapon) {
+    //open dialog asking player to choose a core stat
+    new Dialog({
+      title: `Choose a Stat`,
+      content: `
+      <style>
+        .macro_window{
+          background: rgb(230,230,230);
+          border-radius: 9px;
+        }
+        .macro_img{
+          display: flex;
+          justify-content: center; //do I need this
+        }
+        .macro_desc{
+          font-family: "Roboto", sans-serif;
+          font-size: 10.5pt;
+          font-weight: 400;
+          padding-top: 8px;
+          padding-right: 8px;
+          padding-bottom: 8px;
+        }
+        .grid-2col {
+          display: grid;
+          grid-column: span 2 / span 2;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 2px;
+          padding: 0;
+        }
+      </style>
+      <div class ="macro_window" style="margin-bottom : 7px; padding-left: 8px;">
+        <div class="macro_desc"><h3>Select a Stat</h3>Choose the Stat that best suits the nature of this Skill Check. You will add your skill bonus to the Stat value for this roll <em>(giving you a higher number to roll under)</em>.</div>
+      </div>
+      <label for="str">
+      <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+        <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+        <input type="radio" id="str" name="stat" value="strength" checked="checked">
+        <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/attributes/strength.png" style="border:none"/></div>
+        <div class="macro_desc" style="display: table;">
+          <span style="display: table-cell; vertical-align: middle;">
+            <strong>Strength:</strong> Holding airlocks closed, carrying fallen comrades, climbing, pushing, jumping.
+          </span>
+        </div>    
+        </div>
+      </div>
+      </label>
+      <label for="spd">
+      <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+        <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+        <input type="radio" id="spd" name="stat" value="speed">
+        <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/attributes/speed.png" style="border:none"/></div>
+        <div class="macro_desc" style="display: table;">
+          <span style="display: table-cell; vertical-align: middle;">
+            <strong>Speed:</strong> Getting out of the cargo bay before the blast doors close, acting before someone <em>(or something)</em> else, running away.
+          </span>
+        </div>    
+        </div>
+      </div>
+      </label>
+      <label for="int">
+      <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+        <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+        <input type="radio" id="int" name="stat" value="intellect">
+        <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/attributes/intellect.png" style="border:none"/></div>
+        <div class="macro_desc" style="display: table;">
+          <span style="display: table-cell; vertical-align: middle;">
+            <strong>Intellect:</strong> Recalling your training and experience under duress, thinking through difficult problems, inventing or fixing things.
+          </span>
+        </div>
+        </div>
+      </div>
+      </label>
+      <label for="com">
+      <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+        <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+        <input type="radio" id="com" name="stat" value="combat">
+        <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/attributes/combat.png" style="border:none"/></div>
+        <div class="macro_desc" style="display: table;">
+          <span style="display: table-cell; vertical-align: middle;">
+            <strong>Combat:</strong> Fighting for your life.
+          </span>
+        </div>    
+        </div>
+      </div>
+      </label>
+      `,
       buttons: {
-        roll: {
-          icon: '<i class="fas fa-check"></i>',
-          label: "Roll",
-          callback: (html) => this.rollStat(this.system.stats[html.find('[id=\"stat\"]')[0].value])
+        button1: {
+        label: `Advantage`,
+        callback: (html) => this.rollCheck(`1d100 [+]`,`low`,html.find("input[name='stat']:checked").attr("value"),skill,weapon),
+        icon: `<i class="fas fa-angle-double-up"></i>`
         },
-        cancel: {
-          icon: '<i class="fas fa-times"></i>',
-          label: "Cancel",
-          callback: () => { }
-        }
-      },
-      default: "roll",
-      close: () => { }
-    });
-    d.render(true);
-  } */
-
-/*   rollStat(attribute, shifted = false) { //REMOVEME? candidate for removal
-    console.log(attribute);
-
-    let attLabel = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
-    if (!attribute.label && isNaN(attLabel))
-      attLabel = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
-
-    //this.rollAttribute(attribute, "none");
-    if(shifted){
-    this.rollAttribute(attribute, 'None');
-    }
-    else {
-      let d = new Dialog({
-        title: "Select Roll Type",
-        content: "<h2> Advantages/Disadvantage </h2> <select style='margin-bottom:10px;'name='advantage' id='advantage'> <option value='none'>None</option> <option value='advantage'>Advantage/Disadvantage</option></select> <br/>",
-        buttons: {
-          roll: {
-            icon: '<i class="fas fa-check"></i>',
-            label: "Roll",
-            callback: (html) => this.rollAttribute(attribute, html.find('[id=\"advantage\"]')[0].value)
-          },
-          cancel: {
-            icon: '<i class="fas fa-times"></i>',
-            label: "Cancel",
-            callback: () => { }
-          }
+        button2: {
+        label: `Normal`,
+        callback: (html) => this.rollCheck(`1d100`,`low`,html.find("input[name='stat']:checked").attr("value"),skill,weapon),
+        icon: `<i class="fas fa-minus"></i>`
         },
-        default: "roll",
-        close: () => { }
-      });
-      d.render(true);
-    }
-  } */
-
-/*   rollStress(attribute) { //REMOVEME? candidate for removal
-    //this.rollAttribute(attribute, "none");
-    let rollOver = true;
-    if (attribute.label == "Calm")
-      rollOver = false;
-
-    let attLabel = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
-    if (!attribute.label && isNaN(attLabel))
-      attLabel = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
-
-    let d = new Dialog({
-      title: "Select Roll Type",
-      content: "<h2> Advantages/Disadvantage </h2> <select style='margin-bottom:10px;'name='advantage' id='advantage'> <option value='none'>None</option> <option value='advantage'>Advantage/Disadvantage</option></select> <br/>",
-      buttons: {
-        roll: {
-          icon: '<i class="fas fa-check"></i>',
-          label: "Roll",
-          callback: (html) => this.rollAttribute(attribute, html.find('[id=\"advantage\"]')[0].value, '', rollOver)
-        },
-        cancel: {
-          icon: '<i class="fas fa-times"></i>',
-          label: "Cancel",
-          callback: () => { }
-        }
-      },
-      default: "roll",
-      close: () => { }
-    });
-    d.render(true);
-  } */
-
-/*   rollWeapon(itemId, options = { event: null }) { //REMOVEME? candidate for removal
-
-    let item = duplicate(this.getEmbeddedDocument("Item",itemId));
-
-    console.log(item);
-
-    if (item.system.useAmmo == true || item.system.shots > 0) {
-      if (item.system.shots == 0) {
-        if (item.system.ammo > 0) {
-          item.system.ammo -= 1;
-          this.updateEmbeddedDocuments('Item', [item]);
-        } else {
-
-          //Select the stat of the roll.
-          let t = new Dialog({
-            title: "Reload",
-            content: "<h2>Out of Ammo</h2><br/>",
-            buttons: {
-              cancel: {
-                icon: '<i class="fas fa-times"></i>',
-                label: "Cancel",
-                callback: () => { }
-              }
-            },
-            default: "roll",
-            close: () => { }
-          });
-          t.render(true);
-          return;
-        }
-      } else {
-        if (item.system.curShots > 0) {
-          let subAmount = Math.max(item.system.shotsPerFire, 1);
-          item.system.curShots = Math.max(item.system.curShots - subAmount, 0);
-          console.log("Unloading Shots");
-          this.updateEmbeddedDocuments('Item', [item]);
-        }
-        else {
-          if (item.system.ammo > 0 || !item.system.useAmmo) {
-            //Select the stat of the roll.
-            let t = new Dialog({
-              title: "Reload",
-              content: "<h2> Reload? </h2><br/>",
-              buttons: {
-                roll: {
-                  icon: '<i class="fas fa-check"></i>',
-                  label: "Reload",
-                  callback: (html) => this.reloadWeapon(itemId)
-                },
-                cancel: {
-                  icon: '<i class="fas fa-times"></i>',
-                  label: "Cancel",
-                  callback: () => { }
-                }
-              },
-              default: "roll",
-              close: () => { }
-            });
-            t.render(true);
-          } else {
-            //Select the stat of the roll.
-            let t = new Dialog({
-              title: "Reload",
-              content: "<h2>Out of Ammo</h2><br/>",
-              buttons: {
-                cancel: {
-                  icon: '<i class="fas fa-times"></i>',
-                  label: "Cancel",
-                  callback: () => { }
-                }
-              },
-              default: "roll",
-              close: () => { }
-            });
-            t.render(true);
-          }
-
-          // let actor = this;
-          // let speaker = ChatMessage.getSpeaker({ actor });
-          // ChatMessage.create({
-          //   speaker,
-          //   content: item.system.ammo > 0 ? `I need to reload my ` + item.name + "!" : "I'm out of ammo!",
-          //   type: CHAT_MESSAGE_TYPES.EMOTE
-          // },
-          //   { chatBubble: true });
-          return;
+        button3: {
+        label: `Disadvantage`,
+        callback: (html) => this.rollCheck(`1d100 [-]`,`low`,html.find("input[name='stat']:checked").attr("value"),skill,weapon),
+        icon: `<i class="fas fa-angle-double-down"></i>`
         }
       }
-    }
+    },{width: 600,height: 475}).render(true);
+  }
 
+  //central adding skill function | TAKES nothing | RETURNS player selected skill
+  chooseSkill(rollString,aimFor,attribute,skill,weapon) {
+	  //get list of player skills
+	  let playerItems = this.items;
+	  //create header for skill list
+	  let skillHeader = `
+	  <style>
+      .macro_window{
+        background: rgb(230,230,230);
+        border-radius: 9px;
+      }
+      .macro_img{
+        display: flex;
+        justify-content: center; //do I need this
+      }
+      .macro_desc{
+        font-family: "Roboto", sans-serif;
+        font-size: 10.5pt;
+        font-weight: 400;
+        padding-left: 8px;
+        padding-top: 8px;
+        padding-right: 8px;
+        padding-bottom: 8px;
+      }
+      .grid-2col {
+        display: grid;
+        grid-column: span 2 / span 2;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2px;
+        padding: 0;
+      }
+	  </style>
+	  <div class ="macro_window" style="margin-bottom : 7px;">
+		  <div class="macro_desc"><h3>Add a Skill?</h3>If you have a Skill that is relevant to the task at hand, you can add the Skill’s bonus to your Stat or Save before making your roll <em>(giving you a higher number to roll under)</em>.</div>    
+	  </div>`;
+	  //create footer for skill list
+	  const skillFooter = `<h4>Select your roll type:</h4>`;
+	  //create template for skill row
+	  const skillRow = `
+	  <label for="[RADIO_ID]">
+		<div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+		  <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+			<input type="radio" id="[RADIO_ID]" name="skill" value="[RADIO_VALUE]">
+			<div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="[RADIO_IMG]" style="border:none"/></div>
+			<div class="macro_desc" style="display: table;">
+			  <span style="display: table-cell; vertical-align: middle;">
+				[RADIO_NAME][RADIO_DESC]
+			  </span>
+			</div>    
+		  </div>
+		</div>
+	  </label>`;
+	  //create skillList string
+	  let skillList = ``;
+	  //create skill counter
+	  let skillCount = 0;
+	  //create dialog pixel counter
+	  let dialogHeight = 192;
+	  //loop through and create skill rows
+	  for (let item of playerItems) {
+      //check if this is a skill
+      if (item.type === "skill") {
+        //set temprow as template
+        let tempRow = skillRow;
+        //replace ID
+        tempRow = tempRow.replaceAll("[RADIO_ID]",item.name);
+        //replace value
+        tempRow = tempRow.replace("[RADIO_VALUE]",item.system.bonus);
+        //replace img
+        tempRow = tempRow.replace("[RADIO_IMG]",item.img);
+        //replace name
+        tempRow = tempRow.replace("[RADIO_NAME]",item.name);
+        //replace desc
+        tempRow = tempRow.replace("[RADIO_DESC]",item.system.description.replace("<p>","<p><strong>:</strong> "));
+        //add to skillList
+        skillList = skillList + tempRow;
+        //increment skill count
+        skillCount++;
+        //increment pixel counter
+        dialogHeight = dialogHeight + 77;
+      }
+	  } 
+	  //check if there are no skills, and adjust prompt accordingly
+	  if (skillCount === 0) {
+		  //set window height
+		  dialogHeight = 105;
+		  //make skill header blank
+		  skillHeader = ``;
+	  }
+	  //make content string
+	  let skillHtml = skillHeader + skillList + skillFooter;
+	  //make window setting
+	  let dlgTitle = '';
+	  if (attribute === 'sanity' || attribute === 'fear' || attribute === 'body') {
+		  dlgTitle = `Save`;
+    } else if (weapon) {
+      dlgTitle = `Attack`;
+	  } else {
+		  dlgTitle = `Stat Check`;
+	  }
     //Select the stat of the roll.
-    let t = new Dialog({
-      title: "Select Stat",
-      content: "<h2> Advantage/Disadvantage </h2> <select style='margin-bottom:10px;'name='advantage' id='advantage'>\
-        <option value='none'>None</option>\
-        <option value='advantage'>Advantage/Disadvantage</option>\
-        </select> <br/>\
-        \
-        <h2> Skill Bonus </h2> <input style='margin-bottom:10px;' name='bonus' id='bonus' value='"+item.system.bonus+"'></input><br/>",
-      buttons: {
-        roll: {
-          icon: '<i class="fas fa-check"></i>',
-          label: "Roll",
-          callback: (html) => this.rollAttribute(this.system.stats["combat"], html.find('[id=\"advantage\"]')[0].value, item, false, html.find('[id=\"bonus\"]')[0].value)
-        },
-        cancel: {
-          icon: '<i class="fas fa-times"></i>',
-          label: "Cancel",
-          callback: () => { }
-        }
-      },
-      default: "roll",
-      close: () => { }
-    });
-    t.render(true);
-  } */
+    new Dialog({
+		title: dlgTitle,
+		content: skillHtml,
+		buttons: {
+		  button1: {
+			label: `Advantage`,
+			callback: (html) => this.rollCheck(`1d100 [+]`,aimFor,attribute,html.find("input[name='skill']:checked").attr("id"),weapon),
+			icon: `<i class="fas fa-angle-double-up"></i>`
+		  },
+		  button2: {
+			label: `Normal`,
+			callback: (html) => this.rollCheck(`1d100`,aimFor,attribute,html.find("input[name='skill']:checked").attr("id"),weapon),
+			icon: `<i class="fas fa-minus"></i>`
+		  },
+		  button3: {
+			label: `Disadvantage`,
+			callback: (html) => this.rollCheck(`1d100 [-]`,aimFor,attribute,html.find("input[name='skill']:checked").attr("id"),weapon),
+			icon: `<i class="fas fa-angle-double-down"></i>`
+		  }
+		}
+	  },{width: 600,height: dialogHeight}).render(true);
+  }
+
+  //central adding skill function | TAKES nothing | RETURNS player selected skill
+  chooseAdvantage(rollString,aimFor,attribute,skill,weapon) {
+	  //create footer for skill list
+	  let advHtml = `<h4>Select your roll type:</h4>`;
+	  //make window setting
+	  let dlgTitle = '';
+	  if (attribute === 'sanity' || attribute === 'fear' || attribute === 'body') {
+		  dlgTitle = `Save`;
+    } else if (weapon) {
+      dlgTitle = `Attack`;
+	  } else {
+		  dlgTitle = `Stat Check`;
+	  }
+    //Select the stat of the roll.
+    new Dialog({
+		title: dlgTitle,
+		content: advHtml,
+		buttons: {
+		  button1: {
+			label: `Advantage`,
+			callback: (html) => this.rollCheck(`1d100 [+]`,aimFor,attribute,skill,weapon),
+			icon: `<i class="fas fa-angle-double-up"></i>`
+		  },
+		  button2: {
+			label: `Normal`,
+			callback: (html) => this.rollCheck(`1d100`,aimFor,attribute,skill,weapon),
+			icon: `<i class="fas fa-minus"></i>`
+		  },
+		  button3: {
+			label: `Disadvantage`,
+			callback: (html) => this.rollCheck(`1d100 [-]`,aimFor,attribute,skill,weapon),
+			icon: `<i class="fas fa-angle-double-down"></i>`
+		  }
+		}
+	  },{width: 600,height: 105}).render(true);
+  }
+
+  //central check rolling function | TAKES attribute: [attribute object], skill: [skill item], attack: true, weapon: [weapon item] | RETURNS chat message showing check result
+  //IN PROGRESS, CONVERTING FROM MOD
+  async rollCheck(rollString,aimFor,attribute,skill,weapon) {
+    //first we need to bounce this request away if certain parameters are NULL
+      //if attribute is blank, redirect player to choose an attribute
+      if (attribute === undefined) {
+        //run the choose attribute function
+        this.chooseAttribute(rollString,aimFor,attribute,skill,weapon);
+        //exit function
+        return;
+      }
+      //if skill is blank and actor is a character, redirect player to choose a skill
+      if (skill === undefined && this.actor.type === 'character') {
+        //run the choose attribute function
+        this.chooseSkill(rollString,aimFor,attribute,skill,weapon);
+        //exit function
+        return;
+      }
+      //if rollString is STILL blank, redirect player to choose the roll
+      if (rollString === undefined) {
+        //run the choose attribute function
+        this.chooseAdvantage(rollString,aimFor,attribute,skill,weapon);
+        //exit function
+        return;
+      }
+    //roll the dice
+      //parse the roll string
+      let parsedRollString = this.parseRollString(rollString,aimFor);
+      //roll the dice
+      let rollResult = await new Roll(parsedRollString).evaluate();
+      //interpret the results
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+
+
+//all sorts of stuff
+//I LEFT OFF HERE :)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //push chat message
+      //make message
+      let macroMsg = await rollResult.toMessage({
+        id: chatId,
+        user: game.user.id,
+        speaker: {actor: this.id, token: this.token, alias: this.name},
+        content: messageTemplate
+      },{keepId:true});
+      //make dice
+      await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+  }
 
   reloadWeapon(itemId, options = { event: null }) {
+    //dupe item to work with
     let item = duplicate(this.getEmbeddedDocument("Item",itemId));
-    
+    //reload
     if (event.button == 0) {
       if (!item.system.useAmmo) {
         item.system.curShots = item.system.shots;
@@ -765,311 +869,61 @@ export class MothershipActor extends Actor {
         item.system.ammo += item.system.curShots;
         let reloadAmount = Math.min(item.system.ammo, item.system.shots);
         item.system.curShots = reloadAmount;
-
         item.system.ammo -= reloadAmount;
       }
     }
-
+    //update the item
     this.updateEmbeddedDocuments('Item', [item]);
+	  //define macroresult
+	  let macroResult = '';
+	  //create chat message template
+	  if (item.name.length >= 22) {
+		macroResult = `
+		<div class="mosh">
+			<div class="rollcontainer">
+				<div class="flexrow" style="margin-bottom : 5px;">
+					<div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">${item.name}</div>
+					<div style="text-align: right"><img class="roll-image" src="${item.img}" /></div>
+				</div>
+				<div class="description">
+					<div class="body">Weapon reloaded.</div>
+				</div>
+				<div style="margin-bottom : 16px;"></div>
+			</div>
+		</div>
+		`;
+	  } else {
+		macroResult = `
+		<div class="mosh">
+			<div class="rollcontainer">
+				<div class="flexrow" style="margin-bottom : 5px;">
+					<div class="rollweaponh1">${item.name}</div>
+					<div style="text-align: right"><img class="roll-image" src="modules/fvtt_mosh_1e_psg/icons/macros/reload.png" /></div>
+				</div>
+				<div class="description">
+					<div class="body">Weapon reloaded.</div>
+				</div>
+				<div style="margin-bottom : 16px;"></div>
+			</div>
+		</div>
+		`;
+	  }
+	  //push message
+	  ChatMessage.create({
+		user: game.user._id,
+		speaker: {
+			actor: this.id,
+			token: this.token,
+			alias: this.name
+		},
+		content: macroResult
+	  });
   }
-
 
   printDescription(itemId, options = { event: null }) {
     let item = duplicate(this.getEmbeddedDocument("Item",itemId));
     this.chatDesc(item);
   }
-
-/*   rollSkill(itemId, options = { event: null }) { //REMOVEME? candidate for removal
-    let item = duplicate(this.getEmbeddedDocument("Item",itemId));
-
-    // let attLabel = skill.label?.charAt(0).toUpperCase() + skill.label?.toLowerCase().slice(1);
-    // if (!skill.label && isNaN(attLabel))
-    //   attLabel = skill.charAt(0)?.toUpperCase() + item.name.toLowerCase().slice(1);
-
-    //this.rollAttribute(attribute, "none");
-
-    //Select the stat of the roll.
-    let t = new Dialog({
-      title: "Select Stat",
-      content: "<h2> Stat </h2> <select style='margin-bottom:10px;'name='stat' id='stat'>\
-        <option value='strength'>Strength</option>\
-        <option value='speed'>Speed</option>\
-        <option value='intellect'>Intellect</option>\
-        <option value='combat'>Combat</option>\
-        </select> <br/>\
-        <h2> Advantage/Disadvantage </h2> <select style='margin-bottom:10px;'name='advantage' id='advantage'>\
-        <option value='none'>None</option>\
-        <option value='advantage'>Advantage/Disadvantage</option>\
-        </select> <br/>",
-      buttons: {
-        roll: {
-          icon: '<i class="fas fa-check"></i>',
-          label: "Roll",
-          callback: (html) => this.rollAttribute(this.system.stats[html.find('[id=\"stat\"]')[0].value], html.find('[id=\"advantage\"]')[0].value, item)
-        },
-        cancel: {
-          icon: '<i class="fas fa-times"></i>',
-          label: "Cancel",
-          callback: () => { }
-        }
-      },
-      default: "roll",
-      close: () => { }
-    });
-    t.render(true);
-  } */
-
-/*   async rollAttribute(attribute, advantage, item = "", rollOver = false, bonus = 0) { //REMOVEME? candidate for removal
-    let attributeName = attribute.label?.charAt(0).toUpperCase() + attribute.label?.toLowerCase().slice(1);
-    if (!attribute.label && isNaN(attributeName))
-      attributeName = attribute.charAt(0)?.toUpperCase() + attribute.toLowerCase().slice(1);
-
-    let isStress = (attribute.label == "Stress" ? true : false);
-    // Roll
-    let firstEdition = game.settings.get("mosh", "firstEdition");
-
-    let diceformular = (isStress ? (firstEdition ? "1d20" : "2d10") : "1d100");
-
-    if(isNaN(bonus)){
-      bonus = 0;
-      item.system.bonus = 0;
-    }
-    // if (advantage != undefined && advantage != NaN && advantage != 0) {
-    //     diceformular = diceformular + "+" + advantage + "d6kh";
-    // }
-    let r = new Roll(diceformular, {});
-    r.evaluate({async: false});
-
-    let rSplit = ("" + r._total).split("");
-
-    //Advantage roll
-    let a = new Roll(diceformular, {});
-    a.evaluate({async: false});
-
-    if (r._total == 100) {
-      //r.results[0] = 0;
-      r._total = 0;
-    }
-
-
-    if (a._total == 100) {
-      //a.results[0] = 0;
-      a._total = 0;
-    }
-
-    let range = "N/A";
-    let damageRoll = 0;
-    if (item.type == "weapon") {
-
-      if(item.system.damage.includes("[+]")){
-        var newRoll = item.system.damage.replace("[+]", "");
-        newRoll = "{"+newRoll+", "+newRoll+"}kh";
-        console.log(newRoll);
-        damageRoll = new Roll(newRoll);
-      } else if(item.system.damage.includes("[-]")){
-        var newRoll = item.system.damage.replace("[-]", "");
-        newRoll = "{"+newRoll+", "+newRoll+"}kl";
-        console.log(newRoll);
-        damageRoll = new Roll(newRoll);
-      } 
-      else {
-        damageRoll = new Roll(item.system.damage);
-      }
-
-      damageRoll.evaluate({async: false});
-      range = item.system.ranges.value;
-
-    }
-
-    // Format Dice
-    const diceData = this.formatDice(r);
-
-    let mod = 0;
-    if(item.type == "skill"){
-      mod += item.system.bonus;
-    }
-
-    
-    if (attribute.mod != 0) mod += attribute.mod;
-
-    if(isNaN(mod)) mod = 0;
-
-    let targetValue = attribute.value + mod + (item == "" ? 0 : parseInt(bonus));
-
-    let critical = false;
-
-    if (r._total == 0 && !isStress || rSplit[0] == rSplit[1] && !isStress)
-      critical = true;
-
-
-    let panic = false;
-    let panicText = '';
-    if(isStress && r._total <= attribute.value && firstEdition){
-      await(async () => {
-        // const contents = await game.packs.get("Tables").getContent();
-        // const table= contents.find(i => i.name === `Panic`);
-        let tableLocation = game.settings.get("mosh", "panicTable");
-        const documentIndex = game.packs.get(tableLocation).index.getName("Panic");
-        const doc = await game.packs.get(tableLocation).getDocument(documentIndex._id);
-        panic = true;
-        panicText = doc.getResultsForRoll(r._total)[0].data.text;
-
-        //then just put your normal table rolling command using `table`
-        })()
-
-    }
-
-    //Here's where we handle the result text.
-    let resultText = "";
-
-    if (rollOver == true) {
-      if (critical)
-        resultText = (r._total > targetValue ? "Critical Success" : "Critical Failure");
-      else
-        resultText = (r._total > targetValue ? "Success" : "Failure");
-    } else {
-      if (critical)
-        resultText = (r._total < targetValue ? "Critical Success" : "Critical Failure");
-      else
-        resultText = (r._total < targetValue ? "Success" : "Failure");
-    }
-
-    var templateData = {
-      actor: this,
-      stat: {
-        name: attributeName.toUpperCase()
-      },
-      data: {
-        diceTotal: {
-          value: r._total,
-          advantageValue: a._total,
-          damageValue: damageRoll._total,
-          damageRoll: damageRoll
-        },
-        resultText: {
-          value: resultText
-        },
-        isCreature: {
-          value: this.type == "creature" ? true : false
-        },
-        panic: panic,
-        panicText : panicText
-      },
-      target: attribute.value,
-      mod: mod,
-      item: item,
-      targetValue: targetValue,
-      useSkill: item.type == "skill" ? true : false,
-      isWeapon: item.type == "weapon" ? true : false,
-      range: range,
-      critical: critical,
-      advantage: advantage == "advantage" ? true : false,
-      bonus: bonus,
-      diceData
-    };
-
-    let chatData = {
-      user: game.user.id,
-      speaker: {
-        actor: this.id,
-        token: this.token,
-        alias: this.name
-      }
-    };
-
-    let rollMode = game.settings.get("core", "rollMode");
-    if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
-
-    //comment this out:
-            if (this.data.type == "creature") {
-                chatData.whisper = game.user._id;
-            }
-    
-    let template = 'systems/mosh/templates/chat/statroll.html';
-    renderTemplate(template, templateData).then(content => {
-      chatData.content = content;
-      if (game.dice3d) {
-        if(!damageRoll)
-          game.dice3d.showForRoll(r, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-        else
-          game.dice3d.showForRoll(damageRoll, game.user, true, chatData.whisper, chatData.blind).then(displayed => ChatMessage.create(chatData));
-        
-      } else {
-        chatData.sound = CONFIG.sounds.dice;
-        ChatMessage.create(chatData);
-      }
-    });
-  } */
-
-/*   formatDice(diceRoll) { //REMOVEME? candidate for removal
-    let diceData = { dice: [] };
-
-    if (diceRoll != null) {
-      let pushDice = (diceData, total, faces, color) => {
-        let img = null;
-        if ([4, 6, 8, 10, 12, 20].indexOf(faces) > -1) {
-          img = `../icons/svg/d${faces}-grey.svg`;
-        }
-        diceData.dice.push({
-          img: img,
-          result: total,
-          dice: true,
-          color: color
-        });
-      };
-
-      for (let i = 0; i < diceRoll.terms.length; i++) {
-        if (diceRoll.terms[i] instanceof Die) {
-          let pool = diceRoll.terms[i].results;
-          let faces = diceRoll.terms[i].faces;
-
-          pool.forEach((pooldie) => {
-            if (pooldie.discarded) {
-              pushDice(diceData, pooldie.result, faces, "#777");
-            } else {
-              pushDice(diceData, pooldie.result, faces, "white");
-            }
-
-          });
-        } else if (typeof diceRoll.terms[i] == 'string') {
-          const parsed = parseInt(diceRoll.terms[i]);
-          if (!isNaN(parsed)) {
-            diceData.dice.push({
-              img: null,
-              result: parsed,
-              dice: false,
-              color: 'white'
-            });
-          } else {
-            diceData.dice.push({
-              img: null,
-              result: diceRoll.terms[i],
-              dice: false
-            });
-          }
-        }
-        else if (typeof diceRoll.terms[i] == 'number') {
-          const parsed = parseInt(diceRoll.terms[i]);
-          if (!isNaN(parsed)) {
-            diceData.dice.push({
-              img: null,
-              result: parsed,
-              dice: false,
-              color: 'white'
-            });
-          } else {
-            diceData.dice.push({
-              img: null,
-              result: diceRoll.terms[i],
-              dice: false
-            });
-          }
-        }
-      }
-    }
-
-    return diceData;
-  } */
 
   // Print the item description into the chat.
   chatDesc(item) {

@@ -833,13 +833,19 @@ export class MothershipActor extends Actor {
         //exit function
         return;
       }
+
+
+/////////////////////////////// need to get the relevant stats and prepare for rolling   SET ROLLTARGET
+
+
+
     //roll the dice
       //parse the roll string
       let parsedRollString = this.parseRollString(rollString,aimFor);
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
-      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,true,true,rollTarget,'<');
 
 
 //all sorts of stuff

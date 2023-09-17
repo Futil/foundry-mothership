@@ -834,6 +834,9 @@ export class MothershipActor extends Actor {
         return;
       }
 
+//////////////////////////need to update choose XYZ functions to respect rollString if its passed
+
+//////////////////////////find a way to make the above 3 functions just return the needed information
 
 /////////////////////////////// need to get the relevant stats and prepare for rolling   SET ROLLTARGET
 

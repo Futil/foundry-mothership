@@ -1,4 +1,4 @@
-//run the death save
+//tell the actor to roll on the table
 async function prepTableRoll(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
   //determine who to run the macro for
   if (game.settings.get('mosh','macroTarget') === 'character') {

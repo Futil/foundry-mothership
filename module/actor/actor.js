@@ -204,8 +204,8 @@ export class MothershipActor extends Actor {
     }
   };
 
-  //central roll parsing function | TAKES dice: '1d10 [+]' | RETURNS '{1d10,1d10}kh'
-  parseRollString(rollString,advantage) {
+  //central roll parsing function | TAKES '1d10 [+]','low' | RETURNS '{1d10,1d10}kh'
+  parseRollString(rollString,aimFor) {
     //init vars
     let rollDice = ``;
     let rollTemplate = ``;
@@ -217,14 +217,14 @@ export class MothershipActor extends Actor {
       //set template based on adv or dis
       if (rollString.includes('[-]')) {
         //use appropriate keep setting
-        if (advantage === 'low') {
+        if (aimFor === 'low') {
           rollTemplate = '{[diceSet]}kh';
         } else {
           rollTemplate = '{[diceSet]}kl';
         }
       } else if (rollString.includes('[+]')) {
         //use appropriate keep setting
-        if (advantage === 'low') {
+        if (aimFor === 'low') {
           rollTemplate = '{[diceSet]}kl';
         } else {
           rollTemplate = '{[diceSet]}kh';
@@ -239,7 +239,7 @@ export class MothershipActor extends Actor {
     return rollStringParsed;
   }
 
-  //central roll parsing function | TAKES rollResult: [Foundry roll object], zeroBased: true, checkCrit: true, rollTarget: 41 | RETURNS enriched Foundry roll object
+  //central roll parsing function | TAKES '1d100',[Foundry roll object],true,true,41,'<' | RETURNS enriched Foundry roll object
   parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison) {
     //init vars
     let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
@@ -460,7 +460,7 @@ export class MothershipActor extends Actor {
     return enrichedRollResult;
   }
 
-  //central table rolling function | TAKES table name: 'Panic Check', table result: 3 | RETURNS chat message showing 3rd roll table result for Panic Check
+  //central table rolling function | TAKES 'Panic Check','1d10','low',true,true,41,'<' | RETURNS chat message showing roll table result
   async rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
     //init vars
     let messageTemplate = ``;
@@ -540,12 +540,11 @@ export class MothershipActor extends Actor {
       await game.dice3d.waitFor3DAnimationByMessageID(chatId);
   }
 
-  //central adding addribute function | TAKES skill | RETURNS player selected attribute
-  chooseAttribute(rollString,aimFor,attribute,skill,weapon) {
-    //open dialog asking player to choose a core stat
-    new Dialog({
-      title: `Choose a Stat`,
-      content: `
+  //central adding addribute function | TAKES '1d10','low' | RETURNS player selected attribute. If parameters are null, it asks the player.
+  chooseAttribute(rollString,aimFor) {
+    //init vars
+    let buttonDesc = ``;
+    let dialogDesc = `
       <style>
         .macro_window{
           background: rgb(230,230,230);
@@ -626,32 +625,75 @@ export class MothershipActor extends Actor {
         </div>
       </div>
       </label>
-      `,
-      buttons: {
-        button1: {
-        label: `Advantage`,
-        callback: (html) => this.rollCheck(`1d100 [+]`,`low`,html.find("input[name='stat']:checked").attr("value"),skill,weapon),
-        icon: `<i class="fas fa-angle-double-up"></i>`
-        },
-        button2: {
-        label: `Normal`,
-        callback: (html) => this.rollCheck(`1d100`,`low`,html.find("input[name='stat']:checked").attr("value"),skill,weapon),
-        icon: `<i class="fas fa-minus"></i>`
-        },
-        button3: {
-        label: `Disadvantage`,
-        callback: (html) => this.rollCheck(`1d100 [-]`,`low`,html.find("input[name='stat']:checked").attr("value"),skill,weapon),
-        icon: `<i class="fas fa-angle-double-down"></i>`
+    `;
+    //determine what buttons to show based on rollString, then show dialog
+    if (rollString === undefined) {
+      //set button description
+      buttonDesc = `<h4>Select your roll type:</h4>`;
+      //spawn dialog
+      new Dialog({
+        title: `Choose a Stat`,
+        content: dialogDesc + buttonDesc,
+        buttons: {
+          button1: {
+          label: `Advantage`,
+          callback: (html) => {
+            rollString = `1d100 [+]`;
+            aimFor = `low`;
+            attribute = html.find("input[name='stat']:checked").attr("value");
+          },
+          icon: `<i class="fas fa-angle-double-up"></i>`
+          },
+          button2: {
+          label: `Normal`,
+          callback: (html) => {
+            rollString = `1d100`;
+            aimFor = `low`;
+            attribute = html.find("input[name='stat']:checked").attr("value");
+          },
+          icon: `<i class="fas fa-minus"></i>`
+          },
+          button3: {
+          label: `Disadvantage`,
+          callback: (html) => {
+            rollString = `1d100 [-]`;
+            aimFor = `low`;
+            attribute = html.find("input[name='stat']:checked").attr("value");
+          },
+          icon: `<i class="fas fa-angle-double-down"></i>`
+          }
         }
-      }
-    },{width: 600,height: 475}).render(true);
+      },{width: 600,height: 500}).render(true);
+    } else {
+      //set button description
+      buttonDesc = ``;
+      //spawn dialog
+      new Dialog({
+        title: `Choose a Stat`,
+        content: dialogDesc + buttonDesc,
+        buttons: {
+          button1: {
+          label: `Next`,
+          callback: (html) => {
+            attribute = html.find("input[name='stat']:checked").attr("value");
+          },
+          icon: `<i class="fas fa-chevron-circle-right"></i>`
+          }
+        }
+      },{width: 600,height: 475}).render(true);
+    }
+    //return values
+    return [rollString,aimFor,attribute];
   }
 
-  //central adding skill function | TAKES nothing | RETURNS player selected skill
-  chooseSkill(rollString,aimFor,attribute,skill,weapon) {
+  //central adding skill function | TAKES '1d10','low' | RETURNS player selected skill + value. If parameters are null, it asks the player.
+  chooseSkill(rollString,aimFor) {
 	  //get list of player skills
 	  let playerItems = this.items;
-	  //create header for skill list
+	  //init vars
+    let skill = ``;
+    let skillValue = 0;
+    let buttonDesc = ``;
 	  let skillHeader = `
 	  <style>
       .macro_window{
@@ -682,10 +724,8 @@ export class MothershipActor extends Actor {
 	  <div class ="macro_window" style="margin-bottom : 7px;">
 		  <div class="macro_desc"><h3>Add a Skill?</h3>If you have a Skill that is relevant to the task at hand, you can add the Skill’s bonus to your Stat or Save before making your roll <em>(giving you a higher number to roll under)</em>.</div>    
 	  </div>`;
-	  //create footer for skill list
-	  const skillFooter = `<h4>Select your roll type:</h4>`;
 	  //create template for skill row
-	  const skillRow = `
+	  let skillRow = `
 	  <label for="[RADIO_ID]">
 		<div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
 		  <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
@@ -736,8 +776,6 @@ export class MothershipActor extends Actor {
 		  //make skill header blank
 		  skillHeader = ``;
 	  }
-	  //make content string
-	  let skillHtml = skillHeader + skillList + skillFooter;
 	  //make window setting
 	  let dlgTitle = '';
 	  if (attribute === 'sanity' || attribute === 'fear' || attribute === 'body') {
@@ -747,32 +785,72 @@ export class MothershipActor extends Actor {
 	  } else {
 		  dlgTitle = `Stat Check`;
 	  }
-    //Select the stat of the roll.
-    new Dialog({
-		title: dlgTitle,
-		content: skillHtml,
-		buttons: {
-		  button1: {
-			label: `Advantage`,
-			callback: (html) => this.rollCheck(`1d100 [+]`,aimFor,attribute,html.find("input[name='skill']:checked").attr("id"),weapon),
-			icon: `<i class="fas fa-angle-double-up"></i>`
-		  },
-		  button2: {
-			label: `Normal`,
-			callback: (html) => this.rollCheck(`1d100`,aimFor,attribute,html.find("input[name='skill']:checked").attr("id"),weapon),
-			icon: `<i class="fas fa-minus"></i>`
-		  },
-		  button3: {
-			label: `Disadvantage`,
-			callback: (html) => this.rollCheck(`1d100 [-]`,aimFor,attribute,html.find("input[name='skill']:checked").attr("id"),weapon),
-			icon: `<i class="fas fa-angle-double-down"></i>`
-		  }
-		}
-	  },{width: 600,height: dialogHeight}).render(true);
+    //determine what buttons to show based on rollString, then show dialog
+    if (rollString === undefined) {
+      //set button description
+      buttonDesc = `<h4>Select your roll type:</h4>`;
+      //spawn dialog
+      new Dialog({
+        title: dlgTitle,
+        content: skillHeader + skillList + buttonDesc,
+        buttons: {
+          button1: {
+          label: `Advantage`,
+          callback: (html) => {
+            rollString = `1d100 [+]`;
+            aimFor = `low`;
+            skill = html.find("input[name='skill']:checked").attr("id");
+            skillValue = html.find("input[name='skill']:checked").attr("value");
+          },
+          icon: `<i class="fas fa-angle-double-up"></i>`
+          },
+          button2: {
+          label: `Normal`,
+          callback: (html) => {
+            rollString = `1d100`;
+            aimFor = `low`;
+            skill = html.find("input[name='skill']:checked").attr("id");
+            skillValue = html.find("input[name='skill']:checked").attr("value");
+          },
+          icon: `<i class="fas fa-minus"></i>`
+          },
+          button3: {
+          label: `Disadvantage`,
+          callback: (html) => {
+            rollString = `1d100 [-]`;
+            aimFor = `low`;
+            skill = html.find("input[name='skill']:checked").attr("id");
+            skillValue = html.find("input[name='skill']:checked").attr("value");
+          },
+          icon: `<i class="fas fa-angle-double-down"></i>`
+          }
+        }
+      },{width: 600,height: 500}).render(true);
+    } else {
+      //set button description
+      buttonDesc = ``;
+      //spawn dialog
+      new Dialog({
+        title: `Choose a Stat`,
+        content: skillHeader + skillList + buttonDesc,
+        buttons: {
+          button1: {
+          label: `Next`,
+          callback: (html) => {
+            skill = html.find("input[name='skill']:checked").attr("id");
+            skillValue = html.find("input[name='skill']:checked").attr("value");
+          },
+          icon: `<i class="fas fa-chevron-circle-right"></i>`
+          }
+        }
+      },{width: 600,height: dialogHeight}).render(true);
+    }
+    //return values
+    return [rollString,aimFor,skill,skillValue];
   }
 
-  //central adding skill function | TAKES nothing | RETURNS player selected skill
-  chooseAdvantage(rollString,aimFor,attribute,skill,weapon) {
+  //central adding skill function | TAKES nothing | RETURNS player selected skill.
+  chooseAdvantage() {
 	  //create footer for skill list
 	  let advHtml = `<h4>Select your roll type:</h4>`;
 	  //make window setting
@@ -806,35 +884,54 @@ export class MothershipActor extends Actor {
 		  }
 		}
 	  },{width: 600,height: 105}).render(true);
+    //return values
+    return [rollString,aimFor];
   }
 
-  //central check rolling function | TAKES attribute: [attribute object], skill: [skill item], attack: true, weapon: [weapon item] | RETURNS chat message showing check result
+  //central check rolling function | TAKES attribute: [attribute object], skill: [skill item], , weapon: [weapon item] | RETURNS chat message showing check result
   //IN PROGRESS, CONVERTING FROM MOD
-  async rollCheck(rollString,aimFor,attribute,skill,weapon) {
+  async rollCheck(rollString,aimFor,attribute,skill,skillValue,weapon) {
+    //init vars
+    let msgHeader = ``;
+    let msgImgPath = ``;
+    let msgDesc = ``;
+    let msgFooter = ``;
+    let chatId = randomID();
     //first we need to bounce this request away if certain parameters are NULL
       //if attribute is blank, redirect player to choose an attribute
       if (attribute === undefined) {
         //run the choose attribute function
-        this.chooseAttribute(rollString,aimFor,attribute,skill,weapon);
-        //exit function
-        return;
+        let chosenAttributes = this.chooseAttribute(rollString,aimFor);
+        //set variables
+        rollString = chosenAttributes[0];
+        aimFor = chosenAttributes[1];
+        attribute = chosenAttributes[2];
       }
       //if skill is blank and actor is a character, redirect player to choose a skill
       if (skill === undefined && this.actor.type === 'character') {
         //run the choose attribute function
-        this.chooseSkill(rollString,aimFor,attribute,skill,weapon);
-        //exit function
-        return;
+        let chosenSkills = this.chooseSkill(rollString,aimFor);
+        //set variables
+        rollString = chosenSkills[0];
+        aimFor = chosenSkills[1];
+        skill = chosenSkills[2];
+        skillValue = chosenSkills[3];
       }
       //if rollString is STILL blank, redirect player to choose the roll
       if (rollString === undefined) {
         //run the choose attribute function
-        this.chooseAdvantage(rollString,aimFor,attribute,skill,weapon);
-        //exit function
-        return;
+        let chosenRollType = this.chooseAdvantage();
+        //set variables
+        rollString = chosenRollType[0];
+        aimFor = chosenRollType[1];
       }
-    //retrieve the attribute (and its mod if available)
-    let rollTarget = this.actor.system.stats[attribute].value + this.actor.system.stats[attribute].mod;
+    //make the rollTarget value
+      //retrieve the attribute
+      let rollTarget = this.actor.system.stats[attribute].value
+      //add the mod value
+      rollTarget = rollTarget + (this.actor.system.stats[attribute].mod || 0);
+      //add the skill value
+      rollTarget = rollTarget + skillValue;      
     //roll the dice
       //parse the roll string
       let parsedRollString = this.parseRollString(rollString,aimFor);
@@ -842,27 +939,95 @@ export class MothershipActor extends Actor {
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
       let parsedRollResult = this.parseRollResult(rollString,rollResult,true,true,rollTarget,'<');
+    //if this is a failure or critical failure, enact consequences
+    if (parsedRollResult.success === false) {
+      //increase stress by 1
 
+      // WRITE THIS FUNCTION/////////////////////////////////////////////////////////////////////////////////////////////
 
-//all sorts of stuff
-//I LEFT OFF HERE :)///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //if critical failure, ask for panic check
+      if (parsedRollResult.critical === true) {
+        //WRITE THIS///////////////////////////////////////////////////////////////////////////////////////////////////
+      }
+    }
+    //prepare text for the chat message
+      //message header
+      msgHeader = attribute + ` check`;
+      //set header image
+      msgImgPath = 'systems/mosh/images/icons/ui/attributes/' + attribute + '.png';
+      //set msg description
+      if (skillValue > 0 && parsedRollResult.success) {
+        msgDesc = `You rolled less than your <strong>${attribute}</strong> plus <strong>${skill}</strong> skill bonus.<br>`;
+      } else if (skillValue > 0 && parsedRollResult.success === false) {
+        msgDesc = `You rolled greater than your <strong>${attribute}</strong> plus <strong>${skill}</strong> skill bonus.<br>`;
+      } else if (skillValue = 0 && parsedRollResult.success) {
+        msgDesc = `You rolled less than your <strong>${attribute}</strong>.<br>`;
+      } else if (skillValue > 0 && parsedRollResult.success === false) {
+        msgDesc = `You rolled greater than your <strong>${attribute}</strong>.<br>`;
+      }
+      //set message footer depending on what kind of roll this turned out to be
+      if (parsedRollResult.success === false) {
+        //write failure text + stress impact + panic check if needed
+          //WRITE THIS///////////////////////////////////////////////////////////////////////////////////////////////////
 
+          x = `<br><br>@Macro[Panic Check]{Make a Panic Check}`;
 
-//////////////////////////need to update choose XYZ functions to respect rollString if its passed
-
-//////////////////////////find a way to make the above 3 functions just return the needed information
-
-/////////////////////////////// need to get the relevant stats and prepare for rolling   SET ROLLTARGET
-
-
-
+          //set final footer
+          msgFooter = ``;
+      } else if (parsedRollResult.success && weapon) {
+        //write attack roll
+          //WRITE THIS///////////////////////////////////////////////////////////////////////////////////////////////////
+          ////need to dynamically replace wound effect
+          //set final footer
+          msgFooter = `
+            <div class="description">${NEEEDTEXTFORTHIS}</div>
+            <div style="margin-bottom : 10px;"></div>
+            <div class="grid grid-2col" style="grid-template-columns: 10px 75px auto">
+              <div style="border-bottom:1px solid #999; height: 50%;"></div>
+              <div style= "font-size:0.65rem; text-align:center;">DESCRIPTION</div>  
+              <div style="border-bottom:1px solid #999; height: 50%;"></div>
+            </div>
+            <div style="margin-bottom : 10px;"></div>
+            <div class="description">
+              <div class="body">${weapon.system.description}</div>
+              <div class="body">${weapon.system.woundEffect}</div>
+            </div>
+            <div style="margin-bottom : 16px;"></div>
+          `;
+      } else {
+        //get flavor text from library based on stat or save
+        if (attribute === 'sanity' || attribute === 'fear' || attribute === 'body' || attribute === 'armor') {
+          //set final footer
+          msgFooter = this.getFlavorText('attribute','stat','save');
+        } else {
+          //set final footer
+          msgFooter = this.getFlavorText('attribute','stat','check');
+        }
+      }
+      //main message body
+      let msgContent = `
+        <div class="mosh">
+          <div class="rollcontainer">
+            <div class="flexrow" style="margin-bottom : 5px;">
+              <div class="rollweaponh1">${msgHeader}</div>
+              <div style="text-align: right"><img class="roll-image" src="${msgImgPath}" /></div>
+            </div>
+            ${parsedRollResult.outcomeHtml}
+            <div class="description" style="margin-bottom: 10px;">
+              <div class="body">${msgDesc}</div>
+            </div>
+            ${parsedRollResult.rollHtml}
+            <div class="description" style="margin-bottom : 20px;">${msgFooter}</div>
+          </div>
+        </div>
+      `;
     //push chat message
       //make message
       let macroMsg = await rollResult.toMessage({
         id: chatId,
         user: game.user.id,
         speaker: {actor: this.id, token: this.token, alias: this.name},
-        content: messageTemplate
+        content: msgContent
       },{keepId:true});
       //make dice
       await game.dice3d.waitFor3DAnimationByMessageID(chatId);

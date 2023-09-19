@@ -565,6 +565,7 @@ export class MothershipActor extends Actor {
   async rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
     //init vars
     let messageTemplate = ``;
+    let messageContent = ``;
     let flavorText = ``;
     let chatId = randomID();
     let rollTarget = null;
@@ -611,9 +612,18 @@ export class MothershipActor extends Actor {
         //assign flavor text
         flavorText = this.getFlavorText('table',tableName.replace('& ','').replace(' ','_').toLowerCase(),'roll');
       }
-    //prepare chat message
-    messageTemplate = 'systems/mosh/templates/chat/rolltable.html';
-    //push chat message
+	  //generate chat message
+      //prepare data
+      let messageData = {
+        actor: this,
+        tableResult: tableResult,
+        parsedRollResult: parsedRollResult,
+        flavorText
+      };
+      //prepare template
+      messageTemplate = 'systems/mosh/templates/chat/rolltable.html';
+      //render template
+      messageContent = await renderTemplate(messageTemplate, messageData);
       //make message
       let macroMsg = await rollResult.toMessage({
         id: chatId,
@@ -621,7 +631,7 @@ export class MothershipActor extends Actor {
         speaker: {actor: this.id, token: this.token, alias: this.name},
         content: messageTemplate
       },{keepId:true});
-      //make dice
+      //wait for dice
       await game.dice3d.waitFor3DAnimationByMessageID(chatId);
   }
 

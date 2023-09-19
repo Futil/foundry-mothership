@@ -83,7 +83,7 @@ export class MothershipActor extends Actor {
             human: `You brace for the worst.`
           }
         },
-        fire_explosive_wound: {
+        fire_explosives_wound: {
           roll: {
             android: `You brace for the worst.`,
             human: `You brace for the worst.`
@@ -1010,7 +1010,7 @@ export class MothershipActor extends Actor {
         attribute = chosenAttributes[2];
       }
       //if skill is blank and actor is a character, redirect player to choose a skill
-      if (skill === undefined && this.actor.type === 'character') {
+      if (skill === undefined && this.type === 'character') {
         //run the choose attribute function
         let chosenSkills = this.chooseSkill(rollString,aimFor);
         //set variables
@@ -1029,9 +1029,9 @@ export class MothershipActor extends Actor {
       }
     //make the rollTarget value
       //retrieve the attribute
-      let rollTarget = this.actor.system.stats[attribute].value
+      let rollTarget = this.system.stats[attribute].value
       //add the mod value
-      rollTarget = rollTarget + (this.actor.system.stats[attribute].mod || 0);
+      rollTarget = rollTarget + (this.system.stats[attribute].mod || 0);
       //add the skill value
       rollTarget = rollTarget + skillValue;      
     //roll the dice
@@ -1058,7 +1058,7 @@ export class MothershipActor extends Actor {
     } else {
       //set chat message text
         //message header
-        msgHeader = this.actor.system.stats[attribute].rollLabel;
+        msgHeader = this.system.stats[attribute].rollLabel;
         //set header image
         msgImgPath = 'systems/mosh/images/icons/ui/attributes/' + attribute + '.png';
         //set roll result as greater than or less than
@@ -1074,7 +1074,7 @@ export class MothershipActor extends Actor {
           //flavor text = the attack roll result
           if (weapon.system.damage === "Str/10") {
             //determine the damage string
-            flavorText = 'You strike your target for <strong>[[floor(' + this.actor.system.stats.strength.value + '/10)]] damage</strong>.';
+            flavorText = 'You strike your target for <strong>[[floor(' + this.system.stats.strength.value + '/10)]] damage</strong>.';
           } else {
             flavorText = 'You inflict [[' + parsedDamageString +'[' + dsnTheme +']]] points of damage.';
           }
@@ -1107,7 +1107,7 @@ export class MothershipActor extends Actor {
           }
         } else {
           //flavor text = generic roll success
-          if (this.actor.system.stats[attribute].rollLabel.includes(" Save")) {
+          if (this.system.stats[attribute].rollLabel.includes(" Save")) {
             //set final footer
             flavorText = this.getFlavorText('attribute','stat','save');
           } else {
@@ -1127,7 +1127,7 @@ export class MothershipActor extends Actor {
         msgHeader: msgHeader,
         msgImgPath: msgImgPath,
         outcomeVerb: outcomeVerb,
-        attribute: this.actor.system.stats[attribute].label,
+        attribute: this.system.stats[attribute].label,
         flavorText: flavorText,
         needsDesc: needsDesc,
         woundEffect: woundEffect,
@@ -1168,10 +1168,12 @@ export class MothershipActor extends Actor {
     let msgChange = ``;
     let chatId = randomID();
     //get information about this field from the actor
+      //pop field address
+      fieldParent = fieldAddress.pop();
       //get min value for this field, if it exists
-      modifyMinimum = (fieldAddress.pop().push('min').split('.').reduce((a, v) => a[v], this) || null);
+      modifyMinimum = (fieldParent.push('min').split('.').reduce((a, v) => a[v], this) || null);
       //get max value for this field, if it exists
-      modifyMaximum = (fieldAddress.pop().push('max').split('.').reduce((a, v) => a[v], this) || null);
+      modifyMaximum = (fieldParent.push('max').split('.').reduce((a, v) => a[v], this) || null);
       //get current value for this field
       modifyCurrent = fieldAddress.split('.').reduce((a, v) => a[v], this);
     //calculate the change, whether from a value, roll, or both
@@ -1244,11 +1246,11 @@ export class MothershipActor extends Actor {
         }
         //set message outcome
         if (modifyDifference > 0 && modifySurplus === 0) {
-          msgOutcome = fieldAddress.pop().push("label").split('.').reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+          msgOutcome = fieldParent.push("label").split('.').reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
         } else if (modifyDifference === 0 && modifySurplus > 0) {
           msgOutcome = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],msgAction);
         } else {
-          msgOutcome = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],msgAction) + ` ` + fieldAddress.pop().push('label').split('.').reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+          msgOutcome = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],msgAction) + ` ` + fieldParent.push('label').split('.').reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
         }
     //push message if asked
     if (outputChatMsg) {

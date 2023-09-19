@@ -110,8 +110,8 @@ export class MothershipActor extends Actor {
       item: {
         condition: {
           add: {
-            android: `You now suffer from this condition.`,
-            human: `You now suffer from this condition.`
+            android: `You now suffer from this condition`,
+            human: `You now suffer from this condition`
           },
           increase: {
             android: `Your condition worsens.`,
@@ -131,17 +131,33 @@ export class MothershipActor extends Actor {
             android: `Power surges through your chest and you start to overheat.`,
             human: `You feel tightness in your chest and start to sweat.`
           },
+          increaseHeader: {
+            android: `Stress Gained`,
+            human: `Stress Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/macros/gain_stress.png`,
+            human: `systems/mosh/images/icons/ui/attributes/macros/gain_stress.png`
+          },
           hitCeiling: {
-            android: `System performance grinds to a halt.`,
-            human: `You hit rock bottom.`
+            android: `System performance grinds to a halt. <strong>Reduce the most relevant Stat or Save by {{modifySurplus}}</strong>.`,
+            human: `You hit rock bottom. <strong>Reduce the most relevant Stat or Save by {{modifySurplus}}</strong>.`
           },
           pastCeiling: {
-            android: `You sense unrecoverable data loss.`,
-            human: `You feel a part of yourself drift away.`
+            android: `You sense unrecoverable data loss. <strong>Reduce the most relevant Stat or Save by {{modifySurplus}}</strong>.`,
+            human: `You feel a part of yourself drift away. <strong>Reduce the most relevant Stat or Save by {{modifySurplus}}</strong>.`
           },
           decrease: {
             android: `You soft-reset, purging unnecessary background processes.`,
             human: `You feel a sense of calm wash over you.`
+          },
+          decreaseHeader: {
+            android: `Stress Relieved`,
+            human: `Stress Relieved`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/macros/relieve_stress.png`,
+            human: `systems/mosh/images/icons/ui/attributes/macros/relieve_stress.png`
           },
           hitFloor: {
             android: `You attain perfect focus and clarity. `,
@@ -169,10 +185,17 @@ export class MothershipActor extends Actor {
             android: `System resources free up and you feel energized.`,
             human: `You feel a burst of energy.`
           },
+
+
+
           decrease: {
             android: `Your pain receptors indicate core damage.`,
             human: `You wince from the pain.`
           }
+
+
+
+
         },
         //wounds flavor text
         wounds: {
@@ -180,16 +203,87 @@ export class MothershipActor extends Actor {
             android: `System resources free up and you feel energized.`,
             human: `You feel a burst of energy.`
           },
+
+
+
           decrease: {
             android: `Your pain receptors indicate permanent damage.`,
             human: `You scream out from immense pain.`
           }
+
+
+
         },
         //radiation flavor text
         radiation: {
           damage: {
             android: `Catastro▒ic d⟑ta ▓loss de|/~ ⋥t⋱d`,
             human: `You stare into blackness and feel completely unable to pull yourself out of it.`
+          }
+        }
+      },
+      //macro flavor text (embedding actions)
+      macro: {
+        wound: {
+          bleeding: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.1DD8i6eCS6nx2Ip0]{Bleeding}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.1DD8i6eCS6nx2Ip0]{Bleeding}`
+          },
+          bleeding_dis: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.tFcWNddtZvlv7tsg]{Bleeding [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.tFcWNddtZvlv7tsg]{Bleeding [-]}`
+          },
+          bleeding_adv: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [+]}`
+          },
+          blunt_force: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.TAjlQjA5AAy3qYL3]{Blunt Force}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.TAjlQjA5AAy3qYL3]{Blunt Force}`
+          },
+          blunt_force_dis: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [-]}`
+          },
+          blunt_force_adv: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.k0zf8ZGivRguc0wb]{Blunt Force [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.k0zf8ZGivRguc0wb]{Blunt Force [+]}`
+          },
+          fire_explosives: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.bZi1qKmcKLFvnhZ2]{Fire & Explosives}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.bZi1qKmcKLFvnhZ2]{Fire & Explosives}`
+          },
+          fire_explosives_dis: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [-]}`
+          },
+          fire_explosives_adv: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [+]}`
+          },
+          gore_massive: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.S9nnHKWYGSQmjQdp]{Gore & Massive}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.S9nnHKWYGSQmjQdp]{Gore & Massive}`
+          },
+          gore_massive_dis: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.DuVjNlE4lsnR7Emc]{Gore & Massive [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.DuVjNlE4lsnR7Emc]{Gore & Massive [-]}`
+          },
+          gore_massive_adv: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.eQPuDgwv8evetFIk]{Gore & Massive [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.eQPuDgwv8evetFIk]{Gore & Massive [+]}`
+          },
+          gunshot: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.XgCOLv9UunBddUyW]{Gunshot}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.XgCOLv9UunBddUyW]{Gunshot}`
+          },
+          gunshot_dis: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.fnVATRHYJEUlS3pR]{Gunshot [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.fnVATRHYJEUlS3pR]{Gunshot [-]}`
+          },
+          gunshot_adv: {
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [+]}`
           }
         }
       }
@@ -249,6 +343,7 @@ export class MothershipActor extends Actor {
     let compareIcon = ``;
     let outcome = ``;
     let outcomeHtml = ``;
+    let diceIcon = ``;
     let diceBlock = ``;
     let critHighlight = ``;
     let rollHtml = ``;
@@ -427,9 +522,15 @@ export class MothershipActor extends Actor {
                 diceBlock = diceBlock + `
                     <ol class="dice-rolls">
                 `;
+                //prepare dice icon
+                if (roll.faces === 100) {
+                  diceIcon = `10`;
+                } else {
+                  diceIcon = roll.faces.toString();
+                }
                 //add formula and result for this die
                 diceBlock = diceBlock + `
-                      <li class="roll die d${roll.faces.toString()}${critHighlight}">${die.result.toString()}</li>
+                      <li class="roll die d${diceIcon}${critHighlight}">${die.result.toString()}</li>
                 `;
                 //add footer for this die
                 diceBlock = diceBlock + `
@@ -511,23 +612,7 @@ export class MothershipActor extends Actor {
         flavorText = this.getFlavorText('table',tableName.replace('& ','').replace(' ','_').toLowerCase(),'roll');
       }
     //prepare chat message
-      //make the overall template
-      messageTemplate = `
-        <div class="mosh">
-          <div class="rollcontainer">
-            <div class="flexrow" style="margin-bottom : 5px;">
-              <div class="rollweaponh1">${tableResult[0].parent.name}</div>
-              <div style="text-align: right"><img class="roll-image" src="${tableResult[0].img}" title="${tableResult[0].parent.name}" /></div>
-            </div>
-            ${parsedRollResult.outcomeHtml}
-            <div class="description" style="margin-bottom: 10px;">
-              <div class="body">${flavorText}</div>
-            </div>
-            ${parsedRollResult.rollHtml}
-            <div class="description" style="margin-bottom : 20px;">${tableResult[0].text}</div>
-          </div>
-        </div>
-      `;
+    messageTemplate = 'systems/mosh/templates/chat/rolltable.html';
     //push chat message
       //make message
       let macroMsg = await rollResult.toMessage({
@@ -888,14 +973,19 @@ export class MothershipActor extends Actor {
     return [rollString,aimFor];
   }
 
-  //central check rolling function | TAKES attribute: [attribute object], skill: [skill item], , weapon: [weapon item] | RETURNS chat message showing check result
-  //IN PROGRESS, CONVERTING FROM MOD
+  //central check rolling function | TAKES '1d10','low','combat','Geology',10,[weapon item] | RETURNS chat message showing check result
   async rollCheck(rollString,aimFor,attribute,skill,skillValue,weapon) {
     //init vars
+    let parsedDamageString = null;
+    let damageResult = null;
+    let parsedDamageResult = null;
+    let critFail = false;
+    let outcomeVerb = ``;
+    let flavorText = ``;
+    let needsDesc = false;
+    let woundEffect = ``;
     let msgHeader = ``;
     let msgImgPath = ``;
-    let msgDesc = ``;
-    let msgFooter = ``;
     let chatId = randomID();
     //first we need to bounce this request away if certain parameters are NULL
       //if attribute is blank, redirect player to choose an attribute
@@ -939,100 +1029,292 @@ export class MothershipActor extends Actor {
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
       let parsedRollResult = this.parseRollResult(rollString,rollResult,true,true,rollTarget,'<');
-    //if this is a failure or critical failure, enact consequences
+    //prep damage dice in case its needed
+    if(weapon && parsedRollResult.success) {
+      //parse the roll string
+      parsedDamageString = this.parseRollString(rollString,aimFor);
+    }
+    //prep text based on success or failure
     if (parsedRollResult.success === false) {
       //increase stress by 1
-
-      // WRITE THIS FUNCTION/////////////////////////////////////////////////////////////////////////////////////////////
-
-      //if critical failure, ask for panic check
+      flavorText = this.modifyActor('system.stress.value',1,null,false)[1];
+      //if critical failure, make sure to ask for panic check
       if (parsedRollResult.critical === true) {
-        //WRITE THIS///////////////////////////////////////////////////////////////////////////////////////////////////
+        //set crit fail
+        critFail = true;
       }
+    } else {
+      //set chat message text
+        //message header
+        msgHeader = this.actor.system.stats[attribute].rollLabel;
+        //set header image
+        msgImgPath = 'systems/mosh/images/icons/ui/attributes/' + attribute + '.png';
+        //set roll result as greater than or less than
+        if (skillValue > 0 && parsedRollResult.success) {
+          outcomeVerb = `rolled`;
+        } else {
+          outcomeVerb = `did not roll`;
+        }
+        //prepare flavor text
+        if (weapon) {
+          //set damage dice color
+          let dsnTheme = game.settings.get('mosh','damageDiceTheme');
+          //flavor text = the attack roll result
+          if (weapon.system.damage === "Str/10") {
+            //determine the damage string
+            flavorText = 'You strike your target for <strong>[[floor(' + this.actor.system.stats.strength.value + '/10)]] damage</strong>.';
+          } else {
+            flavorText = 'You inflict [[' + parsedDamageString +'[' + dsnTheme +']]] points of damage.';
+          }
+          //determine if this roll needs a description area
+          if (weapon.description || weapon.woundEffect) {
+            needsDesc = true;
+          }
+          //create wound effect string
+          if (weapon.woundEffect) {
+            //start with string as is
+            woundEffect = weapon.woundEffect;
+            //prepare array for looping
+              //replace ' [-]' and ' [+]'
+              woundEffect = woundEffect.replace(' [-]','_dis').replace(' [+]','_adv');
+              //simplify wounds
+              woundEffect = woundEffect.replace('Bleeding','bleeding');
+              woundEffect = woundEffect.replace('Blunt Force','blunt_force');
+              woundEffect = woundEffect.replace('Fire & Explosives','fire_explosives');
+              woundEffect = woundEffect.replace('Gore & Massive','gore_massive');
+              woundEffect = woundEffect.replace('Gunshot','bleeding');
+              //split string
+              let woundArray = woundEffect.split(' ');
+            //loop through this string and replace each wound effect with macro UUID
+            woundArray.forEach(function(wnd){ 
+              //replace string with macro UUID
+              wnd = (this.getFlavorText('macro','wound',wnd) || wnd);
+            });
+            //combine back into string
+            woundEffect = woundArray.join(' ');
+          }
+        } else {
+          //flavor text = generic roll success
+          if (this.actor.system.stats[attribute].rollLabel.includes(" Save")) {
+            //set final footer
+            flavorText = this.getFlavorText('attribute','stat','save');
+          } else {
+            //set final footer
+            flavorText = this.getFlavorText('attribute','stat','check');
+          }
+        }
     }
     //prepare text for the chat message
-      //message header
-      msgHeader = attribute + ` check`;
-      //set header image
-      msgImgPath = 'systems/mosh/images/icons/ui/attributes/' + attribute + '.png';
-      //set msg description
-      if (skillValue > 0 && parsedRollResult.success) {
-        msgDesc = `You rolled less than your <strong>${attribute}</strong> plus <strong>${skill}</strong> skill bonus.<br>`;
-      } else if (skillValue > 0 && parsedRollResult.success === false) {
-        msgDesc = `You rolled greater than your <strong>${attribute}</strong> plus <strong>${skill}</strong> skill bonus.<br>`;
-      } else if (skillValue = 0 && parsedRollResult.success) {
-        msgDesc = `You rolled less than your <strong>${attribute}</strong>.<br>`;
-      } else if (skillValue > 0 && parsedRollResult.success === false) {
-        msgDesc = `You rolled greater than your <strong>${attribute}</strong>.<br>`;
-      }
-      //set message footer depending on what kind of roll this turned out to be
-      if (parsedRollResult.success === false) {
-        //write failure text + stress impact + panic check if needed
-          //WRITE THIS///////////////////////////////////////////////////////////////////////////////////////////////////
-
-          x = `<br><br>@Macro[Panic Check]{Make a Panic Check}`;
-
-          //set final footer
-          msgFooter = ``;
-      } else if (parsedRollResult.success && weapon) {
-        //write attack roll
-          //WRITE THIS///////////////////////////////////////////////////////////////////////////////////////////////////
-          ////need to dynamically replace wound effect
-          //set final footer
-          msgFooter = `
-            <div class="description">${NEEEDTEXTFORTHIS}</div>
-            <div style="margin-bottom : 10px;"></div>
-            <div class="grid grid-2col" style="grid-template-columns: 10px 75px auto">
-              <div style="border-bottom:1px solid #999; height: 50%;"></div>
-              <div style= "font-size:0.65rem; text-align:center;">DESCRIPTION</div>  
-              <div style="border-bottom:1px solid #999; height: 50%;"></div>
-            </div>
-            <div style="margin-bottom : 10px;"></div>
-            <div class="description">
-              <div class="body">${weapon.system.description}</div>
-              <div class="body">${weapon.system.woundEffect}</div>
-            </div>
-            <div style="margin-bottom : 16px;"></div>
-          `;
-      } else {
-        //get flavor text from library based on stat or save
-        if (attribute === 'sanity' || attribute === 'fear' || attribute === 'body' || attribute === 'armor') {
-          //set final footer
-          msgFooter = this.getFlavorText('attribute','stat','save');
-        } else {
-          //set final footer
-          msgFooter = this.getFlavorText('attribute','stat','check');
-        }
-      }
-      //main message body
-      let msgContent = `
-        <div class="mosh">
-          <div class="rollcontainer">
-            <div class="flexrow" style="margin-bottom : 5px;">
-              <div class="rollweaponh1">${msgHeader}</div>
-              <div style="text-align: right"><img class="roll-image" src="${msgImgPath}" /></div>
-            </div>
-            ${parsedRollResult.outcomeHtml}
-            <div class="description" style="margin-bottom: 10px;">
-              <div class="body">${msgDesc}</div>
-            </div>
-            ${parsedRollResult.rollHtml}
-            <div class="description" style="margin-bottom : 20px;">${msgFooter}</div>
-          </div>
-        </div>
-      `;
+    messageTemplate = 'systems/mosh/templates/chat/rollcheck.html';
     //push chat message
       //make message
       let macroMsg = await rollResult.toMessage({
         id: chatId,
         user: game.user.id,
         speaker: {actor: this.id, token: this.token, alias: this.name},
-        content: msgContent
+        content: messageTemplate
       },{keepId:true});
       //make dice
       await game.dice3d.waitFor3DAnimationByMessageID(chatId);
   }
 
+  //central function to modify actors | TAKES 'system.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
+  async modifyActor(fieldAddress,modValue,modRollString,outputChatMsg) {
+    //init vars
+    let msgHeader = ``;
+    let msgImgPath = ``;
+    let modifyMinimum = null;
+    let modifyMaximum = null;
+    let modifyCurrent = null;
+    let modifyChange = 0;
+    let modifyNew = null;
+    let modifyDifference = null;
+    let modifySurplus = null;
+    let msgAction = ``;
+    let msgFlavor = ``;
+    let msgOutcome = ``;
+    let msgChange = ``;
+    let chatId = randomID();
+    //get information about this field from the actor
+      //get min value for this field, if it exists
+      modifyMinimum = (fieldAddress.pop().push('min').split('.').reduce((a, v) => a[v], this) || null);
+      //get max value for this field, if it exists
+      modifyMaximum = (fieldAddress.pop().push('max').split('.').reduce((a, v) => a[v], this) || null);
+      //get current value for this field
+      modifyCurrent = fieldAddress.split('.').reduce((a, v) => a[v], this);
+    //calculate the change, whether from a value, roll, or both
+      //calculate change from the modValue
+      if (modValue) {
+        //update modChange
+        modifyChange = modValue;
+      }
+      //calculate change from the modRollString
+      if (modRollString) {
+        //roll the dice
+          //parse the roll string
+          let parsedRollString = this.parseRollString(rollString,'low');
+          //roll the dice
+          let rollResult = await new Roll(parsedRollString).evaluate();
+          //interpret the results
+          let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+        //update modChange
+        modifyChange = modifyChange + parsedRollResult.total;
+      }
+      //calculate impact to the actor
+        //set the new value
+        modifyNew = modifyCurrent + modifyChange;
+        //restrict new value based on min/max
+          //cap min
+          if(modifyMinimum) {
+            if(modifyNew < modifyMinimum) {
+              modifyNew = modifyMinimum;
+            }
+          }
+          //cap max
+          if(modifyMaximum) {
+            if(modifyNew > modifyMaximum) {
+              modifyNew = modifyMaximum;
+            }
+          }
+          //measure difference between old and new value
+          modifyDifference = modifyNew - modifyCurrent;
+          //measure any surplus if we exceeded min/max
+          modifySurplus = modifyChange - modifyDifference;
+    //update actor
+    this.character.update({fieldAddress: modifyNew});
+    //create modification text (for chat message or return values)
+      //get flavor text
+      if (modifyChange > 0) {
+        msgFlavor = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'increase');
+        msgChange = 'increased';
+        msgHeader = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'increaseHeader');
+        msgImgPath = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'increaseImg');
+      } else if (modifyChange < 0) {
+        msgFlavor = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'decrease');
+        msgChange = 'decreased';
+        msgHeader = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'decreaseHeader');
+        msgImgPath = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'decreaseImg');
+      }
+      //get modification description
+        //calculate change type
+        if (modifySurplus < 0) {
+          msgAction = 'pastFloor';
+        } else if (modifySurplus > 0) {
+          msgAction = 'pastCeiling';
+        } else if (modifySurplus === 0 && modifyNew === modifyMinimum && modifyChange != 0) {
+          msgAction = 'hitFloor';
+        } else if (modifySurplus === 0 && modifyNew === modifyMaximum && modifyChange != 0) {
+          msgAction = 'hitCeiling';
+        } else if (modifyChange > 0) {
+          msgAction = 'increase';
+        } else if (modifyChange < 0) {
+          msgAction = 'decrease';
+        }
+        //set message outcome
+        if (modifyDifference > 0 && modifySurplus === 0) {
+          msgOutcome = fieldAddress.pop().push("label").split('.').reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+        } else if (modifyDifference === 0 && modifySurplus > 0) {
+          msgOutcome = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],msgAction);
+        } else {
+          msgOutcome = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],msgAction) + ` ` + fieldAddress.pop().push('label').split('.').reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+        }
+    //push message if asked
+    if (outputChatMsg) {
+      //prepare chat message
+      messageTemplate = 'systems/mosh/templates/chat/modifyActor.html';
+      //push chat message
+        //make message
+        let macroMsg = await rollResult.toMessage({
+          id: chatId,
+          user: game.user.id,
+          speaker: {actor: this.id, token: this.token, alias: this.name},
+          content: messageTemplate
+        },{keepId:true});
+        //make dice
+        await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+    }
+    //return modification values
+    return [msgFlavor,msgOutcome,msgChange];
+  }
+
+  //central function to modify an actors items | TAKES 'system.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
+  async modifyItem(itemName,addAmount) {
+    //init vars
+    let newValue = 0;
+    let msgFlavor = ``;
+    let chatId = randomID();
+    //add or increase the count of the item, depending on type
+    if (this.character.items.getName(itemName) != undefined) {
+      //if this is an item, increase the count
+      if (this.character.items.getName(itemName).type === 'item') {
+        //get current quantity
+        oldValue = this.character.items.getName(itemName).system.quantity;
+        newValue = newValue + addAmount;
+        //increase severity of the condition
+        this.character.items.getName(itemName).update({'system.quantity': newValue});
+        //create message text
+        msgFlavor = `Quantity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
+      //if this is a condition, increase the severity
+      } else if (this.character.items.getName(itemName).type === 'condition') {
+        //get current severity
+        oldValue = this.character.items.getName(itemName).system.severity;
+        newValue = newValue + addAmount;
+        //increase severity of the condition
+        this.character.items.getName(itemName).update({'system.severity': newValue});
+        //create message text
+        msgFlavor = this.getFlavorText('item','condition','increase') + `Severity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
+      //if this is a weapon or armor, add another one
+      } else if (this.character.items.getName(itemName).type === 'weapon' || this.character.items.getName(itemName).type === 'armor') {
+        //add item to the players inventory
+        const itemData = game.items.getName(itemName).toObject();
+        await this.character.createEmbeddedDocuments("Item", [itemData]);
+        //create message text
+        msgFlavor = `You add another one of these to your inventory.`;
+      }
+    } else {
+      //if this is an item, add it
+      if (this.character.items.getName(itemName).type === 'item') {
+        //give the character the item
+        const itemData = game.items.getName(itemName).toObject();
+        await this.character.createEmbeddedDocuments("Item", [itemData]);
+        //increase severity of the condition
+        this.character.items.getName(itemName).update({'system.quantity': addAmount});
+        //create message text
+        msgFlavor = `You add <strong>` + addAmount + `</strong> of these to your inventory..`;
+      //if this is a condition, add it
+      } else if (this.character.items.getName(itemName).type === 'condition') {
+        //give the character the item
+        const itemData = game.items.getName(itemName).toObject();
+        await this.character.createEmbeddedDocuments("Item", [itemData]);
+        //increase severity of the condition
+        this.character.items.getName(itemName).update({'system.severity': addAmount});
+        //create message text
+        msgFlavor = this.getFlavorText('item','condition','add') + `, with a severity of <strong>` + addAmount + `</strong>.`;
+      //if this is a weapon or armor, add it
+      } else if (this.character.items.getName(itemName).type === 'weapon' || this.character.items.getName(itemName).type === 'armor') {
+        //add item to the players inventory
+        const itemData = game.items.getName(itemName).toObject();
+        await this.character.createEmbeddedDocuments("Item", [itemData]);
+        //create message text
+        msgFlavor = `You add this to your inventory.`;
+      }
+    }
+    //get item name
+    let msgHeader = this.character.items.getName(itemName).name;
+    //get item image
+    let msgImgPath = this.character.items.getName(itemName).img;
+    //prepare chat message
+    let messageTemplate = 'systems/mosh/templates/chat/modifyItem.html';
+    //push chat message
+    let macroMsg = await rollResult.toMessage({
+      id: chatId,
+      user: game.user.id,
+      speaker: {actor: this.id, token: this.token, alias: this.name},
+      content: messageTemplate
+    },{keepId:true});
+  }
+
+  //reload weapon
   reloadWeapon(itemId, options = { event: null }) {
     //dupe item to work with
     let item = duplicate(this.getEmbeddedDocument("Item",itemId));
@@ -1095,6 +1377,7 @@ export class MothershipActor extends Actor {
 	  });
   }
 
+  // print description
   printDescription(itemId, options = { event: null }) {
     let item = duplicate(this.getEmbeddedDocument("Item",itemId));
     this.chatDesc(item);

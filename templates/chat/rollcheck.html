@@ -1,0 +1,52 @@
+<div class="mosh">
+    <div class="rollcontainer">
+        <div class="flexrow" style="margin-bottom : 5px;">
+            <div class="rollweaponh1">{{msgHeader}}</div>
+            <div style="text-align: right"><img class="roll-image" src="{{msgImgPath}}" /></div>
+        </div>
+        {{parsedRollResult.outcomeHtml}}
+        <div class="description" style="margin-bottom: 10px;">
+            <div class="body">
+                {{#if (compare 'int' skillValue '>'' 0)}}
+                You {{outcomeVerb}} less than your <strong>{{this.actor.system.stats[attribute].label}}</strong> plus <strong>${skill}</strong> skill bonus.
+                {{else}}
+                You {{outcomeVerb}} less than your <strong>{{this.actor.system.stats[attribute].label}}</strong>.
+                {{/if}}
+            </div>
+        </div>
+        {{parsedRollResult.rollHtml}}
+        <div class="description" style="margin-bottom : 20px;">
+            {{#if parsedRollResult.success}}
+                {{#if weapon}}
+                    <div class="description">{{flavorText}}</div>
+                    {{#if needsDesc}}
+                    <div style="margin-bottom : 10px;"></div>
+                    <div class="grid grid-2col" style="grid-template-columns: 10px 75px auto">
+                        <div style="border-bottom:1px solid #999; height: 50%;"></div>
+                        <div style= "font-size:0.65rem; text-align:center;">DESCRIPTION</div>  
+                        <div style="border-bottom:1px solid #999; height: 50%;"></div>
+                    </div>
+                    <div style="margin-bottom : 10px;"></div>
+                    <div class="description">
+                        <div class="body">{{weapon.system.description}}</div>
+                        {{#if woundEffect}}
+                        <div class="body">
+                            <br><br><strong>Wound Effect</strong>strong><br>
+                            {{woundEffect}}
+                        </div>
+                        {{/if}}
+                    {{/if}}
+                    </div>
+                    <div style="margin-bottom : 16px;"></div>
+                {{else}}
+                    {{flavorText}}
+                {{/if}}
+            {{else}}
+                {{flavorText}}
+                {{#if critFail}}
+                <br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.IgWvaabVqzKDzLL4]{Make a Panic Check}
+                {{/if}}
+            {{/if}}
+        </div>
+    </div>
+</div>

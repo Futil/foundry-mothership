@@ -3,29 +3,24 @@
     <div class="showinfo"></div>
     <div class="showlessinfo"></div>
     <div class="rollcontainer">
-		{{#if (compare 'str' item.img '===' 'modules/fvtt_mosh_1e_psg/icons/equipment/trinket.png')}}
-		<div class="flexrow">
+		<div class="flexrow"></div>
+			{{#if (compare 'str' item.img '===' 'modules/fvtt_mosh_1e_psg/icons/equipment/trinket.png')}}
 			<div class="rollweaponh1" >TRINKET</div>
-			<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
-		</div>
-		{{else if (compare 'str' item.img '===' 'modules/fvtt_mosh_1e_psg/icons/equipment/patch.png')}}
-		<div class="flexrow">
+			{{else if (compare 'str' item.img '===' 'modules/fvtt_mosh_1e_psg/icons/equipment/patch.png')}}
 			<div class="rollweaponh1" >PATCH</div>
-			<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
-		</div>
-		{{else}}
-			{{#if (compare 'int' item.name.length '>=' 22)}}
-			<div class="flexrow">
-				<div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{item.name}}</div>
-				<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
-			</div>
 			{{else}}
-			<div class="flexrow">
+				{{#if (compare 'int' item.name.length '>=' 22)}}
+				<div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{item.name}}</div>
+				{{else}}
 				<div class="rollweaponh1" >{{item.name}}</div>
-				<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
-			</div>
+				{{/if}}
 			{{/if}}
-		{{/if}}
+			{{#if (compare 'str' item.type '===' 'ability')}}
+			<div style="text-align: right"><img class="roll-image" src="{{actor.img}}" /></div>
+			{{else}}
+			<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
+			{{/if}}
+		</div>
 		{{#if item.system.roll}}
 		<div class="description">
 			<div class="body">You inflict <strong>[[{{item.system.roll}}]]</strong> points of damage.</div>

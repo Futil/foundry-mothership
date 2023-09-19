@@ -25,18 +25,6 @@
       "templates": [
         "base"
       ],
-      "stress": {
-        "value": 2,
-        "min": 2,
-        "max": 20,
-        "label" : "Stress"
-      },
-      "resolve": {
-        "value": 0,
-        "min": 0,
-        "max": 85,
-        "label" : "Resolve"
-      },
       "biography": "",
       "notes": "",
       "weight" : {
@@ -136,6 +124,20 @@
           "damageReduction": 0,
           "label": "Armor",
           "rollLabel": "Armor Save"
+        }
+      },
+      "other": {
+        "stress": {
+          "value": 2,
+          "min": 2,
+          "max": 20,
+          "label" : "Stress"
+        },
+        "resolve": {
+          "value": 0,
+          "min": 0,
+          "max": 85,
+          "label" : "Resolve"
         }
       }
     },

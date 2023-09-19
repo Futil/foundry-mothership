@@ -53,17 +53,17 @@ new Dialog({
     buttons: {
       button1: {
       label: `Gain 1 Stress`,
-      callback: () => prepModifyActor('system.stress.value',1,null,true),
+      callback: () => prepModifyActor('system.other.stress.value',1,null,true),
       icon: `<i class="fas fa-angle-up"></i>`
       },
       button2: {
       label: `Gain 2 Stress`,
-      callback: () => prepModifyActor('system.stress.value',2,null,true),
+      callback: () => prepModifyActor('system.other.stress.value',2,null,true),
       icon: `<i class="fas fa-angle-double-up"></i>`
       },
       button3: {
       label: `Gain 1d5 Stress`,
-      callback: () => prepModifyActor('system.stress.value',null,`1d5`,true),
+      callback: () => prepModifyActor('system.other.stress.value',null,`1d5`,true),
       icon: `<i class="fas fa-arrow-circle-up"></i>`
       }
     }

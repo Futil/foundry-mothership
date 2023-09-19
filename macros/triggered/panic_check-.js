@@ -1,4 +1,4 @@
-prepTableRoll(`Panic Check`,`1d20 [-]`,`high`,false,false,'system.stress.value','>');
+prepTableRoll(`Panic Check`,`1d20 [-]`,`high`,false,false,'system.other.stress.value','>');
 
 //run the panic check
 async function prepTableRoll(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {

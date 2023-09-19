@@ -1037,7 +1037,7 @@ export class MothershipActor extends Actor {
     //prep text based on success or failure
     if (parsedRollResult.success === false) {
       //increase stress by 1
-      flavorText = this.modifyActor('system.stress.value',1,null,false)[1];
+      flavorText = this.modifyActor('system.other.stress.value',1,null,false)[1];
       //if critical failure, make sure to ask for panic check
       if (parsedRollResult.critical === true) {
         //set crit fail
@@ -1118,7 +1118,7 @@ export class MothershipActor extends Actor {
       await game.dice3d.waitFor3DAnimationByMessageID(chatId);
   }
 
-  //central function to modify actors | TAKES 'system.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
+  //central function to modify actors | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
   async modifyActor(fieldAddress,modValue,modRollString,outputChatMsg) {
     //init vars
     let msgHeader = ``;
@@ -1237,7 +1237,7 @@ export class MothershipActor extends Actor {
     return [msgFlavor,msgOutcome,msgChange];
   }
 
-  //central function to modify an actors items | TAKES 'system.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
+  //central function to modify an actors items | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
   async modifyItem(itemName,addAmount) {
     //init vars
     let newValue = 0;

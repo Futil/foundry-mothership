@@ -1,4 +1,4 @@
-prepModifyActor('system.stress.value',null,'1d5',true);
+prepModifyActor('system.other.stress.value',null,'1d5',true);
 
 //tell the actor to roll on the table
 async function prepModifyActor(fieldAddress,modValue,modRollString,outputChatMsg) {

@@ -14,7 +14,7 @@
           "label" : "Health"
         },
         "hits": {
-          "value" : 0,,
+          "value": 0,
           "min": 0,
           "max" : 2,
           "label" : "Wounds"

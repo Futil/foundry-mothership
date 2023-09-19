@@ -198,7 +198,7 @@ export class MothershipActor extends Actor {
 
         },
         //wounds flavor text
-        wounds: {
+        hits: {
           increase: {
             android: `System resources free up and you feel energized.`,
             human: `You feel a burst of energy.`

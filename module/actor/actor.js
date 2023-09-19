@@ -1168,14 +1168,29 @@ export class MothershipActor extends Actor {
     let msgChange = ``;
     let chatId = randomID();
     //get information about this field from the actor
-      //pop field address
-      fieldParent = fieldAddress.pop();
+      //set path for important fields
+        //field value
+        let fieldValue = fieldAddress.split('.');
+        //fieldMin
+        let fieldMin = fieldValue;
+        fieldMin.pop();
+        fieldMin.push("min");
+        //fieldMax
+        let fieldMax = fieldValue;
+        fieldMax.pop();
+        fieldMax.push("max");
+        //fieldLabel
+        let fieldLabel = fieldValue;
+        fieldLabel.pop();
+        fieldLabel.push("label");
+        //fieldId
+        let fieldId = fieldValue[fieldValue.length-2];
       //get min value for this field, if it exists
-      modifyMinimum = (fieldParent.push('min').split('.').reduce((a, v) => a[v], this) || null);
+      modifyMinimum = (fieldMin.reduce((a, v) => a[v], this) || null);
       //get max value for this field, if it exists
-      modifyMaximum = (fieldParent.push('max').split('.').reduce((a, v) => a[v], this) || null);
+      modifyMaximum = (fieldMax.reduce((a, v) => a[v], this) || null);
       //get current value for this field
-      modifyCurrent = fieldAddress.split('.').reduce((a, v) => a[v], this);
+      modifyCurrent = fieldValue.reduce((a, v) => a[v], this);
     //calculate the change, whether from a value, roll, or both
       //calculate change from the modValue
       if (modValue) {
@@ -1186,11 +1201,11 @@ export class MothershipActor extends Actor {
       if (modRollString) {
         //roll the dice
           //parse the roll string
-          let parsedRollString = this.parseRollString(rollString,'low');
+          let parsedRollString = this.parseRollString(modRollString,'low');
           //roll the dice
           let rollResult = await new Roll(parsedRollString).evaluate();
           //interpret the results
-          let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+          let parsedRollResult = this.parseRollResult(modRollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
         //update modChange
         modifyChange = modifyChange + parsedRollResult.total;
       }
@@ -1215,19 +1230,19 @@ export class MothershipActor extends Actor {
           //measure any surplus if we exceeded min/max
           modifySurplus = modifyChange - modifyDifference;
     //update actor
-    this.character.update({fieldAddress: modifyNew});
+    this.update({fieldAddress: modifyNew});
     //create modification text (for chat message or return values)
       //get flavor text
       if (modifyChange > 0) {
-        msgFlavor = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'increase');
+        msgFlavor = this.getFlavorText('attribute',fieldId,'increase');
         msgChange = 'increased';
-        msgHeader = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'increaseHeader');
-        msgImgPath = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'increaseImg');
+        msgHeader = this.getFlavorText('attribute',fieldId,'increaseHeader');
+        msgImgPath = this.getFlavorText('attribute',fieldId,'increaseImg');
       } else if (modifyChange < 0) {
-        msgFlavor = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'decrease');
+        msgFlavor = this.getFlavorText('attribute',fieldId,'decrease');
         msgChange = 'decreased';
-        msgHeader = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'decreaseHeader');
-        msgImgPath = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],'decreaseImg');
+        msgHeader = this.getFlavorText('attribute',fieldId,'decreaseHeader');
+        msgImgPath = this.getFlavorText('attribute',fieldId,'decreaseImg');
       }
       //get modification description
         //calculate change type
@@ -1246,11 +1261,11 @@ export class MothershipActor extends Actor {
         }
         //set message outcome
         if (modifyDifference > 0 && modifySurplus === 0) {
-          msgOutcome = fieldParent.push("label").split('.').reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+          msgOutcome = fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
         } else if (modifyDifference === 0 && modifySurplus > 0) {
-          msgOutcome = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],msgAction);
+          msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
         } else {
-          msgOutcome = this.getFlavorText('attribute',fieldAddress[fieldAddress.length-1],msgAction) + ` ` + fieldParent.push('label').split('.').reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+          msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
         }
     //push message if asked
     if (outputChatMsg) {
@@ -1292,66 +1307,66 @@ export class MothershipActor extends Actor {
     let msgFlavor = ``;
     let chatId = randomID();
     //add or increase the count of the item, depending on type
-    if (this.character.items.getName(itemName) != undefined) {
+    if (this.items.getName(itemName) != undefined) {
       //if this is an item, increase the count
-      if (this.character.items.getName(itemName).type === 'item') {
+      if (this.items.getName(itemName).type === 'item') {
         //get current quantity
-        oldValue = this.character.items.getName(itemName).system.quantity;
+        oldValue = this.items.getName(itemName).system.quantity;
         newValue = newValue + addAmount;
         //increase severity of the condition
-        this.character.items.getName(itemName).update({'system.quantity': newValue});
+        this.items.getName(itemName).update({'system.quantity': newValue});
         //create message text
         msgFlavor = `Quantity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
       //if this is a condition, increase the severity
-      } else if (this.character.items.getName(itemName).type === 'condition') {
+      } else if (this.items.getName(itemName).type === 'condition') {
         //get current severity
-        oldValue = this.character.items.getName(itemName).system.severity;
+        oldValue = this.items.getName(itemName).system.severity;
         newValue = newValue + addAmount;
         //increase severity of the condition
-        this.character.items.getName(itemName).update({'system.severity': newValue});
+        this.items.getName(itemName).update({'system.severity': newValue});
         //create message text
         msgFlavor = this.getFlavorText('item','condition','increase') + `Severity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
       //if this is a weapon or armor, add another one
-      } else if (this.character.items.getName(itemName).type === 'weapon' || this.character.items.getName(itemName).type === 'armor') {
+      } else if (this.items.getName(itemName).type === 'weapon' || this.items.getName(itemName).type === 'armor') {
         //add item to the players inventory
         const itemData = game.items.getName(itemName).toObject();
-        await this.character.createEmbeddedDocuments("Item", [itemData]);
+        await this.createEmbeddedDocuments("Item", [itemData]);
         //create message text
         msgFlavor = `You add another one of these to your inventory.`;
       }
     } else {
       //if this is an item, add it
-      if (this.character.items.getName(itemName).type === 'item') {
+      if (this.items.getName(itemName).type === 'item') {
         //give the character the item
         const itemData = game.items.getName(itemName).toObject();
-        await this.character.createEmbeddedDocuments("Item", [itemData]);
+        await this.createEmbeddedDocuments("Item", [itemData]);
         //increase severity of the condition
-        this.character.items.getName(itemName).update({'system.quantity': addAmount});
+        this.items.getName(itemName).update({'system.quantity': addAmount});
         //create message text
         msgFlavor = `You add <strong>` + addAmount + `</strong> of these to your inventory..`;
       //if this is a condition, add it
-      } else if (this.character.items.getName(itemName).type === 'condition') {
+      } else if (this.items.getName(itemName).type === 'condition') {
         //give the character the item
         const itemData = game.items.getName(itemName).toObject();
-        await this.character.createEmbeddedDocuments("Item", [itemData]);
+        await this.createEmbeddedDocuments("Item", [itemData]);
         //increase severity of the condition
-        this.character.items.getName(itemName).update({'system.severity': addAmount});
+        this.items.getName(itemName).update({'system.severity': addAmount});
         //create message text
         msgFlavor = this.getFlavorText('item','condition','add') + `, with a severity of <strong>` + addAmount + `</strong>.`;
       //if this is a weapon or armor, add it
-      } else if (this.character.items.getName(itemName).type === 'weapon' || this.character.items.getName(itemName).type === 'armor') {
+      } else if (this.items.getName(itemName).type === 'weapon' || this.items.getName(itemName).type === 'armor') {
         //add item to the players inventory
         const itemData = game.items.getName(itemName).toObject();
-        await this.character.createEmbeddedDocuments("Item", [itemData]);
+        await this.createEmbeddedDocuments("Item", [itemData]);
         //create message text
         msgFlavor = `You add this to your inventory.`;
       }
     }
   //generate chat message
     //get item name
-    let msgHeader = this.character.items.getName(itemName).name;
+    let msgHeader = this.items.getName(itemName).name;
     //get item image
-    let msgImgPath = this.character.items.getName(itemName).img;
+    let msgImgPath = this.items.getName(itemName).img;
     //prepare data
     let messageData = {
       actor: this,

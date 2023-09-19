@@ -605,12 +605,12 @@ export class MothershipActor extends Actor {
       //account for successfel rolls against target
       if(tableName === 'Panic Check' && parsedRollResult.success === true) {
         //assign flavor text
-        flavorText = this.getFlavorText('table',tableName.replace('& ','').replace(' ','_').toLowerCase(),'success');
+        flavorText = this.getFlavorText('table',tableName.replaceAll('& ','').replaceAll(' ','_').toLowerCase(),'success');
         //remove table result
         tableResult[0].text = ``;
       } else {
         //assign flavor text
-        flavorText = this.getFlavorText('table',tableName.replace('& ','').replace(' ','_').toLowerCase(),'roll');
+        flavorText = this.getFlavorText('table',tableName.replaceAll('& ','').replaceAll(' ','_').toLowerCase(),'roll');
       }
 	  //generate chat message
       //prepare data

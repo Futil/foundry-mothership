@@ -1,16 +1,16 @@
 <div class="mosh">
     <div class="rollcontainer">
       <div class="flexrow" style="margin-bottom: 5px;">
-        <div class="rollweaponh1">{{msgHeader}}</div>
-        <div style="text-align: right"><img class="roll-image" src="{{msgImgPath}}" /></div>
+        <div class="rollweaponh1">{{{msgHeader}}}</div>
+        <div style="text-align: right"><img class="roll-image" src="{{{msgImgPath}}}" /></div>
       </div>
       <div class="description"" style="margin-bottom: 20px;">
         <div class="body">
-        {{msgFlavor}}
+        {{{msgFlavor}}}
         {{#if modRollString}}
-            {{parsedRollResult.rollHtml}}
+            {{{parsedRollResult.rollHtml}}}
         {{/if}}
-        {{msgOutcome}}
+        {{{msgOutcome}}}
         </div>
       </div>
     </div>

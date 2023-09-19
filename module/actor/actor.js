@@ -986,6 +986,8 @@ export class MothershipActor extends Actor {
   //central check rolling function | TAKES '1d10','low','combat','Geology',10,[weapon item] | RETURNS chat message showing check result
   async rollCheck(rollString,aimFor,attribute,skill,skillValue,weapon) {
     //init vars
+    let messageTemplate = ``;
+    let messageContent = ``;
     let parsedDamageString = null;
     let damageResult = null;
     let parsedDamageResult = null;
@@ -1114,23 +1116,43 @@ export class MothershipActor extends Actor {
           }
         }
     }
-    //prepare text for the chat message
-    messageTemplate = 'systems/mosh/templates/chat/rollcheck.html';
-    //push chat message
+	  //generate chat message
+      //prepare data
+      let messageData = {
+        actor: this,
+        parsedRollResult: parsedRollResult,
+        skill: skill,
+        skillValue: skillValue,
+        weapon: weapon,
+        msgHeader: msgHeader,
+        msgImgPath: msgImgPath,
+        outcomeVerb: outcomeVerb,
+        attribute: this.actor.system.stats[attribute].label,
+        flavorText: flavorText,
+        needsDesc: needsDesc,
+        woundEffect: woundEffect,
+        critFail: critFail
+      };
+      //prepare template
+      messageTemplate = 'systems/mosh/templates/chat/rollcheck.html';
+      //render template
+      messageContent = await renderTemplate(messageTemplate, messageData);
       //make message
       let macroMsg = await rollResult.toMessage({
         id: chatId,
         user: game.user.id,
         speaker: {actor: this.id, token: this.token, alias: this.name},
-        content: messageTemplate
+        content: messageContent
       },{keepId:true});
-      //make dice
+      //wait for dice
       await game.dice3d.waitFor3DAnimationByMessageID(chatId);
   }
 
   //central function to modify actors | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
   async modifyActor(fieldAddress,modValue,modRollString,outputChatMsg) {
     //init vars
+    let messageTemplate = ``;
+    let messageContent = ``;
     let msgHeader = ``;
     let msgImgPath = ``;
     let modifyMinimum = null;
@@ -1230,17 +1252,29 @@ export class MothershipActor extends Actor {
         }
     //push message if asked
     if (outputChatMsg) {
-      //prepare chat message
-      messageTemplate = 'systems/mosh/templates/chat/modifyActor.html';
-      //push chat message
+      //generate chat message
+        //prepare data
+        let messageData = {
+          actor: this,
+          parsedRollResult: parsedRollResult,
+          msgHeader: msgHeader,
+          msgImgPath: msgImgPath,
+          msgFlavor: msgFlavor,
+          modRollString: modRollString,
+          msgOutcome: msgOutcome
+        };
+        //prepare template
+        messageTemplate = 'systems/mosh/templates/chat/modifyActor.html';
+        //render template
+        messageContent = await renderTemplate(messageTemplate, messageData);
         //make message
         let macroMsg = await rollResult.toMessage({
           id: chatId,
           user: game.user.id,
           speaker: {actor: this.id, token: this.token, alias: this.name},
-          content: messageTemplate
+          content: messageContent
         },{keepId:true});
-        //make dice
+        //wait for dice
         await game.dice3d.waitFor3DAnimationByMessageID(chatId);
     }
     //return modification values
@@ -1250,6 +1284,8 @@ export class MothershipActor extends Actor {
   //central function to modify an actors items | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
   async modifyItem(itemName,addAmount) {
     //init vars
+    let messageTemplate = ``;
+    let messageContent = ``;
     let newValue = 0;
     let msgFlavor = ``;
     let chatId = randomID();
@@ -1309,19 +1345,31 @@ export class MothershipActor extends Actor {
         msgFlavor = `You add this to your inventory.`;
       }
     }
+  //generate chat message
     //get item name
     let msgHeader = this.character.items.getName(itemName).name;
     //get item image
     let msgImgPath = this.character.items.getName(itemName).img;
-    //prepare chat message
-    let messageTemplate = 'systems/mosh/templates/chat/modifyItem.html';
-    //push chat message
+    //prepare data
+    let messageData = {
+      actor: this,
+      msgHeader: msgHeader,
+      msgImgPath: msgImgPath,
+      flavorText: flavorText
+    };
+    //prepare template
+    messageTemplate = 'systems/mosh/templates/chat/modifyItem.html';
+    //render template
+    messageContent = await renderTemplate(messageTemplate, messageData);
+    //make message
     let macroMsg = await rollResult.toMessage({
       id: chatId,
       user: game.user.id,
       speaker: {actor: this.id, token: this.token, alias: this.name},
-      content: messageTemplate
+      content: messageContent
     },{keepId:true});
+    //wait for dice
+    await game.dice3d.waitFor3DAnimationByMessageID(chatId);
   }
 
   //reload weapon

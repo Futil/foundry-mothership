@@ -14,7 +14,8 @@
           "label" : "Health"
         },
         "hits": {
-          "value" : 0,
+          "value" : 0,,
+          "min": 0,
           "max" : 2,
           "label" : "Wounds"
         }
@@ -74,43 +75,67 @@
         "strength": {
           "value": 10,
           "mod": 0,
-          "label": "Strength"
+          "min": 0,
+          "max": 99,
+          "label": "Strength",
+          "rollLabel": "Strength Check"
         },
         "speed": {
           "value": 10,
           "mod": 0,
-          "label": "Speed"
+          "min": 0,
+          "max": 99,
+          "label": "Speed",
+          "rollLabel": "Speed Check"
         },
         "intellect": {
           "value": 10,
           "mod": 0,
-          "label": "Intellect"
+          "min": 0,
+          "max": 99,
+          "label": "Intellect",
+          "rollLabel": "Intellect Check"
         },
         "combat": {
           "value": 10,
           "mod": 0,
-          "label": "Combat"
+          "min": 0,
+          "max": 99,
+          "label": "Combat",
+          "rollLabel": "Combat Check"
         },
         "sanity": {
           "value": 10,
           "mod": 0,
-          "label": "Sanity"
+          "min": 0,
+          "max": 99,
+          "label": "Sanity",
+          "rollLabel": "Sanity Save"
         },
         "fear": {
           "value": 10,
           "mod": 0,
-          "label": "Fear"
+          "min": 0,
+          "max": 99,
+          "label": "Fear",
+          "rollLabel": "Fear Save"
         },
         "body": {
           "value": 10,
           "mod": 0,
-          "label": "Body"
+          "min": 0,
+          "max": 99,
+          "label": "Body",
+          "rollLabel": "Body Save"
         },
         "armor": {
           "value": 0,
           "mod": 0,
+          "min": 0,
+          "max": 99,
           "damageReduction": 0,
-          "label": "Armor"
+          "label": "Armor",
+          "rollLabel": "Armor Save"
         }
       }
     },
@@ -127,32 +152,50 @@
       "stats": {
         "combat": {
           "value": 10,
+          "min": 0,
+          "max": 99,
           "label": "Combat",
+          "rollLabel": "Combat Check",
           "enabled" : true
         },
         "instinct": {
           "value": 10,
+          "min": 0,
+          "max": 99,
           "label": "Instinct",
+          "rollLabel": "Instinct Check",
           "enabled" : true
         },
         "speed": {
           "value": 10,
+          "min": 0,
+          "max": 99,
           "label": "Speed",
+          "rollLabel": "Speed Check",
           "enabled" : false
         },
         "loyalty": {
           "value": 10,
+          "min": 0,
+          "max": 99,
           "label": "Loyalty",
+          "rollLabel": "Loyalty Check",
           "enabled" : false
         },
         "armor": {
           "value": 10,
+          "min": 0,
+          "max": 99,
           "label": "Armor",
+          "rollLabel": "Armor Save",
           "enabled" : false
         },
         "sanity": {
           "value": 10,
+          "min": 0,
+          "max": 99,
           "label": "Sanity",
+          "rollLabel": "Sanity Save",
           "enabled" : false
         }
       }

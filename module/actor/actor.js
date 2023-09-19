@@ -1151,6 +1151,7 @@ export class MothershipActor extends Actor {
   //central function to modify actors | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
   async modifyActor(fieldAddress,modValue,modRollString,outputChatMsg) {
     //init vars
+    let parsedRollResult = null;
     let messageTemplate = ``;
     let messageContent = ``;
     let msgHeader = ``;

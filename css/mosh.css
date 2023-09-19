@@ -73,6 +73,14 @@ p {
   background: white;
 } */
 
+.dice-tooltip .dice-rolls .roll.max {
+  color: #18520b;
+  filter: sepia(0.5) hue-rotate(60deg);
+}
+.dice-tooltip .dice-rolls .roll.min {
+  color: #aa0200;
+  filter: sepia(0.5) hue-rotate(340deg);
+}
 
 .list-roll:hover,
 .list-roll:focus,

@@ -136,16 +136,16 @@ export class MothershipActor extends Actor {
             human: `Stress Gained`
           },
           increaseImg: {
-            android: `systems/mosh/images/icons/ui/attributes/macros/gain_stress.png`,
-            human: `systems/mosh/images/icons/ui/attributes/macros/gain_stress.png`
+            android: `systems/mosh/images/icons/ui/macros/gain_stress.png`,
+            human: `systems/mosh/images/icons/ui/macros/gain_stress.png`
           },
           hitCeiling: {
-            android: `System performance grinds to a halt. <strong>Reduce the most relevant Stat or Save by {{modifySurplus}}</strong>.`,
-            human: `You hit rock bottom. <strong>Reduce the most relevant Stat or Save by {{modifySurplus}}</strong>.`
+            android: `System performance grinds to a halt. <strong>Reduce the most relevant Stat or Save by {{{modifySurplus}}}</strong>.`,
+            human: `You hit rock bottom. <strong>Reduce the most relevant Stat or Save by {{{modifySurplus}}}</strong>.`
           },
           pastCeiling: {
-            android: `You sense unrecoverable data loss. <strong>Reduce the most relevant Stat or Save by {{modifySurplus}}</strong>.`,
-            human: `You feel a part of yourself drift away. <strong>Reduce the most relevant Stat or Save by {{modifySurplus}}</strong>.`
+            android: `You sense unrecoverable data loss. <strong>Reduce the most relevant Stat or Save by {{{modifySurplus}}}</strong>.`,
+            human: `You feel a part of yourself drift away. <strong>Reduce the most relevant Stat or Save by {{{modifySurplus}}}</strong>.`
           },
           decrease: {
             android: `You soft-reset, purging unnecessary background processes.`,
@@ -156,8 +156,8 @@ export class MothershipActor extends Actor {
             human: `Stress Relieved`
           },
           decreaseImg: {
-            android: `systems/mosh/images/icons/ui/attributes/macros/relieve_stress.png`,
-            human: `systems/mosh/images/icons/ui/attributes/macros/relieve_stress.png`
+            android: `systems/mosh/images/icons/ui/macros/relieve_stress.png`,
+            human: `systems/mosh/images/icons/ui/macros/relieve_stress.png`
           },
           hitFloor: {
             android: `You attain perfect focus and clarity. `,
@@ -166,6 +166,92 @@ export class MothershipActor extends Actor {
           pastFloor: {
             android: `You are already as focused as possible.`,
             human: `You are already as calm as possible.`
+          }
+        },
+        //health flavor text
+        health: {
+          increase: {
+            android: `System resources free up and you feel energized.`,
+            human: `You feel a burst of energy.`
+          },
+          increaseHeader: {
+            android: `Health Gained`,
+            human: `Health Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/health.png`,
+            human: `systems/mosh/images/icons/ui/attributes/health.png`
+          },
+          hitCeiling: {
+            android: `You are now at full health.`,
+            human: `You are now at full health.`
+          },
+          pastCeiling: {
+            android: `You are already at full health.`,
+            human: `You are already at full health.`
+          },
+          decrease: {
+            android: `Your pain receptors indicate core damage.`,
+            human: `You wince from the pain.`
+          },
+          decreaseHeader: {
+            android: `Health Lost`,
+            human: `Health Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/health.png`,
+            human: `systems/mosh/images/icons/ui/attributes/health.png`
+          },
+          hitFloor: {
+            android: `You gain a wound and now have {{{(modifyNew)}}} Health.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`,
+            human: `You gain a wound and now have {{{(modifyNew)}}} Health.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`
+          },
+          pastFloor: {
+            android: `You gain a wound and now have {{{(modifyNew)}}} Health.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`,
+            human: `You gain a wound and now have {{{(modifyNew)}}} Health.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`
+          }
+        },
+        //hits flavor text
+        hits: {
+          increase: {
+            android: `System resources free up and you feel energized.`,
+            human: `You feel a burst of energy.`
+          },
+          increaseHeader: {
+            android: `Mended`,
+            human: `Mended`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/health.png`,
+            human: `systems/mosh/images/icons/ui/attributes/health.png`
+          },
+          hitCeiling: {
+            android: `You are now at full health.`,
+            human: `You are now at full health.`
+          },
+          pastCeiling: {
+            android: `You are already at full health.`,
+            human: `You are already at full health.`
+          },
+          decrease: {
+            android: `Your pain receptors indicate permanent damage and you gain a wound.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`,
+            human: `You scream out from immense pain and you gain a wound.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`
+          },
+          decreaseHeader: {
+            android: `Wounded`,
+            human: `Wounded`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/health.png`,
+            human: `systems/mosh/images/icons/ui/attributes/health.png`
+          },
+          hitFloor: {
+            android: `<strong>You have died.</strong> Roll up a new character.`,
+            human: `<strong>You have died.</strong> Roll up a new character.`
+          },
+          pastFloor: {
+            android: `<strong>You have died.</strong> Roll up a new character.`,
+            human: `<strong>You have died.</strong> Roll up a new character.`
           }
         },
         //stat/save flavor text
@@ -177,48 +263,46 @@ export class MothershipActor extends Actor {
           save: {
             android: `You gain some confidence in your abilities.`,
             human: `You gain some confidence in your abilities.`
-          }
-        },
-        //health flavor text
-        health: {
-          increase: {
-            android: `System resources free up and you feel energized.`,
-            human: `You feel a burst of energy.`
           },
-
-
-
-          decrease: {
-            android: `Your pain receptors indicate core damage.`,
-            human: `You wince from the pain.`
-          }
-
-
-
-
-        },
-        //wounds flavor text
-        hits: {
           increase: {
-            android: `System resources free up and you feel energized.`,
-            human: `You feel a burst of energy.`
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
           },
-
-
-
+          increaseHeader: {
+            android: `{{{fieldLabel}}} Gained`,
+            human: `{{{fieldLabel}}} Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/{{{fieldId}}}.png`,
+            human: `systems/mosh/images/icons/ui/attributes/{{{fieldId}}}.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum {{{fieldLabel}}}.`,
+            human: `You are now at maximum {{{fieldLabel}}}.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum {{{fieldLabel}}}.`,
+            human: `You are already at maximum {{{fieldLabel}}}.`
+          },
           decrease: {
-            android: `Your pain receptors indicate permanent damage.`,
-            human: `You scream out from immense pain.`
-          }
-
-
-
-        },
-        //radiation flavor text
-        radiation: {
-          damage: {
-            android: `Catastro▒ic d⟑ta ▓loss de|/~ ⋥t⋱d`,
-            human: `You stare into blackness and feel completely unable to pull yourself out of it.`
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decreaseHeader: {
+            android: `{{{fieldLabel}}} Lost`,
+            human: `{{{fieldLabel}}} Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/{{{fieldId}}}.png`,
+            human: `systems/mosh/images/icons/ui/attributes/{{{fieldId}}}.png`
+          },
+          hitFloor: {
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          pastFloor: {
+            android: `Your {{{fieldLabel}}} cannot get any lower.`,
+            human: `Your {{{fieldLabel}}} cannot get any lower.`
           }
         }
       },
@@ -1151,7 +1235,6 @@ export class MothershipActor extends Actor {
   //central function to modify actors | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
   async modifyActor(fieldAddress,modValue,modRollString,outputChatMsg) {
     //init vars
-    let parsedRollResult = null;
     let messageTemplate = ``;
     let messageContent = ``;
     let msgHeader = ``;
@@ -1206,7 +1289,7 @@ export class MothershipActor extends Actor {
           //roll the dice
           let rollResult = await new Roll(parsedRollString).evaluate();
           //interpret the results
-          let parsedRollResult = this.parseRollResult(modRollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+          let parsedRollResult = this.parseRollResult(modRollString,rollResult,false,false,null,null);
         //update modChange
         modifyChange = modifyChange + parsedRollResult.total;
       }
@@ -1261,9 +1344,9 @@ export class MothershipActor extends Actor {
           msgAction = 'decrease';
         }
         //set message outcome
-        if (modifyDifference > 0 && modifySurplus === 0) {
+        if (msgAction === 'increase' || msgAction === 'decrease') {
           msgOutcome = fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
-        } else if (modifyDifference === 0 && modifySurplus > 0) {
+        } else if (modifyDifference === 0 && modifySurplus != 0) {
           msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
         } else {
           msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;

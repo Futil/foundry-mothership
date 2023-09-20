@@ -1086,6 +1086,12 @@ export class MothershipActor extends Actor {
     let msgImgPath = ``;
     let chatId = randomID();
     //first we need to bounce this request away if certain parameters are NULL
+      console.log(rollString);
+      console.log(aimFor);
+      console.log(attribute);
+      console.log(skill);
+      console.log(skillValue);
+      console.log(weapon);
       //if attribute is blank, redirect player to choose an attribute
       if (!attribute) {
         //run the choose attribute function
@@ -1095,6 +1101,12 @@ export class MothershipActor extends Actor {
         aimFor = chosenAttributes[1];
         attribute = chosenAttributes[2];
       }
+      console.log(rollString);
+      console.log(aimFor);
+      console.log(attribute);
+      console.log(skill);
+      console.log(skillValue);
+      console.log(weapon);
       //if skill is blank and actor is a character, redirect player to choose a skill
       if (!skill && this.type === 'character') {
         //run the choose attribute function
@@ -1105,6 +1117,12 @@ export class MothershipActor extends Actor {
         skill = chosenSkills[2];
         skillValue = chosenSkills[3];
       }
+      console.log(rollString);
+      console.log(aimFor);
+      console.log(attribute);
+      console.log(skill);
+      console.log(skillValue);
+      console.log(weapon);
       //if rollString is STILL blank, redirect player to choose the roll
       if (!rollString) {
         //run the choose attribute function
@@ -1113,6 +1131,12 @@ export class MothershipActor extends Actor {
         rollString = chosenRollType[0];
         aimFor = chosenRollType[1];
       }
+      console.log(rollString);
+      console.log(aimFor);
+      console.log(attribute);
+      console.log(skill);
+      console.log(skillValue);
+      console.log(weapon);
     //make the rollTarget value
       //retrieve the attribute
       let rollTarget = this.system.stats[attribute].value

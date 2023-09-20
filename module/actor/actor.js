@@ -304,6 +304,13 @@ export class MothershipActor extends Actor {
             android: `Your {{{fieldLabel}}} cannot get any lower.`,
             human: `Your {{{fieldLabel}}} cannot get any lower.`
           }
+        },
+        //radiation flavor text
+        radiation: {
+          damage: {
+            android: `Catastro▒ic d⟑ta ▓loss de|/~ ⋥t⋱d`,
+            human: `You stare into blackness and feel completely unable to pull yourself out of it.`
+          }
         }
       },
       //macro flavor text (embedding actions)
@@ -561,7 +568,7 @@ export class MothershipActor extends Actor {
               `;
               //loop through dice
               roll.results.forEach(function(die) { 
-                //set highlight if crit is asked for -------------------------------------REWRITE for die result, only do this if checkCrit is true, combine these two into one
+                //set highlight if crit is asked for
                 if (checkCrit) {
                   //check for crit
                   if (doubles.has(die.result)) {
@@ -607,7 +614,7 @@ export class MothershipActor extends Actor {
                     <ol class="dice-rolls">
                 `;
                 //prepare dice icon
-                if (roll.faces === 100) {
+                if (roll.faces === 100 || roll.faces === 5) {
                   diceIcon = `10`;
                 } else {
                   diceIcon = roll.faces.toString();
@@ -1256,15 +1263,15 @@ export class MothershipActor extends Actor {
         //field value
         let fieldValue = fieldAddress.split('.');
         //fieldMin
-        let fieldMin = fieldValue;
+        let fieldMin = fieldAddress.split('.');
         fieldMin.pop();
         fieldMin.push("min");
         //fieldMax
-        let fieldMax = fieldValue;
+        let fieldMax = fieldAddress.split('.');
         fieldMax.pop();
         fieldMax.push("max");
         //fieldLabel
-        let fieldLabel = fieldValue;
+        let fieldLabel = fieldAddress.split('.');
         fieldLabel.pop();
         fieldLabel.push("label");
         //fieldId
@@ -1275,14 +1282,99 @@ export class MothershipActor extends Actor {
       modifyMaximum = (fieldMax.reduce((a, v) => a[v], this) || null);
       //get current value for this field
       modifyCurrent = fieldValue.reduce((a, v) => a[v], this);
-    //calculate the change, whether from a value, roll, or both
-      //calculate change from the modValue
+    //calculate the change, whether from a value, roll (can only be one, it will check modValue first)
+      //apply the modValue directly with no roll
       if (modValue) {
         //update modChange
         modifyChange = modValue;
-      }
+        //calculate impact to the actor
+          //set the new value
+          modifyNew = modifyCurrent + modifyChange;
+          //restrict new value based on min/max
+            //cap min
+            if(modifyMinimum) {
+              if(modifyNew < modifyMinimum) {
+                modifyNew = modifyMinimum;
+              }
+            }
+            //cap max
+            if(modifyMaximum) {
+              if(modifyNew > modifyMaximum) {
+                modifyNew = modifyMaximum;
+              }
+            }
+            //measure difference between old and new value
+            modifyDifference = modifyNew - modifyCurrent;
+            //measure any surplus if we exceeded min/max
+            modifySurplus = modifyChange - modifyDifference;
+        //update actor
+            //prepare update JSON
+            let updateData = JSON.parse(`{"` + fieldAddress + `": ` + modifyNew + `}`);
+            //update field
+            this.update(updateData);
+        //create modification text (for chat message or return values)
+          //get flavor text
+          if (modifyChange > 0) {
+            msgFlavor = this.getFlavorText('attribute',fieldId,'increase');
+            msgChange = 'increased';
+            msgHeader = this.getFlavorText('attribute',fieldId,'increaseHeader');
+            msgImgPath = this.getFlavorText('attribute',fieldId,'increaseImg');
+          } else if (modifyChange < 0) {
+            msgFlavor = this.getFlavorText('attribute',fieldId,'decrease');
+            msgChange = 'decreased';
+            msgHeader = this.getFlavorText('attribute',fieldId,'decreaseHeader');
+            msgImgPath = this.getFlavorText('attribute',fieldId,'decreaseImg');
+          }
+          //get modification description
+            //calculate change type
+            if (modifySurplus < 0) {
+              msgAction = 'pastFloor';
+            } else if (modifySurplus > 0) {
+              msgAction = 'pastCeiling';
+            } else if (modifySurplus === 0 && modifyNew === modifyMinimum && modifyChange != 0) {
+              msgAction = 'hitFloor';
+            } else if (modifySurplus === 0 && modifyNew === modifyMaximum && modifyChange != 0) {
+              msgAction = 'hitCeiling';
+            } else if (modifyChange > 0) {
+              msgAction = 'increase';
+            } else if (modifyChange < 0) {
+              msgAction = 'decrease';
+            }
+            //set message outcome
+            if (msgAction === 'increase' || msgAction === 'decrease') {
+              msgOutcome = fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+            } else if (modifyDifference === 0 && modifySurplus != 0) {
+              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
+            } else {
+              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+            }
+        //push message if asked
+        if (outputChatMsg) {
+          //generate chat message
+            //prepare data
+            let messageData = {
+              actor: this,
+              msgHeader: msgHeader,
+              msgImgPath: msgImgPath,
+              msgFlavor: msgFlavor,
+              msgOutcome: msgOutcome
+            };
+            //prepare template
+            messageTemplate = 'systems/mosh/templates/chat/modifyActor.html';
+            //render template
+            messageContent = await renderTemplate(messageTemplate, messageData);
+            //push message
+            ChatMessage.create({
+              id: chatId,
+              user: game.user.id,
+              speaker: {actor: this.id, token: this.token, alias: this.name},
+              content: messageContent
+            },{keepId:true});
+        }
+      //return modification values
+      return [msgFlavor,msgOutcome,msgChange];
       //calculate change from the modRollString
-      if (modRollString) {
+      } else {
         //roll the dice
           //parse the roll string
           let parsedRollString = this.parseRollString(modRollString,'low');
@@ -1292,94 +1384,97 @@ export class MothershipActor extends Actor {
           let parsedRollResult = this.parseRollResult(modRollString,rollResult,false,false,null,null);
         //update modChange
         modifyChange = modifyChange + parsedRollResult.total;
-      }
-      //calculate impact to the actor
-        //set the new value
-        modifyNew = modifyCurrent + modifyChange;
-        //restrict new value based on min/max
-          //cap min
-          if(modifyMinimum) {
-            if(modifyNew < modifyMinimum) {
-              modifyNew = modifyMinimum;
+        //calculate impact to the actor
+          //set the new value
+          modifyNew = modifyCurrent + modifyChange;
+          //restrict new value based on min/max
+            //cap min
+            if(modifyMinimum) {
+              if(modifyNew < modifyMinimum) {
+                modifyNew = modifyMinimum;
+              }
             }
-          }
-          //cap max
-          if(modifyMaximum) {
-            if(modifyNew > modifyMaximum) {
-              modifyNew = modifyMaximum;
+            //cap max
+            if(modifyMaximum) {
+              if(modifyNew > modifyMaximum) {
+                modifyNew = modifyMaximum;
+              }
             }
-          }
-          //measure difference between old and new value
-          modifyDifference = modifyNew - modifyCurrent;
-          //measure any surplus if we exceeded min/max
-          modifySurplus = modifyChange - modifyDifference;
-    //update actor
-    this.update({fieldAddress: modifyNew});
-    //create modification text (for chat message or return values)
-      //get flavor text
-      if (modifyChange > 0) {
-        msgFlavor = this.getFlavorText('attribute',fieldId,'increase');
-        msgChange = 'increased';
-        msgHeader = this.getFlavorText('attribute',fieldId,'increaseHeader');
-        msgImgPath = this.getFlavorText('attribute',fieldId,'increaseImg');
-      } else if (modifyChange < 0) {
-        msgFlavor = this.getFlavorText('attribute',fieldId,'decrease');
-        msgChange = 'decreased';
-        msgHeader = this.getFlavorText('attribute',fieldId,'decreaseHeader');
-        msgImgPath = this.getFlavorText('attribute',fieldId,'decreaseImg');
+            //measure difference between old and new value
+            modifyDifference = modifyNew - modifyCurrent;
+            //measure any surplus if we exceeded min/max
+            modifySurplus = modifyChange - modifyDifference;
+            //update actor
+              //prepare update JSON
+              let updateData = JSON.parse(`{"` + fieldAddress + `": ` + modifyNew + `}`);
+              //update field
+              this.update(updateData);
+            //create modification text (for chat message or return values)
+              //get flavor text
+              if (modifyChange > 0) {
+                msgFlavor = this.getFlavorText('attribute',fieldId,'increase');
+                msgChange = 'increased';
+                msgHeader = this.getFlavorText('attribute',fieldId,'increaseHeader');
+                msgImgPath = this.getFlavorText('attribute',fieldId,'increaseImg');
+              } else if (modifyChange < 0) {
+                msgFlavor = this.getFlavorText('attribute',fieldId,'decrease');
+                msgChange = 'decreased';
+                msgHeader = this.getFlavorText('attribute',fieldId,'decreaseHeader');
+                msgImgPath = this.getFlavorText('attribute',fieldId,'decreaseImg');
+              }
+              //get modification description
+                //calculate change type
+                if (modifySurplus < 0) {
+                  msgAction = 'pastFloor';
+                } else if (modifySurplus > 0) {
+                  msgAction = 'pastCeiling';
+                } else if (modifySurplus === 0 && modifyNew === modifyMinimum && modifyChange != 0) {
+                  msgAction = 'hitFloor';
+                } else if (modifySurplus === 0 && modifyNew === modifyMaximum && modifyChange != 0) {
+                  msgAction = 'hitCeiling';
+                } else if (modifyChange > 0) {
+                  msgAction = 'increase';
+                } else if (modifyChange < 0) {
+                  msgAction = 'decrease';
+                }
+                //set message outcome
+                if (msgAction === 'increase' || msgAction === 'decrease') {
+                  msgOutcome = fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+                } else if (modifyDifference === 0 && modifySurplus != 0) {
+                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
+                } else {
+                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+                }
+            //push message if asked
+            if (outputChatMsg) {
+              //generate chat message
+                //prepare data
+                let messageData = {
+                  actor: this,
+                  parsedRollResult: parsedRollResult,
+                  msgHeader: msgHeader,
+                  msgImgPath: msgImgPath,
+                  msgFlavor: msgFlavor,
+                  modRollString: modRollString,
+                  msgOutcome: msgOutcome
+                };
+                //prepare template
+                messageTemplate = 'systems/mosh/templates/chat/modifyActor.html';
+                //render template
+                messageContent = await renderTemplate(messageTemplate, messageData);
+                //make message
+                let macroMsg = await rollResult.toMessage({
+                  id: chatId,
+                  user: game.user.id,
+                  speaker: {actor: this.id, token: this.token, alias: this.name},
+                  content: messageContent
+                },{keepId:true});
+                //wait for dice
+                await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+            }
+            //return modification values
+            return [msgFlavor,msgOutcome,msgChange];
       }
-      //get modification description
-        //calculate change type
-        if (modifySurplus < 0) {
-          msgAction = 'pastFloor';
-        } else if (modifySurplus > 0) {
-          msgAction = 'pastCeiling';
-        } else if (modifySurplus === 0 && modifyNew === modifyMinimum && modifyChange != 0) {
-          msgAction = 'hitFloor';
-        } else if (modifySurplus === 0 && modifyNew === modifyMaximum && modifyChange != 0) {
-          msgAction = 'hitCeiling';
-        } else if (modifyChange > 0) {
-          msgAction = 'increase';
-        } else if (modifyChange < 0) {
-          msgAction = 'decrease';
-        }
-        //set message outcome
-        if (msgAction === 'increase' || msgAction === 'decrease') {
-          msgOutcome = fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
-        } else if (modifyDifference === 0 && modifySurplus != 0) {
-          msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
-        } else {
-          msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
-        }
-    //push message if asked
-    if (outputChatMsg) {
-      //generate chat message
-        //prepare data
-        let messageData = {
-          actor: this,
-          parsedRollResult: parsedRollResult,
-          msgHeader: msgHeader,
-          msgImgPath: msgImgPath,
-          msgFlavor: msgFlavor,
-          modRollString: modRollString,
-          msgOutcome: msgOutcome
-        };
-        //prepare template
-        messageTemplate = 'systems/mosh/templates/chat/modifyActor.html';
-        //render template
-        messageContent = await renderTemplate(messageTemplate, messageData);
-        //make message
-        let macroMsg = await rollResult.toMessage({
-          id: chatId,
-          user: game.user.id,
-          speaker: {actor: this.id, token: this.token, alias: this.name},
-          content: messageContent
-        },{keepId:true});
-        //wait for dice
-        await game.dice3d.waitFor3DAnimationByMessageID(chatId);
-    }
-    //return modification values
-    return [msgFlavor,msgOutcome,msgChange];
   }
 
   //central function to modify an actors items | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message

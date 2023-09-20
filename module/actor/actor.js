@@ -883,7 +883,7 @@ export class MothershipActor extends Actor {
   }
 
   //central adding skill function | TAKES '1d10','low' | RETURNS player selected skill + value. If parameters are null, it asks the player.
-  chooseSkill(rollString,aimFor) {
+  chooseSkill(dlgTitle,rollString,aimFor) {
 	  //get list of player skills
 	  let playerItems = this.items;
 	  //init vars
@@ -971,15 +971,6 @@ export class MothershipActor extends Actor {
 		  dialogHeight = 105;
 		  //make skill header blank
 		  skillHeader = ``;
-	  }
-	  //make window setting
-	  let dlgTitle = '';
-	  if (attribute === 'sanity' || attribute === 'fear' || attribute === 'body') {
-		  dlgTitle = `Save`;
-    } else if (weapon) {
-      dlgTitle = `Attack`;
-	  } else {
-		  dlgTitle = `Stat Check`;
 	  }
     //determine what buttons to show based on rollString, then show dialog
     if (rollString === undefined) {
@@ -1096,7 +1087,7 @@ export class MothershipActor extends Actor {
     let chatId = randomID();
     //first we need to bounce this request away if certain parameters are NULL
       //if attribute is blank, redirect player to choose an attribute
-      if (attribute === undefined) {
+      if (!attribute) {
         //run the choose attribute function
         let chosenAttributes = this.chooseAttribute(rollString,aimFor);
         //set variables
@@ -1105,9 +1096,9 @@ export class MothershipActor extends Actor {
         attribute = chosenAttributes[2];
       }
       //if skill is blank and actor is a character, redirect player to choose a skill
-      if (skill === undefined && this.type === 'character') {
+      if (!skill && this.type === 'character') {
         //run the choose attribute function
-        let chosenSkills = this.chooseSkill(rollString,aimFor);
+        let chosenSkills = this.chooseSkill(this.system.stats[attribute].rollLabel,rollString,aimFor);
         //set variables
         rollString = chosenSkills[0];
         aimFor = chosenSkills[1];
@@ -1115,7 +1106,7 @@ export class MothershipActor extends Actor {
         skillValue = chosenSkills[3];
       }
       //if rollString is STILL blank, redirect player to choose the roll
-      if (rollString === undefined) {
+      if (!rollString) {
         //run the choose attribute function
         let chosenRollType = this.chooseAdvantage(this.system.stats[attribute].rollLabel,'1d100');
         //set variables

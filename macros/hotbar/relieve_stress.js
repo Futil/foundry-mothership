@@ -63,7 +63,7 @@ new Dialog({
       },
       button3: {
       label: `Relieve 1d5 Stress`,
-      callback: () => prepModifyActor('system.other.stress.value',1,`-1d5`,true),
+      callback: () => prepModifyActor('system.other.stress.value',null,`-1d5`,true),
       icon: `<i class="fas fa-arrow-circle-down"></i>`
       }
     }

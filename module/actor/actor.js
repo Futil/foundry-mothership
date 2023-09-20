@@ -447,15 +447,25 @@ export class MothershipActor extends Actor {
       //change data point: change each 100 or 10 result to zero
       if (zeroBased) {
         //1d10 changes
-        if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d10') {
-          //modify each die
-          if (enrichedRollResult.dice[0].results[0].result === 10) {enrichedRollResult.dice[0].results[0].result = 0;}
-          if (enrichedRollResult.dice[1].results[0].result === 10) {enrichedRollResult.dice[1].results[0].result = 0;}
+        if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d10' || rollString === '1d10') {
+          //loop through dice
+          enrichedRollResult.dice.forEach(function(roll){ 
+            //loop through each result
+            roll.results.forEach(function(die) { 
+              //change any 10s to 0s
+              if (die.result === 10) {die.result = 0;}
+            });
+          });
         //1d100 changes
-        } else if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d100') {
-          //modify each die
-          if (enrichedRollResult.dice[0].results[0].result === 100) {enrichedRollResult.dice[0].results[0].result = 0;}
-          if (enrichedRollResult.dice[1].results[0].result === 100) {enrichedRollResult.dice[1].results[0].result = 0;}
+        } else if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d100' || rollString === '1d100') {
+          //loop through dice
+          enrichedRollResult.dice.forEach(function(roll){ 
+            //loop through each result
+            roll.results.forEach(function(die) { 
+              //change any 10s to 0s
+              if (die.result === 100) {die.result = 0;}
+            });
+          });
         }
         //pick a new winner if [-] or [+]
         if (rollString.includes("[")) {
@@ -1035,19 +1045,13 @@ export class MothershipActor extends Actor {
     return [rollString,aimFor,skill,skillValue];
   }
 
-  //central adding skill function | TAKES nothing | RETURNS player selected skill.
-  chooseAdvantage() {
+  //central adding skill function | TAKES 'Body Save','1d10' | RETURNS player selected rollString.
+  chooseAdvantage(dlgTitle,die) {
 	  //create footer for skill list
 	  let advHtml = `<h4>Select your roll type:</h4>`;
 	  //make window setting
-	  let dlgTitle = '';
-	  if (attribute === 'sanity' || attribute === 'fear' || attribute === 'body') {
-		  dlgTitle = `Save`;
-    } else if (weapon) {
-      dlgTitle = `Attack`;
-	  } else {
-		  dlgTitle = `Stat Check`;
-	  }
+	  let dieAdv = die + ' [+]';
+	  let dieDis = die + ' [-]';
     //Select the stat of the roll.
     new Dialog({
 		title: dlgTitle,
@@ -1055,17 +1059,17 @@ export class MothershipActor extends Actor {
 		buttons: {
 		  button1: {
 			label: `Advantage`,
-			callback: (html) => this.rollCheck(`1d100 [+]`,aimFor,attribute,skill,weapon),
+			callback: (html) => this.rollCheck(dieAdv,aimFor,attribute,skill,weapon),
 			icon: `<i class="fas fa-angle-double-up"></i>`
 		  },
 		  button2: {
 			label: `Normal`,
-			callback: (html) => this.rollCheck(`1d100`,aimFor,attribute,skill,weapon),
+			callback: (html) => this.rollCheck(die,aimFor,attribute,skill,weapon),
 			icon: `<i class="fas fa-minus"></i>`
 		  },
 		  button3: {
 			label: `Disadvantage`,
-			callback: (html) => this.rollCheck(`1d100 [-]`,aimFor,attribute,skill,weapon),
+			callback: (html) => this.rollCheck(dieDis,aimFor,attribute,skill,weapon),
 			icon: `<i class="fas fa-angle-double-down"></i>`
 		  }
 		}
@@ -1113,7 +1117,7 @@ export class MothershipActor extends Actor {
       //if rollString is STILL blank, redirect player to choose the roll
       if (rollString === undefined) {
         //run the choose attribute function
-        let chosenRollType = this.chooseAdvantage();
+        let chosenRollType = this.chooseAdvantage(this.system.stats[attribute].rollLabel,'1d100');
         //set variables
         rollString = chosenRollType[0];
         aimFor = chosenRollType[1];
@@ -1139,7 +1143,7 @@ export class MothershipActor extends Actor {
     }
     //prep text based on success or failure
     if (parsedRollResult.success === false) {
-      //increase stress by 1
+      //increase stress by 1 and retrieve the flavor text from the result
       flavorText = this.modifyActor('system.other.stress.value',1,null,false)[1];
       //if critical failure, make sure to ask for panic check
       if (parsedRollResult.critical === true) {
@@ -1515,7 +1519,7 @@ export class MothershipActor extends Actor {
       }
     } else {
       //if this is an item, add it
-      if (this.items.getName(itemName).type === 'item') {
+      if (game.items.getName(itemName).type === 'item') {
         //give the character the item
         const itemData = game.items.getName(itemName).toObject();
         await this.createEmbeddedDocuments("Item", [itemData]);
@@ -1524,7 +1528,7 @@ export class MothershipActor extends Actor {
         //create message text
         msgFlavor = `You add <strong>` + addAmount + `</strong> of these to your inventory..`;
       //if this is a condition, add it
-      } else if (this.items.getName(itemName).type === 'condition') {
+      } else if (game.items.getName(itemName).type === 'condition') {
         //give the character the item
         const itemData = game.items.getName(itemName).toObject();
         await this.createEmbeddedDocuments("Item", [itemData]);
@@ -1533,7 +1537,7 @@ export class MothershipActor extends Actor {
         //create message text
         msgFlavor = this.getFlavorText('item','condition','add') + `, with a severity of <strong>` + addAmount + `</strong>.`;
       //if this is a weapon or armor, add it
-      } else if (this.items.getName(itemName).type === 'weapon' || this.items.getName(itemName).type === 'armor') {
+      } else if (game.items.getName(itemName).type === 'weapon' || this.items.getName(itemName).type === 'armor') {
         //add item to the players inventory
         const itemData = game.items.getName(itemName).toObject();
         await this.createEmbeddedDocuments("Item", [itemData]);

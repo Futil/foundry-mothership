@@ -827,7 +827,7 @@ export class MothershipActor extends Actor {
       //set button description
       buttonDesc = `<h4>Select your roll type:</h4>`;
       //spawn dialog
-      new Dialog({
+      Dialog.wait({
         title: `Choose a Stat`,
         content: dialogDesc + buttonDesc,
         buttons: {
@@ -859,12 +859,12 @@ export class MothershipActor extends Actor {
           icon: `<i class="fas fa-angle-double-down"></i>`
           }
         }
-      },{width: 600,height: 500}).render(true);
+      },{width: 600,height: 500});
     } else {
       //set button description
       buttonDesc = ``;
       //spawn dialog
-      new Dialog({
+      Dialog.wait({
         title: `Choose a Stat`,
         content: dialogDesc + buttonDesc,
         buttons: {
@@ -876,7 +876,7 @@ export class MothershipActor extends Actor {
           icon: `<i class="fas fa-chevron-circle-right"></i>`
           }
         }
-      },{width: 600,height: 475}).render(true);
+      },{width: 600,height: 475});
     }
     //return values
     return [rollString,aimFor,attribute];
@@ -977,7 +977,7 @@ export class MothershipActor extends Actor {
       //set button description
       buttonDesc = `<h4>Select your roll type:</h4>`;
       //spawn dialog
-      new Dialog({
+      Dialog.wait({
         title: dlgTitle,
         content: skillHeader + skillList + buttonDesc,
         buttons: {
@@ -1012,12 +1012,12 @@ export class MothershipActor extends Actor {
           icon: `<i class="fas fa-angle-double-down"></i>`
           }
         }
-      },{width: 600,height: 500}).render(true);
+      },{width: 600,height: 500});
     } else {
       //set button description
       buttonDesc = ``;
       //spawn dialog
-      new Dialog({
+      Dialog.wait({
         title: `Choose a Stat`,
         content: skillHeader + skillList + buttonDesc,
         buttons: {
@@ -1030,7 +1030,7 @@ export class MothershipActor extends Actor {
           icon: `<i class="fas fa-chevron-circle-right"></i>`
           }
         }
-      },{width: 600,height: dialogHeight}).render(true);
+      },{width: 600,height: dialogHeight});
     }
     //return values
     return [rollString,aimFor,skill,skillValue];
@@ -1044,7 +1044,7 @@ export class MothershipActor extends Actor {
 	  let dieAdv = die + ' [+]';
 	  let dieDis = die + ' [-]';
     //Select the stat of the roll.
-    new Dialog({
+    Dialog.wait({
 		title: dlgTitle,
 		content: advHtml,
 		buttons: {
@@ -1064,7 +1064,7 @@ export class MothershipActor extends Actor {
 			icon: `<i class="fas fa-angle-double-down"></i>`
 		  }
 		}
-	  },{width: 600,height: 105}).render(true);
+	  },{width: 600,height: 105});
     //return values
     return [rollString,aimFor];
   }
@@ -1095,7 +1095,7 @@ export class MothershipActor extends Actor {
       //if attribute is blank, redirect player to choose an attribute
       if (!attribute) {
         //run the choose attribute function
-        let chosenAttributes = this.chooseAttribute(rollString,aimFor);
+        let chosenAttributes = await this.chooseAttribute(rollString,aimFor);
         //set variables
         rollString = chosenAttributes[0];
         aimFor = chosenAttributes[1];
@@ -1110,7 +1110,7 @@ export class MothershipActor extends Actor {
       //if skill is blank and actor is a character, redirect player to choose a skill
       if (!skill && this.type === 'character') {
         //run the choose attribute function
-        let chosenSkills = this.chooseSkill(this.system.stats[attribute].rollLabel,rollString,aimFor);
+        let chosenSkills = await this.chooseSkill(this.system.stats[attribute].rollLabel,rollString,aimFor);
         //set variables
         rollString = chosenSkills[0];
         aimFor = chosenSkills[1];
@@ -1126,7 +1126,7 @@ export class MothershipActor extends Actor {
       //if rollString is STILL blank, redirect player to choose the roll
       if (!rollString) {
         //run the choose attribute function
-        let chosenRollType = this.chooseAdvantage(this.system.stats[attribute].rollLabel,'1d100');
+        let chosenRollType = await this.chooseAdvantage(this.system.stats[attribute].rollLabel,'1d100');
         //set variables
         rollString = chosenRollType[0];
         aimFor = chosenRollType[1];

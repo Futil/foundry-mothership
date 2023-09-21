@@ -562,9 +562,13 @@
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
-          {{#if weapon.system.shots}}
-          <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}} <i
+          {{#if weapon.system.useAmmo}}
+            {{#if (compare 'int' item.system.curShots '===' item.system.shots)}}
+            <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}}</div>
+            {{else}}
+            <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}} <i
               class="fas fa-sync weapon-reload list-roll"></i></div>
+            {{/if}}
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}

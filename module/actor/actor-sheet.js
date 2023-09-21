@@ -365,13 +365,8 @@ export class MothershipActorSheet extends ActorSheet {
     
     // Rollable Item/Anything with a description that we want to click on.
     html.find('.stress-roll').click(ev => {
-      //roll hotbar macro for stress
-        //get macro pack
-        let macrosHotbar = game.packs.get('mosh.macros_hotbar');
-        //get macro id
-        let macroID = macrosHotbar.index.find(t => t.name === 'Panic Check')._id;
-        //execute macro
-        macrosHotbar.getDocument(macroID).then(m => m.execute());
+      //call rollTable for panic check
+      this.actor.rollTable(`Panic Check`,null,`high`,false,false,'system.other.stress.value','>');
     });
 
     // Drag events for macros.

@@ -1169,40 +1169,13 @@ export class MothershipActor extends Actor {
         //if the weapon has enough ammo remaining to shoot
         if (weapon.system.ammo + weapon.system.curShots >= weapon.system.shotsPerFire) {
           //tell player we need to reload and ask what to do
-          let t = new Dialog({
-            title: "Weapon Issue",
-            content: "<h4>Out of ammo, you need to reload.</h4><br/>",
-            buttons: {
-              roll: {
-                icon: '<i class="fas fa-check"></i>',
-                label: "Reload",
-                callback: (html) => this.reloadWeapon(weapon._id)
-              },
-              cancel: {
-                icon: '<i class="fas fa-times"></i>',
-                label: "Cancel",
-                callback: () => { }
-              }
-            },
-            default: "roll",
-            close: () => { }
-          }).render(true);
+          let t = await this.askReload();
+          //exit function
+          return;
         //if the weapon doesn't have enough ammo remaining to shoot
         } else {
           //tell player we are out of ammo
-          let t = new Dialog({
-            title: "Weapon Issue",
-            content: "<h4>Out of ammo.</h4><br/>",
-            buttons: {
-              cancel: {
-                icon: '<i class="fas fa-check"></i>',
-                label: "Ok",
-                callback: () => { }
-              }
-            },
-            default: "roll",
-            close: () => { }
-          }).render(true);
+          let t = await this.outOfAmmo();
           //exit function
           return;
         }
@@ -1708,6 +1681,56 @@ export class MothershipActor extends Actor {
     },{keepId:true});
     //wait for dice
     await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+  }
+
+  //central adding skill function | TAKES 'Body Save','1d10' | RETURNS player selected rollString.
+  async askReload(itemId) {
+    //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+    return new Promise(async (resolve) => {
+      //create final dialog data
+      const dialogData = {
+        title: `Weapon Issue`,
+        content: `<h4>Out of ammo, you need to reload.</h4><br/>`,
+        buttons: {}
+      };
+      //add buttons
+        //Advantage
+        dialogData.buttons.roll = {
+          label: `Reload`,
+          callback: () => this.reloadWeapon(itemId),
+          icon: `<i class="fas fa-check"></i>`
+        };
+        //Normal
+        dialogData.buttons.cancel = {
+          label: `Cancel`,
+          callback: () => { },
+          icon: `<i class="fas fa-times"></i>`
+        };
+      //render dialog
+      const dialog = new Dialog(dialogData).render(true);
+    });
+  }
+
+  //central adding skill function | TAKES 'Body Save','1d10' | RETURNS player selected rollString.
+  async outOfAmmo() {
+    //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+    return new Promise(async (resolve) => {
+      //create final dialog data
+      const dialogData = {
+        title: `Weapon Issue`,
+        content: `<h4>Out of ammo.</h4><br/>`,
+        buttons: {}
+      };
+      //add buttons
+        //Ok
+        dialogData.buttons.cancel = {
+          label: `Ok`,
+          callback: () => { },
+          icon: '<i class="fas fa-check"></i>'
+        };
+      //render dialog
+      const dialog = new Dialog(dialogData).render(true);
+    });
   }
 
   //reload weapon

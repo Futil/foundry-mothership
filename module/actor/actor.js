@@ -1120,8 +1120,8 @@ export class MothershipActor extends Actor {
 
 
 
+/*
 
-    
     //if this is a weapon, first check to see if it has enough ammo to be fired
     if (weapon.system.useAmmo === true || weapon.system.shots > 0) {
       //if current shots are zero
@@ -1203,7 +1203,7 @@ export class MothershipActor extends Actor {
     }
 
 
-
+*/
 
 
 

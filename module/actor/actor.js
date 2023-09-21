@@ -1179,7 +1179,7 @@ export class MothershipActor extends Actor {
         //set damage dice color
         let dsnTheme = game.settings.get('mosh','damageDiceTheme');
         //set crit damage effect
-        if (parsedRollResult.success === true && parsedRollResult.critical === true)
+        if (parsedRollResult.success === true && parsedRollResult.critical === true) {
           if (game.settings.get('mosh','critDamage') === 'doubleDamage') {
             critMod = ` * 2`;
           } else if (game.settings.get('mosh','doubleDice') === '') {

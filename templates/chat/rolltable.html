@@ -9,7 +9,7 @@
             <div class="body">{{{flavorText}}}</div>
         </div>
         {{{parsedRollResult.rollHtml}}}
-        {{#if tableResult.[0].type = 1}}
+        {{#if (compare 'int' tableResult.[0].type '===' 1)}}
         <ol class="table-results">
         {{/if}}
         {{#each tableResult}}
@@ -23,7 +23,7 @@
             </li>
             {{/if}}
         {{/each}}
-        {{#if tableResult.[0].type = 1}}
+        {{#if (compare 'int' tableResult.[0].type '===' 1)}}
         </ol>
         {{/if}}
     </div>

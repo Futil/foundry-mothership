@@ -671,6 +671,22 @@ export class MothershipActor extends Actor {
     let chatId = randomID();
     let rollTarget = null;
     let valueAddress = [];
+    //bounce this request away if certain parameters are NULL
+      //if rollString is STILL blank, redirect player to choose the roll
+      if (!rollString) {
+        //get rolltable location
+        let tableLocation = game.settings.get('mosh','rollTable');
+        //get table index
+        let tableIndex = game.packs.get(tableLocation).index.getName(tableName);
+        //get table data
+        let tableData = await game.packs.get(tableLocation).getDocument(tableIndex._id);
+        //get table result
+        let tableDie = tableData.formula.replace('-1','');
+        //run the choose attribute function
+        let chosenRollType = await this.chooseAdvantage(tableName,tableDie);
+        //set variables
+        rollString = chosenRollType[0];
+      }
     //pull stat to roll against, if needed
     if(rollAgainst){
       //turn string address into array
@@ -722,7 +738,7 @@ export class MothershipActor extends Actor {
         flavorText
       };
       //prepare template
-      messageTemplate = 'systems/mosh/templates/chat/rolltable.html';
+      messageTemplate = 'systems/mosh/templates/chat/rollTable.html';
       //render template
       messageContent = await renderTemplate(messageTemplate, messageData);
       //make message
@@ -1117,24 +1133,40 @@ export class MothershipActor extends Actor {
     let msgHeader = ``;
     let msgImgPath = ``;
     let chatId = randomID();
-
-
-
-/*
-
-    //if this is a weapon, first check to see if it has enough ammo to be fired
-    if (weapon.system.useAmmo === true || weapon.system.shots > 0) {
-      //if current shots are zero
-      if (weapon.system.shots === 0) {
-        //if ammor is greater than zero
-        if (weapon.system.ammo > 0) {
-          //consume ammo when firing
-          weapon.system.ammo -= 1;
-          //update players weapon
-          this.updateEmbeddedDocuments('Item', [weapon]);
-        //out of ammo
+    //if this is a weapon roll, check to see if this weapon uses ammo
+    if (weapon.system.useAmmo === true) {
+      //if the weapon has enough shots remaining to shoot
+      if (weapon.system.curShots >= weapon.system.shotsPerFire) {
+        //reduce shots by shotsPerFire
+        weapon.system.curShots -= weapon.system.shotsPerFire;
+        //update players weapon
+        this.updateEmbeddedDocuments('Item', [weapon]);
+      //if the weapon doesn't have enough shots remaining to shoot
+      } else {
+        //if the weapon has enough ammo remaining to shoot
+        if (weapon.system.ammo + weapon.system.curShots >= weapon.system.shotsPerFire) {
+          //tell player we need to reload and ask what to do
+          let t = new Dialog({
+            title: "Weapon Issue",
+            content: "<h4>Out of ammo, you need to reload.</h4><br/>",
+            buttons: {
+              roll: {
+                icon: '<i class="fas fa-check"></i>',
+                label: "Reload",
+                callback: (html) => this.reloadWeapon(weapon._id)
+              },
+              cancel: {
+                icon: '<i class="fas fa-times"></i>',
+                label: "Cancel",
+                callback: () => { }
+              }
+            },
+            default: "roll",
+            close: () => { }
+          }).render(true);
+        //if the weapon doesn't have enough ammo remaining to shoot
         } else {
-          //prompt user
+          //tell player we are out of ammo
           let t = new Dialog({
             title: "Weapon Issue",
             content: "<h4>Out of ammo.</h4><br/>",
@@ -1147,70 +1179,12 @@ export class MothershipActor extends Actor {
             },
             default: "roll",
             close: () => { }
-          });
-          t.render(true);
-          //exit function alltogether
-          return;
-        }
-      //if there are shots left
-      } else {
-        if (weapon.system.curShots > 0) {
-          let subAmount = Math.max(weapon.system.shotsPerFire, 1);
-          weapon.system.curShots = Math.max(weapon.system.curShots - subAmount, 0);
-          console.log("Unloading Shots");
-          this.updateEmbeddedDocuments('Item', [weapon]);
-        }
-        else {
-          if (weapon.system.ammo > 0 || !weapon.system.useAmmo) {
-            let t = new Dialog({
-              title: "Weapon Issue",
-              content: "<h4>Out of ammo, you need to reload.</h4><br/>",
-              buttons: {
-                roll: {
-                  icon: '<i class="fas fa-check"></i>',
-                  label: "Reload",
-                  callback: (html) => this.reloadWeapon(itemId)
-                },
-                cancel: {
-                  icon: '<i class="fas fa-times"></i>',
-                  label: "Cancel",
-                  callback: () => { }
-                }
-              },
-              default: "roll",
-              close: () => { }
-            });
-            t.render(true);
-          } else {
-            let t = new Dialog({
-              title: "Weapon Issue",
-              content: "<h4>Out of ammo.</h4><br/>",
-              buttons: {
-                cancel: {
-                  icon: '<i class="fas fa-check"></i>',
-                  label: "Ok",
-                  callback: () => { }
-                }
-              },
-              default: "roll",
-              close: () => { }
-            });
-            t.render(true);
-          }
+          }).render(true);]
+          //exit function
           return;
         }
       }
     }
-
-
-*/
-
-
-
-
-
-
-
     //bounce this request away if certain parameters are NULL
       //if attribute is blank, redirect player to choose an attribute
       if (!attribute) {
@@ -1372,7 +1346,7 @@ export class MothershipActor extends Actor {
         critFail: critFail
       };
       //prepare template
-      messageTemplate = 'systems/mosh/templates/chat/rollcheck.html';
+      messageTemplate = 'systems/mosh/templates/chat/rollCheck.html';
       //render template
       messageContent = await renderTemplate(messageTemplate, messageData);
       //make message
@@ -1716,66 +1690,55 @@ export class MothershipActor extends Actor {
   }
 
   //reload weapon
-  reloadWeapon(itemId, options = { event: null }) {
+  reloadWeapon(itemId) {
+    //init vars
+    let msgBody = ``;
+    let chatId = randomID();
     //dupe item to work with
     let item = duplicate(this.getEmbeddedDocument('Item',itemId));
     //reload
-    if (event.button == 0) {
-      if (!item.system.useAmmo) {
-        item.system.curShots = item.system.shots;
+    if (!item.system.useAmmo) {
+      //exit function (it should not be possible to get here)
+      return;
+    } else {
+      //do we need to reload?
+      if (item.system.curShots === item.system.shots) {
+        //exit function (it should not be possible to get here)
+        return;
       } else {
+        //put curShots back into the ammo pool
         item.system.ammo += item.system.curShots;
+        //figure out how much we can reload (full shots, or less if we don't have enough ammo)
         let reloadAmount = Math.min(item.system.ammo, item.system.shots);
-        item.system.curShots = reloadAmount;
-        item.system.ammo -= reloadAmount;
+        //reload the weapon
+          //set curShots to reload amount
+          item.system.curShots = reloadAmount;
+          //remove reload amount from ammo
+          item.system.ammo -= reloadAmount;
+        //update the item
+        this.updateEmbeddedDocuments('Item', [item]);
+        //set message body text
+        msgBody = `Weapon reloaded.`;
       }
     }
-    //update the item
-    this.updateEmbeddedDocuments('Item', [item]);
-	  //define macroresult
-	  let macroResult = '';
-	  //create chat message template
-	  if (item.name.length >= 22) {
-		macroResult = `
-		<div class="mosh">
-			<div class="rollcontainer">
-				<div class="flexrow" style="margin-bottom : 5px;">
-					<div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">${item.name}</div>
-					<div style="text-align: right"><img class="roll-image" src="${item.img}" /></div>
-				</div>
-				<div class="description">
-					<div class="body">Weapon reloaded.</div>
-				</div>
-				<div style="margin-bottom : 16px;"></div>
-			</div>
-		</div>
-		`;
-	  } else {
-		macroResult = `
-		<div class="mosh">
-			<div class="rollcontainer">
-				<div class="flexrow" style="margin-bottom : 5px;">
-					<div class="rollweaponh1">${item.name}</div>
-					<div style="text-align: right"><img class="roll-image" src="modules/fvtt_mosh_1e_psg/icons/macros/reload.png" /></div>
-				</div>
-				<div class="description">
-					<div class="body">Weapon reloaded.</div>
-				</div>
-				<div style="margin-bottom : 16px;"></div>
-			</div>
-		</div>
-		`;
-	  }
-	  //push message
-	  ChatMessage.create({
-		user: game.user._id,
-		speaker: {
-			actor: this.id,
-			token: this.token,
-			alias: this.name
-		},
-		content: macroResult
-	  });
+    //generate chat message
+      //prepare data
+      let messageData = {
+        actor: this,
+        item: item,
+        msgBody: msgBody
+      };
+      //prepare template
+      messageTemplate = 'systems/mosh/templates/chat/reload.html';
+      //render template
+      messageContent = await renderTemplate(messageTemplate, messageData);
+      //push message
+      ChatMessage.create({
+        id: chatId,
+        user: game.user.id,
+        speaker: {actor: this.id, token: this.token, alias: this.name},
+        content: messageContent
+      },{keepId:true});
   }
 
   // print description
@@ -1831,7 +1794,7 @@ export class MothershipActor extends Actor {
                 chatData.whisper = game.user._id;
             }
     */
-    let template = 'systems/mosh/templates/chat/itemroll.html';
+    let template = 'systems/mosh/templates/chat/itemRoll.html';
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;
       ChatMessage.create(chatData);

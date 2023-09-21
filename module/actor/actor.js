@@ -1179,7 +1179,7 @@ export class MothershipActor extends Actor {
             },
             default: "roll",
             close: () => { }
-          }).render(true);]
+          }).render(true);
           //exit function
           return;
         }
@@ -1690,7 +1690,7 @@ export class MothershipActor extends Actor {
   }
 
   //reload weapon
-  reloadWeapon(itemId) {
+  async reloadWeapon(itemId) {
     //init vars
     let msgBody = ``;
     let chatId = randomID();

@@ -13,10 +13,10 @@
         <ol class="table-results">
         {{/if}}
         {{#each tableResult}}
-            {{#if this.type = 0}}
+            {{#if (compare 'int' this.type '===' 0)}}
             <div class="description" style="margin-bottom : 20px;">{{{this.text}}}</div>
             {{/if}}
-            {{#if this.type = 1}}
+            {{#if (compare 'int' this.type '===' 1)}}
             <li class="table-result flexrow" data-result-id="{{{this._id}}}">
                 <img class="result-image" src="{{{this.img}}}">
                 <div class="result-text"><a class="content-link broken" draggable="true" data-type="Item" data-uuid="undefined"><i class="fas fa-unlink"></i>{{{this.text}}}</a></div>

@@ -563,7 +563,7 @@
           <div class="skill-stat">N/A</div>
           {{/if}}
           {{#if weapon.system.useAmmo}}
-            {{#if (compare 'int' item.system.curShots '===' item.system.shots)}}
+            {{#if (compare 'int' weapon.system.curShots '===' weapon.system.shots)}}
             <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}}</div>
             {{else}}
             <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}} <i

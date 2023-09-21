@@ -55,6 +55,24 @@ export class MothershipActor extends Actor {
 
   //central flavor text library for all chat messages
   getFlavorText (type,context,action) {
+    //create function to check the library for a value
+    const checkNested = function(obj = {}){
+        const args = Array.prototype.slice.call(arguments, 1);
+        for (let i = 0; i < args.length; i++) {
+          if (!obj || !obj.hasOwnProperty(args[i])) {
+              return false;
+          }
+          obj = obj[args[i]];
+        };
+        return true;
+    }
+    let test = {
+        level1:{
+          level2:{
+              level3:'level3'
+          }
+        }
+    };
     //create library
     let textLibrary = {
       //rolltable flavor text
@@ -379,13 +397,17 @@ export class MothershipActor extends Actor {
         }
       }
     };
-    //set full path to include class type
-    if (this.system.class.value.toLowerCase() === 'android') {
-      //return class appropriate text
-      return textLibrary[type][context][action].android;
+    if (checkNested(textLibrary,type,context,action)) {
+      //set full path to include class type
+      if (this.system.class.value.toLowerCase() === 'android') {
+        //return class appropriate text
+        return textLibrary[type][context][action].android;
+      } else {
+        //return class appropriate text
+        return textLibrary[type][context][action].human;
+      }
     } else {
-      //return class appropriate text
-      return textLibrary[type][context][action].human;
+      return null;
     }
   };
 
@@ -1225,7 +1247,6 @@ export class MothershipActor extends Actor {
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
       let parsedRollResult = this.parseRollResult(rollString,rollResult,true,true,rollTarget,'<');
-      console.log(weapon);
     //prep damage dice in case its needed
     if(weapon && parsedRollResult.success) {
       //parse the roll string
@@ -1299,9 +1320,8 @@ export class MothershipActor extends Actor {
             //split string
             let woundArray = woundEffect.split(' ');
           //loop through this string and replace each wound effect with macro UUID
-          woundArray.forEach(function(wnd){ 
-            //replace string with macro UUID
-            wnd = (this.getFlavorText('macro','wound',wnd) || wnd);
+          woundArray.forEach((element, index, array) => {
+            array[index] = this.getFlavorText('macro', 'wound', element);
           });
           //combine back into string
           woundEffect = woundArray.join(' ');

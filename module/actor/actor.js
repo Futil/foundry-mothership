@@ -837,7 +837,7 @@ export class MothershipActor extends Actor {
         }
       //create final dialog data
       const dialogData = {
-        title: dlgTitle,
+        title: `Choose a Stat`,
         content: dialogDesc + buttonDesc,
         buttons: {}
       };
@@ -1117,7 +1117,101 @@ export class MothershipActor extends Actor {
     let msgHeader = ``;
     let msgImgPath = ``;
     let chatId = randomID();
-    //first we need to bounce this request away if certain parameters are NULL
+
+
+
+
+    
+    //if this is a weapon, first check to see if it has enough ammo to be fired
+    if (weapon.system.useAmmo === true || weapon.system.shots > 0) {
+      //if current shots are zero
+      if (weapon.system.shots === 0) {
+        //if ammor is greater than zero
+        if (weapon.system.ammo > 0) {
+          //consume ammo when firing
+          weapon.system.ammo -= 1;
+          //update players weapon
+          this.updateEmbeddedDocuments('Item', [weapon]);
+        //out of ammo
+        } else {
+          //prompt user
+          let t = new Dialog({
+            title: "Weapon Issue",
+            content: "<h4>Out of ammo.</h4><br/>",
+            buttons: {
+              cancel: {
+                icon: '<i class="fas fa-check"></i>',
+                label: "Ok",
+                callback: () => { }
+              }
+            },
+            default: "roll",
+            close: () => { }
+          });
+          t.render(true);
+          //exit function alltogether
+          return;
+        }
+      //if there are shots left
+      } else {
+        if (weapon.system.curShots > 0) {
+          let subAmount = Math.max(weapon.system.shotsPerFire, 1);
+          weapon.system.curShots = Math.max(weapon.system.curShots - subAmount, 0);
+          console.log("Unloading Shots");
+          this.updateEmbeddedDocuments('Item', [weapon]);
+        }
+        else {
+          if (weapon.system.ammo > 0 || !weapon.system.useAmmo) {
+            let t = new Dialog({
+              title: "Weapon Issue",
+              content: "<h4>Out of ammo, you need to reload.</h4><br/>",
+              buttons: {
+                roll: {
+                  icon: '<i class="fas fa-check"></i>',
+                  label: "Reload",
+                  callback: (html) => this.reloadWeapon(itemId)
+                },
+                cancel: {
+                  icon: '<i class="fas fa-times"></i>',
+                  label: "Cancel",
+                  callback: () => { }
+                }
+              },
+              default: "roll",
+              close: () => { }
+            });
+            t.render(true);
+          } else {
+            let t = new Dialog({
+              title: "Weapon Issue",
+              content: "<h4>Out of ammo.</h4><br/>",
+              buttons: {
+                cancel: {
+                  icon: '<i class="fas fa-check"></i>',
+                  label: "Ok",
+                  callback: () => { }
+                }
+              },
+              default: "roll",
+              close: () => { }
+            });
+            t.render(true);
+          }
+          return;
+        }
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+    //bounce this request away if certain parameters are NULL
       //if attribute is blank, redirect player to choose an attribute
       if (!attribute) {
         //run the choose attribute function
@@ -1169,40 +1263,56 @@ export class MothershipActor extends Actor {
       //set header image
       msgImgPath = 'systems/mosh/images/icons/ui/attributes/' + attribute + '.png';
       //set roll result as greater than or less than
-      if (skillValue > 0 && parsedRollResult.success) {
+      if (parsedRollResult.success) {
         outcomeVerb = `rolled`;
       } else {
         outcomeVerb = `did not roll`;
       }
       //prepare flavor text
       if (weapon) {
+        //override message header
+        msgHeader = weapon.name;
+        //override  header image
+        msgImgPath = weapon.img;
         //set damage dice color
         let dsnTheme = game.settings.get('mosh','damageDiceTheme');
         //set crit damage effect
         if (parsedRollResult.success === true && parsedRollResult.critical === true) {
           if (game.settings.get('mosh','critDamage') === 'doubleDamage') {
             critMod = ` * 2`;
-          } else if (game.settings.get('mosh','doubleDice') === '') {
-            critMod = ` + ` + weapon.system.damage + parsedDamageString;
-          } else if (game.settings.get('mosh','weaponValue') === '') {
-            critMod = ` + ` + weapon.system.critDmg;
+          } else if (game.settings.get('mosh','critDamage') === 'doubleDice') {
+            critMod = ` + ` + parsedDamageString + '[' + dsnTheme + ']';
+          } else if (game.settings.get('mosh','critDamage') === 'weaponValue') {
+            critMod = ` + ` + weapon.system.critDmg + '[' + dsnTheme + ']';
           }
         }
         //flavor text = the attack roll result
-        if (weapon.system.damage === "Str/10") {
-          //determine the damage string
-          flavorText = 'You strike your target for <strong>[[floor(' + this.system.stats.strength.value + '/10)]] damage</strong>.';
+        if (parsedRollResult.success === true) {
+          //if success
+          if (weapon.system.damage === "Str/10") {
+            //determine the damage string
+            flavorText = 'You strike your target for <strong>[[floor(' + this.system.stats.strength.value + '/10)]] damage</strong>.';
+          } else {
+            flavorText = 'You inflict [[' + parsedDamageString + '[' + dsnTheme + ']' + critMod + ']] points of damage.';
+          }
         } else {
-          flavorText = 'You inflict [[' + parsedDamageString + critMod +'[' + dsnTheme +']]] points of damage.';
+          //increase stress by 1 and retrieve the flavor text from the result
+          let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
+          flavorText = addStress[1];
+          //if critical failure, make sure to ask for panic check
+          if (parsedRollResult.critical === true) {
+            //set crit fail
+            critFail = true;
+          }
         }
         //determine if this roll needs a description area
-        if (weapon.description || weapon.woundEffect) {
+        if (weapon.system.description || weapon.system.woundEffect) {
           needsDesc = true;
         }
         //create wound effect string
-        if (weapon.woundEffect) {
+        if (weapon.system.woundEffect) {
           //start with string as is
-          woundEffect = weapon.woundEffect;
+          woundEffect = weapon.system.woundEffect;
           //prepare array for looping
             //replace ' [-]' and ' [+]'
             woundEffect = woundEffect.replace(' [-]','_dis').replace(' [+]','_adv');

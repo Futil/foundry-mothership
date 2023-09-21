@@ -314,15 +314,15 @@ export class MothershipActorSheet extends ActorSheet {
     // Rollable Skill
     html.find('.skill-roll').click(ev => {
       const li = event.currentTarget.closest(".item");
-      console.log(li);
-      this.actor.rollCheck(null,null,null,li.dataset.itemId,li.dataset.itemId,null);
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      this.actor.rollCheck(null,null,null,item.name,item.system.bonus,null);
     });
 
     // Rollable Weapon
     html.find('.weapon-roll').click(ev => {
       const li = ev.currentTarget.closest(".item");
-      console.log(li);
-      this.actor.rollCheck(null,'low','combat',null,null,li.dataset.itemId);
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      this.actor.rollCheck(null,'low','combat',null,null,item);
     });
 
     // Rollable Item/Anything with a description that we want to click on.

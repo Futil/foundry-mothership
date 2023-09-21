@@ -3,11 +3,11 @@ async function prepCheck(rollString,aimFor,attribute,skill,skillValue,weapon) {
     //determine who to run the macro for
     if (game.settings.get('mosh','macroTarget') === 'character') {
       //roll the table for the player's 'Selected Character'
-      game.user.character.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
+      game.user.character.rollCheck(rollString,aimFor,attribute,skill,skillValue,weapon);
     } else if (game.settings.get('mosh','macroTarget') === 'token') {
       //roll the table for all selected tokens
       canvas.tokens.controlled.forEach(function(token){
-        token.actor.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
+        token.actor.rollCheck(rollString,aimFor,attribute,skill,skillValue,weapon);
       });
     }
 }

@@ -407,7 +407,7 @@ export class MothershipActor extends Actor {
         return textLibrary[type][context][action].human;
       }
     } else {
-      return null;
+      return action;
     }
   };
 

@@ -371,16 +371,16 @@ export class MothershipActor extends Actor {
             human: `@UUID[Compendium.mosh.macros_triggered.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [+]}`
           },
           gore_massive: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.S9nnHKWYGSQmjQdp]{Gore & Massive}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.S9nnHKWYGSQmjQdp]{Gore & Massive}`
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.S9nnHKWYGSQmjQdp]{Gore}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.S9nnHKWYGSQmjQdp]{Gore}`
           },
           gore_massive_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.DuVjNlE4lsnR7Emc]{Gore & Massive [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.DuVjNlE4lsnR7Emc]{Gore & Massive [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.DuVjNlE4lsnR7Emc]{Gore [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.DuVjNlE4lsnR7Emc]{Gore [-]}`
           },
           gore_massive_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.eQPuDgwv8evetFIk]{Gore & Massive [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.eQPuDgwv8evetFIk]{Gore & Massive [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered.Macro.eQPuDgwv8evetFIk]{Gore [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered.Macro.eQPuDgwv8evetFIk]{Gore [+]}`
           },
           gunshot: {
             android: `@UUID[Compendium.mosh.macros_triggered.Macro.XgCOLv9UunBddUyW]{Gunshot}`,
@@ -1096,9 +1096,10 @@ export class MothershipActor extends Actor {
     //wrap the whole thing in a promise, so that it waits for the form to be interacted with
     return new Promise(async (resolve) => {
       //init vars
+        let rollString = ``;
         //make diceRoll variants
-        let dieAdv = die + ' [+]';
-        let dieDis = die + ' [-]';
+        let dieAdv = die + ` [+]`;
+        let dieDis = die + ` [-]`;
       //create final dialog data
       const dialogData = {
         title: dlgTitle,
@@ -1310,7 +1311,7 @@ export class MothershipActor extends Actor {
           woundEffect = weapon.system.woundEffect;
           //prepare array for looping
             //replace ' [-]' and ' [+]'
-            woundEffect = woundEffect.replace(' [-]','_dis').replace(' [+]','_adv');
+            woundEffect = woundEffect.replaceAll(' [-]','_dis').replaceAll(' [+]','_adv');
             //simplify wounds
             woundEffect = woundEffect.replace('Bleeding','bleeding');
             woundEffect = woundEffect.replace('Blunt Force','blunt_force');

@@ -743,8 +743,12 @@ export class MothershipActor extends Actor {
       let parsedRollString = this.parseRollString(rollString,aimFor);
       //set panic die color
       let dsnTheme = game.settings.get('mosh','panicDieTheme');
+      //apply theme if this is a panic check
+      if (tableName === 'Panic Check') {
+        parsedRollString = parsedRollString + '[' + dsnTheme + ']';
+      }
       //roll the dice
-      let rollResult = await new Roll(parsedRollString + '[' + dsnTheme + ']').evaluate();
+      let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
       let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
     //fetch the table result
@@ -1096,7 +1100,7 @@ export class MothershipActor extends Actor {
           callback: (html) => {
             skill = html.find("input[name='skill']:checked").attr("id");
             skillValue = html.find("input[name='skill']:checked").attr("value");
-            resolve([rollString, aimFor, skill, skillValue]);
+            resolve([rollString, skill, skillValue]);
           },
           icon: `<i class="fas fa-chevron-circle-right"></i>`
         };
@@ -1610,75 +1614,95 @@ export class MothershipActor extends Actor {
       }
   }
 
-  //central function to modify an actors items | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
-  async modifyItem(itemName,addAmount) {
+  //central function to modify an actors items | TAKES 'olC4JytslvUrQN8g',1 | RETURNS change details, and optional chat message
+  async modifyItem(itemId,addAmount) {
     //init vars
+    let currentLocation = '';
+    let itemLocation = '';
     let messageTemplate = ``;
     let messageContent = ``;
+    let oldValue = 0;
     let newValue = 0;
-    let msgFlavor = ``;
+    let flavorText = ``;
     let chatId = randomID();
-    //add or increase the count of the item, depending on type
-    if (this.items.getName(itemName)) {
+    //find where this item is located
+      //get current compendium
+      let compendium = game.packs;
+      //loop through each compendium
+      compendium.forEach(function(pack){ 
+        //is this a pack of items?
+        if (pack.metadata.type === 'Item') {
+          //log where we are
+          currentLocation = pack.metadata.id;
+          //loop through each pack to find the right table
+          pack.index.forEach(function(item) { 
+            //is this our table?
+            if (item._id === itemId) {
+              //grab the table location
+              itemLocation = currentLocation;
+            }
+          });
+        }
+      });
+    //get table data
+    let itemData = await game.packs.get(itemLocation).getDocument(itemId);
+    //add or increase the count of the item, depending on type, if the actor has it
+    if (this.items.getName(itemData.name)) {
       //if this is an item, increase the count
-      if (this.items.getName(itemName).type === 'item') {
+      if (itemData.type === 'item') {
         //get current quantity
-        oldValue = this.items.getName(itemName).system.quantity;
-        newValue = newValue + addAmount;
+        oldValue = this.items.getName(itemData.name).system.quantity;
+        newValue = oldValue + addAmount;
         //increase severity of the condition
-        this.items.getName(itemName).update({'system.quantity': newValue});
+        this.items.getName(itemData.name).update({'system.quantity': newValue});
         //create message text
-        msgFlavor = `Quantity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
+        flavorText = `Quantity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
       //if this is a condition, increase the severity
-      } else if (this.items.getName(itemName).type === 'condition') {
+      } else if (itemData.type === 'condition') {
         //get current severity
-        oldValue = this.items.getName(itemName).system.severity;
-        newValue = newValue + addAmount;
+        oldValue = this.items.getName(itemData.name).system.severity;
+        newValue = oldValue + addAmount;
         //increase severity of the condition
-        this.items.getName(itemName).update({'system.severity': newValue});
+        this.items.getName(itemData.name).update({'system.severity': newValue});
         //create message text
-        msgFlavor = this.getFlavorText('item','condition','increase') + `Severity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
+        flavorText = this.getFlavorText('item','condition','increase') + `Severity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
       //if this is a weapon or armor, add another one
-      } else if (this.items.getName(itemName).type === 'weapon' || this.items.getName(itemName).type === 'armor') {
+      } else if (itemData.type === 'weapon' || itemData.type === 'armor') {
         //add item to the players inventory
-        const itemData = game.items.getName(itemName).toObject();
         await this.createEmbeddedDocuments('Item', [itemData]);
         //create message text
-        msgFlavor = `You add another one of these to your inventory.`;
+        flavorText = `You add another one of these to your inventory.`;
       }
     } else {
       //if this is an item, add it
-      if (game.items.getName(itemName).type === 'item') {
+      if (itemData.type === 'item') {
         //give the character the item
-        const itemData = game.items.getName(itemName).toObject();
         await this.createEmbeddedDocuments('Item', [itemData]);
         //increase severity of the condition
-        this.items.getName(itemName).update({'system.quantity': addAmount});
+        this.items.getName(itemData.name).update({'system.quantity': addAmount});
         //create message text
-        msgFlavor = `You add <strong>` + addAmount + `</strong> of these to your inventory..`;
+        flavorText = `You add <strong>` + addAmount + `</strong> of these to your inventory..`;
       //if this is a condition, add it
-      } else if (game.items.getName(itemName).type === 'condition') {
+      } else if (itemData.type === 'condition') {
         //give the character the item
-        const itemData = game.items.getName(itemName).toObject();
         await this.createEmbeddedDocuments('Item', [itemData]);
         //increase severity of the condition
-        this.items.getName(itemName).update({'system.severity': addAmount});
+        this.items.getName(itemData.name).update({'system.severity': addAmount});
         //create message text
-        msgFlavor = this.getFlavorText('item','condition','add') + `, with a severity of <strong>` + addAmount + `</strong>.`;
+        flavorText = this.getFlavorText('item','condition','add') + `, with a severity of <strong>` + addAmount + `</strong>.`;
       //if this is a weapon or armor, add it
-      } else if (game.items.getName(itemName).type === 'weapon' || this.items.getName(itemName).type === 'armor') {
+      } else if (itemData.type === 'weapon' || itemData.type === 'armor') {
         //add item to the players inventory
-        const itemData = game.items.getName(itemName).toObject();
         await this.createEmbeddedDocuments('Item', [itemData]);
         //create message text
-        msgFlavor = `You add this to your inventory.`;
+        flavorText = `You add this to your inventory.`;
       }
     }
   //generate chat message
     //get item name
-    let msgHeader = this.items.getName(itemName).name;
+    let msgHeader = itemData.name;
     //get item image
-    let msgImgPath = this.items.getName(itemName).img;
+    let msgImgPath = itemData.img;
     //prepare data
     let messageData = {
       actor: this,
@@ -1691,14 +1715,12 @@ export class MothershipActor extends Actor {
     //render template
     messageContent = await renderTemplate(messageTemplate, messageData);
     //make message
-    let macroMsg = await rollResult.toMessage({
+    ChatMessage.create({
       id: chatId,
       user: game.user.id,
       speaker: {actor: this.id, token: this.token, alias: this.name},
       content: messageContent
     },{keepId:true});
-    //wait for dice
-    await game.dice3d.waitFor3DAnimationByMessageID(chatId);
   }
 
   //central adding skill function | TAKES 'Body Save','1d10' | RETURNS player selected rollString.

@@ -95,8 +95,7 @@ Hooks.once("ready", async function () {
   Hooks.on("hotbarDrop", (bar, data, slot) => createMothershipMacro(data, slot));
 });
 
-
-//set our custom damage and panic dice for MOSH
+//add custom damage dice for MOSH
 Hooks.once('diceSoNiceReady', (dice3d) => {
   dice3d.addColorset(
     {
@@ -108,7 +107,13 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       outline: 'none',
       texture: 'none',
       material: 'metal'
-    },
+    }
+  )
+})
+
+//add custom panic dice for MOSH
+Hooks.once('diceSoNiceReady', (dice3d) => {
+  dice3d.addColorset(
     {
       name: 'panic',
       description: 'Panic Die',
@@ -121,7 +126,6 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
     }
   )
 })
-
 
 //Hooks.on("preCreateActor", (createData) => {
 /**

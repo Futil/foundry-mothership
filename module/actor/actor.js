@@ -397,15 +397,22 @@ export class MothershipActor extends Actor {
         }
       }
     };
+    ///need to rethink this later in the context of creatures and ships
     if (checkNested(textLibrary,type,context,action)) {
       //set full path to include class type
-      if (this.system.class.value.toLowerCase() === 'android') {
-        //return class appropriate text
-        return textLibrary[type][context][action].android;
+      if (this.type === 'character') {
+        if(this.system.class.value.toLowerCase() === 'android') {
+          //return class appropriate text
+          return textLibrary[type][context][action].android;
+        } else {
+          //return class appropriate text
+          return textLibrary[type][context][action].human;
+        }
       } else {
         //return class appropriate text
         return textLibrary[type][context][action].human;
       }
+
     } else {
       return action;
     }
@@ -1324,7 +1331,7 @@ export class MothershipActor extends Actor {
         }
       } else {
         //prep text based on success or failure
-        if (parsedRollResult.success === false) {
+        if (parsedRollResult.success === false && this.type === 'character') {
           //increase stress by 1 and retrieve the flavor text from the result
           let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
           flavorText = addStress[1];

@@ -220,19 +220,31 @@
       "stats": {
         "armor": {
           "value": 10,
-          "label": "Armor"
+          "min": 0,
+          "max": 99,
+          "label": "Armor",
+          "rollLabel": "Armor Save"
         },
         "combat": {
           "value": 10,
-          "label": "Combat"
+          "min": 0,
+          "max": 99,
+          "label": "Combat",
+          "rollLabel": "Combat Check"
         },
         "intellect": {
           "value": 10,
-          "label": "Intellect"
+          "min": 0,
+          "max": 99,
+          "label": "Intellect",
+          "rollLabel": "Intellect Check"
         },
         "speed": {
           "value": 10,
-          "label": "Speed"
+          "min": 0,
+          "max": 99,
+          "label": "Speed",
+          "rollLabel": "Speed Check"
         }
       },
       "supplies": {

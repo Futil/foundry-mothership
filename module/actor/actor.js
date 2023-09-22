@@ -1286,7 +1286,7 @@ export class MothershipActor extends Actor {
           } else {
             flavorText = 'You inflict [[' + parsedDamageString + '[' + dsnTheme + ']' + critMod + ']] points of damage.';
           }
-        } else {
+        } else if (parsedRollResult.success === false && this.type === 'character') {
           //increase stress by 1 and retrieve the flavor text from the result
           let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
           flavorText = addStress[1];

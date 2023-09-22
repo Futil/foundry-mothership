@@ -106,7 +106,7 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       background: '#cc2828',
       outline: 'none',
       texture: 'none',
-      material: 'metal',
+      material: 'none',
       font: 'Arial'
     }
   )

@@ -51,7 +51,7 @@ new Dialog({
     <label for="bf">
       <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
         <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
-          <input type="radio" id="bf" name="wound_table" value="Blunt Force Wound" checked="checked">
+          <input type="radio" id="bf" name="wound_table" value="31YibfjueXuZdNLb" checked="checked">
           <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/rolltables/wounds_blunt_force.png" style="border:none"/></div>
           <div class="macro_desc" style="display: table;">
             <span style="display: table-cell; vertical-align: middle;">
@@ -64,7 +64,7 @@ new Dialog({
     <label for="b">
     <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
       <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
-        <input type="radio" id="b" name="wound_table" value="Bleeding Wound">
+        <input type="radio" id="b" name="wound_table" value="ata3fRz3uoPfNCLh">
         <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/rolltables/wounds_bleeding.png" style="border:none"/></div>
         <div class="macro_desc" style="display: table;">
           <span style="display: table-cell; vertical-align: middle;">
@@ -77,7 +77,7 @@ new Dialog({
     <label for="g">
     <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
       <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
-        <input type="radio" id="g" name="wound_table" value="Gunshot Wound">
+        <input type="radio" id="g" name="wound_table" value="XjDU2xFOWEasaZK0">
         <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/rolltables/wounds_gunshot.png" style="border:none"/></div>
         <div class="macro_desc" style="display: table;">
           <span style="display: table-cell; vertical-align: middle;">
@@ -90,7 +90,7 @@ new Dialog({
     <label for="fe">
     <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
       <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
-        <input type="radio" id="fe" name="wound_table" value="Fire & Explosives Wound">
+        <input type="radio" id="fe" name="wound_table" value="lqiaWwh5cGcJhvnu">
         <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/rolltables/wounds_fire_&_explosives.png" style="border:none"/></div>
         <div class="macro_desc" style="display: table;">
           <span style="display: table-cell; vertical-align: middle;">
@@ -103,7 +103,7 @@ new Dialog({
     <label for="gm">
     <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
       <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
-        <input type="radio" id="gm" name="wound_table" value="Gore & Massive Wound">
+        <input type="radio" id="gm" name="wound_table" value="uVfC1CqYdojaJ7yR">
         <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/rolltables/wounds_gore_&_massive.png" style="border:none"/></div>
         <div class="macro_desc" style="display: table;">
           <span style="display: table-cell; vertical-align: middle;">

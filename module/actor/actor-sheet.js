@@ -366,7 +366,7 @@ export class MothershipActorSheet extends ActorSheet {
     // Rollable Item/Anything with a description that we want to click on.
     html.find('.stress-roll').click(ev => {
       //call rollTable for panic check
-      this.actor.rollTable(`Panic Check`,null,`high`,false,false,'system.other.stress.value','>');
+      this.actor.rollTable(`ypcoikqHLhnc9tNs`,null,`high`,false,false,'system.other.stress.value','>');
     });
 
     // Drag events for macros.

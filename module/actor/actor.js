@@ -684,24 +684,46 @@ export class MothershipActor extends Actor {
     return enrichedRollResult;
   }
 
-  //central table rolling function | TAKES 'Panic Check','1d10','low',true,true,41,'<' | RETURNS chat message showing roll table result
-  async rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
+  //central table rolling function | TAKES 'W36WFIpCfMknKgHy','1d10','low',true,true,41,'<' | RETURNS chat message showing roll table result
+  async rollTable(tableId,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
     //init vars
+    let tableData = null;
     let messageTemplate = ``;
     let messageContent = ``;
     let flavorText = ``;
     let chatId = randomID();
     let rollTarget = null;
     let valueAddress = [];
+    //load data about this table
+      //get current compendium
+      let compendium = game.packs;
+      //loop through each compendium
+      compendium.value.forEach(function(pack){ 
+        //is this a pack of rolltables?
+        if (pack.metadata.type === 'RollTable') {
+          //loop through each pack to find the right table
+          pack.index.forEach(function(table) { 
+            //is this our table?
+            if (table.key === tableId) {
+              //grab the table data
+              tableData = table.value;
+            }
+          });
+        }
+      });
+      //get table name
+      let tableName = tableData.name;
+      //get table name
+      let tableImg = tableData.img;
+      //get table result
+      let tableDie = tableData.formula.replace('-1','');
     //bounce this request away if certain parameters are NULL
       //if rollString is STILL blank, redirect player to choose the roll
       if (!rollString) {
-        //get rolltable location
-        let tableLocation = game.settings.get('mosh','rollTable');
-        //get table index
-        let tableIndex = game.packs.get(tableLocation).index.getName(tableName);
         //get table data
-        let tableData = await game.packs.get(tableLocation).getDocument(tableIndex._id);
+        let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+        //get table name
+        let tableName = tableData.name;
         //get table result
         let tableDie = tableData.formula.replace('-1','');
         //run the choose attribute function
@@ -724,12 +746,6 @@ export class MothershipActor extends Actor {
       //interpret the results
       let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
     //fetch the table result
-      //get rolltable location
-      let tableLocation = game.settings.get('mosh','rollTable');
-      //get table index
-      let tableIndex = game.packs.get(tableLocation).index.getName(tableName);
-      //get table data
-      let tableData = await game.packs.get(tableLocation).getDocument(tableIndex._id);
       //get table result
       let tableResult = tableData.getResultsForRoll(parsedRollResult.total);
     //make any custom changes to chat message
@@ -741,23 +757,20 @@ export class MothershipActor extends Actor {
           tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","HEART ATTACK.");
         }
       }
-      //account for successfel rolls against target
-      if(tableName === 'Panic Check' && parsedRollResult.success === true) {
-        //assign flavor text
-        flavorText = this.getFlavorText('table',tableName.replaceAll('& ','').replaceAll(' ','_').toLowerCase(),'success');
-        //remove table result
-        tableResult[0].text = ``;
-      } else {
-        //assign flavor text
-        flavorText = this.getFlavorText('table',tableName.replaceAll('& ','').replaceAll(' ','_').toLowerCase(),'roll');
-      }
+    //assign message description text
+    msgDesc = this.getFlavorText('table',tableName.replaceAll('& ','').replaceAll(' ','_').toLowerCase(),'roll');
+    //assign flavor text
+    flavorText = this.getFlavorText('table',tableName.replaceAll('& ','').replaceAll(' ','_').toLowerCase(),'success');
 	  //generate chat message
       //prepare data
       let messageData = {
         actor: this,
         tableResult: tableResult,
         parsedRollResult: parsedRollResult,
-        flavorText
+        tableName: tableName,
+        tableImg: tableImg,
+        msgDesc: msgDesc,
+        flavorText: flavorText
       };
       //prepare template
       messageTemplate = 'systems/mosh/templates/chat/rollTable.html';
@@ -1156,28 +1169,31 @@ export class MothershipActor extends Actor {
     let msgHeader = ``;
     let msgImgPath = ``;
     let chatId = randomID();
-    //if this is a weapon roll, check to see if this weapon uses ammo
-    if (weapon.system.useAmmo === true) {
-      //if the weapon has enough shots remaining to shoot
-      if (weapon.system.curShots >= weapon.system.shotsPerFire) {
-        //reduce shots by shotsPerFire
-        weapon.system.curShots -= weapon.system.shotsPerFire;
-        //update players weapon
-        this.updateEmbeddedDocuments('Item', [weapon]);
-      //if the weapon doesn't have enough shots remaining to shoot
-      } else {
-        //if the weapon has enough ammo remaining to shoot
-        if (weapon.system.ammo + weapon.system.curShots >= weapon.system.shotsPerFire) {
-          //tell player we need to reload and ask what to do
-          let t = await this.askReload();
-          //exit function
-          return;
-        //if the weapon doesn't have enough ammo remaining to shoot
+    //if this is a weapon roll
+    if (weapon) {
+      //check to see if this weapon uses ammo
+      if (weapon.system.useAmmo === true) {
+        //if the weapon has enough shots remaining to shoot
+        if (weapon.system.curShots >= weapon.system.shotsPerFire) {
+          //reduce shots by shotsPerFire
+          weapon.system.curShots -= weapon.system.shotsPerFire;
+          //update players weapon
+          this.updateEmbeddedDocuments('Item', [weapon]);
+        //if the weapon doesn't have enough shots remaining to shoot
         } else {
-          //tell player we are out of ammo
-          let t = await this.outOfAmmo();
-          //exit function
-          return;
+          //if the weapon has enough ammo remaining to shoot
+          if (weapon.system.ammo + weapon.system.curShots >= weapon.system.shotsPerFire) {
+            //tell player we need to reload and ask what to do
+            let t = await this.askReload(weapon._id);
+            //exit function
+            return;
+          //if the weapon doesn't have enough ammo remaining to shoot
+          } else {
+            //tell player we are out of ammo
+            let t = await this.outOfAmmo();
+            //exit function
+            return;
+          }
         }
       }
     }
@@ -1736,6 +1752,8 @@ export class MothershipActor extends Actor {
   //reload weapon
   async reloadWeapon(itemId) {
     //init vars
+    let messageTemplate = ``;
+    let messageContent = ``;
     let msgBody = ``;
     let chatId = randomID();
     //dupe item to work with

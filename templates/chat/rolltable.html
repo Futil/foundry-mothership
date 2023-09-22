@@ -1,30 +1,33 @@
 <div class="mosh">
     <div class="rollcontainer">
         <div class="flexrow" style="margin-bottom : 5px;">
-            <div class="rollweaponh1">{{{tableResult.[0].parent.name}}}</div>
-            <div style="text-align: right"><img class="roll-image" src="{{{tableResult.[0].parent.img}}}" /></div>
+            <div class="rollweaponh1">{{{tableName}}}</div>
+            <div style="text-align: right"><img class="roll-image" src="{{{tableImg}}}" /></div>
         </div>
         {{{parsedRollResult.outcomeHtml}}}
         <div class="description" style="margin-bottom: 10px;">
-            <div class="body">{{{flavorText}}}</div>
+            <div class="body">{{{msgDesc}}}</div>
         </div>
         {{{parsedRollResult.rollHtml}}}
-        {{#if (compare 'int' tableResult.[0].type '===' 1)}}
-        <ol class="table-results">
-        {{/if}}
-        {{#each tableResult}}
-            {{#if (compare 'int' this.type '===' 0)}}
-            <div class="description" style="margin-bottom : 20px;">{{{this.text}}}</div>
+        {{#unless parsedRollResult.success}}
+        {{else}}
+            {{#if (compare 'int' tableResult.[0].type '===' 1)}}
+            <ol class="table-results">
             {{/if}}
-            {{#if (compare 'int' this.type '===' 1)}}
-            <li class="table-result flexrow" data-result-id="{{{this._id}}}">
-                <img class="result-image" src="{{{this.img}}}">
-                <div class="result-text"><a class="content-link broken" draggable="true" data-type="Item" data-uuid="undefined"><i class="fas fa-unlink"></i>{{{this.text}}}</a></div>
-            </li>
+            {{#each tableResult}}
+                {{#if (compare 'int' this.type '===' 0)}}
+                <div class="description" style="margin-bottom : 20px;">{{{this.text}}}</div>
+                {{/if}}
+                {{#if (compare 'int' this.type '===' 1)}}
+                <li class="table-result flexrow" data-result-id="{{{this._id}}}">
+                    <img class="result-image" src="{{{this.img}}}">
+                    <div class="result-text"><a class="content-link broken" draggable="true" data-type="Item" data-uuid="undefined"><i class="fas fa-unlink"></i>{{{this.text}}}</a></div>
+                </li>
+                {{/if}}
+            {{/each}}
+            {{#if (compare 'int' tableResult.[0].type '===' 1)}}
+            </ol>
             {{/if}}
-        {{/each}}
-        {{#if (compare 'int' tableResult.[0].type '===' 1)}}
-        </ol>
         {{/if}}
     </div>
 </div>

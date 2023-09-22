@@ -142,8 +142,7 @@ export class MothershipShipSheet extends ActorSheet {
         html.find('.stat-roll').click(ev => {
             const div = $(ev.currentTarget);
             const statName = div.data("key");
-            const attribute = this.actor.system.stats[statName];
-            this.actor.rollStat(attribute);
+            this.actor.rollCheck(null,'low',statName,null,null,null);
         });
 
         //Weapons
@@ -158,9 +157,8 @@ export class MothershipShipSheet extends ActorSheet {
         // Rollable Weapon
         html.find('.weapon-roll').click(ev => {
             const li = ev.currentTarget.closest(".item");
-            this.actor.rollWeapon(li.dataset.itemId, {
-                event: ev
-            });
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            this.actor.rollCheck(null,'low','combat',null,null,item);
         });
 
         html.on('mousedown', '.weapon-ammo', ev => {
@@ -184,21 +182,7 @@ export class MothershipShipSheet extends ActorSheet {
         //Reload Shots
         html.on('mousedown', '.weapon-reload', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
-
-            if (event.button == 0) {
-                if (!item.system.useAmmo) {
-                    item.system.curShots = item.system.shots;
-                } else {
-                    item.system.ammo += item.system.curShots;
-                    let reloadAmount = Math.min(item.system.ammo, item.system.shots);
-                    item.system.curShots = reloadAmount;
-
-                    item.system.ammo -= reloadAmount;
-                }
-            }
-
-            this.actor.updateEmbeddedDocuments('Item', [item]);
+            this.actor.reloadWeapon(li.dataset.itemId);
         });
 
         // Rollable Item/Anything with a description that we want to click on.

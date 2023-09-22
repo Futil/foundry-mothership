@@ -142,7 +142,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         html.find('.stat-roll').click(ev => {
             const div = $(ev.currentTarget);
             const statName = div.data("key");
-            this.actor.rollCheck(null,'low',statName,null,null);
+            this.actor.rollCheck(null,'low',statName,null,null,null);
         });
 
         //Weapons
@@ -159,9 +159,8 @@ export class MothershipCreatureSheet extends ActorSheet {
         // Rollable Weapon
         html.find('.weapon-roll').click(ev => {
             const li = ev.currentTarget.closest(".item");
-            this.actor.rollWeapon(li.dataset.itemId, {
-                event: ev
-            });
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            this.actor.rollCheck(null,'low','combat',null,null,item);
         });
 
         //increase ammo

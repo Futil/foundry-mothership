@@ -1,4 +1,4 @@
-prepModifyItem('Suspicious',1);
+prepModifyItem('8lOkseRbg09YFvv7',1);
 
 //tell the actor to roll on the table
 async function prepModifyItem(itemName,addAmount) {

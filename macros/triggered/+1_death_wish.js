@@ -1,4 +1,4 @@
-prepModifyItem('Death Wish',1);
+prepModifyItem('srws3n4rpl4oCj83',1);
 
 //tell the actor to roll on the table
 async function prepModifyItem(itemName,addAmount) {

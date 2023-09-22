@@ -1,4 +1,4 @@
-prepModifyItem('Deflated',1);
+prepModifyItem('waimTU6LXaADcJrT',1);
 
 //tell the actor to roll on the table
 async function prepModifyItem(itemName,addAmount) {

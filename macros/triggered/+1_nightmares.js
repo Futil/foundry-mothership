@@ -1,4 +1,4 @@
-prepModifyItem('Nightmares',1);
+prepModifyItem('MLPSYfWrwY6R7JDy',1);
 
 //tell the actor to roll on the table
 async function prepModifyItem(itemName,addAmount) {

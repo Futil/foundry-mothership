@@ -1,4 +1,4 @@
-prepTableRoll(`Fire & Explosives Wound`,`1d10`,`low`,true,false,null,null)
+prepTableRoll(`lqiaWwh5cGcJhvnu`,`1d10`,`low`,true,false,null,null)
 
 //tell the actor to roll on the table
 async function prepTableRoll(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {

@@ -1,4 +1,4 @@
-prepModifyItem('Bleeding',7);
+prepModifyItem('pxtF1NfletmoFFGV',7);
 
 //tell the actor to roll on the table
 async function prepModifyItem(itemName,addAmount) {

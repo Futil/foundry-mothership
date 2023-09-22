@@ -1,4 +1,4 @@
-prepModifyItem('Doomed',1);
+prepModifyItem('x41AwiI03h7wNjaM',1);
 
 //tell the actor to roll on the table
 async function prepModifyItem(itemName,addAmount) {

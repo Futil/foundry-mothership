@@ -1340,7 +1340,7 @@ export class MothershipActor extends Actor {
             //set crit fail
             critFail = true;
           }
-        } else {
+        } else if (parsedRollResult.success === true) {
           //flavor text = generic roll success
           if (this.system.stats[attribute].rollLabel.includes(" Save")) {
             //set final footer

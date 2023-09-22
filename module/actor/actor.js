@@ -1287,7 +1287,7 @@ export class MothershipActor extends Actor {
         //flavor text = the attack roll result
         if (parsedRollResult.success === true) {
           //if success
-          if (weapon.system.damage === "Str/10") {
+          if (weapon.system.damage === "Str/10" && this.type === 'character') {
             //determine the damage string
             flavorText = 'You strike your target for <strong>[[floor(' + this.system.stats.strength.value + '/10)]] damage</strong>.';
           } else {

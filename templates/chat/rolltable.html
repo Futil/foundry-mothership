@@ -9,7 +9,8 @@
             <div class="body">{{{msgDesc}}}</div>
         </div>
         {{{parsedRollResult.rollHtml}}}
-        {{#unless parsedRollResult.success}}
+        {{#if parsedRollResult.success}}
+            <div class="description" style="margin-bottom : 20px;">{{{flavorText}}}</div>
         {{else}}
             {{#if (compare 'int' tableResult.[0].type '===' 1)}}
             <ol class="table-results">

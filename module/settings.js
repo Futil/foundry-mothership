@@ -48,12 +48,24 @@ export const registerSettings = function () {
   game.settings.register('mosh', 'damageDiceTheme', {
     name: "Damage Dice Theme",
     hint: "If DiceSoNice is installed, what theme should be applied to damage dice?",
-    default: "red",
+    default: "damage",
     scope: 'world',
     type: String,
     config: true,
     onChange: value => { // A callback function which triggers when the setting is changed
         console.log("Damage dice theme set to " + value)
+    }
+  });
+
+  game.settings.register('mosh', 'panicDieTheme', {
+    name: "Panic Die Theme",
+    hint: "If DiceSoNice is installed, what theme should be applied to the panic die?",
+    default: "panic",
+    scope: 'world',
+    type: String,
+    config: true,
+    onChange: value => { // A callback function which triggers when the setting is changed
+        console.log("Panic die theme set to " + value)
     }
   });
 

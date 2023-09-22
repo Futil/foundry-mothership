@@ -687,30 +687,36 @@ export class MothershipActor extends Actor {
   //central table rolling function | TAKES 'W36WFIpCfMknKgHy','1d10','low',true,true,41,'<' | RETURNS chat message showing roll table result
   async rollTable(tableId,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
     //init vars
-    let tableData = null;
+    let currentLocation = '';
+    let tableLocation = '';
     let messageTemplate = ``;
     let messageContent = ``;
+    let msgDesc = ``;
     let flavorText = ``;
     let chatId = randomID();
     let rollTarget = null;
     let valueAddress = [];
-    //load data about this table
+    //find where this table is located
       //get current compendium
       let compendium = game.packs;
       //loop through each compendium
       compendium.forEach(function(pack){ 
         //is this a pack of rolltables?
         if (pack.metadata.type === 'RollTable') {
+          //log where we are
+          currentLocation = pack.metadata.id;
           //loop through each pack to find the right table
           pack.index.forEach(function(table) { 
             //is this our table?
             if (table._id === tableId) {
-              //grab the table data
-              tableData = table;
+              //grab the table location
+              tableLocation = currentLocation;
             }
           });
         }
       });
+      //get table data
+      let tableData = await game.packs.get(tableLocation).getDocument(tableId);
       //get table name
       let tableName = tableData.name;
       //get table name
@@ -720,12 +726,6 @@ export class MothershipActor extends Actor {
     //bounce this request away if certain parameters are NULL
       //if rollString is STILL blank, redirect player to choose the roll
       if (!rollString) {
-        //get table data
-        let tableData = await game.packs.get(tableLocation).getDocument(tableId);
-        //get table name
-        let tableName = tableData.name;
-        //get table result
-        let tableDie = tableData.formula.replace('-1','');
         //run the choose attribute function
         let chosenRollType = await this.chooseAdvantage(tableName,tableDie);
         //set variables
@@ -741,8 +741,10 @@ export class MothershipActor extends Actor {
     //roll the dice
       //parse the roll string
       let parsedRollString = this.parseRollString(rollString,aimFor);
+      //set panic die color
+      let dsnTheme = game.settings.get('mosh','panicDieTheme');
       //roll the dice
-      let rollResult = await new Roll(parsedRollString).evaluate();
+      let rollResult = await new Roll(parsedRollString + '[' + dsnTheme + ']').evaluate();
       //interpret the results
       let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
     //fetch the table result

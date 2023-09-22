@@ -106,7 +106,8 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       background: '#cc2828',
       outline: 'none',
       texture: 'none',
-      material: 'metal'
+      material: 'metal',
+      font: 'Arial Black'
     }
   )
 })
@@ -122,7 +123,8 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       background: '#ffe800',
       outline: 'none',
       texture: 'none',
-      material: 'metal'
+      material: 'metal',
+      font: 'Arial Black'
     }
   )
 })

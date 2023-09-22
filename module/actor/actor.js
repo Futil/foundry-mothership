@@ -698,15 +698,15 @@ export class MothershipActor extends Actor {
       //get current compendium
       let compendium = game.packs;
       //loop through each compendium
-      compendium.value.forEach(function(pack){ 
+      compendium.forEach(function(pack){ 
         //is this a pack of rolltables?
         if (pack.metadata.type === 'RollTable') {
           //loop through each pack to find the right table
           pack.index.forEach(function(table) { 
             //is this our table?
-            if (table.key === tableId) {
+            if (table._id === tableId) {
               //grab the table data
-              tableData = table.value;
+              tableData = table;
             }
           });
         }

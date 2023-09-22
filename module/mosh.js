@@ -107,7 +107,7 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       outline: 'none',
       texture: 'none',
       material: 'metal',
-      font: 'Arial Black'
+      font: 'Arial'
     }
   )
 })
@@ -124,7 +124,7 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       outline: 'none',
       texture: 'none',
       material: 'metal',
-      font: 'Arial Black'
+      font: 'Arial'
     }
   )
 })

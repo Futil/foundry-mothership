@@ -99,14 +99,31 @@ Hooks.once("ready", async function () {
 Hooks.once('diceSoNiceReady', (dice3d) => {
   dice3d.addColorset(
     {
+      name: 'roll',
+      description: 'Roll Dice',
+      category: 'Mothership',
+      foreground: '#FFFFFF',
+      background: '#000000',
+      outline: 'none',
+      texture: 'paper',
+      material: 'glass',
+      font: 'Arial'
+    }
+  )
+})
+
+//add custom damage dice for MOSH
+Hooks.once('diceSoNiceReady', (dice3d) => {
+  dice3d.addColorset(
+    {
       name: 'damage',
       description: 'Damage Dice',
       category: 'Mothership',
       foreground: '#FFFFFF',
       background: '#cc2828',
       outline: 'none',
-      texture: 'none',
-      material: 'none',
+      texture: 'paper',
+      material: 'glass',
       font: 'Arial'
     }
   )

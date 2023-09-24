@@ -133,10 +133,22 @@
           "max": 20,
           "label" : "Stress"
         },
-        "resolve": {
+        "stress_0e": {
+          "value": 0,
+          "min": 0,
+          "max": 999,
+          "label" : "Stress"
+        },
+        "calm": {
           "value": 0,
           "min": 0,
           "max": 85,
+          "label" : "Calm"
+        },
+        "resolve": {
+          "value": 0,
+          "min": 0,
+          "max": 5,
           "label" : "Resolve"
         }
       }

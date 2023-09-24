@@ -11,10 +11,10 @@
   ],
   "packs": [
     {
-      "name": "conditions",
-      "label": "Conditions",
+      "name": "conditions_1e",
+      "label": "Conditions (1e)",
       "system": "mosh",
-      "path": "packs/conditions.db",
+      "path": "packs/conditions_1e.db",
       "type": "Item",
       "flags": {},
       "ownership": {
@@ -23,10 +23,10 @@
       }
     },
     {
-      "name": "macros_hotbar",
-      "label": "Hotbar Macros",
+      "name": "macros_hotbar_1e",
+      "label": "Hotbar Macros (1e)",
       "system": "mosh",
-      "path": "packs/macros_hotbar.db",
+      "path": "packs/macros_hotbar_1e.db",
       "type": "Macro",
       "flags": {},
       "ownership": {
@@ -35,10 +35,10 @@
       }
     },
     {
-      "name": "macros_triggered",
-      "label": "Triggered Macros",
+      "name": "macros_triggered_1e",
+      "label": "Triggered Macros (1e)",
       "system": "mosh",
-      "path": "packs/macros_triggered.db",
+      "path": "packs/macros_triggered_1e.db",
       "type": "Macro",
       "flags": {},
       "ownership": {
@@ -47,10 +47,58 @@
       }
     },
     {
-      "name": "rolltables",
-      "label": "Rolltables",
+      "name": "rolltables_1e",
+      "label": "Rolltables (1e)",
       "system": "mosh",
-      "path": "packs/rolltables.db",
+      "path": "packs/rolltables_1e.db",
+      "type": "RollTable",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "conditions_0e",
+      "label": "Conditions (0e)",
+      "system": "mosh",
+      "path": "packs/conditions_0e.db",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros_hotbar_0e",
+      "label": "Hotbar Macros (0e)",
+      "system": "mosh",
+      "path": "packs/macros_hotbar_0e.db",
+      "type": "Macro",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros_triggered_0e",
+      "label": "Triggered Macros (0e)",
+      "system": "mosh",
+      "path": "packs/macros_triggered_0e.db",
+      "type": "Macro",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "rolltables_0e",
+      "label": "Rolltables (0e)",
+      "system": "mosh",
+      "path": "packs/rolltables_0e.db",
       "type": "RollTable",
       "flags": {},
       "ownership": {
@@ -70,7 +118,7 @@
   "gridDistance": 1,
   "gridUnits": "meter",
   "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "stress",
+  "secondaryTokenAttribute": "other.stress",
   "url": "https://github.com/Futil/foundry-mothership",
   "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/dev/system.json",
   "download": "https://github.com/Futil/foundry-mothership/archive/dev.zip",

@@ -4,9 +4,7 @@
  */
 export class MothershipActor extends Actor {
 
-  /**
-   * Augment the basic actor data with additional dynamic data.
-   */
+  //Augment the basic actor data with additional dynamic data.
   prepareData() {
     super.prepareData();
 
@@ -21,9 +19,7 @@ export class MothershipActor extends Actor {
     else if (actorData.type === 'ship') this._prepareShipData(actorData);
 
   }
-  /**
-   * Prepare Character type specific data
-   */
+  //Prepare Character type specific data
   _prepareCharacterData(actorData) {
     const data = actorData.system;
 
@@ -42,13 +38,12 @@ export class MothershipActor extends Actor {
     data.stats.armor.damageReduction = damageReduction;
   }
 
-  /**
-   * Prepare Character type specific data
-   */
+  //Prepare Creature type specific data
   _prepareCreatureData(actorData) {
     const data = actorData;
   }
 
+  //Prepare Ship type specific data
   _prepareShipData(actorData) {
     const data = actorData;
   }
@@ -138,6 +133,10 @@ export class MothershipActor extends Actor {
           bleed: {
             android: `Your sensors detect significant nanofluid loss.`,
             human: `You feel dizzy as you bleed out.`
+          },
+          radiation: {
+            android: `Catastro▒ic d⟑ta ▓loss de|/~ ⋥t⋱d`,
+            human: `You stare into blackness and feel completely unable to pull yourself out of it.`
           }
         }
       },
@@ -158,12 +157,12 @@ export class MothershipActor extends Actor {
             human: `systems/mosh/images/icons/ui/macros/gain_stress.png`
           },
           hitCeiling: {
-            android: `System performance grinds to a halt. <strong>Reduce the most relevant Stat or Save by {{{modifySurplus}}}</strong>.`,
-            human: `You hit rock bottom. <strong>Reduce the most relevant Stat or Save by {{{modifySurplus}}}</strong>.`
+            android: `System performance grinds to a halt.`,
+            human: `You hit rock bottom.`
           },
           pastCeiling: {
-            android: `You sense unrecoverable data loss. <strong>Reduce the most relevant Stat or Save by {{{modifySurplus}}}</strong>.`,
-            human: `You feel a part of yourself drift away. <strong>Reduce the most relevant Stat or Save by {{{modifySurplus}}}</strong>.`
+            android: `You sense unrecoverable data loss.`,
+            human: `You feel a part of yourself drift away.`
           },
           decrease: {
             android: `You soft-reset, purging unnecessary background processes.`,
@@ -221,64 +220,343 @@ export class MothershipActor extends Actor {
             human: `systems/mosh/images/icons/ui/attributes/health.png`
           },
           hitFloor: {
-            android: `You gain a wound and now have {{{(modifyNew)}}} Health.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`,
-            human: `You gain a wound and now have {{{(modifyNew)}}} Health.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`
+            android: `Your pain receptors indicate core damage.`,
+            human: `Your pain receptors indicate core damage.`
           },
           pastFloor: {
-            android: `You gain a wound and now have {{{(modifyNew)}}} Health.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`,
-            human: `You gain a wound and now have {{{(modifyNew)}}} Health.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`
+            android: `Your pain receptors indicate core damage.`,
+            human: `Your pain receptors indicate core damage.`
           }
         },
         //hits flavor text
         hits: {
           increase: {
-            android: `System resources free up and you feel energized.`,
-            human: `You feel a burst of energy.`
+            android: `Your pain receptors indicate permanent damage and you gain a wound.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`,
+            human: `You scream out from immense pain and you gain a wound.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`
           },
           increaseHeader: {
-            android: `Mended`,
-            human: `Mended`
+            android: `Damaged`,
+            human: `Wounded`
           },
           increaseImg: {
             android: `systems/mosh/images/icons/ui/attributes/health.png`,
             human: `systems/mosh/images/icons/ui/attributes/health.png`
           },
           hitCeiling: {
-            android: `You are now at full health.`,
-            human: `You are now at full health.`
+            android: `Your pain receptors indicate permanent damage.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
+            human: `You scream out from immense pain.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`
           },
           pastCeiling: {
-            android: `You are already at full health.`,
-            human: `You are already at full health.`
+            android: `Your pain receptors indicate permanent damage.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
+            human: `You scream out from immense pain.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`
           },
           decrease: {
-            android: `Your pain receptors indicate permanent damage and you gain a wound.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`,
-            human: `You scream out from immense pain and you gain a wound.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`
+            android: `System resources free up and you feel energized.`,
+            human: `You feel a burst of energy.`
           },
           decreaseHeader: {
-            android: `Wounded`,
-            human: `Wounded`
+            android: `Repaired`,
+            human: `Mended`
           },
           decreaseImg: {
             android: `systems/mosh/images/icons/ui/attributes/health.png`,
             human: `systems/mosh/images/icons/ui/attributes/health.png`
           },
           hitFloor: {
-            android: `<strong>You have died.</strong> Roll up a new character.`,
-            human: `<strong>You have died.</strong> Roll up a new character.`
+            android: `You are now at full health.`,
+            human: `You are now at full health.`
           },
           pastFloor: {
-            android: `<strong>You have died.</strong> Roll up a new character.`,
-            human: `<strong>You have died.</strong> Roll up a new character.`
+            android: `You are already at full health.`,
+            human: `You are already at full health.`
           }
         },
-        //stat/save flavor text
-        stat: {
+        //strength flavor text
+        strength: {
           check: {
             android: `You gain some confidence in your skills.`,
             human: `You gain some confidence in your skills.`
           },
-          save: {
+          increase: {
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
+          },
+          increaseHeader: {
+            android: `Strength Enhanced`,
+            human: `Strength Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/strength.png`,
+            human: `systems/mosh/images/icons/ui/attributes/strength.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum strength.`,
+            human: `You are now at maximum strength.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum strength.`,
+            human: `You are already at maximum strength.`
+          },
+          decrease: {
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decreaseHeader: {
+            android: `Strength Impaired`,
+            human: `Strength Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/strength.png`,
+            human: `systems/mosh/images/icons/ui/attributes/strength.png`
+          },
+          hitFloor: {
+            android: `You have no strength left.`,
+            human: `You have no strength left.`
+          },
+          pastFloor: {
+            android: `Your strength cannot get any lower.`,
+            human: `Your strength cannot get any lower.`
+          }
+        },
+        //speed flavor text
+        speed: {
+          check: {
+            android: `You gain some confidence in your skills.`,
+            human: `You gain some confidence in your skills.`
+          },
+          increase: {
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
+          },
+          increaseHeader: {
+            android: `Speed Enhanced`,
+            human: `Speed Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/speed.png`,
+            human: `systems/mosh/images/icons/ui/attributes/speed.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum speed.`,
+            human: `You are now at maximum speed.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum speed.`,
+            human: `You are already at maximum speed.`
+          },
+          decrease: {
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decreaseHeader: {
+            android: `Speed Impaired`,
+            human: `Speed Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/speed.png`,
+            human: `systems/mosh/images/icons/ui/attributes/speed.png`
+          },
+          hitFloor: {
+            android: `You feel completely lethargic.`,
+            human: `You feel completely lethargic.`
+          },
+          pastFloor: {
+            android: `Your speed cannot get any lower.`,
+            human: `Your speed cannot get any lower.`
+          }
+        },
+
+        //intellect flavor text
+        intellect: {
+          check: {
+            android: `You gain some confidence in your skills.`,
+            human: `You gain some confidence in your skills.`
+          },
+          increase: {
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
+          },
+          increaseHeader: {
+            android: `Intellect Enhanced`,
+            human: `Intellect Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/intellect.png`,
+            human: `systems/mosh/images/icons/ui/attributes/intellect.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum intellect.`,
+            human: `You are now at maximum intellect.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum intellect.`,
+            human: `You are already at maximum intellect.`
+          },
+          decrease: {
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decreaseHeader: {
+            android: `Intellect Impaired`,
+            human: `Intellect Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/intellect.png`,
+            human: `systems/mosh/images/icons/ui/attributes/intellect.png`
+          },
+          hitFloor: {
+            android: `You feel utterly confused.`,
+            human: `You feel utterly confused.`
+          },
+          pastFloor: {
+            android: `Your intellect cannot get any lower.`,
+            human: `Your intellect cannot get any lower.`
+          }
+        },
+        //combat flavor text
+        combat: {
+          check: {
+            android: `You gain some confidence in your skills.`,
+            human: `You gain some confidence in your skills.`
+          },
+          increase: {
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
+          },
+          increaseHeader: {
+            android: `Combat Enhanced`,
+            human: `Combat Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/combat.png`,
+            human: `systems/mosh/images/icons/ui/attributes/combat.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum combat.`,
+            human: `You are now at maximum combat.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum combat.`,
+            human: `You are already at maximum combat.`
+          },
+          decrease: {
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decreaseHeader: {
+            android: `Combat Impaired`,
+            human: `Combat Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/combat.png`,
+            human: `systems/mosh/images/icons/ui/attributes/combat.png`
+          },
+          hitFloor: {
+            android: `You can't imagine fighting anymore.`,
+            human: `You can't imagine fighting anymore.`
+          },
+          pastFloor: {
+            android: `Your combat cannot get any lower.`,
+            human: `Your combat cannot get any lower.`
+          }
+        },
+        //instinct flavor text
+        instinct: {
+          check: {
+            android: `You gain some confidence in your skills.`,
+            human: `You gain some confidence in your skills.`
+          },
+          increase: {
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
+          },
+          increaseHeader: {
+            android: `Instinct Enhanced`,
+            human: `Instinct Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/instinct.png`,
+            human: `systems/mosh/images/icons/ui/attributes/instinct.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum instinct.`,
+            human: `You are now at maximum instinct.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum instinct.`,
+            human: `You are already at maximum instinct.`
+          },
+          decrease: {
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decreaseHeader: {
+            android: `Instinct Impaired`,
+            human: `Instinct Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/instinct.png`,
+            human: `systems/mosh/images/icons/ui/attributes/instinct.png`
+          },
+          hitFloor: {
+            android: `You've lost your instincts.`,
+            human: `You've lost your instincts.`
+          },
+          pastFloor: {
+            android: `Your instinct cannot get any lower.`,
+            human: `Your instinct cannot get any lower.`
+          }
+        },
+        //loyalty flavor text
+        loyalty: {
+          check: {
+            android: `You gain some confidence in your skills.`,
+            human: `You gain some confidence in your skills.`
+          },
+          increase: {
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
+          },
+          increaseHeader: {
+            android: `Loyalty Enhanced`,
+            human: `Loyalty Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/loyalty.png`,
+            human: `systems/mosh/images/icons/ui/attributes/loyalty.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum loyalty.`,
+            human: `You are now at maximum loyalty.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum loyalty.`,
+            human: `You are already at maximum loyalty.`
+          },
+          decrease: {
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decreaseHeader: {
+            android: `Loyalty Impaired`,
+            human: `Loyalty Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/loyalty.png`,
+            human: `systems/mosh/images/icons/ui/attributes/loyalty.png`
+          },
+          hitFloor: {
+            android: `You only care about yourself.`,
+            human: `You only care about yourself.`
+          },
+          pastFloor: {
+            android: `Your loyalty cannot get any lower.`,
+            human: `Your loyalty cannot get any lower.`
+          }
+        },
+        //sanity flavor text
+        sanity: {
+          check: {
             android: `You gain some confidence in your abilities.`,
             human: `You gain some confidence in your abilities.`
           },
@@ -287,47 +565,181 @@ export class MothershipActor extends Actor {
             human: `You start to feel like yourself again.`
           },
           increaseHeader: {
-            android: `{{{fieldLabel}}} Gained`,
-            human: `{{{fieldLabel}}} Gained`
+            android: `Sanity Enhanced`,
+            human: `Sanity Increased`
           },
           increaseImg: {
-            android: `systems/mosh/images/icons/ui/attributes/{{{fieldId}}}.png`,
-            human: `systems/mosh/images/icons/ui/attributes/{{{fieldId}}}.png`
+            android: `systems/mosh/images/icons/ui/attributes/sanity.png`,
+            human: `systems/mosh/images/icons/ui/attributes/sanity.png`
           },
           hitCeiling: {
-            android: `You are now at maximum {{{fieldLabel}}}.`,
-            human: `You are now at maximum {{{fieldLabel}}}.`
+            android: `You are now at maximum sanity.`,
+            human: `You are now at maximum sanity.`
           },
           pastCeiling: {
-            android: `You are already at maximum {{{fieldLabel}}}.`,
-            human: `You are already at maximum {{{fieldLabel}}}.`
+            android: `You are already at maximum sanity.`,
+            human: `You are already at maximum sanity.`
           },
           decrease: {
             android: `Central partition damage detected. Unrecoverable sectors found.`,
             human: `You feel a part of yourself drift away.`
           },
           decreaseHeader: {
-            android: `{{{fieldLabel}}} Lost`,
-            human: `{{{fieldLabel}}} Lost`
+            android: `Sanity Impaired`,
+            human: `Sanity Lost`
           },
           decreaseImg: {
-            android: `systems/mosh/images/icons/ui/attributes/{{{fieldId}}}.png`,
-            human: `systems/mosh/images/icons/ui/attributes/{{{fieldId}}}.png`
+            android: `systems/mosh/images/icons/ui/attributes/sanity.png`,
+            human: `systems/mosh/images/icons/ui/attributes/sanity.png`
           },
           hitFloor: {
+            android: `You've lost your mind.`,
+            human: `You've lost your mind.`
+          },
+          pastFloor: {
+            android: `Your sanity cannot get any lower.`,
+            human: `Your sanity cannot get any lower.`
+          }
+        },
+        //fear flavor text
+        fear: {
+          check: {
+            android: `You gain some confidence in your abilities.`,
+            human: `You gain some confidence in your abilities.`
+          },
+          increase: {
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
+          },
+          increaseHeader: {
+            android: `Bravery Enhanced`,
+            human: `Bravery Improved`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/fear.png`,
+            human: `systems/mosh/images/icons/ui/attributes/fear.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum fear.`,
+            human: `You are now at maximum fear.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum fear.`,
+            human: `You are already at maximum fear.`
+          },
+          decrease: {
             android: `Central partition damage detected. Unrecoverable sectors found.`,
             human: `You feel a part of yourself drift away.`
           },
+          decreaseHeader: {
+            android: `Bravery Impaired`,
+            human: `Bravery Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/fear.png`,
+            human: `systems/mosh/images/icons/ui/attributes/fear.png`
+          },
+          hitFloor: {
+            android: `You are afraid of everything.`,
+            human: `You are afraid of everything.`
+          },
           pastFloor: {
-            android: `Your {{{fieldLabel}}} cannot get any lower.`,
-            human: `Your {{{fieldLabel}}} cannot get any lower.`
+            android: `Your fear cannot get any lower.`,
+            human: `Your fear cannot get any lower.`
           }
         },
-        //radiation flavor text
-        radiation: {
-          damage: {
-            android: `Catastro▒ic d⟑ta ▓loss de|/~ ⋥t⋱d`,
-            human: `You stare into blackness and feel completely unable to pull yourself out of it.`
+        //body flavor text
+        body: {
+          check: {
+            android: `You gain some confidence in your abilities.`,
+            human: `You gain some confidence in your abilities.`
+          },
+          increase: {
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
+          },
+          increaseHeader: {
+            android: `Body Enhanced`,
+            human: `Body Strengthened`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/body.png`,
+            human: `systems/mosh/images/icons/ui/attributes/body.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum body.`,
+            human: `You are now at maximum body.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum body.`,
+            human: `You are already at maximum body.`
+          },
+          decrease: {
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decreaseHeader: {
+            android: `Body Impaired`,
+            human: `Body Weakened`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/body.png`,
+            human: `systems/mosh/images/icons/ui/attributes/body.png`
+          },
+          hitFloor: {
+            android: `Your body feels weak and fragile.`,
+            human: `Your body feels weak and frail.`
+          },
+          pastFloor: {
+            android: `Your body cannot get any lower.`,
+            human: `Your body cannot get any lower.`
+          }
+        },
+        //armor flavor text
+        armor: {
+          check: {
+            android: `You gain some confidence in your abilities.`,
+            human: `You gain some confidence in your abilities.`
+          },
+          increase: {
+            android: `Data recovered. Central partition data restored.`,
+            human: `You start to feel like yourself again.`
+          },
+          increaseHeader: {
+            android: `Armor Enhanced`,
+            human: `Armor Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/armor.png`,
+            human: `systems/mosh/images/icons/ui/attributes/armor.png`
+          },
+          hitCeiling: {
+            android: `You are now at maximum armor.`,
+            human: `You are now at maximum armor.`
+          },
+          pastCeiling: {
+            android: `You are already at maximum armor.`,
+            human: `You are already at maximum armor.`
+          },
+          decrease: {
+            android: `Central partition damage detected. Unrecoverable sectors found.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decreaseHeader: {
+            android: `Armor Impaired`,
+            human: `Armor Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/attributes/armor.png`,
+            human: `systems/mosh/images/icons/ui/attributes/armor.png`
+          },
+          hitFloor: {
+            android: `Nothing protects you now.`,
+            human: `Nothing protects you now.`
+          },
+          pastFloor: {
+            android: `Your armor cannot get any lower.`,
+            human: `Your armor cannot get any lower.`
           }
         }
       },
@@ -397,7 +809,7 @@ export class MothershipActor extends Actor {
         }
       }
     };
-    ///need to rethink this later in the context of creatures and ships
+    //check to see if this address exists in the library, return the action parameter if not
     if (checkNested(textLibrary,type,context,action)) {
       //set full path to include class type
       if (this.type === 'character') {
@@ -412,7 +824,6 @@ export class MothershipActor extends Actor {
         //return class appropriate text
         return textLibrary[type][context][action].human;
       }
-
     } else {
       return action;
     }
@@ -600,10 +1011,10 @@ export class MothershipActor extends Actor {
               `;
               //add formula and result for this roll
               diceBlock = diceBlock + `
-                    <header class="part-header flexrow">
-                      <span class="part-formula">${roll.formula}</span>
-                      <span class="part-total">${roll.total.toString()}</span>
-                    </header>
+                <header class="part-header flexrow">
+                  <span class="part-formula">${roll.formula}</span>
+                  <span class="part-total">${roll.total.toString()}</span>
+                </header>
               `;
               //loop through dice
               roll.results.forEach(function(die) { 
@@ -700,6 +1111,7 @@ export class MothershipActor extends Actor {
     let messageContent = ``;
     let msgDesc = ``;
     let flavorText = ``;
+    let woundText = ``;
     let chatId = randomID();
     let rollTarget = null;
     let valueAddress = [];
@@ -737,6 +1149,12 @@ export class MothershipActor extends Actor {
         let chosenRollType = await this.chooseAdvantage(tableName,tableDie);
         //set variables
         rollString = chosenRollType[0];
+      }
+    //table specific customizations
+      //if a wound table, add a wound to the player and prepare text for the final message
+      if (tableName.slice(-3) === 'Wound') {
+        let addWound = await this.modifyActor('system.hits.value',1,null,false);
+        woundText = addWound[1];
       }
     //pull stat to roll against, if needed
     if(rollAgainst){
@@ -783,7 +1201,8 @@ export class MothershipActor extends Actor {
         tableName: tableName,
         tableImg: tableImg,
         msgDesc: msgDesc,
-        flavorText: flavorText
+        flavorText: flavorText,
+        woundText: woundText
       };
       //prepare template
       messageTemplate = 'systems/mosh/templates/chat/rollTable.html';
@@ -1168,6 +1587,9 @@ export class MothershipActor extends Actor {
   //central check rolling function | TAKES '1d10','low','combat','Geology',10,[weapon item] | RETURNS chat message showing check result
   async rollCheck(rollString,aimFor,attribute,skill,skillValue,weapon) {
     //init vars
+    let specialRoll = ``;
+    let checkCrit = true;
+    let zeroBased = true;
     let messageTemplate = ``;
     let messageContent = ``;
     let parsedDamageString = null;
@@ -1236,6 +1658,32 @@ export class MothershipActor extends Actor {
         //set variables
         rollString = chosenRollType[0];
       }
+    //customize this roll if its a unique use-case
+      //rest save
+      if (attribute === 'restSave') {
+        //set special roll value for use later
+        specialRoll = 'attribute';
+        //disable criticals for this roll
+        checkCrit = false;
+        //lets figure out the actors worst save and update this roll accordingly
+          //get current save values
+          let sanitySave = Number(this.system.stats.sanity.value) + Number(this.system.stats.sanity.mod || 0);
+          let fearSave = Number(this.system.stats.fear.value) + Number(this.system.stats.fear.mod || 0);
+          let bodySave = Number(this.system.stats.body.value) + Number(this.system.stats.body.mod || 0);
+          //get the lowest value
+          let minSave = Math.min(sanitySave,fearSave,bodySave);
+          //set attribute to the first one matching the lowest (since actor may have 2 with the lowest)
+          if (sanitySave === minSave) {
+            //set attribute
+            attribute = 'sanity'
+          } else if (fearSave === minSave) {
+            //set attribute
+            attribute = 'fear'
+          } else {
+            //set attribute
+            attribute = 'body'
+          }
+      }
     //make the rollTarget value
       //retrieve the attribute
       let rollTarget = this.system.stats[attribute].value
@@ -1249,7 +1697,7 @@ export class MothershipActor extends Actor {
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
-      let parsedRollResult = this.parseRollResult(rollString,rollResult,true,true,rollTarget,'<');
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,checkCrit,zeroBased,rollTarget,'<');
     //prep damage dice in case its needed
     if(weapon && parsedRollResult.success) {
       //parse the roll string
@@ -1266,7 +1714,7 @@ export class MothershipActor extends Actor {
       } else {
         outcomeVerb = `did not roll`;
       }
-      //prepare flavor text
+      //prepare flavor text for attacks
       if (weapon) {
         //override message header
         msgHeader = weapon.name;
@@ -1329,6 +1777,30 @@ export class MothershipActor extends Actor {
           //combine back into string
           woundEffect = woundArray.join(' ');
         }
+      //prepare flavor text for special rolls
+      } else if (specialRoll) {
+        //override message header
+        msgHeader = `Rest Save`;
+        //override  header image
+        msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
+        //prep text based on success or failure
+        if (parsedRollResult.success === false && this.type === 'character') {
+          //increase stress by 1 and retrieve the flavor text from the result
+          let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
+          flavorText = addStress[1];
+          //if critical failure, make sure to ask for panic check
+          if (parsedRollResult.critical === true) {
+            //set crit fail
+            critFail = true;
+          }
+        } else if (parsedRollResult.success === true) {
+          //calculate stress reduction
+          onesValue = -1 * Number(String(parsedRollResult.total).charAt(String(parsedRollResult.total).length-1));
+          //decrease stress by ones place of roll value and retrieve the flavor text from the result
+          let removeStress = await this.modifyActor('system.other.stress.value',onesValue,null,false);
+          flavorText = removeStress[1];
+        }
+      //prepare flavor text for regular checks
       } else {
         //prep text based on success or failure
         if (parsedRollResult.success === false && this.type === 'character') {
@@ -1388,6 +1860,8 @@ export class MothershipActor extends Actor {
     //init vars
     let messageTemplate = ``;
     let messageContent = ``;
+    let fieldPrefix = ``;
+    let getWound = false;
     let msgHeader = ``;
     let msgImgPath = ``;
     let modifyMinimum = null;
@@ -1426,6 +1900,12 @@ export class MothershipActor extends Actor {
       modifyMaximum = (fieldMax.reduce((a, v) => a[v], this) || null);
       //get current value for this field
       modifyCurrent = fieldValue.reduce((a, v) => a[v], this);
+    //check to see if this is a min/max part of a main field
+    if (fieldAddress.slice(-3) === `min`) {
+      fieldPrefix = `Minimum `;
+    } else if (fieldAddress.slice(-3) === `max`) {
+      fieldPrefix = `Maximum `;
+    }
     //calculate the change, whether from a value, roll (can only be one, it will check modValue first)
       //apply the modValue directly with no roll
       if (modValue) {
@@ -1451,6 +1931,15 @@ export class MothershipActor extends Actor {
             modifyDifference = modifyNew - modifyCurrent;
             //measure any surplus if we exceeded min/max
             modifySurplus = modifyChange - modifyDifference;
+          //if health hits zero, reset to next hp bar ------------------------------come back here when implementing 0e--------------------------------
+          if (fieldId = 'health' && modifyNew === 0) {
+            //set marker for later
+            getWound = true;
+            //reset hp
+            modifyNew = modifyMaximum + modifySurplus;
+            //increase wounds by 1
+            this.update({'system.stats.hits.value': this.system.hits.value + 1});
+          }
         //update actor
             //prepare update JSON
             let updateData = JSON.parse(`{"` + fieldAddress + `": ` + modifyNew + `}`);
@@ -1461,12 +1950,12 @@ export class MothershipActor extends Actor {
           if (modifyChange > 0) {
             msgFlavor = this.getFlavorText('attribute',fieldId,'increase');
             msgChange = 'increased';
-            msgHeader = this.getFlavorText('attribute',fieldId,'increaseHeader');
+            msgHeader = fieldPrefix + this.getFlavorText('attribute',fieldId,'increaseHeader');
             msgImgPath = this.getFlavorText('attribute',fieldId,'increaseImg');
           } else if (modifyChange < 0) {
             msgFlavor = this.getFlavorText('attribute',fieldId,'decrease');
             msgChange = 'decreased';
-            msgHeader = this.getFlavorText('attribute',fieldId,'decreaseHeader');
+            msgHeader = fieldPrefix + this.getFlavorText('attribute',fieldId,'decreaseHeader');
             msgImgPath = this.getFlavorText('attribute',fieldId,'decreaseImg');
           }
           //get modification description
@@ -1484,13 +1973,27 @@ export class MothershipActor extends Actor {
             } else if (modifyChange < 0) {
               msgAction = 'decrease';
             }
-            //set message outcome
+            //set default message outcome
             if (msgAction === 'increase' || msgAction === 'decrease') {
-              msgOutcome = fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
-            } else if (modifyDifference === 0 && modifySurplus != 0) {
-              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
+              msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+            //set message outcome for stress going from < 20 to > 20
+            } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifyNew > modifyMaximum) {
+              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+            //set message outcome for stress going from 20 to > 20
+            } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifyNew > modifyMaximum) {
+              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + `<strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+            //set message outcome for health reaches zero or goes past it, and you have wounds remaining
+            } else if (getWound) {
+              //can this player take a wound and not die?
+              if (this.system.hits.value + 1 === this.system.hits.max) {
+                //you are dead!
+                msgOutcome = this.getFlavorText('attribute','hits','hitCeiling');
+              } else {
+                //you are wounded!
+                msgOutcome = `You gain a wound and your health resets to <strong>${modifyNew}</strong>.<br><br>` + this.getFlavorText('attribute','hits','increase');
+              }
             } else {
-              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
             }
         //push message if asked
         if (outputChatMsg) {
@@ -1832,6 +2335,86 @@ export class MothershipActor extends Actor {
         speaker: {actor: this.id, token: this.token, alias: this.name},
         content: messageContent
       },{keepId:true});
+  }
+
+  //take bleeding damage
+  async takeBleedingDamage() {
+    //init vars
+    let chatId = randomID();  
+    //determine bleeding amount
+    let healthLost = this.items.getName("Bleeding").system.severity*-1;
+    //run the function for the player's 'Selected Character'
+    let modification = await this.modifyActor('system.health.value',healthLost,null,false);
+    //get flavor text
+    let msgFlavor = this.getFlavorText('item','condition','bleed');
+    let msgOutcome = modification[1];
+    //create chat message text
+    let messageContent = `
+    <div class="mosh">
+      <div class="rollcontainer">
+          <div class="flexrow" style="margin-bottom: 5px;">
+          <div class="rollweaponh1">Health Lost</div>
+          <div style="text-align: right"><img class="roll-image" src="systems/mosh/images/icons/ui/attributes/health.png" /></div>
+          </div>
+          <div class="description"" style="margin-bottom: 20px;">
+          <div class="body">
+          ${msgFlavor}
+          <br><br>
+          ${msgOutcome}
+          </div>
+          </div>
+      </div>
+    </div>
+    `;
+    //push message
+    ChatMessage.create({
+      id: chatId,
+      user: game.user.id,
+      speaker: {actor: this.id, token: this.token, alias: this.name},
+      content: messageContent
+    },{keepId:true});
+  }
+
+  //take radiation damage
+  async takeRadiationDamage() {
+    //init vars
+    let chatId = randomID();  
+    //reduce all stats and saves by 1
+    this.modifyActor('system.stats.strength.value',-1,null,false);
+    this.modifyActor('system.stats.speed.value',-1,null,false);
+    this.modifyActor('system.stats.intellect.value',-1,null,false);
+    this.modifyActor('system.stats.combat.value',-1,null,false);
+    this.modifyActor('system.stats.sanity.value',-1,null,false);
+    this.modifyActor('system.stats.fear.value',-1,null,false);
+    this.modifyActor('system.stats.body.value',-1,null,false);
+    //get flavor text
+    let msgFlavor = this.getFlavorText('item','condition','radiation');
+    let msgOutcome = `All stats and saves decreased by <strong>1</strong>.`;
+    //create chat message text
+    let messageContent = `
+    <div class="mosh">
+      <div class="rollcontainer">
+          <div class="flexrow" style="margin-bottom: 5px;">
+          <div class="rollweaponh1">Radiation Damage</div>
+          <div style="text-align: right"><img class="roll-image" src="systems/mosh/images/icons/ui/attributes/health.png" /></div>
+          </div>
+          <div class="description"" style="margin-bottom: 20px;">
+          <div class="body">
+          ${msgFlavor}
+          <br><br>
+          ${msgOutcome}
+          </div>
+          </div>
+      </div>
+    </div>
+    `;
+    //push message
+    ChatMessage.create({
+      id: chatId,
+      user: game.user.id,
+      speaker: {actor: this.id, token: this.token, alias: this.name},
+      content: messageContent
+    },{keepId:true});
   }
 
   // print description

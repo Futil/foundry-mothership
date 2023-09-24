@@ -93,4 +93,16 @@ export const registerSettings = function () {
       }
   });
 
+  game.settings.register('mosh', 'androidPanic', {
+    name: "Use Android Panic Tables?",
+    hint: "Adds android-specific tables for Panic and Calm checks.",
+    default: false,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+    onChange: value => { // A callback function which triggers when the setting is changed
+        console.log("androidPanic set to " + value)
+    }
+});
+
 };

@@ -46,7 +46,6 @@ new Dialog({
     <div class="macro_desc"><h3>Rest Save</h3>You can relieve Stress by resting in a relatively safe place. If you succeed, reduce your Stress; <strong>if you fail, you gain 1 Stress instead.</strong> Players can gain Advantage on their Rest Save by participating in consensual sex, recreational drug use, a night of heavy drinking, prayer, or any other suitable leisure activity. Unsafe locations may incur Disadvantage.</div>
     </div>
     </div>
-    <h4>Select your roll type:</h4>
     `,
     buttons: {
       button1: {
@@ -55,4 +54,4 @@ new Dialog({
         icon: `<i class="fas fa-chevron-circle-right"></i>`
       }
     }
-  },{width: 600,height: 265}).render(true);
+  },{width: 600,height: 237}).render(true);

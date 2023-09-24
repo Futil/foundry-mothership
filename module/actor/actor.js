@@ -1604,6 +1604,32 @@ export class MothershipActor extends Actor {
     let msgHeader = ``;
     let msgImgPath = ``;
     let chatId = randomID();
+    //customize this roll if its a unique use-case
+      //rest save
+      if (attribute === 'restSave') {
+        //set special roll value for use later
+        specialRoll = attribute;
+        //disable criticals for this roll
+        checkCrit = false;
+        //lets figure out the actors worst save and update this roll accordingly
+          //get current save values
+          let sanitySave = Number(this.system.stats.sanity.value) + Number(this.system.stats.sanity.mod || 0);
+          let fearSave = Number(this.system.stats.fear.value) + Number(this.system.stats.fear.mod || 0);
+          let bodySave = Number(this.system.stats.body.value) + Number(this.system.stats.body.mod || 0);
+          //get the lowest value
+          let minSave = Math.min(sanitySave,fearSave,bodySave);
+          //set attribute to the first one matching the lowest (since actor may have 2 with the lowest)
+          if (sanitySave === minSave) {
+            //set attribute
+            attribute = 'sanity';
+          } else if (fearSave === minSave) {
+            //set attribute
+            attribute = 'fear';
+          } else {
+            //set attribute
+            attribute = 'body';
+          }
+      }
     //if this is a weapon roll
     if (weapon) {
       //check to see if this weapon uses ammo
@@ -1657,32 +1683,6 @@ export class MothershipActor extends Actor {
         let chosenRollType = await this.chooseAdvantage(this.system.stats[attribute].rollLabel,'1d100');
         //set variables
         rollString = chosenRollType[0];
-      }
-    //customize this roll if its a unique use-case
-      //rest save
-      if (attribute === 'restSave') {
-        //set special roll value for use later
-        specialRoll = 'attribute';
-        //disable criticals for this roll
-        checkCrit = false;
-        //lets figure out the actors worst save and update this roll accordingly
-          //get current save values
-          let sanitySave = Number(this.system.stats.sanity.value) + Number(this.system.stats.sanity.mod || 0);
-          let fearSave = Number(this.system.stats.fear.value) + Number(this.system.stats.fear.mod || 0);
-          let bodySave = Number(this.system.stats.body.value) + Number(this.system.stats.body.mod || 0);
-          //get the lowest value
-          let minSave = Math.min(sanitySave,fearSave,bodySave);
-          //set attribute to the first one matching the lowest (since actor may have 2 with the lowest)
-          if (sanitySave === minSave) {
-            //set attribute
-            attribute = 'sanity'
-          } else if (fearSave === minSave) {
-            //set attribute
-            attribute = 'fear'
-          } else {
-            //set attribute
-            attribute = 'body'
-          }
       }
     //make the rollTarget value
       //retrieve the attribute
@@ -1779,26 +1779,29 @@ export class MothershipActor extends Actor {
         }
       //prepare flavor text for special rolls
       } else if (specialRoll) {
-        //override message header
-        msgHeader = `Rest Save`;
-        //override  header image
-        msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
-        //prep text based on success or failure
-        if (parsedRollResult.success === false && this.type === 'character') {
-          //increase stress by 1 and retrieve the flavor text from the result
-          let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
-          flavorText = addStress[1];
-          //if critical failure, make sure to ask for panic check
-          if (parsedRollResult.critical === true) {
-            //set crit fail
-            critFail = true;
+        //rest save
+        if (specialRoll === 'restSave') {
+          //override message header
+          msgHeader = `Rest Save`;
+          //override  header image
+          msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
+          //prep text based on success or failure
+          if (parsedRollResult.success === false && this.type === 'character') {
+            //increase stress by 1 and retrieve the flavor text from the result
+            let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
+            flavorText = addStress[1];
+            //if critical failure, make sure to ask for panic check
+            if (parsedRollResult.critical === true) {
+              //set crit fail
+              critFail = true;
+            }
+          } else if (parsedRollResult.success === true && this.type === 'character') {
+            //calculate stress reduction
+            let onesValue = -1 * Number(String(parsedRollResult.total).charAt(String(parsedRollResult.total).length-1));
+            //decrease stress by ones place of roll value and retrieve the flavor text from the result
+            let removeStress = await this.modifyActor('system.other.stress.value',onesValue,null,false);
+            flavorText = removeStress[1];
           }
-        } else if (parsedRollResult.success === true) {
-          //calculate stress reduction
-          onesValue = -1 * Number(String(parsedRollResult.total).charAt(String(parsedRollResult.total).length-1));
-          //decrease stress by ones place of roll value and retrieve the flavor text from the result
-          let removeStress = await this.modifyActor('system.other.stress.value',onesValue,null,false);
-          flavorText = removeStress[1];
         }
       //prepare flavor text for regular checks
       } else {
@@ -1812,7 +1815,7 @@ export class MothershipActor extends Actor {
             //set crit fail
             critFail = true;
           }
-        } else if (parsedRollResult.success === true) {
+        } else if (parsedRollResult.success === true && this.type === 'character') {
           //flavor text = generic roll success
           if (this.system.stats[attribute].rollLabel.includes(" Save")) {
             //set final footer

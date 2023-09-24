@@ -231,8 +231,8 @@ export class MothershipActor extends Actor {
         //hits flavor text
         hits: {
           increase: {
-            android: `Your pain receptors indicate permanent damage and you gain a wound.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`,
-            human: `You scream out from immense pain and you gain a wound.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`
+            android: `@UUID[Compendium.mosh.macros_hotbar_1e.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`,
+            human: `@UUID[Compendium.mosh.macros_hotbar_1e.Macro.ZzKgfEmRdvDfyBMS]{Make a Wound Check}`
           },
           increaseHeader: {
             android: `Damaged`,
@@ -243,12 +243,12 @@ export class MothershipActor extends Actor {
             human: `systems/mosh/images/icons/ui/attributes/health.png`
           },
           hitCeiling: {
-            android: `Your pain receptors indicate permanent damage.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
-            human: `You scream out from immense pain.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`
+            android: `@UUID[Compendium.mosh.macros_hotbar_1e.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
+            human: `@UUID[Compendium.mosh.macros_hotbar_1e.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`
           },
           pastCeiling: {
-            android: `Your pain receptors indicate permanent damage.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
-            human: `You scream out from immense pain.<br><br>@UUID[Compendium.mosh.macros_hotbar.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`
+            android: `@UUID[Compendium.mosh.macros_hotbar_1e.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
+            human: `@UUID[Compendium.mosh.macros_hotbar_1e.Macro.NsRHfRuuNGPfkYVf]{Make a Death Save}`
           },
           decrease: {
             android: `System resources free up and you feel energized.`,
@@ -747,64 +747,64 @@ export class MothershipActor extends Actor {
       macro: {
         wound: {
           bleeding: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.1DD8i6eCS6nx2Ip0]{Bleeding}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.1DD8i6eCS6nx2Ip0]{Bleeding}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.1DD8i6eCS6nx2Ip0]{Bleeding}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.1DD8i6eCS6nx2Ip0]{Bleeding}`
           },
           bleeding_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.tFcWNddtZvlv7tsg]{Bleeding [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.tFcWNddtZvlv7tsg]{Bleeding [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.tFcWNddtZvlv7tsg]{Bleeding [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.tFcWNddtZvlv7tsg]{Bleeding [-]}`
           },
           bleeding_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [+]}`
           },
           blunt_force: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.TAjlQjA5AAy3qYL3]{Blunt Force}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.TAjlQjA5AAy3qYL3]{Blunt Force}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.TAjlQjA5AAy3qYL3]{Blunt Force}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.TAjlQjA5AAy3qYL3]{Blunt Force}`
           },
           blunt_force_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [-]}`
           },
           blunt_force_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.k0zf8ZGivRguc0wb]{Blunt Force [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.k0zf8ZGivRguc0wb]{Blunt Force [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.k0zf8ZGivRguc0wb]{Blunt Force [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.k0zf8ZGivRguc0wb]{Blunt Force [+]}`
           },
           fire_explosives: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.bZi1qKmcKLFvnhZ2]{Fire & Explosives}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.bZi1qKmcKLFvnhZ2]{Fire & Explosives}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.bZi1qKmcKLFvnhZ2]{Fire & Explosives}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.bZi1qKmcKLFvnhZ2]{Fire & Explosives}`
           },
           fire_explosives_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [-]}`
           },
           fire_explosives_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [+]}`
           },
           gore_massive: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.S9nnHKWYGSQmjQdp]{Gore}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.S9nnHKWYGSQmjQdp]{Gore}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.S9nnHKWYGSQmjQdp]{Gore}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.S9nnHKWYGSQmjQdp]{Gore}`
           },
           gore_massive_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.DuVjNlE4lsnR7Emc]{Gore [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.DuVjNlE4lsnR7Emc]{Gore [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.DuVjNlE4lsnR7Emc]{Gore [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.DuVjNlE4lsnR7Emc]{Gore [-]}`
           },
           gore_massive_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.eQPuDgwv8evetFIk]{Gore [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.eQPuDgwv8evetFIk]{Gore [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.eQPuDgwv8evetFIk]{Gore [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.eQPuDgwv8evetFIk]{Gore [+]}`
           },
           gunshot: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.XgCOLv9UunBddUyW]{Gunshot}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.XgCOLv9UunBddUyW]{Gunshot}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.XgCOLv9UunBddUyW]{Gunshot}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.XgCOLv9UunBddUyW]{Gunshot}`
           },
           gunshot_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.fnVATRHYJEUlS3pR]{Gunshot [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.fnVATRHYJEUlS3pR]{Gunshot [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.fnVATRHYJEUlS3pR]{Gunshot [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.fnVATRHYJEUlS3pR]{Gunshot [-]}`
           },
           gunshot_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [+]}`
           }
         }
       }
@@ -1152,7 +1152,7 @@ export class MothershipActor extends Actor {
       }
     //table specific customizations
       //if a wound table, add a wound to the player and prepare text for the final message
-      if (tableName.slice(-3) === 'Wound') {
+      if (tableName.slice(-5) === 'Wound') {
         let addWound = await this.modifyActor('system.hits.value',1,null,false);
         woundText = addWound[1];
       }
@@ -1937,8 +1937,6 @@ export class MothershipActor extends Actor {
             getWound = true;
             //reset hp
             modifyNew = modifyMaximum + modifySurplus;
-            //increase wounds by 1
-            this.update({'system.hits.value': this.system.hits.value + 1});
           }
         //update actor
             //prepare update JSON
@@ -1977,11 +1975,11 @@ export class MothershipActor extends Actor {
             if (msgAction === 'increase' || msgAction === 'decrease') {
               msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
             //set message outcome for stress going from < 20 to > 20
-            } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifyNew > modifyMaximum) {
+            } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifySurplus > 0) {
               msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
             //set message outcome for stress going from 20 to > 20
-            } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifyNew > modifyMaximum) {
-              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + `<strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+            } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifySurplus > 0) {
+              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
             //set message outcome for health reaches zero or goes past it, and you have wounds remaining
             } else if (getWound) {
               //can this player take a wound and not die?
@@ -1990,7 +1988,7 @@ export class MothershipActor extends Actor {
                 msgOutcome = this.getFlavorText('attribute','hits','hitCeiling');
               } else {
                 //you are wounded!
-                msgOutcome = `You gain a wound and your health resets to <strong>${modifyNew}</strong>.<br><br>` + this.getFlavorText('attribute','hits','increase');
+                msgOutcome = `Your health has hit zero and you must take a wound. Your health has been reset to <strong>${modifyNew}</strong>.<br><br>` + this.getFlavorText('attribute','hits','increase');
               }
             } else {
               msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
@@ -2097,11 +2095,11 @@ export class MothershipActor extends Actor {
                 if (msgAction === 'increase' || msgAction === 'decrease') {
                   msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
                 //set message outcome for stress going from < 20 to > 20
-                } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifyNew > modifyMaximum) {
+                } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifySurplus > 0) {
                   msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
                 //set message outcome for stress going from 20 to > 20
-                } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifyNew > modifyMaximum) {
-                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + `<strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+                } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifySurplus > 0) {
+                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
                 //set message outcome for health reaches zero or goes past it, and you have wounds remaining
                 } else if (getWound) {
                   //can this player take a wound and not die?
@@ -2110,7 +2108,7 @@ export class MothershipActor extends Actor {
                     msgOutcome = this.getFlavorText('attribute','hits','hitCeiling');
                   } else {
                     //you are wounded!
-                    msgOutcome = `You gain a wound and your health resets to <strong>${modifyNew}</strong>.<br><br>` + this.getFlavorText('attribute','hits','increase');
+                    msgOutcome = `Your health has hit zero and you must take a wound. Your health has been reset to <strong>${modifyNew}</strong>.<br><br>` + this.getFlavorText('attribute','hits','increase');
                   }
                 } else {
                   msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;

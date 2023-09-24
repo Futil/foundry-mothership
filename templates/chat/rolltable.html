@@ -12,6 +12,9 @@
         {{#if parsedRollResult.success}}
             <div class="description" style="margin-bottom : 20px;">{{{flavorText}}}</div>
         {{else}}
+            {{#if woundText}}
+            {{{woundText}}}<br><br>
+            {{/if}}
             {{#if (compare 'int' tableResult.[0].type '===' 1)}}
             <ol class="table-results">
             {{/if}}
@@ -28,9 +31,6 @@
             {{/each}}
             {{#if (compare 'int' tableResult.[0].type '===' 1)}}
             </ol>
-            {{/if}}
-            {{#if woundText}}
-            <br><br>{{{woundText}}}
             {{/if}}
         {{/if}}
     </div>

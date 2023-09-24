@@ -1895,9 +1895,9 @@ export class MothershipActor extends Actor {
         //fieldId
         let fieldId = fieldValue[fieldValue.length-2];
       //get min value for this field, if it exists
-      modifyMinimum = (fieldMin.reduce((a, v) => a[v], this) || null);
+      modifyMinimum = fieldMin.reduce((a, v) => a[v], this);
       //get max value for this field, if it exists
-      modifyMaximum = (fieldMax.reduce((a, v) => a[v], this) || null);
+      modifyMaximum = fieldMax.reduce((a, v) => a[v], this);
       //get current value for this field
       modifyCurrent = fieldValue.reduce((a, v) => a[v], this);
     //check to see if this is a min/max part of a main field
@@ -1916,13 +1916,13 @@ export class MothershipActor extends Actor {
           modifyNew = modifyCurrent + modifyChange;
           //restrict new value based on min/max
             //cap min
-            if(modifyMinimum) {
+            if(modifyMinimum || modifyMinimum === 0) {
               if(modifyNew < modifyMinimum) {
                 modifyNew = modifyMinimum;
               }
             }
             //cap max
-            if(modifyMaximum) {
+            if(modifyMaximum || modifyMaximum === 0) {
               if(modifyNew > modifyMaximum) {
                 modifyNew = modifyMaximum;
               }
@@ -1932,13 +1932,13 @@ export class MothershipActor extends Actor {
             //measure any surplus if we exceeded min/max
             modifySurplus = modifyChange - modifyDifference;
           //if health hits zero, reset to next hp bar ------------------------------come back here when implementing 0e--------------------------------
-          if (fieldId = 'health' && modifyNew === 0) {
+          if (fieldId === 'health' && modifyNew === 0) {
             //set marker for later
             getWound = true;
             //reset hp
             modifyNew = modifyMaximum + modifySurplus;
             //increase wounds by 1
-            this.update({'system.stats.hits.value': this.system.hits.value + 1});
+            this.update({'system.hits.value': this.system.hits.value + 1});
           }
         //update actor
             //prepare update JSON
@@ -2036,13 +2036,13 @@ export class MothershipActor extends Actor {
           modifyNew = modifyCurrent + modifyChange;
           //restrict new value based on min/max
             //cap min
-            if(modifyMinimum) {
+            if(modifyMinimum || modifyMinimum === 0) {
               if(modifyNew < modifyMinimum) {
                 modifyNew = modifyMinimum;
               }
             }
             //cap max
-            if(modifyMaximum) {
+            if(modifyMaximum || modifyMaximum === 0) {
               if(modifyNew > modifyMaximum) {
                 modifyNew = modifyMaximum;
               }
@@ -2051,6 +2051,15 @@ export class MothershipActor extends Actor {
             modifyDifference = modifyNew - modifyCurrent;
             //measure any surplus if we exceeded min/max
             modifySurplus = modifyChange - modifyDifference;
+            //if health hits zero, reset to next hp bar ------------------------------come back here when implementing 0e--------------------------------
+            if (fieldId === 'health' && modifyNew === 0) {
+              //set marker for later
+              getWound = true;
+              //reset hp
+              modifyNew = modifyMaximum + modifySurplus;
+              //increase wounds by 1
+              this.update({'system.stats.hits.value': this.system.hits.value + 1});
+            }
             //update actor
               //prepare update JSON
               let updateData = JSON.parse(`{"` + fieldAddress + `": ` + modifyNew + `}`);
@@ -2061,12 +2070,12 @@ export class MothershipActor extends Actor {
               if (modifyChange > 0) {
                 msgFlavor = this.getFlavorText('attribute',fieldId,'increase');
                 msgChange = 'increased';
-                msgHeader = this.getFlavorText('attribute',fieldId,'increaseHeader');
+                msgHeader = fieldPrefix + this.getFlavorText('attribute',fieldId,'increaseHeader');
                 msgImgPath = this.getFlavorText('attribute',fieldId,'increaseImg');
               } else if (modifyChange < 0) {
                 msgFlavor = this.getFlavorText('attribute',fieldId,'decrease');
                 msgChange = 'decreased';
-                msgHeader = this.getFlavorText('attribute',fieldId,'decreaseHeader');
+                msgHeader = fieldPrefix + this.getFlavorText('attribute',fieldId,'decreaseHeader');
                 msgImgPath = this.getFlavorText('attribute',fieldId,'decreaseImg');
               }
               //get modification description
@@ -2084,13 +2093,27 @@ export class MothershipActor extends Actor {
                 } else if (modifyChange < 0) {
                   msgAction = 'decrease';
                 }
-                //set message outcome
+                //set default message outcome
                 if (msgAction === 'increase' || msgAction === 'decrease') {
-                  msgOutcome = fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
-                } else if (modifyDifference === 0 && modifySurplus != 0) {
-                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
+                  msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+                //set message outcome for stress going from < 20 to > 20
+                } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifyNew > modifyMaximum) {
+                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+                //set message outcome for stress going from 20 to > 20
+                } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifyNew > modifyMaximum) {
+                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + `<strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+                //set message outcome for health reaches zero or goes past it, and you have wounds remaining
+                } else if (getWound) {
+                  //can this player take a wound and not die?
+                  if (this.system.hits.value + 1 === this.system.hits.max) {
+                    //you are dead!
+                    msgOutcome = this.getFlavorText('attribute','hits','hitCeiling');
+                  } else {
+                    //you are wounded!
+                    msgOutcome = `You gain a wound and your health resets to <strong>${modifyNew}</strong>.<br><br>` + this.getFlavorText('attribute','hits','increase');
+                  }
                 } else {
-                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
                 }
             //push message if asked
             if (outputChatMsg) {

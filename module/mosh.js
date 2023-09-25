@@ -103,10 +103,10 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       description: 'Roll Dice',
       category: 'Mothership',
       foreground: '#FFFFFF',
-      background: '#000000',
+      background: '#262626',
       outline: 'none',
-      texture: 'paper',
-      material: 'glass',
+      texture: 'none',
+      material: 'none',
       font: 'Arial'
     }
   )
@@ -122,8 +122,8 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       foreground: '#FFFFFF',
       background: '#cc2828',
       outline: 'none',
-      texture: 'paper',
-      material: 'glass',
+      texture: 'none',
+      material: 'none',
       font: 'Arial'
     }
   )
@@ -137,7 +137,7 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
       description: 'Panic Die',
       category: 'Mothership',
       foreground: '#000000',
-      background: '#ffe800',
+      background: '#FFF200',
       outline: 'none',
       texture: 'none',
       material: 'metal',

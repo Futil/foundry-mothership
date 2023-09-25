@@ -185,6 +185,49 @@ export class MothershipActor extends Actor {
             human: `You are already as calm as possible.`
           }
         },
+        //calm flavor text
+        calm: {
+          increase: {
+            android: `You soft-reset, purging unnecessary background processes.`,
+            human: `You feel a sense of calm wash over you.`
+          },
+          increaseHeader: {
+            android: `Calm Gained`,
+            human: `Calm Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/macros/relieve_stress.png`,
+            human: `systems/mosh/images/icons/ui/macros/relieve_stress.png`
+          },
+          hitCeiling: {
+            android: `You attain perfect focus and clarity.`,
+            human: `You attain complete peace of mind.`
+          },
+          pastCeiling: {
+            android: `You are already as focused as possible.`,
+            human: `You are already as calm as possible.`
+          },
+          decrease: {
+            android: `Power surges through your chest and you start to overheat.`,
+            human: `You feel tightness in your chest and start to sweat.`
+          },
+          decreaseHeader: {
+            android: `Calm Lost`,
+            human: `Calm Lost`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/macros/gain_stress.png`,
+            human: `systems/mosh/images/icons/ui/macros/gain_stress.png`
+          },
+          hitFloor: {
+            android: `System performance grinds to a halt.`,
+            human: `You hit rock bottom.`
+          },
+          pastFloor: {
+            android: `You sense unrecoverable data loss.`,
+            human: `You feel a part of yourself drift away.`
+          }
+        },
         //health flavor text
         health: {
           increase: {

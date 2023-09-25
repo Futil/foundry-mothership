@@ -1,4 +1,4 @@
-prepModifyItem('8lOkseRbg09YFvv7',1);
+prepModifyItem('PTK6ds7eJvJDonbp',1);
 
 //tell the actor to run the function
 async function prepModifyItem(itemName,addAmount) {

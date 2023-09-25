@@ -1,15 +1,15 @@
-prepModifyActor('system.other.stress.min',1,null,true);
+prepModifyItem('oTafwWjoNOE7nBrj',1);
 
 //tell the actor to run the function
-async function prepModifyActor(fieldAddress,modValue,modRollString,outputChatMsg) {
+async function prepModifyItem(itemName,addAmount) {
     //determine who to run the macro for
     if (game.settings.get('mosh','macroTarget') === 'character') {
       //run the function for the player's 'Selected Character'
-      game.user.character.modifyActor(fieldAddress,modValue,modRollString,outputChatMsg);
+      game.user.character.modifyItem(itemName,addAmount);
     } else if (game.settings.get('mosh','macroTarget') === 'token') {
       //run the function for all selected tokens
       canvas.tokens.controlled.forEach(function(token){
-        token.actor.modifyActor(fieldAddress,modValue,modRollString,outputChatMsg);
+        token.actor.modifyItem(itemName,addAmount);
       });
     }
 }

@@ -140,7 +140,7 @@
           "label" : "Stress"
         },
         "calm": {
-          "value": 0,
+          "value": 85,
           "min": 0,
           "max": 85,
           "label" : "Calm"
@@ -148,7 +148,7 @@
         "resolve": {
           "value": 0,
           "min": 0,
-          "max": 5,
+          "max": 15,
           "label" : "Resolve"
         }
       }

@@ -374,7 +374,7 @@
         <li class="item flexrow item-header" role="rowgroup">
           <div class="item-image" role="cell"></div>
           <div class="skill-stat" style="flex-grow: 2.5;" role="cell">Armor Name</div>
-          {{#if system.settings.firstEdition}}
+          {{#if armor.system.damageReduction}}
           <div class="skill-stat" role="cell">AP</div>
           <div class="skill-stat" role="cell">DR</div>
           {{else}}
@@ -391,11 +391,10 @@
         <li class="item flexrow dropitem" data-item-id="{{armor._id}}" role="rowgroup">
           <div class="item-image" role="cell"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
           <h4 class="skill-name list-roll description-roll" style="flex-grow: 2.55;" role="cell">{{armor.name}}</h4>
-        {{#if system.settings.firstEdition}}
           <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
+        {{#if armor.system.damageReduction}}
           <div class="skill-stat" role="cell">{{armor.system.damageReduction}}</div>
         {{else}}
-          <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
         {{/if}}
         <div class="skill-stat">{{armor.system.speed}}</div>
         {{#if armor.system.oxygenMax}}

@@ -1854,7 +1854,7 @@ export class MothershipActor extends Actor {
             woundEffect = woundEffect.replace('Blunt Force','blunt_force');
             woundEffect = woundEffect.replace('Fire & Explosives','fire_explosives');
             woundEffect = woundEffect.replace('Gore & Massive','gore_massive');
-            woundEffect = woundEffect.replace('Gunshot','bleeding');
+            woundEffect = woundEffect.replace('Gunshot','gunshot');
             //split string
             let woundArray = woundEffect.split(' ');
           //loop through this string and replace each wound effect with macro UUID

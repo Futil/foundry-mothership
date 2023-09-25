@@ -1268,6 +1268,7 @@ export class MothershipActor extends Actor {
     return new Promise(async (resolve) => {
       //init vars
       let playerItems = this.items;
+      let attribute = ``;
       let skill = ``;
       let skillValue = 0;
       let buttonDesc = ``;
@@ -1703,7 +1704,7 @@ export class MothershipActor extends Actor {
     }
     //bounce this request away if certain parameters are NULL
       //if attribute is blank, redirect player to choose an attribute
-      if (!attribute) {
+      if (!attribute || specialRoll) {
         //run the choose attribute function
         let chosenAttributes = await this.chooseAttribute(rollString,aimFor);
         //set variables

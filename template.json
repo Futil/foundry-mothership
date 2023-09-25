@@ -134,8 +134,8 @@
           "label" : "Stress"
         },
         "stress_0e": {
-          "value": 0,
-          "min": 0,
+          "value": 2,
+          "min": 2,
           "max": 999,
           "label" : "Stress"
         },

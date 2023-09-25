@@ -41,6 +41,7 @@ export class MothershipShipSheet extends ActorSheet {
         superData.settings.useCalm = game.settings.get("mosh", "useCalm");
         superData.settings.hideWeight = game.settings.get("mosh", "hideWeight");
         superData.settings.firstEdition = game.settings.get("mosh", "firstEdition");
+        superData.settings.androidPanic = game.settings.get("mosh", "androidPanic");
 
         let maxHull = superData.supplies.hull.max;
 

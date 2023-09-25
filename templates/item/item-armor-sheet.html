@@ -9,8 +9,10 @@
                   <input type="text" name="system.bonus" value="{{system.armorPoints}}" data-dtype="Number"/>
               </div>
               <div class="resource">
+                {{#if system.settings.firstEdition}}
                 <label class="resource-label">DMG Reduction</label>
                   <input type="text" name="system.damageReduction" value="{{system.damageReduction}}" data-dtype="Number"/>
+                {{/if}}
               </div>
               <div class="resource">
                 <label class="resource-label">Max O2</label>

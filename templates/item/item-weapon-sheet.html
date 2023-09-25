@@ -37,6 +37,7 @@
                     <input type="text" name="system.critDmg" value="{{system.critDmg}}" data-dtype="String" />
                 </div>
                 <div class="resource">
+                    {{#if system.settings.firstEdition}}
                     <label class="resource-label">Wound Effect</label>
                     <input type="text" list="woundRolls" name="system.woundEffect" value="{{system.woundEffect}}" data-dtype="String">
                     <datalist id="woundRolls">
@@ -56,11 +57,14 @@
                         <option value="Gunshot [-]" />
                         <option value="Gunshot [+]" />
                     </datalist>
+                    {{/if}}
                 </div>
+                {{#if system.settings.firstEdition}}
                 <div class="resource">
                     <label class="resource-label">Anti-Armor</label>
                     <input type="checkbox" name="system.antiArmor" value="{{system.antiArmor}}" {{#if system.antiArmor}}checked{{/if}} data-dtype="Boolean" />
                 </div>
+                {{/if}}
                 <div class="resource">
                     <label class="resource-label">Uses Ammo</label>
                     <input type="checkbox" name="system.useAmmo" value="{{system.useAmmo}}" {{#if system.useAmmo}}checked{{/if}} data-dtype="Boolean" />

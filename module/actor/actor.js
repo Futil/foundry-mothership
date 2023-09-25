@@ -142,8 +142,51 @@ export class MothershipActor extends Actor {
       },
       //attribute flavor text
       attribute: {
-        //stress flavor text
+        //stress flavor text (1e)
         stress: {
+          increase: {
+            android: `Power surges through your chest and you start to overheat.`,
+            human: `You feel tightness in your chest and start to sweat.`
+          },
+          increaseHeader: {
+            android: `Stress Gained`,
+            human: `Stress Gained`
+          },
+          increaseImg: {
+            android: `systems/mosh/images/icons/ui/macros/gain_stress.png`,
+            human: `systems/mosh/images/icons/ui/macros/gain_stress.png`
+          },
+          hitCeiling: {
+            android: `System performance grinds to a halt.`,
+            human: `You hit rock bottom.`
+          },
+          pastCeiling: {
+            android: `You sense unrecoverable data loss.`,
+            human: `You feel a part of yourself drift away.`
+          },
+          decrease: {
+            android: `You soft-reset, purging unnecessary background processes.`,
+            human: `You feel a sense of calm wash over you.`
+          },
+          decreaseHeader: {
+            android: `Stress Relieved`,
+            human: `Stress Relieved`
+          },
+          decreaseImg: {
+            android: `systems/mosh/images/icons/ui/macros/relieve_stress.png`,
+            human: `systems/mosh/images/icons/ui/macros/relieve_stress.png`
+          },
+          hitFloor: {
+            android: `You attain perfect focus and clarity. `,
+            human: `You attain complete peace of mind.`
+          },
+          pastFloor: {
+            android: `You are already as focused as possible.`,
+            human: `You are already as calm as possible.`
+          }
+        },
+        //stress flavor text (0e)
+        stress_0e: {
           increase: {
             android: `Power surges through your chest and you start to overheat.`,
             human: `You feel tightness in your chest and start to sweat.`

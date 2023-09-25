@@ -112,44 +112,58 @@
           {{#if system.settings.useCalm}}
           <!-- Calm -->
           <div class="resource healthspread minmaxtopstat">
-            <label for="system.other.stress.value" class="resource-label minmaxtext rollable calm-roll">Calm</label>
+            <label for="system.other.calm.value" class="resource-label minmaxtext rollable calm-roll">Calm</label>
 
             <div class="minmaxwrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.value" value="{{system.other.stress.value}}"
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.calm.value" value="{{system.other.calm.value}}"
                 data-dtype="Number" />
               <div class="slant" style="transform: skewX(0deg);"></div>
-              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.min"
-                value="{{system.other.stress.min}}" data-dtype="Number" />
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.calm.min"
+                value="{{system.other.calm.min}}" data-dtype="Number" />
             </div>
 
             <div class="healthmaxtext">Current</div>
             <div class="healthmaxtext">Maximum</div>
           </div>
           {{else}}
-          <!-- Stress -->
-          <div class="resource healthspread minmaxtopstat">
-            <label for="system.other.stress.value" class="resource-label minmaxtext rollable stress-roll">Stress</label>
-            <div class="minmaxwrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.value" value="{{system.other.stress.value}}"
-                data-dtype="Number" />
-              <div class="slant"></div>
-              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.min"
-                value="{{system.other.stress.min}}" data-dtype="Number" />
+            {{#if system.settings.firstEdition}}
+            <!-- Stress -->
+            <div class="resource healthspread minmaxtopstat">
+              <label for="system.other.stress.value" class="resource-label minmaxtext rollable stress-roll">Stress</label>
+              <div class="minmaxwrapper">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.value" value="{{system.other.stress.value}}"
+                  data-dtype="Number" />
+                <div class="slant"></div>
+                <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.min"
+                  value="{{system.other.stress.min}}" data-dtype="Number" />
+              </div>
+              <div class="healthmaxtext">Current</div>
+              <div class="healthmaxtext">Minimum</div>
             </div>
-            <div class="healthmaxtext">Current</div>
-            <div class="healthmaxtext">Minimum</div>
-          </div>
+            {{else}}
+            <!-- Stress -->
+            <div class="resource healthspread minmaxtopstat">
+              <label for="system.other.stress_0e.value" class="resource-label minmaxtext rollable stress-roll">Stress</label>
+              <div class="minmaxwrapper">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress_0e.value" value="{{system.other.stress_0e.value}}"
+                  data-dtype="Number" />
+                <div class="slant"></div>
+                <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress_0e.min"
+                  value="{{system.other.stress_0e.min}}" data-dtype="Number" />
+              </div>
+              <div class="healthmaxtext">Current</div>
+              <div class="healthmaxtext">Minimum</div>
+            </div>
+            {{/if}}
           {{/if}}
 
           {{#if system.settings.firstEdition}}
           {{else}}
           <!-- Resolve -->
           <div class="resource healthspread minmaxtopstat">
-            <label for="system.other.stress.value" class="resource-label minmaxtext">Resolve</label>
-
+            <label for="system.other.resolve.value" class="resource-label minmaxtext">Resolve</label>
             <div class="valuewrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="system.resolve.value" value="{{system.resolve.value}}"
-                data-dtype="Number" />
+              <input class="maxhealth-input darkGreyText" type="text" name="system.resolve.value" value="{{system.resolve.value}}" data-dtype="Number" />
             </div>
           </div>
           {{/if}}
@@ -287,46 +301,40 @@
         <!-- Sanity -->
         <div class="resource flex-group-center">
           <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-label="Sanity" data-key="sanity" data-target="{{system.stats.sanity.value}}">SANITY</span>
-        <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
-          <input class="square-input" type="text" name="system.stats.sanity.value" value="{{system.stats.sanity.value}}"
-          data-dtype="Number" />
-          <div class="mainstatmod-title" style="top: 10px;">+</div>
-          <input class="mainsavemod-input" style="top: 5px;" type="text" name="system.stats.sanity.mod" value="{{system.stats.sanity.mod}}"
-          data-dtype="Number" />
+          <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
+            <input class="square-input" type="text" name="system.stats.sanity.value" value="{{system.stats.sanity.value}}" data-dtype="Number" />
+            <div class="mainstatmod-title" style="top: 10px;">+</div>
+            <input class="mainsavemod-input" style="top: 5px;" type="text" name="system.stats.sanity.mod" value="{{system.stats.sanity.mod}}" data-dtype="Number" />
           </div>	
         </div>
         <!-- Fear -->
         <div class="resource flex-group-center">
           <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="fear" data-target="{{system.stats.fear.value}}" data-label="Fear">FEAR</span>
-        <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
-          <input class="square-input" type="text" name="system.stats.fear.value" value="{{system.stats.fear.value}}"
-          data-dtype="Number" />
-          <div class="mainstatmod-title" style="top: 10px;">+</div>
-          <input class="mainsavemod-input" style="top: 5px;" type="text" name="system.stats.fear.mod" value="{{system.stats.fear.mod}}"
-          data-dtype="Number" />
+          <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
+            <input class="square-input" type="text" name="system.stats.fear.value" value="{{system.stats.fear.value}}" data-dtype="Number" />
+            <div class="mainstatmod-title" style="top: 10px;">+</div>
+            <input class="mainsavemod-input" style="top: 5px;" type="text" name="system.stats.fear.mod" value="{{system.stats.fear.mod}}" data-dtype="Number" />
           </div>	
         </div>
         <!-- Body -->
         <div class="resource flex-group-center">
           <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="body" data-target="{{system.stats.body.value}}" data-label="Body">BODY</span>
-        <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
-          <input class="square-input" type="text" name="system.stats.body.value" value="{{system.stats.body.value}}"
-          data-dtype="Number" />
-          <div class="mainstatmod-title" style="top: 10px;">+</div>
-          <input class="mainsavemod-input"  style="top: 5px;"type="text" name="system.stats.body.mod" value="{{system.stats.body.mod}}"
-          data-dtype="Number" />
+          <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
+            <input class="square-input" type="text" name="system.stats.body.value" value="{{system.stats.body.value}}" data-dtype="Number" />
+            <div class="mainstatmod-title" style="top: 10px;">+</div>
+            <input class="mainsavemod-input"  style="top: 5px;"type="text" name="system.stats.body.mod" value="{{system.stats.body.mod}}" data-dtype="Number" />
           </div>	
         </div>
 
         {{#unless system.settings.firstEdition}}
         <!-- Armor -->
         <div class="resource flex-group-center">
-          <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="armor"
-            data-target="{{system.stats.armor.value}}" data-label="Armor">ARMOR</span>
-          <input class="square-input" type="text" name="system.stats.armor.value" value="{{system.stats.armor.value}}"
-            data-dtype="Number" />
-          <div class="armor-mod" type="text" name="system.stats.armor.total" value=""
-          data-dtype="Number" >{{system.stats.armor.total}}</div>
+          <span class="ability-mod stat-roll rollable savetext" data-roll="d100" data-key="armor" data-target="{{system.stats.armor.value}}" data-label="Armor">ARMOR</span>
+          <div class="grid grid-3col" style="grid-template-columns: 44px 14px 42px; margin-left:6px;">
+            <input class="square-input" type="text" name="system.stats.armor.value" value="{{system.stats.armor.value}}" data-dtype="Number" />
+            <div class="mainstatmod-title" style="top: 10px;">+</div>
+            <input class="mainsavemod-input"  style="top: 5px;"type="text" name="system.stats.armor.mod" value="{{system.stats.armor.mod}}" data-dtype="Number" />
+          </div>	
         </div>
         {{/unless}}
 
@@ -383,10 +391,14 @@
         <li class="item flexrow dropitem" data-item-id="{{armor._id}}" role="rowgroup">
           <div class="item-image" role="cell"><img src="{{armor.img}}" title="{{armor.name}}" width="24" height="24" /></div>
           <h4 class="skill-name list-roll description-roll" style="flex-grow: 2.55;" role="cell">{{armor.name}}</h4>
-		  <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
-		  <div class="skill-stat" role="cell">{{armor.system.damageReduction}}</div>
-		  <div class="skill-stat">{{armor.system.speed}}</div>
-		  {{#if armor.system.oxygenMax}}
+        {{#if system.settings.firstEdition}}
+          <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
+          <div class="skill-stat" role="cell">{{armor.system.damageReduction}}</div>
+        {{else}}
+          <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
+        {{/if}}
+        <div class="skill-stat">{{armor.system.speed}}</div>
+        {{#if armor.system.oxygenMax}}
           <div class="skill-stat" role="cell">{{armor.system.oxygenCurrent}}/{{armor.system.oxygenMax}}</div>
           {{else}}
           <div class="skill-stat" role="cell">N/A</div>

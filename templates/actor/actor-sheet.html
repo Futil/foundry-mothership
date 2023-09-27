@@ -112,49 +112,33 @@
           {{#if system.settings.useCalm}}
           <!-- Calm -->
           <div class="resource healthspread minmaxtopstat">
-            <label for="system.other.calm.value" class="resource-label minmaxtext rollable calm-roll">Calm</label>
+            <label for="system.other.stress.value" class="resource-label minmaxtext rollable calm-roll">Calm</label>
 
             <div class="minmaxwrapper">
-              <input class="maxhealth-input darkGreyText" type="text" name="system.other.calm.value" value="{{system.other.calm.value}}"
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.value" value="{{system.other.stress.value}}"
                 data-dtype="Number" />
               <div class="slant"></div>
-              <input class="maxhealth-input darkGreyText" type="text" name="system.other.calm.max"
-                value="{{system.other.calm.max}}" data-dtype="Number" />
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.max"
+                value="{{system.other.stress.max}}" data-dtype="Number" />
             </div>
 
             <div class="healthmaxtext">Current</div>
             <div class="healthmaxtext">Maximum</div>
           </div>
           {{else}}
-            {{#if system.settings.firstEdition}}
-            <!-- Stress -->
-            <div class="resource healthspread minmaxtopstat">
-              <label for="system.other.stress.value" class="resource-label minmaxtext rollable stress-roll">Stress</label>
-              <div class="minmaxwrapper">
-                <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.value" value="{{system.other.stress.value}}"
-                  data-dtype="Number" />
-                <div class="slant"></div>
-                <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.min"
-                  value="{{system.other.stress.min}}" data-dtype="Number" />
-              </div>
-              <div class="healthmaxtext">Current</div>
-              <div class="healthmaxtext">Minimum</div>
+          <!-- Stress -->
+          <div class="resource healthspread minmaxtopstat">
+            <label for="system.other.stress.value" class="resource-label minmaxtext rollable stress-roll">Stress</label>
+            <div class="minmaxwrapper">
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.value" value="{{system.other.stress.value}}"
+                data-dtype="Number" />
+              <div class="slant"></div>
+              <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress.min"
+                value="{{system.other.stress.min}}" data-dtype="Number" />
             </div>
-            {{else}}
-            <!-- Stress -->
-            <div class="resource healthspread minmaxtopstat">
-              <label for="system.other.stress_0e.value" class="resource-label minmaxtext rollable stress-roll">Stress</label>
-              <div class="minmaxwrapper">
-                <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress_0e.value" value="{{system.other.stress_0e.value}}"
-                  data-dtype="Number" />
-                <div class="slant"></div>
-                <input class="maxhealth-input darkGreyText" type="text" name="system.other.stress_0e.min"
-                  value="{{system.other.stress_0e.min}}" data-dtype="Number" />
-              </div>
-              <div class="healthmaxtext">Current</div>
-              <div class="healthmaxtext">Minimum</div>
-            </div>
-            {{/if}}
+            <div class="healthmaxtext">Current</div>
+            <div class="healthmaxtext">Minimum</div>
+          </div>
           {{/if}}
 
           {{#if system.settings.firstEdition}}

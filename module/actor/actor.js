@@ -186,7 +186,7 @@ export class MothershipActor extends Actor {
           }
         },
         //stress flavor text (0e)
-        stress_0e: {
+        stress: {
           increase: {
             android: `Power surges through your chest and you start to overheat.`,
             human: `You feel tightness in your chest and start to sweat.`
@@ -988,7 +988,7 @@ export class MothershipActor extends Actor {
           enrichedRollResult.dice.forEach(function(roll){ 
             //loop through each result
             roll.results.forEach(function(die) { 
-              //change any 10s to 0s
+              //change any 100s to 0s
               if (die.result === 100) {die.result = 0;}
             });
           });

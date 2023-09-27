@@ -1,4 +1,4 @@
-prepModifyActor('system.other.calm.value',null,'-1d5',true);
+prepModifyActor('system.other.stress.max',-2,null,true);
 
 //tell the actor to run the function
 async function prepModifyActor(fieldAddress,modValue,modRollString,outputChatMsg) {

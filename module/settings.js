@@ -34,7 +34,7 @@ export const registerSettings = function () {
                 actor.update({'system.other.stress.max': 20});
                 //set final values
                 actorList = game.actors;
-                maxEnd = actor.system.other.stress.max;
+                maxEnd = 20;
                 //log change
                 console.log(actorName + " stress.max changed from " + maxStart + " to " + maxEnd);
                 //rerender this sheet
@@ -55,10 +55,10 @@ export const registerSettings = function () {
                 //set current values
                 maxStart = actor.system.other.stress.max;
                 //set max stress to 999
-                actor.update({'system.other.stress.min': 999});
+                actor.update({'system.other.stress.max': 999});
                 //set final values
                 actorList = game.actors;
-                maxEnd = actor.system.other.stress.max;
+                maxEnd = 999;
                 //log change
                 console.log(actorName + " stress.max changed from " + maxStart + " to " + maxEnd);
                 //rerender this sheet
@@ -180,18 +180,16 @@ export const registerSettings = function () {
             labelStart = actor.system.other.stress.label;
             //convert min stress to max calm
             actor.update({'system.other.stress.max': Math.round(85-(actor.system.other.stress.min*3))});
+            maxEnd = Math.round(85-(actor.system.other.stress.min*3));
             //set min stress to 0
             actor.update({'system.other.stress.min': 0});
+            minEnd = 0;
             //convert stress to calm
             actor.update({'system.other.stress.value': Math.round(85-(actor.system.other.stress.value*3))});
+            valueEnd = Math.round(85-(actor.system.other.stress.value*3));
             //set stress label to Calm
             actor.update({'system.other.stress.label': 'Calm'});
-            //set final values
-            actorList = game.actors;
-            minEnd = actor.system.other.stress.min;
-            valueEnd = actor.system.other.stress.value;
-            maxEnd = actor.system.other.stress.max;
-            labelEnd = actor.system.other.stress.label;
+            labelEnd = 'Calm';
             //log change
             console.log(actorName + " stress.min changed from " + minStart + " to " + minEnd);
             console.log(actorName + " stress.value changed from " + valueStart + " to " + valueEnd);
@@ -218,33 +216,32 @@ export const registerSettings = function () {
               //set min stress to 20 if > 20
               if (Math.round((85-actor.system.other.stress.max)/3) > 20) {
                 actor.update({'system.other.stress.min': 20});
+                minEnd = 2;
               //set min stress to 2 if < 2
               } else if (Math.round((85-actor.system.other.stress.max)/3) < 2) {
                 actor.update({'system.other.stress.min': 2});
+                minEnd = 2;
               //regular value
               } else {
                 actor.update({'system.other.stress.min': Math.round((85-actor.system.other.stress.max)/3)});
+                minEnd = Math.round((85-actor.system.other.stress.max)/3);
               }
             //set max stress based on current system setting
             if (game.settings.get('mosh','firstEdition')) {
               //set max stress to 20
               actor.update({'system.other.stress.max': 20});
+              maxEnd = 20;
             } else {
               //set max stress to 999
               actor.update({'system.other.stress.max': 999});
-              //set min stress to 2 if < 2
-              if (actor.system.other.stress.min < 2) {actor.update({'system.other.stress.min': 2});}
+              maxEnd = 999;
             }
             //convert calm to stress
             actor.update({'system.other.stress.value': Math.round((85-actor.system.other.stress.value)/3)});
+            valueEnd = Math.round((85-actor.system.other.stress.value)/3);
             //set stress label to Stress
             actor.update({'system.other.stress.label': 'Stress'});
-            //set final values
-            actorList = game.actors;
-            minEnd = actor.system.other.stress.min;
-            valueEnd = actor.system.other.stress.value;
-            maxEnd = actor.system.other.stress.max;
-            labelEnd = actor.system.other.stress.label;
+            labelEnd = 'Stress'
             //log change
             console.log(actorName + " stress.min changed from " + minStart + " to " + minEnd);
             console.log(actorName + " stress.value changed from " + valueStart + " to " + valueEnd);

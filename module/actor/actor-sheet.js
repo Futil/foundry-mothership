@@ -358,7 +358,7 @@ export class MothershipActorSheet extends ActorSheet {
     });
 
     // Calm - Panic Check
-    html.find('.stress-roll').click(ev => {
+    html.find('.calm-roll').click(ev => {
       //check if 1e
       if (game.settings.get("mosh", "firstEdition")) {
         //check if android + android panic enabled

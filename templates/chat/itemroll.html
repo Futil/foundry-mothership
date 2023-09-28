@@ -4,9 +4,9 @@
     <div class="showlessinfo"></div>
     <div class="rollcontainer">
 		<div class="flexrow">
-			{{#if (compare 'str' item.img '===' 'modules/fvtt_mosh_1e_psg/icons/equipment/trinket.png')}}
+			{{#if (compare 'str' item.system.description '===' '<p>Patch</p>')}}
 			<div class="rollweaponh1" >TRINKET</div>
-			{{else if (compare 'str' item.img '===' 'modules/fvtt_mosh_1e_psg/icons/equipment/patch.png')}}
+			{{else if (compare 'str' item.system.description '===' '<p>Trinket</p>')}}
 			<div class="rollweaponh1" >PATCH</div>
 			{{else}}
 				{{#if (compare 'int' item.name.length '>=' 22)}}
@@ -16,7 +16,11 @@
 				{{/if}}
 			{{/if}}
 			{{#if (compare 'str' item.type '===' 'ability')}}
-			<div style="text-align: right"><img class="roll-image" src="{{actor.img}}" /></div>
+				{{#if (compare 'str' actor.img '===' 'icons/svg/mystery-man.svg')}}
+				<div style="text-align: right"><img class="roll-image" src="systems/mosh/images/icons/ui/attributes/instinct.png" /></div>
+				{{else}}
+				<div style="text-align: right"><img class="roll-image" src="{{actor.img}}" /></div>
+				{{/if}}
 			{{else}}
 			<div style="text-align: right"><img class="roll-image" src="{{item.img}}" /></div>
 			{{/if}}

@@ -1410,7 +1410,20 @@ export class MothershipActor extends Actor {
     //assign message description text
     msgDesc = this.getFlavorText('table',tableName.replaceAll('& ','').replaceAll(' ','_').toLowerCase(),'roll');
     //assign flavor text
-    flavorText = this.getFlavorText('table',tableName.replaceAll('& ','').replaceAll(' ','_').toLowerCase(),'success');
+      //get main flavor text
+      flavorText = this.getFlavorText('table',tableName.replaceAll('& ','').replaceAll(' ','_').toLowerCase(),'success');
+      //append 0e crit success effect
+      if (!firstEdition && !useCalm && parsedRollResult.success && parsedRollResult.critical) {
+        flavorText = flavorText + ` Relieve 1 Stress.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.Macro.qbq694JMbXeZrHjj]{-1 Stress}`;
+      }
+      //append Calm effects for Critical Panic Success
+      if (useCalm && parsedRollResult.success && parsedRollResult.critical) {
+        flavorText = flavorText + ` Gain 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.Macro.k2TtLFOG9mGaWVx3]{+1d10 Calm}`;
+      }
+      //append Calm effects for Critical Panic Failure
+      if (useCalm && !parsedRollResult.success && parsedRollResult.critical) {
+        flavorText = flavorText + ` Lose 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.Macro.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+      }
 	  //generate chat message
       //prepare data
       let messageData = {

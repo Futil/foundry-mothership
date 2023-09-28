@@ -68,6 +68,10 @@ export class MothershipActor extends Actor {
           }
         }
     };
+    //replace 'stress' with calm if the setting is active
+    if (game.settings.get("mosh", "useCalm") && action === 'stress') {
+      action = 'calm';
+    }
     //create library
     let textLibrary = {
       //rolltable flavor text
@@ -837,60 +841,60 @@ export class MothershipActor extends Actor {
             human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.1DD8i6eCS6nx2Ip0]{Bleeding}`
           },
           bleeding_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.tFcWNddtZvlv7tsg]{Bleeding [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.tFcWNddtZvlv7tsg]{Bleeding [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [-]}`
           },
           bleeding_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.xr2o2PU5vdrR6fxQ]{Bleeding [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.tFcWNddtZvlv7tsg]{Bleeding [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.tFcWNddtZvlv7tsg]{Bleeding [+]}`
           },
           blunt_force: {
             android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.TAjlQjA5AAy3qYL3]{Blunt Force}`,
             human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.TAjlQjA5AAy3qYL3]{Blunt Force}`
           },
           blunt_force_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.k0zf8ZGivRguc0wb]{Blunt Force [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.k0zf8ZGivRguc0wb]{Blunt Force [-]}`
           },
           blunt_force_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.k0zf8ZGivRguc0wb]{Blunt Force [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.k0zf8ZGivRguc0wb]{Blunt Force [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.oL3GH0HoEPlP8vzG]{Blunt Force [+]}`
           },
           fire_explosives: {
             android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.bZi1qKmcKLFvnhZ2]{Fire & Explosives}`,
             human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.bZi1qKmcKLFvnhZ2]{Fire & Explosives}`
           },
           fire_explosives_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [-]}`
           },
           fire_explosives_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.7rYhbDAaFeok1Daq]{Fire & Explosives [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.dJnQKDf0AlwK27QD]{Fire & Explosives [+]}`
           },
           gore_massive: {
             android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.S9nnHKWYGSQmjQdp]{Gore}`,
             human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.S9nnHKWYGSQmjQdp]{Gore}`
           },
           gore_massive_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.DuVjNlE4lsnR7Emc]{Gore [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.DuVjNlE4lsnR7Emc]{Gore [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.eQPuDgwv8evetFIk]{Gore [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.eQPuDgwv8evetFIk]{Gore [-]}`
           },
           gore_massive_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.eQPuDgwv8evetFIk]{Gore [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.eQPuDgwv8evetFIk]{Gore [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.DuVjNlE4lsnR7Emc]{Gore [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.DuVjNlE4lsnR7Emc]{Gore [+]}`
           },
           gunshot: {
             android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.XgCOLv9UunBddUyW]{Gunshot}`,
             human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.XgCOLv9UunBddUyW]{Gunshot}`
           },
           gunshot_dis: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.fnVATRHYJEUlS3pR]{Gunshot [-]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.fnVATRHYJEUlS3pR]{Gunshot [-]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [-]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [-]}`
           },
           gunshot_adv: {
-            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [+]}`,
-            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.LTpa1ZYVZl4m9k6z]{Gunshot [+]}`
+            android: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.fnVATRHYJEUlS3pR]{Gunshot [+]}`,
+            human: `@UUID[Compendium.mosh.macros_triggered_1e.Macro.fnVATRHYJEUlS3pR]{Gunshot [+]}`
           }
         }
       }
@@ -1201,6 +1205,117 @@ export class MothershipActor extends Actor {
     let chatId = randomID();
     let rollTarget = null;
     let valueAddress = [];
+    let specialRoll = null;
+    let firstEdition = game.settings.get('mosh','firstEdition');
+    let useCalm = game.settings.get('mosh','useCalm');
+    let androidPanic = game.settings.get('mosh','androidPanic');
+    let tableResultNumber = null;
+
+    
+
+    //customize this roll if its a unique use-case
+      //panic check
+      if (tableId === 'panicCheck') {
+        //set special roll value for use later
+        specialRoll = tableId;
+        //assign variables depending on settings
+        if (firstEdition) { 
+          if (androidPanic && this.actor.system.class.value.toLowerCase() === 'android') { 
+            if (useCalm) {
+              tableId = 'GCtYeCCQVQJ5M6SE';
+              aimFor = 'low';
+              zeroBased = true;
+              checkCrit = true;
+              rollAgainst = 'system.other.stress.value';
+              comparison = '<';
+
+            } else {
+              tableId = 'aBnY19jlhPXzibCt';
+              aimFor = 'high';
+              zeroBased = false;
+              checkCrit = false;
+              rollAgainst = 'system.other.stress.value';
+              comparison = '>';
+            }
+          } else {
+            if (useCalm) { 
+              tableId = 'MOYI6Ntj5OVFYk06';
+              aimFor = 'low';
+              zeroBased = true;
+              checkCrit = true;
+              rollAgainst = 'system.other.stress.value';
+              comparison = '<';
+            } else {
+              tableId = 'ypcoikqHLhnc9tNs';
+              aimFor = 'high';
+              zeroBased = false;
+              checkCrit = false;
+              rollAgainst = 'system.other.stress.value';
+              comparison = '>';
+            }
+          }
+        } else {
+          if (androidPanic && this.actor.system.class.value.toLowerCase() === 'android') { 
+            if (useCalm) { 
+              tableId = 'VW6HQ29T7zClNIZ6';
+              aimFor = 'low';
+              zeroBased = true;
+              checkCrit = true;
+              rollAgainst = 'system.other.stress.value';
+              comparison = '<';
+            } else {
+              tableId = 'egJ11m2mJM3HBd6d';
+              aimFor = 'high';
+              zeroBased = false;
+              checkCrit = false;
+              rollAgainst = 'system.other.stress.value';
+              comparison = '>';
+            }
+          } else {
+            if (useCalm) { 
+              tableId = 'kqKpQAXyLTEEyz6Z';
+              aimFor = 'low';
+              zeroBased = true;
+              checkCrit = true;
+              rollAgainst = 'system.other.stress.value';
+              comparison = '<';
+            } else {
+              tableId = '1vCm4ElRPotQXgNB';
+              aimFor = 'high';
+              zeroBased = false;
+              checkCrit = false;
+              rollAgainst = 'system.other.stress.value';
+              comparison = '>';
+            }
+          }
+        }
+        //assign rollString if its a partial
+        if (rollString === '[-]' || rollString === '[]' || rollString === '[+]') {
+          //if 1e and no calm, then 1d20
+          if (firstEdition) {rollString = '1d20' + rollString;}
+          //if 0e and no calm, then 2d10
+          if (!firstEdition) {rollString = '2d10' + rollString;}
+          //if calm, then 1d100
+          if (useCalm) {rollString = '1d100' + rollString;}
+        }
+      }
+    //bounce this request away if certain parameters are NULL
+      //if rollString is STILL blank, redirect player to choose the roll
+      if (!rollString) {
+        //init vars
+        let rollDie = '';
+        //set rollDie
+          //if 1e and no calm, then 1d20
+          if (firstEdition) {rollDie = '1d20';}
+          //if 0e and no calm, then 2d10
+          if (!firstEdition) {rollDie = '2d10';}
+          //if calm, then 1d100
+          if (useCalm) {rollDie = '1d100';}
+        //run the choose attribute function
+        let chosenRollType = await this.chooseAdvantage('Panic Check',rollDie);
+        //set variables
+        rollString = chosenRollType[0];
+      }
     //find where this table is located
       //get current compendium
       let compendium = game.packs;
@@ -1228,14 +1343,13 @@ export class MothershipActor extends Actor {
       let tableImg = tableData.img;
       //get table result
       let tableDie = tableData.formula.replace('-1','');
-    //bounce this request away if certain parameters are NULL
-      //if rollString is STILL blank, redirect player to choose the roll
-      if (!rollString) {
-        //run the choose attribute function
-        let chosenRollType = await this.chooseAdvantage(tableName,tableDie);
-        //set variables
-        rollString = chosenRollType[0];
-      }
+    //if rollString is STILL blank, redirect player to choose the roll
+    if (!rollString) {
+      //run the choose attribute function
+      let chosenRollType = await this.chooseAdvantage(tableName,tableDie);
+      //set variables
+      rollString = chosenRollType[0];
+    }
     //table specific customizations
       //if a wound table, add a wound to the player and prepare text for the final message
       if (tableName.slice(-5) === 'Wound') {
@@ -1262,6 +1376,25 @@ export class MothershipActor extends Actor {
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
       let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+    //if this is a panic check, we may need to roll again OR add modifiers to our result total
+      //roll a second die if needed
+      if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+        //roll second set of dice
+        let parsedRollResult2 = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+        //set table result number
+        tableResultNumber = parsedRollResult2.total
+      }
+    //set table result number if null
+    if(!tableResultNumber) {tableResultNumber = parsedRollResult.total;}
+    //add modifiers if needed
+      //0e modifier: + Stress - Resolve
+      if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+        tableResultNumber = tableResultNumber + this.system.other.stress.value - this.system.other.resolve.value
+      }
+      //Calm modifier: + Stress - Resolve
+      if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+        tableResultNumber = tableResultNumber + this.system.other.resolve.value
+      }
     //fetch the table result
       //get table result
       let tableResult = tableData.getResultsForRoll(parsedRollResult.total);
@@ -1504,7 +1637,20 @@ export class MothershipActor extends Actor {
         </style>
         <div class ="macro_window" style="margin-bottom : 7px;">
           <div class="macro_desc"><h3>Add a Skill?</h3>If you have a Skill that is relevant to the task at hand, you can add the Skill’s bonus to your Stat or Save before making your roll <em>(giving you a higher number to roll under)</em>.</div>    
-        </div>`;
+        </div>
+        <label for="">
+        <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+          <div class="grid grid-2col" style="grid-template-columns: 20px auto">
+          <input type="radio" id="" name="skill" value=0 checked >
+          <div class="macro_desc" style="display: table;">
+            <span style="display: table-cell; vertical-align: middle;">
+            <p>Do not add a skill to this roll.<p>
+            </span>
+          </div>    
+          </div>
+        </div>
+        </label>
+        `;
         //skill template
         let skillRow = `
         <label for="[RADIO_ID]">
@@ -1526,7 +1672,7 @@ export class MothershipActor extends Actor {
           //create skill counter
           let skillCount = 0;
           //create dialog pixel counter
-          let dialogHeight = 192;
+          let dialogHeight = 232;
           //loop through and create skill rows
           for (let item of playerItems) {
             //check if this is a skill
@@ -1554,7 +1700,7 @@ export class MothershipActor extends Actor {
           //check if there are no skills, and adjust prompt height accordingly
           if (skillCount === 0) {
             //set window height
-            dialogHeight = 105;
+            dialogHeight = 125;
             //make skill header blank
             skillHeader = ``;
           }
@@ -1754,6 +1900,7 @@ export class MothershipActor extends Actor {
         rollString = chosenAttributes[0];
         aimFor = chosenAttributes[1];
         attribute = chosenAttributes[2];
+        //if null, zero them out
       }
       //if skill is blank and actor is a character, redirect player to choose a skill
       if (!skill && this.type === 'character') {
@@ -1904,13 +2051,7 @@ export class MothershipActor extends Actor {
           }
         } else if (parsedRollResult.success === true && this.type === 'character') {
           //flavor text = generic roll success
-          if (this.system.stats[attribute].rollLabel.includes(" Save")) {
-            //set final footer
-            flavorText = this.getFlavorText('attribute','stat','save');
-          } else {
-            //set final footer
-            flavorText = this.getFlavorText('attribute','stat','check');
-          }
+          flavorText = this.getFlavorText('attribute',attribute,'check');
         }
       }
 	  //generate chat message
@@ -1928,7 +2069,10 @@ export class MothershipActor extends Actor {
         flavorText: flavorText,
         needsDesc: needsDesc,
         woundEffect: woundEffect,
-        critFail: critFail
+        critFail: critFail,
+        firstEdition: game.settings.get('mosh','firstEdition'),
+        useCalm: game.settings.get('mosh','useCalm'),
+        androidPanic: game.settings.get('mosh','androidPanic')
       };
       //prepare template
       messageTemplate = 'systems/mosh/templates/chat/rollCheck.html';

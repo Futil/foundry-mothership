@@ -359,56 +359,14 @@ export class MothershipActorSheet extends ActorSheet {
 
     // Calm - Panic Check
     html.find('.calm-roll').click(ev => {
-      //check if 1e
-      if (game.settings.get("mosh", "firstEdition")) {
-        //check if android + android panic enabled
-        if (game.settings.get("mosh", "androidPanic") && this.actor.system.class.value.toLowerCase() === 'android') {
-          //call rollTable for: 1e Android Panic Check Using Calm
-          this.actor.rollTable(`GCtYeCCQVQJ5M6SE`,null,`high`,false,false,'system.other.stress.value','>');
-        //this is not android + android panic enabled
-        } else {
-          //call rollTable for: 1e Regular Panic Check Using Calm
-          this.actor.rollTable(`MOYI6Ntj5OVFYk06`,null,`high`,false,false,'system.other.stress.value','>');
-        }
-      //this is 0e
-      } else {
-        //check if android + android panic enabled
-        if (game.settings.get("mosh", "androidPanic") && this.actor.system.class.value.toLowerCase() === 'android') {
-          //call rollTable for: 0e Android Panic Check Using Calm
-          this.actor.rollTable(`VW6HQ29T7zClNIZ6`,null,`high`,false,false,'system.other.stress.value','>');
-        //this is not android + android panic enabled
-        } else {
-          //call rollTable for: 0e Regular Panic Check Using Calm
-          this.actor.rollTable(`kqKpQAXyLTEEyz6Z`,null,`high`,false,false,'system.other.stress.value','>');
-        }
-      }
+      //roll panic check
+      this.actor.rollTable('panicCheck',null,null,null,null,'system.other.stress.value',null);
     });
     
     // Stress - Panic Check
     html.find('.stress-roll').click(ev => {
-      //check if 1e
-      if (game.settings.get("mosh", "firstEdition")) {
-        //check if android + android panic enabled
-        if (game.settings.get("mosh", "androidPanic") && this.actor.system.class.value.toLowerCase() === 'android') {
-          //call rollTable for: 1e Android Panic Check Using Stress
-          this.actor.rollTable(`aBnY19jlhPXzibCt`,null,`high`,false,false,'system.other.stress.value','>');
-        //this is not android + android panic enabled
-        } else {
-          //call rollTable for: 1e Regular Panic Check Using Stress
-          this.actor.rollTable(`ypcoikqHLhnc9tNs`,null,`high`,false,false,'system.other.stress.value','>');
-        }
-      //this is 0e
-      } else {
-        //check if android + android panic enabled
-        if (game.settings.get("mosh", "androidPanic") && this.actor.system.class.value.toLowerCase() === 'android') {
-          //call rollTable for: 0e Android Panic Check Using Stress-0e
-          this.actor.rollTable(`egJ11m2mJM3HBd6d`,null,`high`,false,false,'system.other.stress.value','>');
-        //this is not android + android panic enabled
-        } else {
-          //call rollTable for: 0e Regular Panic Check Using Stress-0e
-          this.actor.rollTable(`1vCm4ElRPotQXgNB`,null,`high`,false,false,'system.other.stress.value','>');
-        }
-      }
+      //roll panic check
+      this.actor.rollTable('panicCheck',null,null,null,null,'system.other.stress.value',null);
     });
 
     // Drag events for macros.

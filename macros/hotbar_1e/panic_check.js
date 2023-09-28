@@ -2,12 +2,12 @@
 async function prepTableRoll(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
   //determine who to run the macro for
   if (game.settings.get('mosh','macroTarget') === 'character') {
-    //run the function for the player's 'Selected Character'
-    game.user.character.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
+    //roll panic check
+    game.user.character.rollTable('panicCheck',rollString,null,null,null,'system.other.stress.value',null);
   } else if (game.settings.get('mosh','macroTarget') === 'token') {
     //run the function for all selected tokens
     canvas.tokens.controlled.foreach(function(token){
-      token.actor.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
+      token.actor.rollTable('panicCheck',rollString,null,null,null,'system.other.stress.value',null);
     });
   }
 }
@@ -53,17 +53,17 @@ new Dialog({
   buttons: {
     button1: {
       label: `Advantage`,
-      callback: () => prepTableRoll(`ypcoikqHLhnc9tNs`,`1d20 [+]`,`high`,false,false,'system.other.stress.value','>'),
+      callback: () => prepTableRoll(null,`[+]`,null,false,false,null,null),
       icon: `<i class="fas fa-angle-double-up"></i>`
     },
     button2: {
       label: `Normal`,
-      callback: () => prepTableRoll(`ypcoikqHLhnc9tNs`,`1d20`,`high`,false,false,'system.other.stress.value','>'),
+      callback: () => prepTableRoll(null,`[]`,null,false,false,null,null),
       icon: `<i class="fas fa-minus"></i>`
     },
     button3: {
       label: `Disadvantage`,
-      callback: () => prepTableRoll(`ypcoikqHLhnc9tNs`,`1d20 [-]`,`high`,false,false,'system.other.stress.value','>'),
+      callback: () => prepTableRoll(null,`[-]`,null,false,false,null,null),
       icon: `<i class="fas fa-angle-double-down"></i>`
     }
   }

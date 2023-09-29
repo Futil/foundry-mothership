@@ -93,6 +93,8 @@ Hooks.once("ready", async function () {
   Hooks.on("hotbarDrop", (bar, data, slot) => createMothershipMacro(data, slot));
   // if the user has calm enabled at the start, 
   if (game.settings.get('mosh','useCalm')) {
+    //get list of actors
+    let actorList = game.actors;
     //loop through all actors and update their stress values
     actorList.forEach(function(actor){ 
       //loop through each result

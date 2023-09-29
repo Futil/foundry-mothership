@@ -53,17 +53,17 @@ new Dialog({
   buttons: {
     button1: {
       label: `Advantage`,
-      callback: () => prepTableRoll(`ypcoikqHLhnc9tNs`,`1d20 [+]`,`high`,false,false,'system.other.stress.value','>'),
+      callback: () => prepTableRoll(`panicCheck`,`[+]`,null,false,false,null,null),
       icon: `<i class="fas fa-angle-double-up"></i>`
     },
     button2: {
       label: `Normal`,
-      callback: () => prepTableRoll(`ypcoikqHLhnc9tNs`,`1d20`,`high`,false,false,'system.other.stress.value','>'),
+      callback: () => prepTableRoll(`panicCheck`,``,null,false,false,null,null),
       icon: `<i class="fas fa-minus"></i>`
     },
     button3: {
       label: `Disadvantage`,
-      callback: () => prepTableRoll(`ypcoikqHLhnc9tNs`,`1d20 [-]`,`high`,false,false,'system.other.stress.value','>'),
+      callback: () => prepTableRoll(`panicCheck`,`[-]`,null,false,false,null,null),
       icon: `<i class="fas fa-angle-double-down"></i>`
     }
   }

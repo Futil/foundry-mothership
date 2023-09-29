@@ -1328,7 +1328,7 @@ export class MothershipActor extends Actor {
       let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
     //if this is a panic check, we may need to roll again OR add modifiers to our result total
       //roll a second die if needed
-      if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+      if (!parsedRollResult.success && specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
         //determine the rollString
         let rollString2 = '2d10';
         //add modifiers if needed
@@ -1378,7 +1378,7 @@ export class MothershipActor extends Actor {
       }
       //append Calm effects for Critical Panic Failure
       if (useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        flavorText = flavorText + ` Lose 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.Macro.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+        tableResult[0].text = tableResult[0].text + `<br><br>Lose 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.Macro.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
       }
 	  //generate chat message
       //prepare data

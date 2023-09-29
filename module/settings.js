@@ -66,6 +66,19 @@ export const registerSettings = function () {
               }
             });
         }
+      } else {
+        //get list of actors
+        let actorList = game.actors;
+        //loop through each actor
+        actorList.forEach(function(actor){ 
+          //loop through each result
+          if (actor.type === 'character') {
+            //log change
+            console.log("First Edition switched to " + value);
+            //rerender this sheet
+            actor.render();
+          }
+        });
       }
     }
   });

@@ -95,6 +95,14 @@ Hooks.once("ready", async function () {
   if (game.settings.get('mosh','useCalm')) {
     //get list of actors
     let actorList = game.actors;
+    let minStart = null;
+    let valueStart = null;
+    let maxStart = null;
+    let labelStart = '';
+    let minEnd = null;
+    let valueEnd = null;
+    let maxEnd = null;
+    let labelEnd = '';
     //loop through all actors and update their stress values
     actorList.forEach(function(actor){ 
       //loop through each result

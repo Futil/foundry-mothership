@@ -1307,7 +1307,7 @@ export class MothershipActor extends Actor {
         woundText = addWound[1];
       }
     //pull stat to roll against, if needed
-    if(rollAgainst){
+    if(rollAgainst || rollAgainst === 0){
       //turn string address into array
       valueAddress = rollAgainst.split('.');
       //set rollTarget
@@ -1378,7 +1378,7 @@ export class MothershipActor extends Actor {
       }
       //append Calm effects for Critical Panic Failure
       if (useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        tableResult[0].text = tableResult[0].text + `<br><br>Lose 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.Macro.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+        tableResult[0].text = tableResult[0].text + `<br><br>You lose 1d10 Calm because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.Macro.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
       }
 	  //generate chat message
       //prepare data

@@ -1062,6 +1062,7 @@ export class MothershipActor extends Actor {
                   <span class="part-formula">${roll.formula}</span>
                   <span class="part-total">${roll.total.toString()}</span>
                 </header>
+                <ol class="dice-rolls">
               `;
               //loop through dice
               roll.results.forEach(function(die) { 
@@ -1106,10 +1107,6 @@ export class MothershipActor extends Actor {
                   //no highlight needed
                   critHighlight = '';
                 }
-                //add header for this die
-                diceBlock = diceBlock + `
-                    <ol class="dice-rolls">
-                `;
                 //prepare dice icon
                 if (roll.faces === 100 || roll.faces === 5) {
                   diceIcon = `10`;
@@ -1120,13 +1117,10 @@ export class MothershipActor extends Actor {
                 diceBlock = diceBlock + `
                       <li class="roll die d${diceIcon}${critHighlight}">${die.result.toString()}</li>
                 `;
-                //add footer for this die
-                diceBlock = diceBlock + `
-                    </ol>
-                `;
               });
               //add footer for this roll
               diceBlock = diceBlock + `
+                    </ol>
                   </div>
                 </section>
               `;
@@ -1167,6 +1161,9 @@ export class MothershipActor extends Actor {
     let useCalm = game.settings.get('mosh','useCalm');
     let androidPanic = game.settings.get('mosh','androidPanic');
     let tableResultNumber = null;
+    let secondRoll = false;
+    let rollResult2 = null;
+    let parsedRollResult2 = null;
     //customize this roll if its a unique use-case
       //panic check
       if (tableId === 'panicCheck') {
@@ -1332,28 +1329,34 @@ export class MothershipActor extends Actor {
     //if this is a panic check, we may need to roll again OR add modifiers to our result total
       //roll a second die if needed
       if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+        //determine the rollString
+        let rollString2 = '2d10';
+        //add modifiers if needed
+          //0e modifier: + Stress - Resolve
+          if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+            rollString2 = rollString2 + ' + ' + this.system.other.stress.value + ' - ' + this.system.other.resolve.value
+          }
+          //Calm modifier: + Stress - Resolve
+          if (specialRoll === 'panicCheck' && useCalm) {
+            rollString2 = rollString2 + ' + ' + this.system.other.resolve.value
+          }
+        //roll second dice
+        rollResult2 = await new Roll(rollString2).evaluate();
         //roll second set of dice
-        let parsedRollResult2 = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+        parsedRollResult2 = this.parseRollResult(rollString2,rollResult2,false,false,null,null);
+        //set marker for HTML
+        secondRoll = true;
         //set table result number
         tableResultNumber = parsedRollResult2.total
       }
-    //set table result number if null
-    if(!tableResultNumber) {tableResultNumber = parsedRollResult.total;}
-    //add modifiers if needed
-      //0e modifier: + Stress - Resolve
-      if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
-        tableResultNumber = tableResultNumber + this.system.other.stress.value - this.system.other.resolve.value
-      }
-      //Calm modifier: + Stress - Resolve
-      if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
-        tableResultNumber = tableResultNumber + this.system.other.resolve.value
-      }
+      //set table result number if null
+      if(!tableResultNumber) {tableResultNumber = parsedRollResult.total;}
     //fetch the table result
       //get table result
-      let tableResult = tableData.getResultsForRoll(parsedRollResult.total);
+      let tableResult = tableData.getResultsForRoll(tableResultNumber);
     //make any custom changes to chat message
       //panic check #19 customiziation
-      if (tableName === 'Panic Check' && parsedRollResult.total === 19) {
+      if (tableName === 'Panic Check' && tableResultNumber === 19) {
         if (this.system.class.value.toLowerCase() === 'android') {
           tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","SHORT CIRCUIT.");
         } else {
@@ -1387,7 +1390,9 @@ export class MothershipActor extends Actor {
         tableImg: tableImg,
         msgDesc: msgDesc,
         flavorText: flavorText,
-        woundText: woundText
+        woundText: woundText,
+        secondRoll: secondRoll,
+        parsedRollResult2: parsedRollResult2
       };
       //prepare template
       messageTemplate = 'systems/mosh/templates/chat/rollTable.html';
@@ -1873,7 +1878,7 @@ export class MothershipActor extends Actor {
     }
     //bounce this request away if certain parameters are NULL
       //if attribute is blank, redirect player to choose an attribute
-      if (!attribute || !specialRoll) {
+      if (!attribute && !specialRoll) {
         //run the choose attribute function
         let chosenAttributes = await this.chooseAttribute(rollString,aimFor);
         //set variables

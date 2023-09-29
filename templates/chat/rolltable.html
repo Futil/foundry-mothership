@@ -9,6 +9,12 @@
             <div class="body">{{{msgDesc}}}</div>
         </div>
         {{{parsedRollResult.rollHtml}}}
+		{{#if secondRoll}}
+			<div class="description" style="margin-bottom: 10px;">
+				<div class="body">Rolling for panic effect...</div>
+			</div>
+			{{{parsedRollResult2.rollHtml}}}
+		{{/if}}
         {{#if parsedRollResult.success}}
             <div class="description" style="margin-bottom : 20px;">{{{flavorText}}}</div>
         {{else}}

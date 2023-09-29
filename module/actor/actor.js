@@ -984,7 +984,7 @@ export class MothershipActor extends Actor {
         }
       }
       //add data point: detect success/failure
-      if (rollTarget) {
+      if (rollTarget || rollTarget === 0) {
         //check for auto failure
         if (enrichedRollResult.total >= 90) {
           //result >= 90 is a failure

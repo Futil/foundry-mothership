@@ -54,17 +54,17 @@ new Dialog({
       button1: {
       label: `Lose 5 Calm`,
       callback: () => prepModifyActor('system.other.stress.value',-5,null,true),
-      icon: `<i class="fas fa-angle-up"></i>`
+      icon: `<i class="fas fa-angle-down"></i>`
       },
       button2: {
       label: `Lose 10 Calm`,
       callback: () => prepModifyActor('system.other.stress.value',-10,null,true),
-      icon: `<i class="fas fa-angle-double-up"></i>`
+      icon: `<i class="fas fa-angle-double-down"></i>`
       },
       button3: {
       label: `Lose 1d20 Calm`,
       callback: () => prepModifyActor('system.other.stress.value',null,`-1d20`,true),
-      icon: `<i class="fas fa-arrow-circle-up"></i>`
+      icon: `<i class="fas fa-arrow-circle-down"></i>`
       }
     }
     },{width: 600,height: 265}).render(true);

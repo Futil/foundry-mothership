@@ -95,6 +95,7 @@ Hooks.once("ready", async function () {
   if (game.settings.get('mosh','useCalm')) {
     //get list of actors
     let actorList = game.actors;
+    let actorName = '';
     let minStart = null;
     let valueStart = null;
     let maxStart = null;

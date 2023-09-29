@@ -2278,8 +2278,8 @@ export class MothershipActor extends Actor {
             modifyDifference = modifyNew - modifyCurrent;
             //measure any surplus if we exceeded min/max
             modifySurplus = modifyChange - modifyDifference;
-          //if health hits zero, reset to next hp bar ------------------------------come back here when implementing 0e--------------------------------
-          if (fieldId === 'health' && modifyNew === 0) {
+          //if health hits zero, reset to next hp bar
+          if (firstEdition && fieldId === 'health' && modifyNew === 0) {
             //set marker for later
             getWound = true;
             //reset hp
@@ -2304,7 +2304,7 @@ export class MothershipActor extends Actor {
             msgImgPath = this.getFlavorText('attribute',fieldId,'decreaseImg');
           }
           //detect if half damage has been taken
-          if (!firstEdition && modifyChange > (modifyMaximum/2)) {
+          if (!firstEdition && (-1 * modifyChange) > (modifyMaximum/2)) {
             halfDamage = true;
           }
           //get modification description
@@ -2401,8 +2401,8 @@ export class MothershipActor extends Actor {
             modifyDifference = modifyNew - modifyCurrent;
             //measure any surplus if we exceeded min/max
             modifySurplus = modifyChange - modifyDifference;
-            //if health hits zero, reset to next hp bar ------------------------------come back here when implementing 0e--------------------------------
-            if (fieldId === 'health' && modifyNew === 0) {
+            //if health hits zero, reset to next hp bar
+            if (firstEdition && fieldId === 'health' && modifyNew === 0) {
               //set marker for later
               getWound = true;
               //reset hp
@@ -2429,7 +2429,7 @@ export class MothershipActor extends Actor {
                 msgImgPath = this.getFlavorText('attribute',fieldId,'decreaseImg');
               }
               //detect if half damage has been taken
-              if (!firstEdition && modifyChange > (modifyMaximum/2)) {
+              if (!firstEdition && (-1 * modifyChange) > (modifyMaximum/2)) {
                 halfDamage = true;
               }
               //get modification description

@@ -85,6 +85,19 @@ new Dialog({
         </div>
       </div>
     </label>
+    <label for="arm">
+      <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+        <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+          <input type="radio" id="arm" name="save" value="armor">
+          <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/attributes/armor.png" style="border:none"/></div>
+          <div class="macro_desc" style="display: table;">
+            <span style="display: table-cell; vertical-align: middle;">
+              <strong>Armor:</strong> Resistance to damage sustained during combat, whether that be through bullets, claws, teeth, etc.
+            </span>
+          </div>
+        </div>
+      </div>
+    </label>
     `,
     buttons: {
       button1: {
@@ -93,4 +106,4 @@ new Dialog({
         icon: `<i class="fas fa-chevron-circle-right"></i>`
       }
     }
-  },{width: 600,height: 470}).render(true);
+  },{width: 600,height: 545}).render(true);

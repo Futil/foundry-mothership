@@ -133,15 +133,15 @@
           "max": 20,
           "label" : "Stress"
         },
+        "resolve": {
+          "value": 0,
+          "min": 0,
+          "max": 15,
+          "label" : "Resolve"
+        },
         "stressdesc": {
           "value": ""
         }
-      },
-      "resolve": {
-        "value": 0,
-        "min": 0,
-        "max": 15,
-        "label" : "Resolve"
       }
     },
     "creature": {

@@ -58,7 +58,7 @@ new Dialog({
     },
     button2: {
       label: `Normal`,
-      callback: () => prepTableRoll(null,`[]`,null,false,false,null,null),
+      callback: () => prepTableRoll(null,``,null,false,false,null,null),
       icon: `<i class="fas fa-minus"></i>`
     },
     button3: {

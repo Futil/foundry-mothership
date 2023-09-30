@@ -13,4 +13,5 @@ An unofficial implementation of Tuesday Knight's Mothership role playing system.
 - Custom Dice So Nice! themes for regular rolls, damage, and panic checks 
   
 #### Screenshots
-![Alt text](https://github.com/Futil/foundry-mothership/assets/982251/dc8d8782-59bf-44ec-9813-a068ad1d762c "Screenshot") 
+![Alt text](https://github.com/Futil/foundry-mothership/assets/982251/9d929554-8fcf-4fa1-b198-44c99b60434c "Screenshot") 
+

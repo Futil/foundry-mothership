@@ -3,7 +3,7 @@
 An unofficial implementation of Tuesday Knight's Mothership role playing system. Mothership is the property of Tuesday Knight Games, and can be purchased at https://mothershiprpg.com/
 
 #### Features
-- Full support for 0e and 1e versions of Mothership
+- Full 1e AND 0e system support with conditions, rolltables, and macros for each
 - Character sheets styled to resemble the official printout sheets
 - Comprehensive automation for all checks, saves, attacks, wounds, and conditions
 - Intuitive hotbar macros for key tasks that guide you through step-by-step
@@ -13,4 +13,4 @@ An unofficial implementation of Tuesday Knight's Mothership role playing system.
 - Custom Dice So Nice! themes for regular rolls, damage, and panic checks 
   
 #### Screenshots
-![Alt text](https://i.imgur.com/NprvyBS.png "Screenshot")
+![Alt text](https://github.com/Futil/foundry-mothership/assets/982251/dc8d8782-59bf-44ec-9813-a068ad1d762c "Screenshot") 

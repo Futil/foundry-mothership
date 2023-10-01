@@ -282,4 +282,17 @@ export const registerSettings = function () {
     }
   });
 
+  game.settings.register('mosh', 'autoStress', {
+    name: "Auto Stress Gain on Failures?",
+    hint: "Automatically handles stress gain on a failed roll.",
+    default: true,
+    scope: 'world',
+    type: Boolean,
+    config: true,
+    onChange: value => {
+      //log the change
+      console.log("autoStress set to " + value)
+    }
+  });
+
 };

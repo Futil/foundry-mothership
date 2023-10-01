@@ -1316,12 +1316,14 @@ export class MothershipActor extends Actor {
     //roll the dice
       //parse the roll string
       let parsedRollString = this.parseRollString(rollString,aimFor);
-      //set panic die color
-      let dsnTheme = game.settings.get('mosh','panicDieTheme');
-      //apply theme if this is a panic check
-      if (tableName === 'Panic Check') {
-        parsedRollString = parsedRollString + '[' + dsnTheme + ']';
-      }
+      if(game.settings.get('mosh', 'panicDieTheme') != ""){ //We're going to check if the theme field is blank. Otherwise, don't use this.
+        //set panic die color
+        let dsnTheme = game.settings.get('mosh','panicDieTheme');
+        //apply theme if this is a panic check
+        if (tableName === 'Panic Check') {
+          parsedRollString = parsedRollString + '[' + dsnTheme + ']';
+        }
+     }
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
@@ -1405,8 +1407,10 @@ export class MothershipActor extends Actor {
         speaker: {actor: this.id, token: this.token, alias: this.name},
         content: messageContent
       },{keepId:true});
-      //wait for dice
-      await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+      if(game.modules.get("dice-so-nice").active){
+        //wait for dice
+        await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+      }
   }
 
   //central adding addribute function | TAKES '1d10','low' | RETURNS player selected attribute. If parameters are null, it asks the player.
@@ -1939,8 +1943,11 @@ export class MothershipActor extends Actor {
         msgHeader = weapon.name;
         //override  header image
         msgImgPath = weapon.img;
-        //set damage dice color
-        let dsnTheme = game.settings.get('mosh','damageDiceTheme');
+        let dsnTheme = 0;
+        if(game.settings.get('mosh', 'damageDiceTheme') != ""){ //We're going to check if the theme field is blank. Otherwise, don't use this.
+          //set damage dice color
+          dsnTheme = game.settings.get('mosh','damageDiceTheme');
+        }
         //set crit damage effect
         if (parsedRollResult.success === true && parsedRollResult.critical === true) {
           if (game.settings.get('mosh','critDamage') === 'doubleDamage') {
@@ -1965,9 +1972,11 @@ export class MothershipActor extends Actor {
           if (firstEdition) {
             //if calm not enabled
             if (!useCalm) {
-              //increase stress by 1 and retrieve the flavor text from the result
-              let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
-              flavorText = addStress[1];
+              if(game.settings.get('mosh','autoStress')){ //If the automatic stress option is enabled
+                //increase stress by 1 and retrieve the flavor text from the result
+                let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
+                flavorText = addStress[1];
+              }
               //if critical failure, make sure to ask for panic check
               if (parsedRollResult.critical === true) {
                 //set crit fail
@@ -1982,9 +1991,11 @@ export class MothershipActor extends Actor {
             if (!useCalm) {
               //on Save failure
               if (attribute === 'sanity' || attribute === 'fear' || attribute === 'body' || attribute === 'armor') {
-                //gain 1 stress
-                let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
-                flavorText = addStress[1];
+                if(game.settings.get('mosh','autoStress')){ //If the automatic stress option is enabled
+                  //gain 1 stress
+                  let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
+                  flavorText = addStress[1];
+                }
                 //if critical failure, make sure to ask for panic check
                 if (parsedRollResult.critical === true) {
                   //set crit fail
@@ -2054,9 +2065,11 @@ export class MothershipActor extends Actor {
               msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
               //prep text based on success or failure
               if (parsedRollResult.success === false && this.type === 'character') {
-                //increase stress by 1 and retrieve the flavor text from the result
-                let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
-                flavorText = addStress[1];
+                if(game.settings.get('mosh','autoStress')){ //If the automatic stress option is enabled
+                  //increase stress by 1 and retrieve the flavor text from the result
+                  let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
+                  flavorText = addStress[1];
+                }
                 //if critical failure, make sure to ask for panic check
                 if (parsedRollResult.critical === true) {
                   //set crit fail
@@ -2099,9 +2112,11 @@ export class MothershipActor extends Actor {
               msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
               //prep text based on success or failure
               if (parsedRollResult.success === false && this.type === 'character') {
-                //increase stress by 1 and retrieve the flavor text from the result
-                let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
-                flavorText = addStress[1];
+                if(game.settings.get('mosh','autoStress')){ //If the automatic stress option is enabled
+                  //increase stress by 1 and retrieve the flavor text from the result
+                  let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
+                  flavorText = addStress[1];
+                }
                 //if critical failure, make sure to ask for panic check
                 if (parsedRollResult.critical === true) {
                   //set crit fail
@@ -2127,9 +2142,11 @@ export class MothershipActor extends Actor {
           if (firstEdition) {
             //if calm not enabled
             if (!useCalm) {
-              //increase stress by 1 and retrieve the flavor text from the result
-              let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
-              flavorText = addStress[1];
+              if(game.settings.get('mosh','autoStress')){ //If the automatic stress option is enabled
+                //increase stress by 1 and retrieve the flavor text from the result
+                let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
+                flavorText = addStress[1];
+              }
               //if critical failure, make sure to ask for panic check
               if (parsedRollResult.critical === true) {
                 //set crit fail
@@ -2144,9 +2161,11 @@ export class MothershipActor extends Actor {
             if (!useCalm) {
               //on Save failure
               if (attribute === 'sanity' || attribute === 'fear' || attribute === 'body' || attribute === 'armor') {
-                //gain 1 stress
-                let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
-                flavorText = addStress[1];
+                if(game.settings.get('mosh','autoStress')){ //If the automatic stress option is enabled
+                  //gain 1 stress
+                  let addStress = await this.modifyActor('system.other.stress.value',1,null,false);
+                  flavorText = addStress[1];
+                }
                 //if critical failure, make sure to ask for panic check
                 if (parsedRollResult.critical === true) {
                   //set crit fail
@@ -2194,8 +2213,11 @@ export class MothershipActor extends Actor {
         speaker: {actor: this.id, token: this.token, alias: this.name},
         content: messageContent
       },{keepId:true});
-      //wait for dice
-      await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+
+      if(game.modules.get("dice-so-nice").active){
+        //wait for dice
+        await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+      }
   }
 
   //central function to modify actors | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
@@ -2494,8 +2516,10 @@ export class MothershipActor extends Actor {
                   speaker: {actor: this.id, token: this.token, alias: this.name},
                   content: messageContent
                 },{keepId:true});
-                //wait for dice
-                await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+                if(game.modules.get("dice-so-nice").active){
+                  //wait for dice
+                  await game.dice3d.waitFor3DAnimationByMessageID(chatId);
+                }
             }
             //return modification values
             return [msgFlavor,msgOutcome,msgChange];

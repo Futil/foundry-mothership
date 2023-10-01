@@ -6,7 +6,7 @@ async function prepTableRoll(tableName,rollString,aimFor,zeroBased,checkCrit,rol
     game.user.character.rollTable('panicCheck',rollString,null,null,null,'system.other.stress.value',null);
   } else if (game.settings.get('mosh','macroTarget') === 'token') {
     //run the function for all selected tokens
-    canvas.tokens.controlled.foreach(function(token){
+    canvas.tokens.controlled.forEach(function(token){
       token.actor.rollTable('panicCheck',rollString,null,null,null,'system.other.stress.value',null);
     });
   }

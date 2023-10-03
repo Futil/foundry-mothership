@@ -5,9 +5,9 @@
     <div class="rollcontainer">
 		<div class="flexrow">
 			{{#if (compare 'str' item.system.description '===' '<p>Patch</p>')}}
-			<div class="rollweaponh1" >TRINKET</div>
-			{{else if (compare 'str' item.system.description '===' '<p>Trinket</p>')}}
 			<div class="rollweaponh1" >PATCH</div>
+			{{else if (compare 'str' item.system.description '===' '<p>Trinket</p>')}}
+			<div class="rollweaponh1" >TRINKET</div>
 			{{else}}
 				{{#if (compare 'int' item.name.length '>=' 22)}}
 				<div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{item.name}}</div>

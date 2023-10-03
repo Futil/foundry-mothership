@@ -1,11 +1,3 @@
-2023/10/01-08:45:26.608 7adc Delete type=3 #1
-2023/10/01-08:45:37.297 775c Level-0 table #8: started
-2023/10/01-08:45:37.297 775c Level-0 table #8: 0 bytes OK
-2023/10/01-08:45:37.304 775c Delete type=0 #6
-2023/10/01-08:45:37.333 775c Manual compaction at level-0 from '!items!1r6ruvSdxn2bHHIk' @ 72057594037927935 : 1 .. '!items!zbKI2RCl5h3vowoy' @ 0 : 0; will stop at '!items!zbKI2RCl5h3vowoy' @ 35 : 1
-2023/10/01-08:45:37.333 775c Compacting 1@0 + 0@1 files
-2023/10/01-08:45:37.342 775c Generated table #9@0: 35 keys, 8499 bytes
-2023/10/01-08:45:37.342 775c Compacted 1@0 + 0@1 files => 8499 bytes
-2023/10/01-08:45:37.349 775c compacted to: files[ 0 1 0 0 0 0 0 ]
-2023/10/01-08:45:37.349 775c Delete type=2 #4
-2023/10/01-08:45:37.355 775c Manual compaction at level-0 from '!items!zbKI2RCl5h3vowoy' @ 35 : 1 .. '!items!zbKI2RCl5h3vowoy' @ 0 : 0; will stop at (end)
+2023/10/01-08:46:00.575 7adc Recovering log #7
+2023/10/01-08:46:00.597 7adc Delete type=0 #7
+2023/10/01-08:46:00.597 7adc Delete type=3 #5

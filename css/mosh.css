@@ -372,7 +372,7 @@ p {
 }
 
 .mosh .tabs .item {
-  line-height: 40px;
+  /* line-height: 40px; */
   font-weight: bold;
 }
 
@@ -385,8 +385,10 @@ p {
   font-family: "Font Awesome 6 Pro";
   content: "\f0da";
   color:white;
-  position: absolute;
+  position: relative;
+  right: 6px;
   margin-left: -1rem;
+  display: inline-block;
 }
 
 .mosh .items-list {

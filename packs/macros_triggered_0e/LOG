@@ -1,5 +1,1 @@
-2023/10/01-14:06:54.049 54ac Delete type=3 #1
-2023/10/01-14:08:16.664 56a8 Level-0 table #5: started
-2023/10/01-14:08:16.666 56a8 Level-0 table #5: 28945 bytes OK
-2023/10/01-14:08:16.668 56a8 Delete type=0 #3
-2023/10/01-14:08:16.671 56a8 Manual compaction at level-0 from '!macros!0Yw4QWSAeOuUzRqB' @ 72057594037927935 : 1 .. '!macros!z5V92LyXHjfMxnRQ' @ 0 : 0; will stop at (end)
+2023/10/02-20:32:57.634 6880 Delete type=3 #1

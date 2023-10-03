@@ -1301,6 +1301,11 @@ export class MothershipActor extends Actor {
       rollString = chosenRollType[0];
     }
     //table specific customizations
+      //if a table has details in parenthesis, lets remove them
+      if (tableName.includes(' (')) {
+        //extract dice needed
+        tableName = tableName.substr(0,tableName.indexOf(' ('));
+      }
       //if a wound table, add a wound to the player and prepare text for the final message
       if (tableName.slice(-5) === 'Wound') {
         let addWound = await this.modifyActor('system.hits.value',1,null,false);

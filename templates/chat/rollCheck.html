@@ -1,7 +1,7 @@
 <div class="mosh">
     <div class="rollcontainer">
         <div class="flexrow" style="margin-bottom : 5px;">
-            {{#if (compare 'int' item.name.length '>=' 22)}}
+            {{#if (compare 'int' msgHeader.length '>=' 22)}}
             <div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{{msgHeader}}}</div>
             {{else}}
             <div class="rollweaponh1" >{{{msgHeader}}}</div>

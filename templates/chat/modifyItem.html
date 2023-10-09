@@ -2,7 +2,11 @@
 {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     <div class="rollcontainer">
         <div class="flexrow" style="margin-bottom : 5px;">
-            <div class="rollweaponh1">{{{msgHeader}}}</div>
+            {{#if (compare 'int' msgHeader.length '>=' 22)}}
+            <div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{{msgHeader}}}</div>
+            {{else}}
+            <div class="rollweaponh1" >{{{msgHeader}}}</div>
+            {{/if}}
             <div style="text-align: right"><img class="roll-image" src="{{{msgImgPath}}}" /></div>
         </div>
         <div class="description" style="margin-bottom: 10px;">

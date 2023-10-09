@@ -1,0 +1,1 @@
+game.mosh.initRollCheck('1d100 [-]','low','sanity',null,null,null);

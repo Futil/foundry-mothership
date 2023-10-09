@@ -1,0 +1,1 @@
+game.mosh.initRollCheck('1d100','low','combat',null,null,null);

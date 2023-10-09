@@ -15,7 +15,12 @@ Hooks.once('init', async function () {
     MothershipActor,
     MothershipItem,
     rollItemMacro,
-    rollStatMacro
+    rollStatMacro,
+    initRollTable,
+    initRollCheck,
+    initModifyActor,
+    initModifyItem,
+    noCharSelected
   };
 
   registerSettings();
@@ -684,4 +689,148 @@ function rollStatMacro() {
   console.log(stat);
 
   return actor.rollStatSelect(stat);
+}
+
+//find and tell the actor to run the tableRoll function
+async function initRollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison) {
+  //determine who to run the macro for
+  if (game.settings.get('mosh','macroTarget') === 'character') {
+    //is there a selected character? warn if no
+    if (!game.user.character) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for the player's 'Selected Character'
+      game.user.character.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
+    }
+  } else if (game.settings.get('mosh','macroTarget') === 'token') {
+    //is there a selected character? warn if no
+    if (!canvas.tokens.controlled.length) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for all selected tokens
+      canvas.tokens.controlled.forEach(function(token){
+        token.actor.rollTable(tableName,rollString,aimFor,zeroBased,checkCrit,rollAgainst,comparison);
+      });
+    }
+  }
+  //log what was done
+  console.log(`Initiated rollTable function with: tableName: ${tableName}, rollString: ${rollString}, aimFor: ${aimFor}, zeroBased: ${zeroBased}, checkCrit: ${checkCrit}, rollAgainst: ${rollAgainst}, comparison: ${comparison}`);
+}
+
+//find and tell the actor to run the rollCheck function
+async function initRollCheck(rollString,aimFor,attribute,skill,skillValue,weapon) {
+  //determine who to run the macro for
+  if (game.settings.get('mosh','macroTarget') === 'character') {
+    //is there a selected character? warn if no
+    if (!game.user.character) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for the player's 'Selected Character'
+      game.user.character.rollCheck(rollString,aimFor,attribute,skill,skillValue,weapon);
+    }
+  } else if (game.settings.get('mosh','macroTarget') === 'token') {
+    //is there a selected character? warn if no
+    if (!canvas.tokens.controlled.length) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for all selected tokens
+      canvas.tokens.controlled.forEach(function(token){
+        token.actor.rollCheck(rollString,aimFor,attribute,skill,skillValue,weapon);
+      });
+    }
+  }
+  //log what was done
+  console.log(`Initiated rollCheck function with: rollString: ${rollString}, aimFor: ${aimFor}, attribute: ${attribute}, skill: ${skill}, skillValue: ${skillValue}, weapon: ${weapon}`);
+}
+
+//find and tell the actor to run the modifyActor function
+async function initModifyActor(fieldAddress,modValue,modRollString,outputChatMsg) {
+  //determine who to run the macro for
+  if (game.settings.get('mosh','macroTarget') === 'character') {
+    //is there a selected character? warn if no
+    if (!game.user.character) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for the player's 'Selected Character'
+      game.user.character.modifyActor(fieldAddress,modValue,modRollString,outputChatMsg);
+    }
+  } else if (game.settings.get('mosh','macroTarget') === 'token') {
+    //is there a selected character? warn if no
+    if (!canvas.tokens.controlled.length) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for all selected tokens
+      canvas.tokens.controlled.forEach(function(token){
+        token.actor.modifyActor(fieldAddress,modValue,modRollString,outputChatMsg);
+      });
+    }
+  }
+  //log what was done
+  console.log(`Initiated modifyActor function with: fieldAddress: ${fieldAddress}, modValue: ${modValue}, modRollString: ${modRollString}, outputChatMsg: ${outputChatMsg}`);
+}
+
+//tell the actor to run the function
+async function initModifyItem(itemId,addAmount) {
+  //determine who to run the macro for
+  if (game.settings.get('mosh','macroTarget') === 'character') {
+    //is there a selected character? warn if no
+    if (!game.user.character) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for the player's 'Selected Character'
+      game.user.character.modifyItem(itemId,addAmount);
+    }
+  } else if (game.settings.get('mosh','macroTarget') === 'token') {
+    //is there a selected character? warn if no
+    if (!canvas.tokens.controlled.length) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for all selected tokens
+      canvas.tokens.controlled.forEach(function(token){
+        token.actor.modifyItem(itemId,addAmount);
+      });
+    }
+  }
+  //log what was done
+  console.log(`Initiated modifyItem function with: itemId: ${itemId}, addAmount: ${addAmount}`);
+}
+
+//tell user no character is selected
+async function noCharSelected() {
+  //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+  return new Promise(async (resolve) => {
+    //init vars
+    let errorMessage = ``;
+    //create error text based on current settings
+    if (game.settings.get('mosh','macroTarget') === 'character') {
+      errorMessage = `<h3>No Character Selected</h3>Macro Target is set to the currently selected character. To select a character, modify your User Configuration in the Players menu located in the lower-left of the interface.<br><br>If you prefer Macros to be run on the currently active token(s) in the scene, you should change your settings accordingly.<br><br>`;
+    } else if (game.settings.get('mosh','macroTarget') === 'token') {
+      errorMessage = `<h3>No Character Selected</h3>Macro Target is set to the currently selected token(s) in the scene. To select token(s), click or draw a box around token(s) in the current scene.<br><br>If you prefer Macros to be run on the currently selected character for your user, you should change your settings accordingly.<br><br>`;
+    }
+    //create final dialog data
+    const dialogData = {
+      title: `Macro Issue`,
+      content: errorMessage,
+      buttons: {}
+    };
+    //add buttons
+      //Ok
+      dialogData.buttons.cancel = {
+        label: `Ok`,
+        callback: () => { },
+        icon: '<i class="fas fa-check"></i>'
+      };
+    //render dialog
+    const dialog = new Dialog(dialogData).render(true);
+    //log what was done
+    console.log(`Told the user that no character was selected.`);
+  });
 }

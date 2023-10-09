@@ -863,18 +863,27 @@ export class MothershipActor extends Actor {
         if(this.system.class.value.toLowerCase() === 'android') {
           //return class appropriate text
           return textLibrary[type][context][action].android;
+          //log what was done
+          console.log(`Retrieved flavor text for ${type}:${context}:${action} for an android`);
         } else {
           //return class appropriate text
           return textLibrary[type][context][action].human;
+          //log what was done
+          console.log(`Retrieved flavor text for ${type}:${context}:${action} for a human`);
         }
       } else {
         //return class appropriate text
         return textLibrary[type][context][action].human;
+        //log what was done
+        console.log(`Retrieved flavor text for ${type}:${context}:${action} for a non-character entity`);
       }
     } else {
+      //return what we were asked
       return action;
+      //log what was done
+      console.log(`Retrieved flavor text for ${type}:${context}:${action}, which did not have an entry`);
     }
-  };
+  }
 
   //central roll parsing function | TAKES '1d10 [+]','low' | RETURNS '{1d10,1d10}kh'
   parseRollString(rollString,aimFor) {
@@ -907,6 +916,8 @@ export class MothershipActor extends Actor {
     } else {
       rollStringParsed = rollString;
     }
+    //log what was done
+    console.log(`Parsed '${rollString}' aiming '${aimFor}' into '${rollStringParsed}'`);
     //return string in foundry format
     return rollStringParsed;
   }
@@ -1139,6 +1150,8 @@ export class MothershipActor extends Actor {
         `;
         //update final roll html string
         enrichedRollResult.rollHtml = rollHtml;
+    //log what was done
+    console.log(`Enriched the standard roll result.`);
     //return the enriched roll result object
     return enrichedRollResult;
   }
@@ -1416,6 +1429,8 @@ export class MothershipActor extends Actor {
         //wait for dice
         await game.dice3d.waitFor3DAnimationByMessageID(chatId);
       }
+    //log what was done
+    console.log(`Rolled on table ID: ${tableId}, with: rollString:${rollString}, aimFor:${aimFor}, zeroBased:${zeroBased}, checkCrit:${checkCrit}, rollAgainst:${rollAgainst}, comparison:${comparison}`);
   }
 
   //central adding addribute function | TAKES '1d10','low' | RETURNS player selected attribute. If parameters are null, it asks the player.
@@ -1535,6 +1550,7 @@ export class MothershipActor extends Actor {
               aimFor = `low`;
               attribute = html.find("input[name='stat']:checked").attr("value");
               resolve([rollString, aimFor, attribute]);
+              console.log(`User left the chooseAttribute dialog with: rollString:${rollString}, aimFor:${aimFor}, attribute:${attribute}`);
             },
             icon: `<i class="fas fa-angle-double-up"></i>`
           };
@@ -1546,6 +1562,7 @@ export class MothershipActor extends Actor {
               aimFor = `low`;
               attribute = html.find("input[name='stat']:checked").attr("value");
               resolve([rollString, aimFor, attribute]);
+              console.log(`User left the chooseAttribute dialog with: rollString:${rollString}, aimFor:${aimFor}, attribute:${attribute}`);
             },
             icon: `<i class="fas fa-minus"></i>`
           };
@@ -1557,6 +1574,7 @@ export class MothershipActor extends Actor {
               aimFor = `low`;
               attribute = html.find("input[name='stat']:checked").attr("value");
               resolve([rollString, aimFor, attribute]);
+              console.log(`User left the chooseAttribute dialog with: rollString:${rollString}, aimFor:${aimFor}, attribute:${attribute}`);
             },
             icon: `<i class="fas fa-angle-double-down"></i>`
           };
@@ -1568,6 +1586,7 @@ export class MothershipActor extends Actor {
             aimFor = `low`;
             attribute = html.find("input[name='stat']:checked").attr("value");
             resolve([rollString, aimFor, attribute]);
+            console.log(`User left the chooseAttribute dialog with: rollString:${rollString}, aimFor:${aimFor}, attribute:${attribute}`);
           },
           icon: `<i class="fas fa-chevron-circle-right"></i>`
         };
@@ -1707,6 +1726,7 @@ export class MothershipActor extends Actor {
               skill = html.find("input[name='skill']:checked").attr("id");
               skillValue = html.find("input[name='skill']:checked").attr("value");
               resolve([rollString, skill, skillValue]);
+              console.log(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
             },
             icon: `<i class="fas fa-angle-double-up"></i>`
           };
@@ -1718,6 +1738,7 @@ export class MothershipActor extends Actor {
               skill = html.find("input[name='skill']:checked").attr("id");
               skillValue = html.find("input[name='skill']:checked").attr("value");
               resolve([rollString, skill, skillValue]);
+              console.log(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
             },
             icon: `<i class="fas fa-minus"></i>`
           };
@@ -1729,6 +1750,7 @@ export class MothershipActor extends Actor {
               skill = html.find("input[name='skill']:checked").attr("id");
               skillValue = html.find("input[name='skill']:checked").attr("value");
               resolve([rollString, skill, skillValue]);
+              console.log(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
             },
             icon: `<i class="fas fa-angle-double-down"></i>`
           };
@@ -1740,6 +1762,7 @@ export class MothershipActor extends Actor {
             skill = html.find("input[name='skill']:checked").attr("id");
             skillValue = html.find("input[name='skill']:checked").attr("value");
             resolve([rollString, skill, skillValue]);
+            console.log(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
           },
           icon: `<i class="fas fa-chevron-circle-right"></i>`
         };
@@ -1771,6 +1794,7 @@ export class MothershipActor extends Actor {
           callback: (html) => {
             rollString = dieAdv;
             resolve([rollString]);
+            console.log(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
           },
           icon: `<i class="fas fa-angle-double-up"></i>`
         };
@@ -1780,6 +1804,7 @@ export class MothershipActor extends Actor {
           callback: (html) => {
             rollString = die;
             resolve([rollString]);
+            console.log(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
           },
           icon: `<i class="fas fa-minus"></i>`
         };
@@ -1789,6 +1814,7 @@ export class MothershipActor extends Actor {
           callback: (html) => { 
             rollString = dieDis;
             resolve([rollString]);
+            console.log(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
           },
           icon: `<i class="fas fa-angle-double-down"></i>`
         };
@@ -2223,6 +2249,8 @@ export class MothershipActor extends Actor {
         //wait for dice
         await game.dice3d.waitFor3DAnimationByMessageID(chatId);
       }
+    //log what was done
+    console.log(`Rolled a check on: ${attribute}, with: rollString:${rollString}, aimFor:${aimFor}, skill:${skill}, skillValue:${skillValue}, weapon:${weapon.name}`);
   }
 
   //central function to modify actors | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
@@ -2394,9 +2422,11 @@ export class MothershipActor extends Actor {
               speaker: {actor: this.id, token: this.token, alias: this.name},
               content: messageContent
             },{keepId:true});
-        }      
-      //return modification values
-      return [msgFlavor,msgOutcome,msgChange];
+        }
+        //log what was done
+        console.log(`Modified actor: ${this.name}, with: fieldAddress:${fieldAddress}, modValue:${modValue}, modRollString:${modRollString}, outputChatMsg:${outputChatMsg}`);      
+        //return modification values
+        return [msgFlavor,msgOutcome,msgChange];
       //calculate change from the modRollString
       } else {
         //roll the dice
@@ -2526,6 +2556,8 @@ export class MothershipActor extends Actor {
                   await game.dice3d.waitFor3DAnimationByMessageID(chatId);
                 }
             }
+            //log what was done
+            console.log(`Modified actor: ${this.name}, with: fieldAddress:${fieldAddress}, modValue:${modValue}, modRollString:${modRollString}, outputChatMsg:${outputChatMsg}`);     
             //return modification values
             return [msgFlavor,msgOutcome,msgChange];
       }
@@ -2615,32 +2647,35 @@ export class MothershipActor extends Actor {
         flavorText = `You add this to your inventory.`;
       }
     }
-  //generate chat message
-    //get item name
-    let msgHeader = itemData.name;
-    //get item image
-    let msgImgPath = itemData.img;
-    //prepare data
-    let messageData = {
-      actor: this,
-      msgHeader: msgHeader,
-      msgImgPath: msgImgPath,
-      flavorText: flavorText
-    };
-    //prepare template
-    messageTemplate = 'systems/mosh/templates/chat/modifyItem.html';
-    //render template
-    messageContent = await renderTemplate(messageTemplate, messageData);
-    //make message
-    ChatMessage.create({
-      id: chatId,
-      user: game.user.id,
-      speaker: {actor: this.id, token: this.token, alias: this.name},
-      content: messageContent
-    },{keepId:true});
+    //generate chat message
+      //get item name
+      let msgHeader = itemData.name;
+      //get item image
+      let msgImgPath = itemData.img;
+      //prepare data
+      let messageData = {
+        actor: this,
+        item: itemData,
+        msgHeader: msgHeader,
+        msgImgPath: msgImgPath,
+        flavorText: flavorText
+      };
+      //prepare template
+      messageTemplate = 'systems/mosh/templates/chat/modifyItem.html';
+      //render template
+      messageContent = await renderTemplate(messageTemplate, messageData);
+      //make message
+      ChatMessage.create({
+        id: chatId,
+        user: game.user.id,
+        speaker: {actor: this.id, token: this.token, alias: this.name},
+        content: messageContent
+      },{keepId:true});
+    //log what was done
+    console.log(`Modified item: ${itemData.name} belonging to actor: ${this.name}, by: addAmount:${addAmount}`);
   }
 
-  //central adding skill function | TAKES 'Body Save','1d10' | RETURNS player selected rollString.
+  //ask the player if we want to reload
   async askReload(itemId) {
     //wrap the whole thing in a promise, so that it waits for the form to be interacted with
     return new Promise(async (resolve) => {
@@ -2651,13 +2686,13 @@ export class MothershipActor extends Actor {
         buttons: {}
       };
       //add buttons
-        //Advantage
+        //reload
         dialogData.buttons.roll = {
           label: `Reload`,
           callback: () => this.reloadWeapon(itemId),
           icon: `<i class="fas fa-check"></i>`
         };
-        //Normal
+        //cancel
         dialogData.buttons.cancel = {
           label: `Cancel`,
           callback: () => { },
@@ -2666,9 +2701,11 @@ export class MothershipActor extends Actor {
       //render dialog
       const dialog = new Dialog(dialogData).render(true);
     });
+    //log what was done
+    console.log(`Asked for reload.`);
   }
 
-  //central adding skill function | TAKES 'Body Save','1d10' | RETURNS player selected rollString.
+  //tell user we are out of ammo
   async outOfAmmo() {
     //wrap the whole thing in a promise, so that it waits for the form to be interacted with
     return new Promise(async (resolve) => {
@@ -2688,6 +2725,8 @@ export class MothershipActor extends Actor {
       //render dialog
       const dialog = new Dialog(dialogData).render(true);
     });
+    //log what was done
+    console.log(`Told user they are out of ammo.`);
   }
 
   //reload weapon
@@ -2704,9 +2743,19 @@ export class MothershipActor extends Actor {
       //exit function (it should not be possible to get here)
       return;
     } else {
-      //do we need to reload?
+      //are we at full shots already?
       if (item.system.curShots === item.system.shots) {
+        //log what was done
+        console.log(`Can't reload, already at full shots.`);
         //exit function (it should not be possible to get here)
+        return;
+      //are we out of ammo?
+      } else if (!item.system.ammo) {
+        //tell player we are out of ammo
+        let t = await this.outOfAmmo();
+        //log what was done
+        console.log(`Can't reload, no ammo left.`);
+        //exit function
         return;
       } else {
         //put curShots back into the ammo pool
@@ -2742,6 +2791,8 @@ export class MothershipActor extends Actor {
         speaker: {actor: this.id, token: this.token, alias: this.name},
         content: messageContent
       },{keepId:true});
+    //log what was done
+    console.log(`Reloaded weapon.`);
   }
 
   //take bleeding damage
@@ -2780,6 +2831,8 @@ export class MothershipActor extends Actor {
       speaker: {actor: this.id, token: this.token, alias: this.name},
       content: messageContent
     },{keepId:true});
+    //log what was done
+    console.log(`Took bleeding damage.`);
   }
 
   //take radiation damage
@@ -2822,6 +2875,8 @@ export class MothershipActor extends Actor {
       speaker: {actor: this.id, token: this.token, alias: this.name},
       content: messageContent
     },{keepId:true});
+    //log what was done
+    console.log(`Took radiation damage.`);
   }
 
   // print description
@@ -2882,6 +2937,8 @@ export class MothershipActor extends Actor {
       chatData.content = content;
       ChatMessage.create(chatData);
     });
+    //log what was done
+    console.log(`Created chat message with details on ${item.name}`);
   }
 
 }

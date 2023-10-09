@@ -1,0 +1,1 @@
+game.mosh.initModifyActor('system.stats.speed.value',null,'2d10',true);

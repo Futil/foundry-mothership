@@ -1,0 +1,1 @@
+game.mosh.initRollTable(`panicCheck`,`[-]`,null,false,false,null,null);

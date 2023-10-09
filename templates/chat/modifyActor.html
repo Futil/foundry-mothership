@@ -1,4 +1,5 @@
-<div class="mosh">
+<div class="mosh" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+  {{#if item._id}}data-item-id="{{item._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
   <div class="rollcontainer">
     <div class="flexrow" style="margin-bottom: 5px;">
       <div class="rollweaponh1">{{{msgHeader}}}</div>

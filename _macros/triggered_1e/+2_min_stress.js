@@ -1,0 +1,1 @@
+game.mosh.initModifyActor('system.other.stress.min',2,null,true);

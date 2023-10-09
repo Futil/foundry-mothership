@@ -1,0 +1,1 @@
+game.mosh.initRollCheck('1d100 [-]','low','intellect',null,null,null);

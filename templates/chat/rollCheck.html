@@ -1,4 +1,5 @@
-<div class="mosh">
+<div class="mosh" {{#if actor._id}}data-actor-id="{{actor._id}}" {{/if}}
+{{#if weapon._id}}data-item-id="{{weapon._id}}" {{/if}} {{#if tokenId}}data-token-id="{{tokenId}}" {{/if}}>
     <div class="rollcontainer">
         <div class="flexrow" style="margin-bottom : 5px;">
             {{#if (compare 'int' msgHeader.length '>=' 22)}}

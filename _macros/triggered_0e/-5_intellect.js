@@ -1,0 +1,1 @@
+game.mosh.initModifyActor('system.stats.intellect.value',-5,null,true);

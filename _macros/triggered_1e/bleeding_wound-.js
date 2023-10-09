@@ -1,0 +1,1 @@
+game.mosh.initRollTable(`ata3fRz3uoPfNCLh`,`1d10 [-]`,`low`,true,false,null,null);

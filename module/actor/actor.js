@@ -3019,7 +3019,7 @@ export class MothershipActor extends Actor {
       </label>
       <!-- LIGHT COVER -->
       <label for="light">
-        <div class ="macro_window" style="margin-top: 7px; margin-bottom : 7px; vertical-align: middle; padding-left: 10px;">
+        <div class ="macro_window" style="margin-top: 7px; margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
           <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
             <input type="radio" id="light" name="cover" value="light" ${light_checked}>
             <div class="macro_desc" style="display: table; padding-left: 5px;">
@@ -3043,7 +3043,7 @@ export class MothershipActor extends Actor {
       </label>
       <!-- HEAVY COVER -->
       <label for="heavy">
-        <div class ="macro_window" style="margin-top: 7px; margin-bottom : 7px; vertical-align: middle; padding-left: 10px;">
+        <div class ="macro_window" style="margin-top: 7px; margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
           <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
             <input type="radio" id="heavy" name="cover" value="heavy" ${heavy_checked}>
             <div class="macro_desc" style="display: table; padding-left: 5px;">

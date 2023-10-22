@@ -2907,9 +2907,9 @@ export class MothershipActor extends Actor {
       let light_checked = ``;
       let heavy_checked = ``;
       //fetch character AP/DR/cover
-      let curAP = game.user.character.system.stats.armor.mod;
-      let curDR = game.user.character.system.stats.armor.damageReduction;
-      let curCover = game.user.character.system.stats.armor.cover;
+      let curAP = this.system.stats.armor.mod;
+      let curDR = this.system.stats.armor.damageReduction;
+      let curCover = this.system.stats.armor.cover;
       //set checkbox to current cover + adjust curAP/DR
       if (curCover === 'none') {
         none_checked = `checked`;

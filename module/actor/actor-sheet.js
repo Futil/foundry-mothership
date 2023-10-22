@@ -53,10 +53,10 @@ export class MothershipActorSheet extends ActorSheet {
             superData.xp.html += '<div class="circle"></div>';
           }
           else { //If a special one
-            let trainLevel = 'Trained';
-            if(i == 10) trainLevel = 'Expert';
-            else if(i == 15) trainLevel = 'Master';
-            superData.xp.html += '<div class="circle" style="background:rgb(200,200,200);"><div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -60px;">'+trainLevel+'</div></div>';
+            let trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -54px;">Trained</div>';
+            if(i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px;">Expert</div>';
+            else if(i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px;">Master</div>';
+            superData.xp.html += '<div class="circle" style="background:rgb(200,200,200);">'+trainLevel+'</div>';
           }
         }
         else{
@@ -64,10 +64,10 @@ export class MothershipActorSheet extends ActorSheet {
           superData.xp.html += '<div class="circle-f"></div>';
         }
         else { //If a special one
-          let trainLevel = 'Trained';
-          if(i == 10) trainLevel = 'Expert';
-          else if(i == 15) trainLevel = 'Master';
-          superData.xp.html += '<div class="circle-f" style="background:black;"><div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -60px; color:black;">'+trainLevel+'</div></div>';
+          let trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -54px; color:black;">Trained</div>';
+          if(i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px; color:black;">Expert</div>';
+          else if(i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px; color:black;">Master</div>';
+          superData.xp.html += '<div class="circle-f" style="background:black;">'+trainLevel+'</div>';
         }
 
         }
@@ -367,6 +367,12 @@ export class MothershipActorSheet extends ActorSheet {
     html.find('.stress-roll').click(ev => {
       //roll panic check
       this.actor.rollTable('panicCheck',null,null,null,null,'system.other.stress.value',null);
+    });
+
+    // Clicking on Armor
+    html.find('.armor-roll').click(ev => {
+      //roll panic check
+      this.actor.chooseCover();
     });
 
     // Drag events for macros.

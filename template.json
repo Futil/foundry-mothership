@@ -122,6 +122,7 @@
           "min": 0,
           "max": 99,
           "damageReduction": 0,
+          "cover": "none",
           "label": "Armor",
           "rollLabel": "Armor Save"
         }

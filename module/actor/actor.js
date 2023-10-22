@@ -33,6 +33,17 @@ export class MothershipActor extends Actor {
         damageReduction += armor.system.damageReduction;
       }
     }
+    if (data.stats.armor.cover === "insignificant") {
+      armorPoints += 5;
+    }
+    if (data.stats.armor.cover === "light") {
+      armorPoints += 10;
+    }
+    if (data.stats.armor.cover === "heavy") {
+      armorPoints += 20;
+      damageReduction += 5;
+    }
+
     data.stats.armor.mod = armorPoints;
     data.stats.armor.total = armorPoints+data.stats.armor.value;
     data.stats.armor.damageReduction = damageReduction;
@@ -69,8 +80,8 @@ export class MothershipActor extends Actor {
         }
     };
     //replace 'stress' with calm if the setting is active
-    if (game.settings.get("mosh", "useCalm") && action === 'stress') {
-      action = 'calm';
+    if (game.settings.get("mosh", "useCalm") && context === 'stress') {
+      context = 'calm';
     }
     //create library
     let textLibrary = {
@@ -861,27 +872,27 @@ export class MothershipActor extends Actor {
       //set full path to include class type
       if (this.type === 'character') {
         if(this.system.class.value.toLowerCase() === 'android') {
-          //return class appropriate text
-          return textLibrary[type][context][action].android;
           //log what was done
           console.log(`Retrieved flavor text for ${type}:${context}:${action} for an android`);
-        } else {
           //return class appropriate text
-          return textLibrary[type][context][action].human;
+          return textLibrary[type][context][action].android;
+        } else {
           //log what was done
           console.log(`Retrieved flavor text for ${type}:${context}:${action} for a human`);
+          //return class appropriate text
+          return textLibrary[type][context][action].human;
         }
       } else {
-        //return class appropriate text
-        return textLibrary[type][context][action].human;
         //log what was done
         console.log(`Retrieved flavor text for ${type}:${context}:${action} for a non-character entity`);
+        //return class appropriate text
+        return textLibrary[type][context][action].human;
       }
     } else {
-      //return what we were asked
-      return action;
       //log what was done
       console.log(`Retrieved flavor text for ${type}:${context}:${action}, which did not have an entry`);
+      //return what we were asked
+      return action;
     }
   }
 
@@ -1654,14 +1665,19 @@ export class MothershipActor extends Actor {
         let skillRow = `
         <label for="[RADIO_ID]">
         <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
-          <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
-          <input type="radio" id="[RADIO_ID]" name="skill" value="[RADIO_VALUE]">
-          <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="[RADIO_IMG]" style="border:none"/></div>
-          <div class="macro_desc" style="display: table;">
-            <span style="display: table-cell; vertical-align: middle;">
-            <p><strong>[RADIO_NAME]</strong>[RADIO_DESC]
-            </span>
-          </div>    
+          <div class="grid grid-4col" style="grid-template-columns: 20px 60px 45px auto">
+            <input type="radio" id="[RADIO_ID]" name="skill" value="[RADIO_VALUE]">
+            <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="[RADIO_IMG]" style="border:none"/></div>
+            <div class="macro_desc" style="display: table;">
+              <span style="display: table-cell; vertical-align: middle; color: #888; font-weight:500; font-size: 14pt">
+                +[RADIO_BONUS]
+              </span>
+            </div> 
+            <div class="macro_desc" style="display: table;">
+              <span style="display: table-cell; vertical-align: middle;">
+                <p><strong>[RADIO_NAME]</strong>[RADIO_DESC]
+              </span>
+            </div>    
           </div>
         </div>
         </label>`;
@@ -1684,6 +1700,8 @@ export class MothershipActor extends Actor {
               tempRow = tempRow.replace("[RADIO_VALUE]",item.system.bonus);
               //replace img
               tempRow = tempRow.replace("[RADIO_IMG]",item.img);
+              //replace name
+              tempRow = tempRow.replace("[RADIO_BONUS]",item.system.bonus);
               //replace name
               tempRow = tempRow.replace("[RADIO_NAME]",item.name);
               //replace desc
@@ -2877,6 +2895,197 @@ export class MothershipActor extends Actor {
     },{keepId:true});
     //log what was done
     console.log(`Took radiation damage.`);
+  }
+
+  //choose cover
+  async chooseCover() {
+    //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+    return new Promise(async (resolve) => {
+      //init vars
+      let none_checked = ``;
+      let insignificant_checked = ``;
+      let light_checked = ``;
+      let heavy_checked = ``;
+      //fetch character AP/DR/cover
+      let curAP = game.user.character.system.stats.armor.mod;
+      let curDR = game.user.character.system.stats.armor.damageReduction;
+      let curCover = game.user.character.system.stats.armor.cover;
+      //set checkbox to current cover + adjust curAP/DR
+      if (curCover === 'none') {
+        none_checked = `checked`;
+      }
+      if (curCover === 'insignificant') {
+        insignificant_checked = `checked`;
+        curAP = curAP - 5;
+      }
+      if (curCover === 'light') {
+        light_checked = `checked`;
+        curAP = curAP - 10;
+    }
+      if (curCover === 'heavy') {
+        heavy_checked = `checked`;
+        curAP = curAP - 20;
+        curDR = curDR - 5;
+    }
+      //calculate cover AP/DR
+      let insignificantAP = curAP + 5;
+      let insignificantDR = curDR;	  
+      let lightAP = curAP + 10;
+      let lightDR = curDR;	  	  
+      let heavyAP = curAP + 20;
+      let heavyDR = curDR + 5;	  	  
+      //create pop-up HTML
+      let msgContent = `
+      <style>
+      .macro_window{
+        background: rgb(230,230,230);
+        border-radius: 9px;
+      }
+      .macro_img{
+        display: flex;
+        justify-content: center;
+      }
+      .macro_desc{
+        font-family: "Roboto", sans-serif;
+        font-size: 10.5pt;
+        font-weight: 400;
+        padding-top: 8px;
+        padding-right: 8px;
+        padding-bottom: 8px;
+      }
+      .grid-2col {
+        display: grid;
+        grid-column: span 2 / span 2;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2px;
+        padding: 0;
+      }
+      </style>
+      <!-- HEADER -->
+      <div class ="macro_window" style="margin-bottom : 7px;">
+      <div class="grid grid-2col" style="grid-template-columns: 150px auto">
+        <div class="macro_img"><img src="systems/mosh/images/icons/ui/attributes/armor.png" style="border:none"/></div>
+        <div class="macro_desc"><h3>Cover</h3>The environment can provide protection called <strong>Cover</strong>. It can be destroyed, just like armor, whenever it is dealt Damage greater than or equal to its AP. Cover typically only protects against ranged attacks, but in some situations may help block a hand-to-hand attack. <strong>If you shoot while in Cover, you are considered out of Cover until your next turn.</strong></div>    
+      </div>
+      </div>
+      <h4>Select your current cover situation:</h4>
+      <!-- NO COVER -->
+      <label for="none">
+        <div class ="macro_window" style="margin-top: 7px; margin-bottom: 7px; vertical-align: middle; padding-left: 3px;">
+          <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
+            <input type="radio" id="none" name="cover" value="none" ${none_checked}>
+            <div class="macro_desc" style="display: table; padding-left: 5px;">
+              <span style="display: table-cell; vertical-align: middle;">
+                <strong>No Cover</strong><br>Unprotected, out in the open, etc.
+              </span>
+            </div>
+            <div class="macro_desc mosh health resource healthspread minmaxtopstat">
+              <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${curAP}</div>
+                <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${curDR}</div>
+              </div>
+              <div class="grid">
+                <div class="healthmaxtext mosh health resource">Armor Points</div>
+                <div class="healthmaxtext mosh health resource">DMG Reduction</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </label>
+      <!-- INSIGNIFICANT COVER -->
+      <label for="insignificant">
+        <div class ="macro_window" style="margin-top: 7px; margin-bottom: 7px; vertical-align: middle; padding-left: 3px;">
+          <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
+            <input type="radio" id="insignificant" name="cover" value="insignificant" ${insignificant_checked}>
+            <div class="macro_desc" style="display: table; padding-left: 5px;">
+              <span style="display: table-cell; vertical-align: middle;">
+                <strong>Insignificant Cover</strong><br>Wood furniture/doors, body shields, etc.
+              </span>
+            </div>
+            <div class="macro_desc mosh health resource healthspread minmaxtopstat">
+              <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${insignificantAP}</div>
+                <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${insignificantDR}</div>
+              </div>
+              <div class="grid">
+                <div class="healthmaxtext mosh health resource">Armor Points</div>
+                <div class="healthmaxtext mosh health resource">DMG Reduction</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </label>
+      <!-- LIGHT COVER -->
+      <label for="light">
+        <div class ="macro_window" style="margin-top: 7px; margin-bottom : 7px; vertical-align: middle; padding-left: 10px;">
+          <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
+            <input type="radio" id="light" name="cover" value="light" ${light_checked}>
+            <div class="macro_desc" style="display: table; padding-left: 5px;">
+              <span style="display: table-cell; vertical-align: middle;">
+                <strong>Light Cover</strong><br>Trees, bulkhead walls, metal furniture, etc.
+              </span>
+            </div>
+            <div class="macro_desc mosh health resource healthspread minmaxtopstat">
+              <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${lightAP}</div>
+                <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${lightDR}</div>
+              </div>
+              <div class="grid">
+                <div class="healthmaxtext mosh health resource">Armor Points</div>
+                <div class="healthmaxtext mosh health resource">DMG Reduction</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </label>
+      <!-- HEAVY COVER -->
+      <label for="heavy">
+        <div class ="macro_window" style="margin-top: 7px; margin-bottom : 7px; vertical-align: middle; padding-left: 10px;">
+          <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
+            <input type="radio" id="heavy" name="cover" value="heavy" ${heavy_checked}>
+            <div class="macro_desc" style="display: table; padding-left: 5px;">
+              <span style="display: table-cell; vertical-align: middle;">
+                <strong>Heavy Cover</strong><br>Airlock doors, cement beams, ships, etc.
+              </span>
+            </div>
+            <div class="macro_desc mosh health resource healthspread minmaxtopstat">
+              <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${heavyAP}</div>
+                <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${heavyDR}</div>
+              </div>
+              <div class="grid">
+                <div class="healthmaxtext mosh health resource">Armor Points</div>
+                <div class="healthmaxtext mosh health resource">DMG Reduction</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </label>
+      `;
+      //create final dialog data
+      const dialogData = {
+        title: `Cover`,
+        content: msgContent,
+        buttons: {}
+      };
+      //add buttons
+        //Ok
+        dialogData.buttons.cancel = {
+          label: `Ok`,
+          callback: (html) => {
+            this.update({'system.stats.armor.cover': html.find("input[name='cover']:checked").attr("value")});
+            console.log(`User's cover is now:${html.find("input[name='cover']:checked").attr("value")}`);
+          },
+          icon: '<i class="fas fa-check"></i>'
+        };
+      //render dialog
+      const dialog = new Dialog(dialogData,{width: 600,height: 567}).render(true);
+      });
+    
   }
 
   // print description

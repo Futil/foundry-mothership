@@ -155,7 +155,7 @@
           {{#if system.settings.firstEdition}}
           <!-- Armor -->
           <div class="resource healthspread minmaxtopstat" style="grid-column-start: 2; grid-column-end: 3;">
-            <label for="system.stats.armor.value" class="resource-label minmaxtext">Armor</label>
+            <label for="system.stats.armor.value" class="resource-label minmaxtext rollable armor-roll">Armor</label>
             <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
               <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{system.stats.armor.mod}}</div>
               <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
@@ -536,7 +536,7 @@
         {{#each conditions as |condition id|}}
         <li class="item flexrow dropitem" data-item-id="{{condition._id}}">
           <div class="item-image"><img src="{{condition.img}}" title="{{condition.name}}" width="24" height="24"/></div>
-          <div class="skill-name description-roll list-roll" style = "background: #1b0000;">{{condition.name}}</div>
+          <div class="skill-name description-roll list-roll">{{condition.name}}</div>
           <div class="skill-stat list-roll severity">{{condition.system.severity}}</div>
           <div class="skill-stat">
             {{#if condition.system.treatment.html}}

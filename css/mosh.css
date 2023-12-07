@@ -593,6 +593,10 @@ p {
   color: white;
 }
 
+.mosh .highlightText{
+  color: orangered;
+}
+
 .mosh .sizelarge{
   font-size: 1.1rem;
 }

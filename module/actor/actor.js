@@ -33,16 +33,6 @@ export class MothershipActor extends Actor {
         damageReduction += armor.system.damageReduction;
       }
     }
-    if (data.stats.armor.cover === "insignificant") {
-      armorPoints += 5;
-    }
-    if (data.stats.armor.cover === "light") {
-      armorPoints += 10;
-    }
-    if (data.stats.armor.cover === "heavy") {
-      armorPoints += 20;
-      damageReduction += 5;
-    }
 
     data.stats.armor.mod = armorPoints;
     data.stats.armor.total = armorPoints+data.stats.armor.value;
@@ -2916,24 +2906,13 @@ export class MothershipActor extends Actor {
       }
       if (curCover === 'insignificant') {
         insignificant_checked = `checked`;
-        curAP = curAP - 5;
       }
       if (curCover === 'light') {
         light_checked = `checked`;
-        curAP = curAP - 10;
-    }
+      }
       if (curCover === 'heavy') {
         heavy_checked = `checked`;
-        curAP = curAP - 20;
-        curDR = curDR - 5;
-    }
-      //calculate cover AP/DR
-      let insignificantAP = curAP + 5;
-      let insignificantDR = curDR;	  
-      let lightAP = curAP + 10;
-      let lightDR = curDR;	  	  
-      let heavyAP = curAP + 20;
-      let heavyDR = curDR + 5;	  	  
+      }  
       //create pop-up HTML
       let msgContent = `
       <style>
@@ -2965,7 +2944,7 @@ export class MothershipActor extends Actor {
       <div class ="macro_window" style="margin-bottom : 7px;">
       <div class="grid grid-2col" style="grid-template-columns: 150px auto">
         <div class="macro_img"><img src="systems/mosh/images/icons/ui/attributes/armor.png" style="border:none"/></div>
-        <div class="macro_desc"><h3>Cover</h3>The environment can provide protection called <strong>Cover</strong>. It can be destroyed, just like armor, whenever it is dealt Damage greater than or equal to its AP. Cover typically only protects against ranged attacks, but in some situations may help block a hand-to-hand attack. <strong>If you shoot while in Cover, you are considered out of Cover until your next turn.</strong></div>    
+        <div class="macro_desc"><h3>Cover</h3>The environment can provide protection called <strong>Cover</strong>. It can be destroyed, just like armor, whenever it is dealt Damage greater than or equal to its AP. Cover typically only protects against ranged attacks, but in some situations may help block a hand-to-hand attack. <strong>If you shoot while in Cover, you are considered out of Cover until your next turn.</strong> Your Cover values are displayed in <strong><span style="color: orangered">orange</span></strong>.</div>
       </div>
       </div>
       <h4>Select your current cover situation:</h4>
@@ -3005,9 +2984,12 @@ export class MothershipActor extends Actor {
             </div>
             <div class="macro_desc mosh health resource healthspread minmaxtopstat">
               <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
-                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${insignificantAP}</div>
+                <div class="maxhealth-input" style="display: flex;">
+                  <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${curAP}</div>
+                  <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;5</div>
+                </div>
                 <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
-                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${insignificantDR}</div>
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${curDR}</div>
               </div>
               <div class="grid">
                 <div class="healthmaxtext mosh health resource">Armor Points</div>
@@ -3029,9 +3011,12 @@ export class MothershipActor extends Actor {
             </div>
             <div class="macro_desc mosh health resource healthspread minmaxtopstat">
               <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
-                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${lightAP}</div>
+                <div class="maxhealth-input" style="display: flex;">
+                  <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${curAP}</div>
+                  <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;10</div>
+                </div>
                 <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
-                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${lightDR}</div>
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${curDR}</div>
               </div>
               <div class="grid">
                 <div class="healthmaxtext mosh health resource">Armor Points</div>
@@ -3053,9 +3038,15 @@ export class MothershipActor extends Actor {
             </div>
             <div class="macro_desc mosh health resource healthspread minmaxtopstat">
               <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
-                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${heavyAP}</div>
+                <div class="maxhealth-input" style="display: flex;">
+                  <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${curAP}</div>
+                  <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;20</div>
+                </div>
                 <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
-                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${heavyDR}</div>
+                <div class="maxhealth-input" style="display: flex;">
+                  <div class="maxhealth-input whiteText" type="text" data-dtype="Number">${curDR}</div>
+                  <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;5</div>
+                </div>
               </div>
               <div class="grid">
                 <div class="healthmaxtext mosh health resource">Armor Points</div>

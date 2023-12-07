@@ -157,9 +157,25 @@
           <div class="resource healthspread minmaxtopstat" style="grid-column-start: 2; grid-column-end: 3;">
             <label for="system.stats.armor.value" class="resource-label minmaxtext rollable armor-roll">Armor</label>
             <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
-              <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{system.stats.armor.mod}}</div>
+              <div class="maxhealth-input" style="display: flex;">
+                <div class="whiteText" type="text" data-dtype="Number">{{system.stats.armor.mod}}</div>
+                {{#if (compare 'str' system.stats.armor.cover '===' 'insignificant')}}
+                <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;5</div>
+                {{/if}}
+                {{#if (compare 'str' system.stats.armor.cover '===' 'light')}}
+                <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;10</div>
+                {{/if}}
+                {{#if (compare 'str' system.stats.armor.cover '===' 'heavy')}}
+                <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;20</div>
+                {{/if}}
+              </div>
               <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
-              <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{system.stats.armor.damageReduction}}</div>
+              <div class="maxhealth-input" style="display: flex;">
+                <div class="whiteText" type="text" data-dtype="Number">{{system.stats.armor.damageReduction}}</div>
+                {{#if (compare 'str' system.stats.armor.cover '===' 'heavy')}}
+                <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;5</div>
+                {{/if}}
+              </div>
             </div>
             <div class="healthmaxtext">Armor Points</div>
             <div class="healthmaxtext">DMG Reduction</div>

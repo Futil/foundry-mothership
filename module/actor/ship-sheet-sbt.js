@@ -1,56 +1,31 @@
+
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-import { DLCreatureSettings } from "../settings/creature-settings.js";
+import { DLShipDeckplan } from "../windows/ship-deckplan.js";
 
-export class MothershipCreatureSheet extends ActorSheet {
+
+export class MothershipShipSheetSBT extends ActorSheet {
 
     /** @override */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            classes: ["mosh", "sheet", "actor", "creature"],
-            template: "systems/mosh/templates/actor/creature-sheet.html",
+            classes: ["mosh", "sheet", "actor", "ship"],
+            template: "systems/mosh/templates/actor/ship-sheet-sbt.html",
             width: 700,
-            height: 650,
-            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
+            height: 800,
+            tabs: [{ navSelector: "#sheet-tabs", contentSelector: "#sheet-body", initial: "character" },
+                   { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "crew" }]
         });
     }
 
-    /**
-     * Extend and override the sheet header buttons
-     * @override
-     */
-    _getHeaderButtons() {
-        let buttons = super._getHeaderButtons();
-        const canConfigure = game.user.isGM || this.actor.isOwner;
-        if (this.options.editable && canConfigure) {
-            buttons = [{
-                label: 'Creature Settings',
-                class: 'configure-actor',
-                icon: 'fas fa-tasks',
-                onclick: (ev) => this._onConfigureCreature(ev),
-            },].concat(buttons);
-        }
-        return buttons;
-    }
-    /* -------------------------------------------- */
-
-    _onConfigureCreature(event) {
+    _onOpenDeckplan(event) {
         event.preventDefault();
-        new DLCreatureSettings(this.actor, {
+        new DLShipDeckplan(this.actor, {
             top: this.position.top + 40,
             left: this.position.left + (this.position.width - 400) / 2
         }).render(true);
-    }
-
-    async _updateObject(event, formData) {
-        const actor = this.object;
-        const updateData = expandObject(formData);
-
-        await actor.update(updateData, {
-            diff: false
-        });
     }
 
     /* -------------------------------------------- */
@@ -58,24 +33,33 @@ export class MothershipCreatureSheet extends ActorSheet {
     /** @override */
     getData() {
         const data = super.getData();
+
         data.dtypes = ["String", "Number", "Boolean"];
-        //   for (let attr of Object.values(data.data.attributes)) {
+        
+        // for (let attr of Object.values(data.data.system.attributes)) {
         //     attr.isCheckbox = attr.dtype === "Boolean";
-        //   }
+        // }
+
+        const superData = data.data.system;
 
         // Prepare items.
-        if (this.actor.type == 'creature') {
-            this._prepareCreatureItems(data);
+        if (this.actor.type == 'ship') {
+            this._prepareShipItems(data);
         }
 
-        if (data.data.system.settings == null) {
-            data.data.system.settings = {};
-          }
-          data.data.system.settings.useCalm = game.settings.get("mosh", "useCalm");
-          data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
-          data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
-          data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");    
-      
+        if (superData.settings == null) {
+            superData.settings = {};
+        }
+
+        superData.settings.useCalm = game.settings.get("mosh", "useCalm");
+        superData.settings.hideWeight = game.settings.get("mosh", "hideWeight");
+        superData.settings.firstEdition = game.settings.get("mosh", "firstEdition");
+        superData.settings.androidPanic = game.settings.get("mosh", "androidPanic");
+
+        let maxHull = superData.supplies.hull.max;
+
+        superData.supplies.hull.percentage = " [ "+Math.round(maxHull * 0.25)+" | "+Math.round(maxHull * 0.5)+" | "+Math.round(maxHull * 0.75)+" ]";
+
         return data.data;
     }
 
@@ -86,12 +70,14 @@ export class MothershipCreatureSheet extends ActorSheet {
      *
      * @return {undefined}
      */
-    _prepareCreatureItems(sheetData) {
+    _prepareShipItems(sheetData) {
         const actorData = sheetData.data;
-        
+
         // Initialize containers.
-        const abilities = [];
+        const crew = [];
         const weapons = [];
+        const cargo = [];
+        const modules = [];
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
@@ -99,21 +85,23 @@ export class MothershipCreatureSheet extends ActorSheet {
             let item = i.system;
             i.img = i.img || DEFAULT_TOKEN;
 
-            if (i.type === 'ability') {
-                abilities.push(i);
+            if (i.type === 'crew') {
+                crew.push(i);
             } else if (i.type === 'weapon') {
-                if(item.ranges.value == "" && item.ranges.medium > 0){
-                    item.ranges.value = item.ranges.short + "/" + item.ranges.medium + "/" + item.ranges.long;
-                    item.ranges.medium = 0;
-                }
-
                 weapons.push(i);
+            } else if (i.type === 'item') {
+                cargo.push(i);
+            } else if (i.type === 'module') {
+                modules.push(i);
             }
         }
 
         // Assign and return
-        actorData.abilities = abilities;
+        actorData.crew = crew;
         actorData.weapons = weapons;
+        actorData.cargo = cargo;
+        actorData.modules = modules;
+
     }
 
     /** @override */
@@ -123,6 +111,8 @@ export class MothershipCreatureSheet extends ActorSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
 
+        // Create inventory item.
+        html.find('.item-create').click(this._onItemCreate.bind(this));
         // Delete Inventory Item
         html.find('.item-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
@@ -135,9 +125,34 @@ export class MothershipCreatureSheet extends ActorSheet {
             const li = $(ev.currentTarget).parents(".item");
             const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
             item.sheet.render(true);
+
+            let amount = item.system.quantity;
+
+            if (item.type == "module") {
+                item.system.totalHull = amount * item.system.hull;
+            }
         });
 
-        // Rollable Attribute
+        //Quantity adjuster
+        html.on('mousedown', '.item-quantity', ev => {
+            const li = ev.currentTarget.closest(".item");
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+            let amount = item.system.quantity;
+
+            if (event.button == 0) {
+                item.system.quantity = Number(amount) + 1;
+            } else if (event.button == 2) {
+                item.system.quantity = Number(amount) - 1;
+            }
+
+            if (item.type == "module") {
+                item.system.totalHull = item.system.quantity * item.system.hull;
+            }
+
+            this.actor.updateEmbeddedDocuments('Item', [item]);
+        });
+
+        // Rollable Attributes
         html.find('.stat-roll').click(ev => {
             const div = $(ev.currentTarget);
             const statName = div.data("key");
@@ -147,14 +162,12 @@ export class MothershipCreatureSheet extends ActorSheet {
         //Weapons
         // Add Inventory Item
         html.find('.weapon-create').click(this._onItemCreate.bind(this));
-
         // Update Inventory Item
         html.find('.weapon-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
             const weapon = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
             weapon.sheet.render(true);
         });
-
         // Rollable Weapon
         html.find('.weapon-roll').click(ev => {
             const li = ev.currentTarget.closest(".item");
@@ -162,13 +175,14 @@ export class MothershipCreatureSheet extends ActorSheet {
             this.actor.rollCheck(null,'low','combat',null,null,item);
         });
 
-        //increase ammo
+        // Rollable Weapon
+        html.find('.deckplan-button').click(ev => this._onOpenDeckplan(ev));
+
         html.on('mousedown', '.weapon-ammo', ev => {
-            //dupe item to work on
             const li = ev.currentTarget.closest(".item");
             const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
             let amount = item.system.ammo;
-            //increase ammo
+
             if (event.button == 0) {
                 if (amount >= 0) {
                     item.system.ammo = Number(amount) + 1;
@@ -178,7 +192,7 @@ export class MothershipCreatureSheet extends ActorSheet {
                     item.system.ammo = Number(amount) - 1;
                 }
             }
-            //update ammo count
+
             this.actor.updateEmbeddedDocuments('Item', [item]);
         });
 
@@ -196,6 +210,7 @@ export class MothershipCreatureSheet extends ActorSheet {
             });
         });
 
+
         // Drag events for macros.
         if (this.actor.isOwner) {
             let handler = ev => this._onDragStart(ev);
@@ -206,7 +221,6 @@ export class MothershipCreatureSheet extends ActorSheet {
                 li.addEventListener("dragstart", handler, false);
             });
         }
-
     }
 
     /* -------------------------------------------- */
@@ -252,7 +266,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         console.log(super.getData());
 
         if (dataset.roll) {
-            let roll = new Roll(dataset.roll, this.actor.system);
+            let roll = new Roll(dataset.roll, this.actor.data.data);
             let label = dataset.label ? `Rolling ${dataset.label} to score under ${dataset.target}` : '';
             roll.roll().toMessage({
                 speaker: ChatMessage.getSpeaker({ actor: this.actor }),

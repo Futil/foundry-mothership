@@ -249,6 +249,27 @@
           "max": 99,
           "label": "Speed",
           "rollLabel": "Speed Check"
+        },
+        "thrusters": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Thruster",
+          "rollLabel": "Thrusters Save"
+        },
+        "battle": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Battle",
+          "rollLabel": "Battle Save"
+        },
+        "systems": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Systems",
+          "rollLabel": "Systems Save"
         }
       },
       "supplies": {
@@ -266,7 +287,42 @@
         "stock": {
           "value": 10,
           "max": 10
+        },
+        "crew": {
+          "value": 10,
+          "max": 10
+        },
+        "oxygen": {
+          "value": 0
+        },
+        "warp-cores": {
+          "value": 0
+        },
+        "cryopods": {
+          "value": 0
+        },
+        "escape-pods": {
+          "value": 0
+        },
+        "upgrades": {
+          "value": 0,
+          "max" : 0
         }
+      },
+      "weapon-stats" : {
+        "weapons": {
+          "value": 0,
+          "max": 1
+        },
+        "megadamage": {
+          "value": 0,
+          "max": 1
+        },
+        "hardpoints": {
+          "value": 0,
+          "max": 1
+        }
+
       }
     }
   },
@@ -278,7 +334,8 @@
       "armor",
       "ability",
       "module",
-      "condition"
+      "condition",
+      "crew"
     ],
     "templates": {
       "base": {
@@ -356,6 +413,13 @@
       ],
       "text": "An Ability",
       "roll": ""
+    },
+    "crew": {
+      "templates": [
+        "base"
+      ],
+      "text": "",
+      "job" : ""
     },
     "module": {
       "templates": [

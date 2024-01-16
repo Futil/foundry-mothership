@@ -3,6 +3,8 @@ import { MothershipActor } from "./actor/actor.js";
 import { MothershipActorSheet } from "./actor/actor-sheet.js";
 import { MothershipCreatureSheet } from "./actor/creature-sheet.js";
 import { MothershipShipSheet } from "./actor/ship-sheet.js";
+import { MothershipShipSheetSBT } from "./actor/ship-sheet-sbt.js";
+
 import { MothershipItem } from "./item/item.js";
 import { MothershipItemSheet } from "./item/item-sheet.js";
 import {
@@ -51,9 +53,15 @@ Hooks.once('init', async function () {
     types: ['creature'],
     makeDefault: false
   });
-  Actors.registerSheet("mosh", MothershipShipSheet, {
+
+  Actors.registerSheet("mosh", MothershipShipSheetSBT, {
     types: ['ship'],
     makeDefault: false
+  });
+
+  Actors.registerSheet("mosh", MothershipShipSheet, {
+    types: ['ship'],
+    makeDefault: true
   });
 
   Items.unregisterSheet("core", ItemSheet);

@@ -145,9 +145,9 @@ export const registerSettings = function () {
   });
 
   game.settings.register('mosh', 'hideWeight', {
-    name: "Hide Weight",
-    hint: "Hide weight in the items list for players and ships?",
-    default: false,
+    name: "Hide 0e Weight",
+    hint: "Hide the 0e weight mechanic in the items list for players and ships?",
+    default: true,
     scope: 'world',
     type: Boolean,
     config: true,

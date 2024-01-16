@@ -156,7 +156,7 @@ export class MothershipActorSheet extends ActorSheet {
       };
     }
 
-    actorData.system.weight.capacity = Math.ceil((actorData.system.stats.strength.value/10) + 3);
+    actorData.system.weight.capacity = Math.ceil((actorData.system.stats.strength.value/10)); //Removed a +3 here because I misunderstood some Traaa.sh stuff. This whole thing can probably be ripped out tbh.
     actorData.system.weight.current = curWeight;
     //console.log("Current Weight: " + curWeight + " Capacity: " + actorData.data.weight.capacity);
 

@@ -215,6 +215,69 @@ p {
   font-family: "Roboto", sans-serif;
 }
 
+.mosh input {
+  font-weight: inherit;
+  font-family: 'Roboto';
+}
+
+.mosh .transponder input[type="checkbox"] {
+  /* display: none; */
+  appearance: inherit;
+  border: 2px white;
+  border-style: double;
+  border-radius: 100px;
+}
+
+
+.mosh .transponder input[type="checkbox"]:checked, .mosh input[type="radio"]:checked {
+  background: white;
+    border-radius: 100px;
+    appearance: inherit;
+    animation: transponderblink 0.5s alternate infinite;
+    box-shadow: 0 0 15px white;
+}
+
+.mosh .transponder input[type="checkbox"]::after {
+  content: "DISABLED";
+  color: grey;
+  position: relative;
+  /* margin-left: -1rem; */
+  display: inline-block;
+  right: -25px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: 'Roboto';
+  bottom: 2px;
+}
+
+.mosh .transponder input[type="checkbox"]:checked::after {
+  content: "ENABLED";
+  color: grey;
+  position: relative;
+  /* margin-left: -1rem; */
+  display: inline-block;
+  right: -25px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: 'Roboto';
+  bottom: 2px;
+  /* text-shadow: 0 0 11px grey; */
+}
+
+@keyframes transponderblink {
+  from {background-color: black;}
+  to {
+    background-color: white;
+  }
+}
+
+@keyframes transpondertextblink {
+  from {color: grey;}
+  to {
+    color: white;
+  }
+}
+
 .mosh .char-header {
   -webkit-box-flex: 0;
   /* -ms-flex: 0 0 610px;
@@ -306,7 +369,8 @@ p {
   border-bottom: 2px solid black; */
   background: black;
   color: white;
-  padding: 3px 0;
+  padding: 6px 0;
+  border-radius: 10px;
 }
 
 .mosh .tox .tox-editor-container {
@@ -444,7 +508,7 @@ p {
 .mosh .items-list .skill-name {
   font-weight: bold;
   font-size: 14px;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
   color: white;
   /* text-transform: uppercase; */
   margin-left: 0px;
@@ -459,7 +523,7 @@ p {
 
 .mosh .items-list .skill-stat {
   font-size: medium;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
   color: #111;
   margin-left: 0px;
   /* background: black; */
@@ -477,27 +541,87 @@ p {
   text-align: right;
 }
 
+.mosh .button-black {
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  margin-left: 0px;
+  background: #111;
+  border-radius: 21px;
+  text-align: center;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.mosh .sbt-profile {
+  width: 100px;
+  height: auto;
+  border: 0;
+  padding: 10px;
+}
+
+.mosh .sbt-crew-name .hidden-item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+  display: none;
+}
+
+.mosh .sbt-crew-name:hover .hidden-item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+  display: inline;
+}
+
+.mosh .sbt-deckplan{
+  width: 100%;
+  height: auto;
+  border: 0;
+  
+  transition: 2s;
+}
+
+.mosh .sbt-deckplan-parent{
+  height: 185px;
+  overflow: auto;
+  transition: 2s;
+  border-radius: 10px;
+}
+
+.mosh .sbt-deckplan-parent:hover {
+  z-index: 10000;
+  /* height: auto; */
+}
+
+.mosh .invert-title{
+  mix-blend-mode: difference;
+}
+
 .mosh .tab-select {
   font-size: medium;
   font-weight: bold;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
   color: white;
   text-align: center;
 }
 
 .mosh .tab-select.active {
   text-decoration: underline;
+  text-shadow: 0 0 10px white;
 }
 
-.mosh .tab-select.active::before {
+/* .mosh .tab-select.active::before {
   font-family: "Font Awesome 6 Pro";
   content: "\f0da";
-  color:white;
+  color:rgb(255, 113, 113);
   position: relative;
   right: 6px;
   margin-left: -1rem;
   display: inline-block;
-}
+} */
 
 .mosh .stresstext {
   width: 100%;
@@ -640,9 +764,22 @@ p {
   align-items: start;
   height: 40px;
   padding: 0;
-  border: 2px solid #111;
+  border: 3px solid #111;
+  border-radius: 1.5em;
+  background: white;
+}
+
+.mosh .minmaxwrapper-black{
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: start;
+  height: 40px;
+  padding: 0;
+  border: 3px solid #111;
   border-radius: 1.5em;
   background: 0;
+  color: white;
 }
 
 .mosh .minmaxtext{
@@ -665,9 +802,10 @@ p {
 .mosh .healthmaxtext{
   grid-column: span 1;
   font-size: 0.7rem;
-  font-weight: 500;
+  font-weight: bold;
   line-height: 1;
   text-align: center;
+  margin-top: 3px;
 }
 
 .mosh .stresslabel {
@@ -689,6 +827,52 @@ p {
   align-items: center;
   gap: 0;
   width: 98%;
+}
+
+.mosh .circle-statwrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background: #e3e3e3;
+  border-radius: 15px;
+  padding: 9px 0px;
+  flex-direction: column;
+}
+
+.mosh .circle-statwrapper-horizontal {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background: #e3e3e3;
+  border-radius: 15px;
+  padding: 9px 0px;
+  flex-direction:row;
+}
+
+.mosh .circle-statwrapper-vertical {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background: #e3e3e3;
+  border-radius: 15px;
+  padding: 9px 0px;
+  flex-direction: column;
+}
+
+.mosh .section-vertical-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.mosh .circle-stat {
+  margin-top: 10px;
+  /* width: 98%; */
 }
 
 .mosh .creature-mainstat {
@@ -720,12 +904,48 @@ p {
   text-transform: uppercase;
 }
 
+
+.mosh .area-title {
+  width: 100%;
+  font-size: 1.0rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  /* margin-bottom: 7px; */
+  color: #363636;
+  font-family: 'Roboto';
+}
+
+.mosh .circlestatlabel {
+  padding: 6px;
+  text-align: center;
+}
+
+.mosh .circlestattitle {
+  width: 100%;
+  font-size: 1.0rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+  color: grey;
+}
+
+
+.mosh .circlestattext {
+  width: 100%;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .mosh .circle-input {
   margin: -0.15em;
   height: 50px;
   width: 50px;
   padding: 0;
-  border: 2px solid #111;
+  border: 3px solid #111;
   border-radius: 3em;
   font-size: 1.5rem;
   font-weight: bold;
@@ -743,7 +963,7 @@ p {
   font-size: 11pt;
   color: white;
   font-weight: 500;
-  background: black;
+  background: #111;
   resize: none;
   min-height: 0;
   overflow: hidden;
@@ -797,7 +1017,7 @@ p {
   margin-bottom: .2em;
   width: 100%;
   color: white;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
   font-size: 0.8rem;
   font-weight: bold;
   text-align: center;
@@ -805,7 +1025,7 @@ p {
 }
 
 .mosh .savebackground {
-  border-radius: 0.3em;
+  border-radius: 10px;
   background: #111;
   padding-bottom: 0.3rem;
   padding-top: 0.4rem;
@@ -825,6 +1045,7 @@ p {
   font-family: "Montserrat", "Arial Black", sans-serif;
   font-weight: bold;
   text-transform: uppercase;
+  border-radius: 10px;
 }
 
 .mosh .padding{
@@ -865,16 +1086,57 @@ p {
   outline: 5px solid rgb(22, 22, 22);
   overflow: auto;
   height: 375px;
+  border-radius: 10px;
 }
 
 .mosh .ship-stats-grid{
   display: grid;
   grid-template-columns: 17em 1fr 18em;
 }
- 
+
+.mosh .ship-sbt-stats-grid{
+  display: grid;
+  grid-template-columns: 10em 1fr 16em;
+  gap: 10px;
+}
+
+.mosh .sbt-crew-section{
+  margin: 0px;
+  border: 2px solid white;
+  outline: 3px solid rgb(22, 22, 22);
+  overflow: auto;
+  height: 400px;
+  border-radius: 10px;
+  padding: 4px 6px;
+}
+
+.mosh .sbt-crew-name {
+  text-align: center;
+  font-size: 1rem;
+  /* text-transform: uppercase; */
+  color:black;
+  font-weight: bold;
+}
+
+.mosh .sbt-crew-job {
+  height: auto;
+  font-size: 0.9rem;
+  color:rgb(129, 129, 129);
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+}
 
 .mosh .whiteline {
   border-top: 2px solid white;
+  grid-area: line;
+  margin-bottom: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.mosh .blackline {
+  border-top: 2px solid black;
   grid-area: line;
   margin-bottom: 10px;
   margin-left: 15px;
@@ -889,7 +1151,7 @@ p {
   border: 2px solid #111;
   background-color: #fff;
   border-radius: 3em;
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin-right: 1em;
 }
 
@@ -961,7 +1223,8 @@ p {
 .mosh .headerinputtext {
   padding: 0.1rem;
   color: white;
-  font-family: "Montserrat", "Arial Black", sans-serif;
+  /* font-family: "Montserrat", "Arial Black", sans-serif; */
+  font-family: 'Roboto';
   font-size: 0.9rem;
   font-weight: bold;
   text-align: left;
@@ -1077,7 +1340,7 @@ p {
   width: 100%;
   padding: 0.5rem;
   color: black;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
   font-size: 0.9rem;
   text-align: center;
 }

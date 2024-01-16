@@ -333,9 +333,7 @@
                 <li class="item flexrow item-header">
                     <div class="item-image"></div>
                     <div class="skill-stat" style="flex-grow: 2;">Name</div>
-                    <div class="skill-stat">Damage</div>
-                    <div class="skill-stat">Ammo</div>
-                    <div class="skill-stat">Shots</div>
+                    <div class="skill-stat">Bonus</div>
                     <div class="item-controls">
                         <a class="item-control weapon-create" title="Create Weapon" data-type="weapon">
                             <i class="fas fa-plus"></i> Add
@@ -349,17 +347,6 @@
                     </div>
                     <div class="skill-name weapon-roll list-roll" style="flex-grow: 2;">{{weapon.name}}</div>
                     <div class="skill-stat">{{weapon.system.damage}}</div>
-                    {{#if weapon.system.useAmmo}}
-                    <div class="skill-stat weapon-ammo list-roll">{{weapon.system.ammo}}</div>
-                    {{else}}
-                    <div class="skill-stat">N/A</div>
-                    {{/if}}
-                    {{#if weapon.system.shots}}
-                    <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}} <i
-                            class="fas fa-sync weapon-reload list-roll"></i></div>
-                    {{else}}
-                    <div class="skill-stat">N/A</div>
-                    {{/if}}
                     <div class="item-controls">
                         <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
                         <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
@@ -396,7 +383,7 @@
                     <div class="item-image"></div>
                     <div class="skill-stat" style="flex-grow: 2;">Module Name</div>
                     <div class="skill-stat">Quantity</div>
-                    <div class="skill-stat">Hull</div>
+                    <div class="skill-stat">Cost</div>
                     <div class="skill-stat" style="flex-grow: 2;">Feature</div>
                     <div class="item-controls">
                         <a class="item-control item-create" title="Create Module" data-type="module">

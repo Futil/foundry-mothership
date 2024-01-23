@@ -192,10 +192,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
                 megadamageHTML += `<i class="far fa-circle megadamage-button rollable" data-key="${index}"></i> &nbsp`;
             }
             
-
-            megadamageHTML += entry[1].text;
-
-            megadamageHTML += '<br/> <br/>';
+            megadamageHTML += `<b>${index+1} |</b> ${entry[1].text} <br/> <br/>`;
 
             index++;
         }

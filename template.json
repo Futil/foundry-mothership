@@ -222,6 +222,10 @@
         "beauty" : "systems/mosh/images/Galloway_Top.png"
       },
       "runSetup" : true,
+      "megadamage" : {
+        "html" : "",
+        "hits" : []
+      },
       "stats": {
         "armor": {
           "value": 10,

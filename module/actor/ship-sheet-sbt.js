@@ -52,6 +52,8 @@ export class MothershipShipSheetSBT extends ActorSheet {
         const data = super.getData();
 
         data.dtypes = ["String", "Number", "Boolean"];
+
+        // console.log(this.actor.getRollTableData('AqGWwoWXzijFs427'));
         
         // for (let attr of Object.values(data.data.system.attributes)) {
         //     attr.isCheckbox = attr.dtype === "Boolean";
@@ -77,7 +79,6 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
         superData.supplies.hull.percentage = " [ "+Math.round(maxHull * 0.25)+" | "+Math.round(maxHull * 0.5)+" | "+Math.round(maxHull * 0.75)+" ]";
 
-        console.log(this);
 
         //Run Setup
         // if(data.data.system.runSetup){
@@ -90,9 +91,14 @@ export class MothershipShipSheetSBT extends ActorSheet {
         //     data.data.system.runSetup = false;
         // }
 
+        this._prepareMegadamage(data);
+
+        console.log(this);
+
         return data.data;
     }
 
+    
     /**
      * Organize and classify Items for Character sheets.
      *
@@ -132,7 +138,75 @@ export class MothershipShipSheetSBT extends ActorSheet {
         actorData.cargo = cargo;
         actorData.modules = modules;
 
+        console.log(sheetData);
     }
+
+    async _prepareMegadamage(sheetData){
+        const actorData = sheetData.data;
+
+        //A script to return the data from a table.
+        let tableId = 'AqGWwoWXzijFs427';
+        let currentLocation = '';
+        let tableLocation = '';
+        //find where this table is located
+        //get current compendium
+        let compendium = game.packs;
+        //loop through each compendium
+        compendium.forEach(function(pack){ 
+        //is this a pack of rolltables?
+        if (pack.metadata.type === 'RollTable') {
+            //log where we are
+            currentLocation = pack.metadata.id;
+            //loop through each pack to find the right table
+            pack.index.forEach(function(table) { 
+            //is this our table?
+            if (table._id === tableId) {
+                //grab the table location
+                tableLocation = currentLocation;
+            }
+            });
+        }
+        });
+        //get table data
+        let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+
+        console.log(tableData);
+
+        let megadamageHTML = "";
+
+        // actorData.system.megadamage.hits = [1,5];
+
+        let entries = tableData.results.entries();
+
+        let index = 0;
+        for(const entry of entries){
+            console.log(entry);
+
+            console.log(entry[1].text);
+
+
+            if (actorData.system.megadamage.hits.includes(index)){
+                megadamageHTML += `<i class="fas fa-circle megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+            }
+            else{
+                megadamageHTML += `<i class="far fa-circle megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+            }
+            
+
+            megadamageHTML += entry[1].text;
+
+            megadamageHTML += '<br/> <br/>';
+
+            index++;
+        }
+
+        await this.object.update({
+            "data.megadamage.html": megadamageHTML
+        });
+
+        console.log(tableData.results.entries());
+    }
+
 
     /** @override */
     activateListeners(html) {
@@ -140,6 +214,28 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
+
+
+        html.on('mousedown', '.megadamage-button', ev => {
+            const data = super.getData();
+      
+            const div = $(ev.currentTarget);
+            const targetKey = div.data("key");
+            console.log(targetKey);
+
+            if(data.data.system.megadamage.hits.includes(targetKey)){
+                const index = data.data.system.megadamage.hits.indexOf(targetKey);
+                data.data.system.megadamage.hits.splice(index, 1);
+            } else {
+                data.data.system.megadamage.hits.push(targetKey);
+            }
+            
+            this.object.update({
+                "data.megadamage.hits": data.data.system.megadamage.hits
+            });
+
+            this._prepareMegadamage(data);
+        });
 
         // Create inventory item.
         html.find('.item-create').click(this._onItemCreate.bind(this));

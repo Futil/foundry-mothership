@@ -16,15 +16,25 @@
 
         <!-- Morale -->
         <div class="button-black distress-button list-roll" style="width: 95%;">Morale Check</div>
+    </div>
+
+    <br/>
+
+    <!-- Finance -->
+    <div class="circle-statwrapper" style="gap: 5px;">
+
+        <div class="circlestattitle">Finances <i class="fa-solid fa-chart-line-down"></i></div>
+
 
         <div class="resource circle-stat">
             <input class="circle-input" type="text" name="actor.system.stats.bankruptcy.value"
                 value="{{actor.system.stats.bankruptcy.value}}" data-dtype="Number" />
         </div>
         <div class="circlestatlabel">
-            <span class="ability-mod stat-roll rollable circlestattext" data-key="bankruptcy"
-                data-label="Bankruptcy">Bankruptcy Save</span>
+            <span class="ability-mod circlestattext" data-key="bankruptcy" data-label="Bankruptcy">Bankruptcy</span>
         </div>
+
+        <div class="button-black maintenance-button list-roll" style="width: 95%;">Bankruptcy Check</div>
 
 
     </div>

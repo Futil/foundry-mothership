@@ -1034,6 +1034,9 @@ p {
   color: black;
 }
 
+.mosh .grey {
+  color: grey;
+}
 
 .mosh .circlestattext {
   width: 100%;

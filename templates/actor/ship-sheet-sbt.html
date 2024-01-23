@@ -131,8 +131,8 @@
                 <!-- Warp Cores -->
                 <div class="section-vertical-flex">
                     <div class="resource circle-stat">
-                        <input class="circle-input" type="text" name="system.supplies.warp-cores"
-                            value="{{system.supplies.warp-cores}}" data-dtype="Number" />
+                        <input class="circle-input" type="text" name="system.supplies.warp-cores.value"
+                            value="{{system.supplies.warp-cores.value}}" data-dtype="Number" />
                     </div>
                     <div class="circlestatlabel">
                         <span class="ability-mod circlestattext">WARP</span>
@@ -145,8 +145,8 @@
                 <!-- Cryopods -->
                 <div class="section-vertical-flex">
                     <div class="resource circle-stat">
-                        <input class="circle-input" type="text" name="system.supplies.cryopods"
-                            value="{{system.supplies.cryopods}}" data-dtype="Number" />
+                        <input class="circle-input" type="text" name="system.supplies.cryopods.value"
+                            value="{{system.supplies.cryopods.value}}" data-dtype="Number" />
                     </div>
                     <div class="circlestatlabel">
                         <span class="ability-mod circlestattext">Cryopods</span>
@@ -156,8 +156,8 @@
                 <!-- Escape Pods -->
                 <div class="section-vertical-flex">
                     <div class="resource circle-stat">
-                        <input class="circle-input" type="text" name="system.supplies.escape-pods"
-                            value="{{system.supplies.escape-pods}}" data-dtype="Number" />
+                        <input class="circle-input" type="text" name="system.supplies.escape-pods.value"
+                            value="{{system.supplies.escape-pods.value}}" data-dtype="Number" />
                     </div>
                     <div class="circlestatlabel">
                         <span class="ability-mod circlestattext">Escape Pods</span>
@@ -195,7 +195,7 @@
 
 
         <!-- SIDE PANEL -->
-        <div class="sbt-crew-section">
+        <div class="sbt-crew-section scroll-lock">
             {{!-- Sheet Tab Navigation --}}
             <nav class="mosh sheet-tabs tabs" id="side-tabs" style="height: auto;" data-group="primary">
                 <a class="tab-select" data-tab="crew">Crew</a>
@@ -207,7 +207,7 @@
                 {{!-- Crew Tab --}}
                 <div class="tab" data-group="primary" data-tab="crew">
                     <!-- CREW COUNTER -->
-                    <div class="resource healthspread minmaxtopstat flex-center" style="margin: auto;">
+                    <div class="resource healthspread minmaxtopstat flex-center" style="margin: auto; margin-top: 10px;">
                         <label for="system.stats.crew.value" class="resource-label minmaxtext">CREW</label>
 
                         <div class="minmaxwrapper-black">
@@ -246,7 +246,7 @@
                 {{!-- Megadamage Tab --}}
                 <div class="tab megadamage" data-group="primary" data-tab="megadamage">
                     
-                    <div class="resource healthspread minmaxtopstat flex-center">
+                    <div class="resource healthspread minmaxtopstat flex-center" style="margin-top: 10px; margin-bottom: -5px;">
                         <label for="system.supplies.hull.value" class="resource-label minmaxtext">Hull Points</label>
 
                         <div class="valuewrapper" style="width: 120px;">
@@ -255,7 +255,7 @@
                         </div>
                     </div>
 
-                    <div class="resource healthspread minmaxtopstat flex-center">
+                    <!-- <div class="resource healthspread minmaxtopstat flex-center">
                         <label for="system.supplies.hull.value" class="resource-label minmaxtext">Current<br/>Megadamage</label>
 
                         <div class="valuewrapper" style="width: 120px;">
@@ -263,16 +263,16 @@
                                 value="{{system.megadamage.value}}" data-dtype="Number" />
                         </div>
 
-                    </div>
+                    </div> -->
 
-                    <div class="blackline"></div>
+                    <!-- <div class="blackline"></div> -->
 
                     <div class="circlestattitle">Megadamage Effects</div>
                     <br/>
                     <div class="megadamage-list">{{{system.megadamage.html}}}</div>
                     
                     <!-- Megadamage Settings -->
-                    <div class="button-grey megadamage-menu-button list-roll">Add/Remove <i class="fa-solid fa-gears "></i></div>
+                    <div class="button-grey megadamage-menu-button list-roll">Popout</div>
 
                     
 

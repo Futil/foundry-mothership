@@ -18,7 +18,8 @@ export class MothershipShipSheetSBT extends ActorSheet {
             width: 700,
             height: 800,
             tabs: [{ navSelector: "#sheet-tabs", contentSelector: "#sheet-body", initial: "character" },
-                   { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "crew" }]
+                   { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "crew" }],
+            scrollY: [".sheet-body", "scroll-lock"]
         });
     }
 
@@ -180,22 +181,26 @@ export class MothershipShipSheetSBT extends ActorSheet {
         let entries = Array.from(tableData.results.entries());
 
         //Prep Megadamage List
-        if(actorData.system.megadamage.hits.length > 0){
+        // if(actorData.system.megadamage.hits.length > 0){
             let index = 0;
             for(const entry of entries){
 
                 // Megadamage - Only Active
                 if(index != 0 && actorData.system.megadamage.hits.includes(index)){
-                    if(index != 0) megadamageHTML += `<i class="fa-solid fa-wrench megadamage-button rollable" data-key="${index}"></i> &nbsp`;
-                    
-                    megadamageHTML += `${entry[1].text} <br/> <br/>`;
+                    // megadamageHTML += `<i class="fa-solid fa-wrench megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+                    megadamageHTML += `<i class="fas fa-circle megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+                    megadamageHTML += `<b>${index} |</b> ${entry[1].text} <br/> <br/>`;
+                } else if(index != 0) {
+                    // megadamageHTML += `<i class="fa-solid fa-wrench megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+                    megadamageHTML += `<div class="grey"><i class="far fa-circle megadamage-button rollable grey" data-key="${index}"></i> &nbsp`;
+                    megadamageHTML += `<b>${index} |</b> ${entry[1].text} <br/> <br/></div>`;
                 }
                 index++;
             }
-        } else {
+        // } else {
             
-            megadamageHTML += entries[0][1].text + "<br/> <br/>";
-        }
+            // megadamageHTML += entries[0][1].text + "<br/> <br/>";
+        // }
 
         await this.object.update({
             "data.megadamage.html": megadamageHTML
@@ -215,26 +220,26 @@ export class MothershipShipSheetSBT extends ActorSheet {
         if (!this.options.editable) return;
 
 
-        // html.on('mousedown', '.megadamage-button', ev => {
-        //     const data = this.object;
+        html.on('mousedown', '.megadamage-button', ev => {
+            const data = this.object;
       
-        //     const div = $(ev.currentTarget);
-        //     const targetKey = div.data("key");
-        //     console.log(targetKey);
+            const div = $(ev.currentTarget);
+            const targetKey = div.data("key");
+            console.log(targetKey);
 
-        //     if(data.data.system.megadamage.hits.includes(targetKey)){
-        //         const index = data.data.system.megadamage.hits.indexOf(targetKey);
-        //         data.data.system.megadamage.hits.splice(index, 1);
-        //     } else {
-        //         data.data.system.megadamage.hits.push(targetKey);
-        //     }
+            if(data.data.system.megadamage.hits.includes(targetKey)){
+                const index = data.data.system.megadamage.hits.indexOf(targetKey);
+                data.data.system.megadamage.hits.splice(index, 1);
+            } else {
+                data.data.system.megadamage.hits.push(targetKey);
+            }
             
-        //     this.object.update({
-        //         "data.megadamage.hits": data.data.system.megadamage.hits
-        //     });
+            this.object.update({
+                "data.megadamage.hits": data.data.system.megadamage.hits
+            });
 
-        //     this._prepareMegadamage(data);
-        // });
+            this._prepareMegadamage(data);
+        });
 
         // Create inventory item.
         html.find('.item-create').click(this._onItemCreate.bind(this));

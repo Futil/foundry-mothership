@@ -1,12 +1,12 @@
-export class DLShipDeckplan extends ActorSheet {
+export class DLShipSetup extends FormApplication {
     static get defaultOptions() {
         const options = super.defaultOptions;
         options.id = 'sheet-modifiers';
         options.classes = ["mosh", "sheet", "actor", "ship"];
-        options.template = 'systems/mosh/templates/dialogs/ship-deckplan-dialog.html';
-        options.width = 800;
+        options.template = 'systems/mosh/templates/dialogs/ship-setup-dialog.html';
+        options.width = 320;
         options.height = 'auto';
-        options.resizeable = true;
+        options.resizeable = false;
         return options;
     }
     /* -------------------------------------------- */
@@ -15,32 +15,34 @@ export class DLShipDeckplan extends ActorSheet {
      * @type {String}
      */
     get title() {
-        return `${this.object.name}: Deckplan`;
+        return `${this.object.name}: Ship Setup`;
     }
     /* -------------------------------------------- */
-
     /**
      * Construct and return the data object used to render the HTML template for this form application.
      * @return {Object}
      */
     getData() {
         const actor = this.object;
-        console.log(this.object);
+        console.log(this);
 
         return {
             actor
         };
     }
-
-    
     /* -------------------------------------------- */
-
-
-
 
     /** @override */
     activateListeners(html) {
         super.activateListeners(html);
+        
+        // Starting Conditions
+        html.find('.conditions-button').click(ev => {
+            this.object.rollTable('ship-distress',null,null,null,null,null,null);
+        });
+
+        // Close Button
+        html.find('.close-button').click(ev => this.close());
     }
 
     /**
@@ -50,20 +52,21 @@ export class DLShipDeckplan extends ActorSheet {
      * @private
      */
     async _updateObject(event, formData) {
-        // console.log(this.object.system);
-        // console.log(formData);
-        // console.log(formData['actor.system.images.layout']);
 
-        // Loyalty
-        // await this.object.update({
-        //     "system.images.layout": formData['actor.system.images.layout']
-        // });
+        console.log("Updating Object");
 
-        // await this.object.updateEmbeddedEntity("OwnedItem", update);
+        await this.object.update({
+            "name": formData['actor.name']
+        });
+
 
         this.object.update({
             formData
         });
-        this.object.sheet.render(true);
+        console.log(this);
+
+        await this.object.sheet.render(true, {focus: false});
+
+        
     }
 }

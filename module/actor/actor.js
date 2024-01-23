@@ -1263,6 +1263,23 @@ export class MothershipActor extends Actor {
           if (useCalm) {rollString = '1d100' + rollString;}
         }
       }
+
+    // -- SHIP TABLES --
+    // Ship Distress
+    if (tableId === 'ship-distress') {
+      //set special roll value for use later
+      rollString = "1d10-1";
+      specialRoll = tableId;
+      tableId = 'UxAjAqUTjYTcCbS8';
+      aimFor = null;
+      zeroBased = true;
+      checkCrit = true;
+      rollAgainst = null;
+      comparison = null;
+    }
+
+    
+
     //bounce this request away if certain parameters are NULL
       //if rollString is STILL blank, redirect player to choose the roll
       if (!rollString) {

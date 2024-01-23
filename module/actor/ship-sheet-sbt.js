@@ -4,7 +4,8 @@
  * @extends {ActorSheet}
  */
 import { DLShipDeckplan } from "../windows/ship-deckplan.js";
-
+import { DLShipMacros } from "../windows/ship-macros.js";
+import { DLShipSetup } from "../windows/ship-setup.js";
 
 export class MothershipShipSheetSBT extends ActorSheet {
 
@@ -23,6 +24,22 @@ export class MothershipShipSheetSBT extends ActorSheet {
     _onOpenDeckplan(event) {
         event.preventDefault();
         new DLShipDeckplan(this.actor, {
+            top: this.position.top + 40,
+            left: this.position.left + (this.position.width - 400) / 2
+        }).render(true);
+    }
+
+    _onOpenMacros(event) {
+        event.preventDefault();
+        new DLShipMacros(this.actor, {
+            top: this.position.top + 40,
+            left: this.position.left + (this.position.width - 400) / 2
+        }).render(true);
+    }
+
+    _onOpenSetup(event) {
+        event.preventDefault();
+        new DLShipSetup(this.actor, {
             top: this.position.top + 40,
             left: this.position.left + (this.position.width - 400) / 2
         }).render(true);
@@ -59,6 +76,19 @@ export class MothershipShipSheetSBT extends ActorSheet {
         let maxHull = superData.supplies.hull.max;
 
         superData.supplies.hull.percentage = " [ "+Math.round(maxHull * 0.25)+" | "+Math.round(maxHull * 0.5)+" | "+Math.round(maxHull * 0.75)+" ]";
+
+        console.log(this);
+
+        //Run Setup
+        // if(data.data.system.runSetup){
+        //     this.render(true, {focus:false});
+        //     var setupMenu = new DLShipSetup(this.actor, {popOut: true, minimizable : false});
+        //     setupMenu.render(true, {focus: true});
+        //     console.log(setupMenu);
+        //     this.close();
+
+        //     data.data.system.runSetup = false;
+        // }
 
         return data.data;
     }
@@ -175,8 +205,14 @@ export class MothershipShipSheetSBT extends ActorSheet {
             this.actor.rollCheck(null,'low','combat',null,null,item);
         });
 
-        // Rollable Weapon
+        // Deckplan Button
         html.find('.deckplan-button').click(ev => this._onOpenDeckplan(ev));
+
+        //Macro Menu Button
+        html.find('.macro-menu-button').click(ev => this._onOpenMacros(ev));
+
+        //Testing Setup Menu Button
+        html.find('.setup-menu-button').click(ev => this._onOpenSetup(ev));
 
         html.on('mousedown', '.weapon-ammo', ev => {
             const li = ev.currentTarget.closest(".item");

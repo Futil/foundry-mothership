@@ -221,6 +221,7 @@
         "layout" : "systems/mosh/images/Galloway_Top.png",
         "beauty" : "systems/mosh/images/Galloway_Top.png"
       },
+      "runSetup" : true,
       "stats": {
         "armor": {
           "value": 10,
@@ -270,6 +271,13 @@
           "max": 99,
           "label": "Systems",
           "rollLabel": "Systems Save"
+        },
+        "bankruptcy": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Bankruptcy",
+          "rollLabel": "Bankruptcy Save"
         }
       },
       "supplies": {

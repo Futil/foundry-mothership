@@ -3,21 +3,36 @@
     <div class="header" style="grid-template-columns: 0.15fr 1fr;">
         <img class="sbt-profile" src="{{img}}" data-edit="img" title="{{name}}" height="150" width="150" />
 
-        <div class="headergrid" style="grid-template-columns: 1fr 1fr 0.1fr; padding: 1em;">
+        <div class="headergrid" style="grid-template-columns: 1fr 0.2fr 22px; padding: 1em;">
             <!-- <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}" height="150" width="150"/> -->
 
-            <!-- PLAYER NAME -->
-            <div class="headernamegrid">
+            <!-- SHIP NAME -->
+            <div class="">
                 <div class="headerinputtext">SHIP IDENTIFIER</div>
                 <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
                         placeholder="Name" /></div>
             </div>
+
+
+            <!-- <div class="button-black deckplan-button list-roll">Distress</div> -->
 
             <!-- Transponder -->
             <div class="transponder">
                 <div class="headerinputtext">Transponder</div>
                 <div class=""><input class="checkbox" type="checkbox" name="system.transponder" data-dtype="Boolean" {{checked system.transponder}}/></div>
             </div>
+
+            <!-- Macro Menu -->
+            <div class="center-icon">
+                <i class="fa-regular fa-ellipsis-vertical macro-menu-button list-roll"></i>
+            </div>
+
+            <!-- Distress -->
+            <!-- <div class="transponder">
+                <div class="headerinputtext">Distress</div>
+                <div class=""><input class="checkbox" type="checkbox" name="system.distress" data-dtype="Boolean" {{checked system.distress}}/></div>
+            </div> -->
+
 
             <!-- Captain -->
             <!-- <div class="">
@@ -36,13 +51,17 @@
         </div>
     </div>
 
+
+
     <div class="ship-sbt-stats-grid" style="margin-top: 10px; margin-bottom: 10px; height: 405px;">
 
         <!-- Stats -->
         <div class="grid grid-1col" style="width: 98%; gap: 10px;">
             <div class="circle-statwrapper">
-                <!-- Thrusters -->
                 <div class="circlestattitle">Stats & Saves</div>
+
+
+                <!-- Thrusters -->
                 <div class="resource circle-stat">
                     <input class="circle-input" type="text" name="system.stats.thrusters.value"
                         value="{{system.stats.thrusters.value}}" data-dtype="Number" />
@@ -266,6 +285,10 @@
 
         {{!-- Biography Tab --}}
         <div class="tab biography" data-group="primary" data-tab="description">
+            <!-- Macro Menu -->
+            <div class="center-icon">
+                <i class="fa-solid fa-wrench setup-menu-button list-roll"></i>
+            </div>
             {{editor system.biography target="system.biography" button=true owner=owner editable=true}}
         </div>
 

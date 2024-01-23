@@ -36,7 +36,6 @@ export class DLShipMacros extends BaseSheet {
      */
     getData() {
         const actor = this.object;
-        console.log(this);
 
         return {
             actor
@@ -71,8 +70,6 @@ export class DLShipMacros extends BaseSheet {
      */
     async _updateObject(event, formData) {
 
-        console.log("Updating Object");
-
         // await this.object.update({
         //     "data.stats.loyalty.enabled": true
         // });
@@ -83,13 +80,14 @@ export class DLShipMacros extends BaseSheet {
 
         // await this.object.updateEmbeddedEntity("OwnedItem", update);
 
-        this.object.update({
-            formData
-        });
-        console.log(this);
+        // await this.object.update({
+        //     formData
+        // });
 
-        await this.object.sheet.render(true, {focus: false});
-        this.bringToTop();
+        // console.log(this);
+
+        // await this.object.sheet.render(true, {focus: false});
+        // this.bringToTop();
 
         
     }

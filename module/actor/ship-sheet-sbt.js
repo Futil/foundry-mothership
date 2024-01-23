@@ -5,6 +5,7 @@
  */
 import { DLShipDeckplan } from "../windows/ship-deckplan.js";
 import { DLShipMacros } from "../windows/ship-macros.js";
+import { DLShipMegaDamage } from "../windows/ship-megadamage.js";
 import { DLShipSetup } from "../windows/ship-setup.js";
 
 export class MothershipShipSheetSBT extends ActorSheet {
@@ -40,6 +41,14 @@ export class MothershipShipSheetSBT extends ActorSheet {
     _onOpenSetup(event) {
         event.preventDefault();
         new DLShipSetup(this.actor, {
+            top: this.position.top + 40,
+            left: this.position.left + (this.position.width - 400) / 2
+        }).render(true);
+    }
+
+    _onOpenMegadamage(event) {
+        event.preventDefault();
+        new DLShipMegaDamage(this.actor, {
             top: this.position.top + 40,
             left: this.position.left + (this.position.width - 400) / 2
         }).render(true);
@@ -93,8 +102,6 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
         this._prepareMegadamage(data);
 
-        console.log(this);
-
         return data.data;
     }
 
@@ -137,8 +144,6 @@ export class MothershipShipSheetSBT extends ActorSheet {
         actorData.weapons = weapons;
         actorData.cargo = cargo;
         actorData.modules = modules;
-
-        console.log(sheetData);
     }
 
     async _prepareMegadamage(sheetData){
@@ -170,38 +175,35 @@ export class MothershipShipSheetSBT extends ActorSheet {
         //get table data
         let tableData = await game.packs.get(tableLocation).getDocument(tableId);
 
-        console.log(tableData);
-
         let megadamageHTML = "";
 
-        // actorData.system.megadamage.hits = [1,5];
+        let entries = Array.from(tableData.results.entries());
 
-        let entries = tableData.results.entries();
+        //Prep Megadamage List
+        if(actorData.system.megadamage.hits.length > 0){
+            let index = 0;
+            for(const entry of entries){
 
-        let index = 0;
-        for(const entry of entries){
-            console.log(entry);
-
-            console.log(entry[1].text);
-
-
-            if (actorData.system.megadamage.hits.includes(index)){
-                megadamageHTML += `<i class="fas fa-circle megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+                // Megadamage - Only Active
+                if(index != 0 && actorData.system.megadamage.hits.includes(index)){
+                    if(index != 0) megadamageHTML += `<i class="fa-solid fa-wrench megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+                    
+                    megadamageHTML += `${entry[1].text} <br/> <br/>`;
+                }
+                index++;
             }
-            else{
-                megadamageHTML += `<i class="far fa-circle megadamage-button rollable" data-key="${index}"></i> &nbsp`;
-            }
+        } else {
             
-            megadamageHTML += `<b>${index+1} |</b> ${entry[1].text} <br/> <br/>`;
-
-            index++;
+            megadamageHTML += entries[0][1].text + "<br/> <br/>";
         }
 
         await this.object.update({
             "data.megadamage.html": megadamageHTML
         });
 
-        console.log(tableData.results.entries());
+        // await this.object.update({
+        //     "data.megadamage.hits": []
+        // });
     }
 
 
@@ -213,26 +215,26 @@ export class MothershipShipSheetSBT extends ActorSheet {
         if (!this.options.editable) return;
 
 
-        html.on('mousedown', '.megadamage-button', ev => {
-            const data = super.getData();
+        // html.on('mousedown', '.megadamage-button', ev => {
+        //     const data = this.object;
       
-            const div = $(ev.currentTarget);
-            const targetKey = div.data("key");
-            console.log(targetKey);
+        //     const div = $(ev.currentTarget);
+        //     const targetKey = div.data("key");
+        //     console.log(targetKey);
 
-            if(data.data.system.megadamage.hits.includes(targetKey)){
-                const index = data.data.system.megadamage.hits.indexOf(targetKey);
-                data.data.system.megadamage.hits.splice(index, 1);
-            } else {
-                data.data.system.megadamage.hits.push(targetKey);
-            }
+        //     if(data.data.system.megadamage.hits.includes(targetKey)){
+        //         const index = data.data.system.megadamage.hits.indexOf(targetKey);
+        //         data.data.system.megadamage.hits.splice(index, 1);
+        //     } else {
+        //         data.data.system.megadamage.hits.push(targetKey);
+        //     }
             
-            this.object.update({
-                "data.megadamage.hits": data.data.system.megadamage.hits
-            });
+        //     this.object.update({
+        //         "data.megadamage.hits": data.data.system.megadamage.hits
+        //     });
 
-            this._prepareMegadamage(data);
-        });
+        //     this._prepareMegadamage(data);
+        // });
 
         // Create inventory item.
         html.find('.item-create').click(this._onItemCreate.bind(this));
@@ -307,6 +309,10 @@ export class MothershipShipSheetSBT extends ActorSheet {
         //Testing Setup Menu Button
         html.find('.setup-menu-button').click(ev => this._onOpenSetup(ev));
 
+        //Megadamage Menu Button
+        html.find('.megadamage-menu-button').click(ev => this._onOpenMegadamage(ev));
+
+
         html.on('mousedown', '.weapon-ammo', ev => {
             const li = ev.currentTarget.closest(".item");
             const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
@@ -338,6 +344,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
                 event: ev
             });
         });
+
 
 
         // Drag events for macros.

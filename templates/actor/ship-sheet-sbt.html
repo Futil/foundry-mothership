@@ -249,17 +249,31 @@
                     <div class="resource healthspread minmaxtopstat flex-center">
                         <label for="system.supplies.hull.value" class="resource-label minmaxtext">Hull Points</label>
 
-                        <div class="valuewrapper">
+                        <div class="valuewrapper" style="width: 120px;">
                             <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.hull.value"
                                 value="{{system.supplies.hull.value}}" data-dtype="Number" />
                         </div>
                     </div>
 
+                    <div class="resource healthspread minmaxtopstat flex-center">
+                        <label for="system.supplies.hull.value" class="resource-label minmaxtext">Current<br/>Megadamage</label>
+
+                        <div class="valuewrapper" style="width: 120px;">
+                            <input class="maxhealth-input darkGreyText" type="text" name="system.megadamage.value"
+                                value="{{system.megadamage.value}}" data-dtype="Number" />
+                        </div>
+
+                    </div>
+
                     <div class="blackline"></div>
 
-                    <div class="circlestattitle">Megadamage</div>
+                    <div class="circlestattitle">Megadamage Effects</div>
                     <br/>
-                    <div>{{{system.megadamage.html}}}</div>
+                    <div class="megadamage-list">{{{system.megadamage.html}}}</div>
+                    
+                    <!-- Megadamage Settings -->
+                    <div class="button-grey megadamage-menu-button list-roll">Add/Remove <i class="fa-solid fa-gears "></i></div>
+
                     
 
                 </div>

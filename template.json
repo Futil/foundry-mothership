@@ -224,7 +224,10 @@
       "runSetup" : true,
       "megadamage" : {
         "html" : "",
-        "hits" : []
+        "hits" : [],
+        "menu" : {
+          "html" : ""
+        }
       },
       "stats": {
         "armor": {

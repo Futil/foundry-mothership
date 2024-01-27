@@ -262,7 +262,7 @@
           "value": 10,
           "min": 0,
           "max": 99,
-          "label": "Thruster",
+          "label": "Thrusters",
           "rollLabel": "Thrusters Save"
         },
         "battle": {

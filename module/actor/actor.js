@@ -19,6 +19,7 @@ export class MothershipActor extends Actor {
     else if (actorData.type === 'ship') this._prepareShipData(actorData);
 
   }
+
   //Prepare Character type specific data
   _prepareCharacterData(actorData) {
     const data = actorData.system;
@@ -121,6 +122,11 @@ export class MothershipActor extends Actor {
           success: {
             android: `System resources free up and you regain control.`,
             human: `You take a deep breath and regain your composure.`
+          }
+        },
+        distress_signal: {
+          roll: {
+            human: `You send out a distress signal and wait for help.`
           }
         }
       },
@@ -413,7 +419,6 @@ export class MothershipActor extends Actor {
             human: `Your speed cannot get any lower.`
           }
         },
-
         //intellect flavor text
         intellect: {
           check: {
@@ -788,6 +793,114 @@ export class MothershipActor extends Actor {
           pastFloor: {
             android: `Your armor cannot get any lower.`,
             human: `Your armor cannot get any lower.`
+          }
+        },
+        //thrusters flavor text
+        thrusters: {
+          check: {
+            human: `You successfully manuever the craft through danger.`
+          },
+          increase: {
+            human: `Thrusters upgraded. Agility, acceleration, and top speed have improved.`
+          },
+          increaseHeader: {
+            human: `Thrusters Enhanced`
+          },
+          increaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/thrusters.png`
+          },
+          hitCeiling: {
+            human: `Your thrusters are at maximum.`
+          },
+          pastCeiling: {
+            human: `Your thrusters are already at maximum and cannot be improved further.`
+          },
+          decrease: {
+            human: `Thrusters damaged. Agility, acceleration, and top speed are impaired.`
+          },
+          decreaseHeader: {
+            human: `Thrusters Impaired`
+          },
+          decreaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/thrusters.png`
+          },
+          hitFloor: {
+            human: `You've lost your thrusters.`
+          },
+          pastFloor: {
+            human: `Your thrusters are broken and cannot be damaged further.`
+          }
+        },
+        //battle flavor text
+        battle: {
+          check: {
+            human: `You land a successful hit on the target.`
+          },
+          increase: {
+            human: `Targeting systems upgraded. Combat readiness has improved.`
+          },
+          increaseHeader: {
+            human: `Battle Enhanced`
+          },
+          increaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/battle.png`
+          },
+          hitCeiling: {
+            human: `Your targeting systems are at maximum.`
+          },
+          pastCeiling: {
+            human: `Your targeting systems are already at maximum and cannot be improved further.`
+          },
+          decrease: {
+            human: `Targeting systems damaged. Combat readiness have been impaired.`
+          },
+          decreaseHeader: {
+            human: `Battle Impaired`
+          },
+          decreaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/battle.png`
+          },
+          hitFloor: {
+            human: `You've lost your targeting systems.`
+          },
+          pastFloor: {
+            human: `Your targeting systems are broken and cannot be damaged further.`
+          }
+        },
+        //systems flavor text
+        systems: {
+          check: {
+            human: `Your ship's systems are running smoothly.`
+          },
+          increase: {
+            human: `Systems upgraded. Sensors, computers, and other systems have improved.`
+          },
+          increaseHeader: {
+            human: `Systems Enhanced`
+          },
+          increaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/battle.png`
+          },
+          hitCeiling: {
+            human: `Your ship's systems are at maximum.`
+          },
+          pastCeiling: {
+            human: `Your ship's systems are already at maximum and cannot be improved further.`
+          },
+          decrease: {
+            human: `Systems damaged. Sensors, computers, and other systems have been impaired.`
+          },
+          decreaseHeader: {
+            human: `Systems Impaired`
+          },
+          decreaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/battle.png`
+          },
+          hitFloor: {
+            human: `You've lost your ship's systems.`
+          },
+          pastFloor: {
+            human: `Your ship's systems are broken and cannot be damaged further.`
           }
         }
       },
@@ -1905,7 +2018,6 @@ export class MothershipActor extends Actor {
     let chatId = randomID();
     let firstEdition = game.settings.get('mosh','firstEdition');
     let useCalm = game.settings.get('mosh','useCalm');
-    let androidPanic = game.settings.get('mosh','androidPanic');
     //customize this roll if its a unique use-case
       //rest save
       if (attribute === 'restSave') {
@@ -2765,7 +2877,7 @@ export class MothershipActor extends Actor {
     console.log(`Asked for reload.`);
   }
 
-  //tell user we are out of ammo
+  //tell the player we are out of ammo
   async outOfAmmo() {
     //wrap the whole thing in a promise, so that it waits for the form to be interacted with
     return new Promise(async (resolve) => {
@@ -2789,7 +2901,7 @@ export class MothershipActor extends Actor {
     console.log(`Told user they are out of ammo.`);
   }
 
-  //reload weapon
+  //reload the players weapon
   async reloadWeapon(itemId) {
     //init vars
     let messageTemplate = ``;
@@ -2855,7 +2967,7 @@ export class MothershipActor extends Actor {
     console.log(`Reloaded weapon.`);
   }
 
-  //take bleeding damage
+  //make the player take bleeding damage
   async takeBleedingDamage() {
     //init vars
     let chatId = randomID();  
@@ -2895,7 +3007,7 @@ export class MothershipActor extends Actor {
     console.log(`Took bleeding damage.`);
   }
 
-  //take radiation damage
+  //make the player take radiation damage
   async takeRadiationDamage() {
     //init vars
     let chatId = randomID();  
@@ -2939,7 +3051,7 @@ export class MothershipActor extends Actor {
     console.log(`Took radiation damage.`);
   }
 
-  //choose cover
+  //ask the player to choose cover
   async chooseCover() {
     //wrap the whole thing in a promise, so that it waits for the form to be interacted with
     return new Promise(async (resolve) => {
@@ -3127,6 +3239,73 @@ export class MothershipActor extends Actor {
         };
       //render dialog
       const dialog = new Dialog(dialogData,{width: 600,height: 567}).render(true);
+      });
+    
+  }
+
+  //activate ship's distress signal
+  async distressSignal() {
+    //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+    return new Promise(async (resolve) => {
+      //create pop-up HTML
+      let msgContent = `
+      <style>
+        .macro_window{
+          background: rgb(230,230,230);
+          border-radius: 9px;
+        }
+        .macro_img{
+          display: flex;
+          justify-content: center;
+        }
+        .macro_desc{
+          font-family: "Roboto", sans-serif;
+          font-size: 10.5pt;
+          font-weight: 400;
+          padding-top: 8px;
+          padding-right: 8px;
+          padding-bottom: 8px;
+        }
+        .grid-2col {
+          display: grid;
+          grid-column: span 2 / span 2;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 2px;
+          padding: 0;
+        }
+      </style>
+      <div class ="macro_window" style="margin-bottom : 7px;">
+        <div class="grid grid-2col" style="grid-template-columns: 150px auto">
+          <div class="macro_img"><img src="systems/mosh/images/icons/ui/rolltables/distress_signal.png" style="border:none"/></div>
+          <div class="macro_desc"><h3>Distress Signal</h3>Occasionally you may need to put your ship on emergency power, seal yourselves in cryopods, send out a Distress Signal, and wait for help. It’s a long shot, but sometimes it’s the only shot you’ve got. When this happens, roll on this table.</div>    
+        </div>
+      </div>
+      <h4>Select your roll type:</h4>
+      `;
+      //create final dialog data
+      const dialogData = {
+        title: `Distress Signal`,
+        content: msgContent,
+        buttons: {
+          button1: {
+            label: `Advantage`,
+            callback: () => this.rollTable(`UxAjAqUTjYTcCbS8`,`1d10 [+]`,`low`,true,false,null,null),
+            icon: `<i class="fas fa-angle-double-up"></i>`
+          },
+          button2: {
+            label: `Normal`,
+            callback: () => this.rollTable(`UxAjAqUTjYTcCbS8`,`1d10`,`low`,true,false,null,null),
+            icon: `<i class="fas fa-minus"></i>`
+          },
+          button3: {
+            label: `Disadvantage`,
+            callback: () => this.rollTable(`UxAjAqUTjYTcCbS8`,`1d10 [-]`,`low`,true,false,null,null),
+            icon: `<i class="fas fa-angle-double-down"></i>`
+          }
+        }
+      };
+      //render dialog
+      const dialog = new Dialog(dialogData,{width: 600,height: 265}).render(true);
       });
     
   }

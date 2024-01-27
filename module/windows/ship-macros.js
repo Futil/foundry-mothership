@@ -47,11 +47,10 @@ export class DLShipMacros extends BaseSheet {
     activateListeners(html) {
         super.activateListeners(html);
 
-        // Stress - Panic Check
+        // Distress Signal
         html.find('.distress-button').click(ev => {
-            //roll panic check
-            this.object.rollTable('ship-distress',null,null,null,null,null,null);
-            //this.object.rollTable('ship-distress',null,null,null,null,'system.stats.battle.value',null);
+            //roll distress signal
+            this.object.distressSignal();
         });
 
 

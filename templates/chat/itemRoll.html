@@ -71,6 +71,16 @@
 			<div style="margin-bottom : 16px;"></div>
 		{{else if (compare 'str' item.system.description '===' '<p>Maintenance Issue</p>')}}
 			<div class="description">
+			{{#if (compare 'str' item.system.description '===' '<p>Trinket</p>')}}
+				<div class="body"><strong>Major Repair</strong></div>
+			{{else}}
+				<div class="body"><strong>Minor Repair</strong></div>
+			{{/if}}
+			</div>
+			<div style="margin-bottom : 5px;"></div>
+			<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
+			<div style="margin-bottom : 5px;"></div>
+			<div class="description">
 				<div class="body">{{{item.name}}}</div>
 			</div>
 			<div style="margin-bottom : 16px;"></div>

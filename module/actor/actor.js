@@ -2100,9 +2100,6 @@ export class MothershipActor extends Actor {
           attribute = 'fear';
         }
       }
-
-///--------------------UNDER CONSTRUCTION-----------------------------------------------------------------------------------------------------------------------------------
-
       //bankruptcy save
       if (attribute === 'bankruptcySave') {  
         //set special roll value for use later
@@ -2121,9 +2118,6 @@ export class MothershipActor extends Actor {
         //lets get the max megadamage value
         rollTargetOverride = Math.max.apply(null, this.system.megadamage.hits);
       }
-
-///-------------------------------------------------------------------------------------------------------------------------------------------------------
-
     //if this is a weapon roll
     if (weapon) {
       //check to see if this weapon uses ammo
@@ -2196,7 +2190,7 @@ export class MothershipActor extends Actor {
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
-      let parsedRollResult = this.parseRollResult(rollString,rollResult,checkCrit,zeroBased,rollTarget,'<');
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,'<');
     //prep damage dice in case its needed
     if(weapon && parsedRollResult.success) {
       //parse the roll string
@@ -2398,10 +2392,7 @@ export class MothershipActor extends Actor {
             }
           }
         }
-
-///--------------------UNDER CONSTRUCTION-----------------------------------------------------------------------------------------------------------------------------------
-
-//bankruptcy save
+        //bankruptcy save
         if (specialRoll === 'bankruptcySave') {
           //message header
           msgHeader = 'Bankruptcy Save';
@@ -2468,9 +2459,6 @@ export class MothershipActor extends Actor {
             flavorText = `As the ship shudders under the impact of enemy fire, a sense of urgency fills the control room. Alarms blare, emergency lights bath the crew in a stark glow, but there is no panic. The crew, seasoned and unyielding, maintain their focus on the task at hand.`;
           }
         }
-
-///--------------------UNDER CONSTRUCTION-----------------------------------------------------------------------------------------------------------------------------------
-
       //prepare flavor text for regular checks
       } else {
         //prepare attribute label

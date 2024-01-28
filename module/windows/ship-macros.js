@@ -59,6 +59,18 @@ export class DLShipMacros extends BaseSheet {
             this.object.maintenanceCheck();
         });
 
+        // Bankruptcy Save
+        html.find('.bankruptcy-button').click(ev => {
+            //roll bankruptcy save
+            this.object.bankruptcySave();
+        });
+
+        // Morale Check
+        html.find('.morale-button').click(ev => {
+            //roll morale check
+            this.object.moraleCheck();
+        });
+
         // Deckplan Button
         html.find('.deckplan-button').click(ev => this._onOpenDeckplan(ev));
 

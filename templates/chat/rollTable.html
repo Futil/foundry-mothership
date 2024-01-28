@@ -12,7 +12,12 @@
         {{{parsedRollResult.rollHtml}}}
 		{{#if secondRoll}}
 			<div class="description" style="margin-bottom: 10px;">
-				<div class="body">Rolling for panic effect...</div>
+                {{#if (compare 'str' specialRoll '===' 'panicCheck')}}
+				    <div class="body">Rolling for panic effect...</div>
+                {{/if}}
+                {{#if (compare 'str' specialRoll '===' 'maintenanceCheck')}}
+				    <div class="body">Rolling for maintenance issue...</div>
+                {{/if}}
 			</div>
 			{{{parsedRollResult2.rollHtml}}}
 		{{/if}}
@@ -20,24 +25,29 @@
             <div class="description" style="margin-bottom : 20px;">{{{flavorText}}}</div>
         {{else}}
             {{#if woundText}}
-            {{{woundText}}}<br><br>
+                {{{woundText}}}<br><br>
             {{/if}}
             {{#if (compare 'int' tableResult.[0].type '===' 1)}}
-            <ol class="table-results">
-            {{/if}}
-            {{#each tableResult}}
-                {{#if (compare 'int' this.type '===' 0)}}
-                <div class="description" style="margin-bottom : 20px;">{{{this.text}}}</div>
-                {{/if}}
-                {{#if (compare 'int' this.type '===' 1)}}
+                <ol class="table-results">
+                {{#each tableResult}}
                 <li class="table-result flexrow" data-result-id="{{{this._id}}}">
                     <img class="result-image" src="{{{this.img}}}">
                     <div class="result-text"><a class="content-link broken" draggable="true" data-type="Item" data-uuid="undefined"><i class="fas fa-unlink"></i>{{{this.text}}}</a></div>
                 </li>
+                {{/each}}
+                </ol>
+            {{/if}}
+            {{#if (compare 'int' tableResult.[0].type '===' 0)}}
+                {{#if tableResultEdited}}
+                    <div class="description" style="margin-bottom : 20px;">{{{tableResultEdited}}}{{{tableResultFooter}}}</div>
+                {{else}}
+                    <div class="description" style="margin-bottom : 20px;">{{{tableResult.[0].text}}}{{{tableResultFooter}}}</div>
                 {{/if}}
-            {{/each}}
-            {{#if (compare 'int' tableResult.[0].type '===' 1)}}
-            </ol>
+            {{/if}}
+            {{#if (compare 'str' specialRoll '===' 'maintenanceCheck')}}
+                {{#if critFail}}
+                <br><br>@UUID[Compendium.mosh.macros_hotbar_1e.IgWvaabVqzKDzLL4]{Make a Panic Check}
+                {{/if}}
             {{/if}}
         {{/if}}
     </div>

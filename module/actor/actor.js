@@ -128,6 +128,14 @@ export class MothershipActor extends Actor {
           roll: {
             human: `You send out a distress signal and wait for help.`
           }
+        },
+        maintenance_issues: {
+          roll: {
+            human: `You perform a full inspection of the ship for wear and tear.`
+          },
+          success: {
+            human: `You find nothing wrong with the ship.`
+          }
         }
       },
       //condition flavor text
@@ -1315,6 +1323,8 @@ export class MothershipActor extends Actor {
     let msgDesc = ``;
     let flavorText = ``;
     let woundText = ``;
+    let tableResultEdited = ``;
+    let tableResultFooter = ``;
     let chatId = randomID();
     let rollTarget = null;
     let valueAddress = [];
@@ -1411,23 +1421,17 @@ export class MothershipActor extends Actor {
           if (useCalm) {rollString = '1d100' + rollString;}
         }
       }
-
-    // -- SHIP TABLES --
-    // Ship Distress
-    if (tableId === 'ship-distress') {
-      //set special roll value for use later
-      rollString = "1d10-1";
-      specialRoll = tableId;
-      tableId = 'UxAjAqUTjYTcCbS8';
-      aimFor = null;
-      zeroBased = true;
-      checkCrit = true;
-      rollAgainst = null;
-      comparison = null;
-    }
-
-    
-
+      //maintenance check
+      if (tableId === 'maintenanceCheck') {
+        //set special roll value for use later
+        specialRoll = tableId;
+        //assign variables
+        tableId = 'kqz8GsFVPfjvqO0N';
+        zeroBased = true;
+        checkCrit = true;
+        rollAgainst = 'system.stats.systems.value';
+        comparison = '<';
+      }
     //bounce this request away if certain parameters are NULL
       //if rollString is STILL blank, redirect player to choose the roll
       if (!rollString) {
@@ -1514,12 +1518,12 @@ export class MothershipActor extends Actor {
       let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
     //if this is a panic check, we may need to roll again OR add modifiers to our result total
       //roll a second die if needed
-      if (!parsedRollResult.success && specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+      if (!parsedRollResult.success && specialRoll === 'maintenanceCheck' && !firstEdition && !useCalm) {
         //determine the rollString
         let rollString2 = '2d10';
         //add modifiers if needed
           //0e modifier: + Stress - Resolve
-          if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+          if (specialRoll === 'maintenanceCheck' && !firstEdition && !useCalm) {
             rollString2 = rollString2 + ' + ' + this.system.other.stress.value + ' - ' + this.system.other.resolve.value
           }
           //Calm modifier: + Stress - Resolve
@@ -1535,18 +1539,33 @@ export class MothershipActor extends Actor {
         //set table result number
         tableResultNumber = parsedRollResult2.total
       }
-      //set table result number if null
-      if(!tableResultNumber) {tableResultNumber = parsedRollResult.total;}
+    //if this is a maintenance check, we need to roll again if a failure
+      //roll a second die if needed
+      if (!parsedRollResult.success && specialRoll === 'maintenanceCheck' && firstEdition) {
+        //determine the rollString
+        let rollString2 = '1d100';
+        //roll second dice
+        rollResult2 = await new Roll(rollString2).evaluate();
+        //roll second set of dice
+        parsedRollResult2 = this.parseRollResult(rollString2,rollResult2,true,false,null,null);
+        //set marker for HTML
+        secondRoll = true;
+        //set table result number
+        tableResultNumber = parsedRollResult2.total;
+        //log second die
+        console.log(`Rolled second die`);
+      }
+    //set table result number if null
+    if(!tableResultNumber) {tableResultNumber = parsedRollResult.total;}
     //fetch the table result
-      //get table result
-      let tableResult = tableData.getResultsForRoll(tableResultNumber);
+    let tableResult = tableData.getResultsForRoll(tableResultNumber);
     //make any custom changes to chat message
       //panic check #19 customiziation
       if (tableName === 'Panic Check' && tableResultNumber === 19) {
         if (this.system.class.value.toLowerCase() === 'android') {
-          tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","SHORT CIRCUIT.");
+          tableResultEdited = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","SHORT CIRCUIT.");
         } else {
-          tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","HEART ATTACK.");
+          tableResultEdited = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","HEART ATTACK.");
         }
       }
     //assign message description text
@@ -1564,13 +1583,35 @@ export class MothershipActor extends Actor {
       }
       //append Calm effects for Critical Panic Failure
       if (useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        tableResult[0].text = tableResult[0].text + `<br><br>You lose 1d10 Calm because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+        tableResultFooter = `<br><br>You lose 1d10 Calm because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+      }
+      //append effects for Stress + Maintenance Check Failure
+      if (specialRoll === 'maintenanceCheck' && !useCalm && !parsedRollResult.success && !parsedRollResult.critical) {
+        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}`;
+      }
+      //append effects for Stress + Critical Maintenance Check Failure
+      if (specialRoll === 'maintenanceCheck' && !useCalm && !parsedRollResult.success && parsedRollResult.critical) {
+        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
+      }
+      //append effects for Calm + Maintenance Check Failure
+      if (specialRoll === 'maintenanceCheck' && useCalm && !parsedRollResult.success && !parsedRollResult.critical) {
+        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+      }
+      //append effects for Calm + Critical Maintenance Check Failure
+      if (specialRoll === 'maintenanceCheck' && useCalm && !parsedRollResult.success && parsedRollResult.critical) {
+        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
+      }
+      //append effects for Calm + Critical Maintenance Check Success
+      if (specialRoll === 'maintenanceCheck' && useCalm && parsedRollResult.success && parsedRollResult.critical) {
+        flavorText = flavorText + ` Gain 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.k2TtLFOG9mGaWVx3]{+1d10 Calm}`;
       }
 	  //generate chat message
       //prepare data
       let messageData = {
         actor: this,
         tableResult: tableResult,
+        tableResultEdited: tableResultEdited,
+        tableResultFooter: tableResultFooter,
         parsedRollResult: parsedRollResult,
         tableName: tableName,
         tableImg: tableImg,
@@ -1578,7 +1619,8 @@ export class MothershipActor extends Actor {
         flavorText: flavorText,
         woundText: woundText,
         secondRoll: secondRoll,
-        parsedRollResult2: parsedRollResult2
+        parsedRollResult2: parsedRollResult2,
+        specialRoll: specialRoll
       };
       //prepare template
       messageTemplate = 'systems/mosh/templates/chat/rollTable.html';
@@ -3300,6 +3342,73 @@ export class MothershipActor extends Actor {
           button3: {
             label: `Disadvantage`,
             callback: () => this.rollTable(`UxAjAqUTjYTcCbS8`,`1d10 [-]`,`low`,true,false,null,null),
+            icon: `<i class="fas fa-angle-double-down"></i>`
+          }
+        }
+      };
+      //render dialog
+      const dialog = new Dialog(dialogData,{width: 600,height: 265}).render(true);
+      });
+    
+  }
+
+  //activate ship's distress signal
+  async maintenanceCheck() {
+    //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+    return new Promise(async (resolve) => {
+      //create pop-up HTML
+      let msgContent = `
+      <style>
+        .macro_window{
+          background: rgb(230,230,230);
+          border-radius: 9px;
+        }
+        .macro_img{
+          display: flex;
+          justify-content: center;
+        }
+        .macro_desc{
+          font-family: "Roboto", sans-serif;
+          font-size: 10.5pt;
+          font-weight: 400;
+          padding-top: 8px;
+          padding-right: 8px;
+          padding-bottom: 8px;
+        }
+        .grid-2col {
+          display: grid;
+          grid-column: span 2 / span 2;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 2px;
+          padding: 0;
+        }
+      </style>
+      <div class ="macro_window" style="margin-bottom : 7px;">
+        <div class="grid grid-2col" style="grid-template-columns: 150px auto">
+          <div class="macro_img"><img src="systems/mosh/images/icons/ui/rolltables/maintenance_issues.png" style="border:none"/></div>
+          <div class="macro_desc"><h3>Maintenance Check</h3>Eventually, your ship needs a tune-up, or sometimes a complete overhaul. When this happens, you’ll need to get it repaired. <strong>Minor Repairs</strong> cover cosmetic damage, cleanup, and other handyman type work that can be handled in flight, usually within 2d10 days. <strong>Major Repairs</strong> cover large scale structural or system damage, including repairing Megadamage and Hull, and can only be fixed in port.</div>    
+        </div>
+      </div>
+      <h4>Select your roll type:</h4>
+      `;
+      //create final dialog data
+      const dialogData = {
+        title: `Maintenance Check`,
+        content: msgContent,
+        buttons: {
+          button1: {
+            label: `Advantage`,
+            callback: () => this.rollTable(`maintenanceCheck`,`1d100 [+]`,`low`,null,null,null,null),
+            icon: `<i class="fas fa-angle-double-up"></i>`
+          },
+          button2: {
+            label: `Normal`,
+            callback: () => this.rollTable(`maintenanceCheck`,`1d100`,`low`,null,null,null,null),
+            icon: `<i class="fas fa-minus"></i>`
+          },
+          button3: {
+            label: `Disadvantage`,
+            callback: () => this.rollTable(`maintenanceCheck`,`1d100 [-]`,`low`,null,null,null,null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
         }

@@ -38,7 +38,8 @@ export class DLShipSetup extends FormApplication {
         
         // Starting Conditions
         html.find('.conditions-button').click(ev => {
-            this.object.rollTable('ship-distress',null,null,null,null,null,null);
+            //roll starting conditions
+            this.object.rollTable('kqz8GsFVPfjvqO0N','1d5+1','low',true,false,null,null);
         });
 
         // Close Button

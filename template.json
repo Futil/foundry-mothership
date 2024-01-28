@@ -350,7 +350,8 @@
       "ability",
       "module",
       "condition",
-      "crew"
+      "crew",
+      "repair"
     ],
     "templates": {
       "base": {
@@ -435,6 +436,13 @@
       ],
       "text": "",
       "job" : ""
+    },
+    "repair": {
+      "templates": [
+        "base"
+      ],
+      "quantity": 1,
+      "major": false
     },
     "module": {
       "templates": [

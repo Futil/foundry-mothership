@@ -8,6 +8,8 @@
 			<div class="rollweaponh1" >PATCH</div>
 			{{else if (compare 'str' item.system.description '===' '<p>Trinket</p>')}}
 			<div class="rollweaponh1" >TRINKET</div>
+			{{else if (compare 'str' item.system.description '===' '<p>Maintenance Issue</p>')}}
+			<div class="rollweaponh1" >MAINTENANCE ISSUE</div>
 			{{else}}
 				{{#if (compare 'int' item.name.length '>=' 22)}}
 				<div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{item.name}}</div>
@@ -63,6 +65,11 @@
 			</div>
 			<div style="margin-bottom : 16px;"></div>
 		{{else if (compare 'str' item.system.description '===' '<p>Patch</p>')}}
+			<div class="description">
+				<div class="body">{{{item.name}}}</div>
+			</div>
+			<div style="margin-bottom : 16px;"></div>
+		{{else if (compare 'str' item.system.description '===' '<p>Maintenance Issue</p>')}}
 			<div class="description">
 				<div class="body">{{{item.name}}}</div>
 			</div>

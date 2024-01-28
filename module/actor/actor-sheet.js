@@ -360,13 +360,13 @@ export class MothershipActorSheet extends ActorSheet {
     // Calm - Panic Check
     html.find('.calm-roll').click(ev => {
       //roll panic check
-      this.actor.rollTable('panicCheck',null,null,null,null,'system.other.stress.value',null);
+      this.actor.rollTable('panicCheck',null,null,null,null,null,null);
     });
     
     // Stress - Panic Check
     html.find('.stress-roll').click(ev => {
       //roll panic check
-      this.actor.rollTable('panicCheck',null,null,null,null,'system.other.stress.value',null);
+      this.actor.rollTable('panicCheck',null,null,null,null,null,null);
     });
 
     // Clicking on Armor

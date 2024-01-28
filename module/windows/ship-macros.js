@@ -53,6 +53,11 @@ export class DLShipMacros extends BaseSheet {
             this.object.distressSignal();
         });
 
+        // Maintenance Check
+        html.find('.maintenance-button').click(ev => {
+            //roll maintenance check
+            this.object.maintenanceCheck();
+        });
 
         // Deckplan Button
         html.find('.deckplan-button').click(ev => this._onOpenDeckplan(ev));

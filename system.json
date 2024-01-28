@@ -23,6 +23,18 @@
       }
     },
     {
+      "name": "items_maintenance_1e",
+      "label": "Maintenance Issues (1e)",
+      "system": "mosh",
+      "path": "packs/items_maintenance_1e.db",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
       "name": "macros_hotbar_1e",
       "label": "Hotbar Macros (1e)",
       "system": "mosh",

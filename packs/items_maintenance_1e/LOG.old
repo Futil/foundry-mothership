@@ -1,0 +1,11 @@
+2024/01/28-10:54:38.887 37ec Delete type=3 #1
+2024/01/28-12:59:43.602 8f38 Level-0 table #10: started
+2024/01/28-12:59:43.602 8f38 Level-0 table #10: 0 bytes OK
+2024/01/28-12:59:43.608 8f38 Delete type=0 #8
+2024/01/28-12:59:43.636 8f38 Manual compaction at level-0 from '!items!1HNvL7XEUcMQbLps' @ 72057594037927935 : 1 .. '!items!zRzb3Laiuw4ac6p0' @ 0 : 0; will stop at '!items!zRzb3Laiuw4ac6p0' @ 100 : 1
+2024/01/28-12:59:43.636 8f38 Compacting 1@0 + 0@1 files
+2024/01/28-12:59:43.641 8f38 Generated table #11@0: 100 keys, 12692 bytes
+2024/01/28-12:59:43.641 8f38 Compacted 1@0 + 0@1 files => 12692 bytes
+2024/01/28-12:59:43.646 8f38 compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/01/28-12:59:43.646 8f38 Delete type=2 #5
+2024/01/28-12:59:43.653 8f38 Manual compaction at level-0 from '!items!zRzb3Laiuw4ac6p0' @ 100 : 1 .. '!items!zRzb3Laiuw4ac6p0' @ 0 : 0; will stop at (end)

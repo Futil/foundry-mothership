@@ -1,6 +1,31 @@
 <form class="{{cssClass}}" autocomplete="off">
+    <div class="button-black sbt-megadamage-tab megadamage-sidebar-button list-roll">Megadamage</div>
+
+    <div class="megadamage sbt-megadamage {{{system.megadamage.sidebarclasses}}}">
+        <div class="circlestattitle">Megadamage</div>
+
+        <br/>
+        <div class="megadamage-list">{{{system.megadamage.html}}}</div>
+
+        <div class="circle-statwrapper">
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.supplies.hull.value" class="resource-label minmaxtext">Hull Points</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.hull.value"
+                        value="{{system.supplies.hull.value}}" data-dtype="Number" />
+                </div>
+            </div>
+        </div>
+        <!-- Megadamage Settings -->
+        <!-- <div class="button-grey megadamage-menu-button list-roll">Popout</div> -->
+
+    </div>
+
+
     {{!-- Sheet Header --}}
     <div class="header" style="grid-template-columns: 0.15fr 1fr;">
+        
         <img class="sbt-profile" src="{{img}}" data-edit="img" title="{{name}}" height="150" width="150" />
 
         <div class="headergrid" style="grid-template-columns: 1fr 0.2fr 22px; padding: 1em;">
@@ -52,7 +77,6 @@
     </div>
 
 
-
     <div class="ship-sbt-stats-grid" style="margin-top: 10px; margin-bottom: 10px; height: 405px;">
 
         <!-- Stats -->
@@ -63,8 +87,11 @@
 
                 <!-- Thrusters -->
                 <div class="resource circle-stat">
-                    <input class="circle-input" type="text" name="system.stats.thrusters.value"
-                        value="{{system.stats.thrusters.value}}" data-dtype="Number" />
+                    <!-- <div class="circle-input-swapper"> -->
+                        <input class="circle-input" type="text" name="system.stats.thrusters.value"
+                            value="{{system.stats.thrusters.value}}" data-dtype="Number" />
+                        <!-- <div class="circle-input box2">{{system.stats.thrusters.value}}</div> -->
+                    <!-- </div> -->
                 </div>
                 <div class="circlestatlabel">
                     <span class="ability-mod stat-roll rollable circlestattext" data-key="thrusters"
@@ -108,7 +135,7 @@
 
             <!-- Make/Model/ETC -->
             <div class="area-title">Make / Model / Jump / Class / Type</div>
-            <textarea name="system.make" rows="2" class="textarea-input" type="text"
+            <textarea name="system.make" rows="2" class="sbt-text-area" type="text"
             data-target="system.make" placeholder="" style="height: 110px; text-align: center;">{{system.make}}</textarea>
 
             <div class="circle-statwrapper-horizontal" style="gap: 10%; height: 100px; padding: 20px;">
@@ -165,119 +192,54 @@
                 </div>
             </div>
 
-            <!-- Ship Deckplan -->
-            <div class="button-black deckplan-button list-roll">Open Deckplan</div>
-
-            <!-- <div class="sbt-deckplan-parent">
-                <img class="img sbt-deckplan deckplan-button" style="width: 100%; height: auto;" src="{{system.images.layout}}" title="{{system.images.layout}}" />
-            </div> -->
-
-            <!-- Hull -->
-            <!-- <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: 12px 19px;">
-                <label for="system.supplies.hull.value" class="resource-label minmaxtext">Hull</label>
-                <div class="faded-label">{{system.supplies.hull.percentage}}</div>
-
-                <div class="minmaxwrapper">
-                    <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.hull.value"
-                        value="{{system.supplies.hull.value}}" data-dtype="Number" />
-                    <div class="slant"></div>
-                    <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.hull.max"
-                        value="{{system.supplies.hull.max}}" data-dtype="Number" />
-                </div>
-
-                <div class="healthmaxtext">Current</div>
-                <div class="healthmaxtext">Maximum</div>
-            </div> -->
-
-
+                <!-- Ship Deckplan -->
+                <div class="button-black deckplan-button list-roll">Open Deckplan</div>
 
         </div>
 
 
         <!-- SIDE PANEL -->
         <div class="sbt-crew-section scroll-lock">
-            {{!-- Sheet Tab Navigation --}}
-            <nav class="mosh sheet-tabs tabs" id="side-tabs" style="height: auto;" data-group="primary">
+            <!-- <nav class="mosh sheet-tabs tabs" id="side-tabs" style="height: auto;" data-group="primary">
                 <a class="tab-select" data-tab="crew">Crew</a>
                 <a class="tab-select" data-tab="megadamage">Damage</a>
-            </nav>
+            </nav> -->
+                <!-- CREW COUNTER -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="margin: auto; margin-top: 2px;">
+                <label for="system.stats.crew.value" class="resource-label minmaxtext">CREW</label>
 
-            {{!-- Sheet Body --}}
-            <section class="sheet-body" id="side-body">
-                {{!-- Crew Tab --}}
-                <div class="tab" data-group="primary" data-tab="crew">
-                    <!-- CREW COUNTER -->
-                    <div class="resource healthspread minmaxtopstat flex-center" style="margin: auto; margin-top: 10px;">
-                        <label for="system.stats.crew.value" class="resource-label minmaxtext">CREW</label>
-
-                        <div class="minmaxwrapper-black">
-                            <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.crew.value"
-                                value="{{system.supplies.crew.value}}" data-dtype="Number" />
-                            <div class="slant"></div>
-                            <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.crew.max"
-                                value="{{system.supplies.crew.max}}" data-dtype="Number" />
-                        </div>
-
-                        <div class="healthmaxtext">Current</div>
-                        <div class="healthmaxtext">Maximum</div>
-                    </div>
-
-                    <div class="blackline"></div>
-
-                    {{#each crew as | crew id|}}
-                    <div class="creature-ability-container item" data-item-id="{{crew._id}}">
-                        <div class="sbt-crew-name">
-                            {{crew.name}}
-                            <label class="hidden-item-controls" style="margin-left: 3px; font-size: 0.7rem;">
-                                <a class="item-control item-edit darkgrey" title="Edit Crew Member"><i
-                                        class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete darkgrey" title="Delete Crew Member"><i
-                                        class="fas fa-trash"></i></a>
-                            </label>
-                        </div>
-                        <div class="sbt-crew-job itemtext">{{{crew.system.job}}}</div>
-
-                    </div>
-
-                    {{/each}}
-                    <a class="item-control weapon-create darkgrey " style="margin-left: 5px;" title="Create Crew Member"
-                        data-type="crew"><i class="fas fa-plus"></i> Add</a>
+                <div class="minmaxwrapper-black">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.crew.value"
+                        value="{{system.supplies.crew.value}}" data-dtype="Number" />
+                    <div class="slant"></div>
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.crew.max"
+                        value="{{system.supplies.crew.max}}" data-dtype="Number" />
                 </div>
-                {{!-- Megadamage Tab --}}
-                <div class="tab megadamage" data-group="primary" data-tab="megadamage">
-                    
-                    <div class="resource healthspread minmaxtopstat flex-center" style="margin-top: 10px; margin-bottom: -5px;">
-                        <label for="system.supplies.hull.value" class="resource-label minmaxtext">Hull Points</label>
 
-                        <div class="valuewrapper" style="width: 120px;">
-                            <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.hull.value"
-                                value="{{system.supplies.hull.value}}" data-dtype="Number" />
-                        </div>
-                    </div>
+                <div class="healthmaxtext">Current</div>
+                <div class="healthmaxtext">Maximum</div>
+            </div>
 
-                    <!-- <div class="resource healthspread minmaxtopstat flex-center">
-                        <label for="system.supplies.hull.value" class="resource-label minmaxtext">Current<br/>Megadamage</label>
+            <div class="blackline"></div>
 
-                        <div class="valuewrapper" style="width: 120px;">
-                            <input class="maxhealth-input darkGreyText" type="text" name="system.megadamage.value"
-                                value="{{system.megadamage.value}}" data-dtype="Number" />
-                        </div>
-
-                    </div> -->
-
-                    <!-- <div class="blackline"></div> -->
-
-                    <div class="circlestattitle">Megadamage Effects</div>
-                    <br/>
-                    <div class="megadamage-list">{{{system.megadamage.html}}}</div>
-                    
-                    <!-- Megadamage Settings -->
-                    <div class="button-grey megadamage-menu-button list-roll">Popout</div>
-
-                    
-
+            {{#each crew as | crew id|}}
+            <div class="creature-ability-container item" data-item-id="{{crew._id}}">
+                <div class="sbt-crew-name">
+                    {{crew.name}}
+                    <label class="hidden-item-controls" style="margin-left: 3px; font-size: 0.7rem;">
+                        <a class="item-control item-edit darkgrey" title="Edit Crew Member"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete darkgrey" title="Delete Crew Member"><i
+                                class="fas fa-trash"></i></a>
+                    </label>
                 </div>
-            </section>
+                <div class="sbt-crew-job itemtext">{{{crew.system.job}}}</div>
+
+            </div>
+
+            {{/each}}
+            <a class="item-control weapon-create darkgrey " style="margin-left: 5px;" title="Create Crew Member"
+                data-type="crew"><i class="fas fa-plus"></i> Add</a>
         </div>
     </div>
 
@@ -294,6 +256,7 @@
         <a class="tab-select" data-tab="weapons">Weapons</a>
         <a class="tab-select" data-tab="modules">Upgrades</a>
         <a class="tab-select" data-tab="cargo">Cargo</a>
+        <a class="tab-select" data-tab="repairs">Repairs</a>
         <a class="tab-select" data-tab="description">Notes</a>
     </nav>
 
@@ -477,6 +440,55 @@
                 </li>
                 {{/each}}
             </ol>
+        </div>
+        {{!-- Repair Tab --}}
+        <div class="tab items" data-group="primary" data-tab="repairs">
+            <div style="display: flex; gap: 10px;">
+                <!-- minorRepairs -->
+                <ol class="items-list" style="width: 100%;">
+                    <li class="item flexrow item-header">
+                        <div class="item-image"></div>
+                        <div class="skill-stat" style="flex-grow: 2;">Minor Repairs</div>
+                        <div class="item-controls">
+                            <a class="item-control item-create" title="Create Item" data-type="repair" data-subtype="minor"><i
+                                    class="fas fa-plus"></i> Add</a>
+                        </div>
+                    </li>
+                    {{#each minorRepairs as |item id|}}
+                    <li class="item flexrow dropitem" data-item-id="{{item._id}}">
+                        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                        </div>
+                        <h4 class="skill-name list-roll description-roll" style="flex-grow: 2;">{{item.name}}</h4>
+                        <div class="item-controls">
+                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ol>
+                <!-- majorRepairs -->
+                <ol class="items-list" style="width: 100%;">
+                    <li class="item flexrow item-header">
+                        <div class="item-image"></div>
+                        <div class="skill-stat" style="flex-grow: 2;">Major Repairs</div>
+                        <div class="item-controls">
+                            <a class="item-control item-create" title="Create Item" data-type="repair" data-subtype="major"><i
+                                    class="fas fa-plus"></i> Add</a>
+                        </div>
+                    </li>
+                    {{#each majorRepairs as |item id|}}
+                    <li class="item flexrow dropitem" data-item-id="{{item._id}}">
+                        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                        </div>
+                        <h4 class="skill-name list-roll description-roll" style="flex-grow: 2;">{{item.name}}</h4>
+                        <div class="item-controls">
+                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ol>
+            </div>
         </div>
     </section>
 </form>

@@ -16,9 +16,9 @@ export class MothershipShipSheetSBT extends ActorSheet {
             classes: ["mosh", "sheet", "actor", "ship"],
             template: "systems/mosh/templates/actor/ship-sheet-sbt.html",
             width: 700,
-            height: 800,
-            tabs: [{ navSelector: "#sheet-tabs", contentSelector: "#sheet-body", initial: "character" },
-                   { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "crew" }],
+            height: 840,
+            tabs: [{ navSelector: "#sheet-tabs", contentSelector: "#sheet-body", initial: "character" }],
+                //    { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "crew" }],
             scrollY: [".sheet-body", "scroll-lock"]
         });
     }
@@ -71,6 +71,9 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
         const superData = data.data.system;
 
+        superData.page = {}; //Prep the page object, for any html specific stuff we want to do.
+        console.log(superData);
+        console.log("ack");
         // Prepare items.
         if (this.actor.type == 'ship') {
             this._prepareShipItems(data);
@@ -122,6 +125,8 @@ export class MothershipShipSheetSBT extends ActorSheet {
         const weapons = [];
         const cargo = [];
         const modules = [];
+        const minorRepairs = [];
+        const majorRepairs = [];
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
@@ -137,6 +142,13 @@ export class MothershipShipSheetSBT extends ActorSheet {
                 cargo.push(i);
             } else if (i.type === 'module') {
                 modules.push(i);
+            } else if (i.type == 'repair'){
+                if(i.system.major){
+                    majorRepairs.push(i);
+                }
+                else{
+                    minorRepairs.push(i);
+                }
             }
         }
 
@@ -145,6 +157,9 @@ export class MothershipShipSheetSBT extends ActorSheet {
         actorData.weapons = weapons;
         actorData.cargo = cargo;
         actorData.modules = modules;
+        actorData.minorRepairs = minorRepairs;
+        actorData.majorRepairs = majorRepairs;
+
     }
 
     async _prepareMegadamage(sheetData){
@@ -206,6 +221,21 @@ export class MothershipShipSheetSBT extends ActorSheet {
             "data.megadamage.html": megadamageHTML
         });
 
+        console.log(actorData.system)
+
+        if(actorData.system.page == undefined){
+            actorData.system.page = {};
+        }
+
+        actorData.system.page.megadamageMenuClass = "";
+
+        if(actorData.system.megadamage.open){
+            actorData.system.page.megadamageMenuClass = "sbt-megadamage-open"
+        } else {
+            actorData.system.page.megadamageMenuClass = "sbt-megadamage-closed"
+        }
+
+        
         // await this.object.update({
         //     "data.megadamage.hits": []
         // });
@@ -225,7 +255,6 @@ export class MothershipShipSheetSBT extends ActorSheet {
       
             const div = $(ev.currentTarget);
             const targetKey = div.data("key");
-            console.log(targetKey);
 
             if(data.data.system.megadamage.hits.includes(targetKey)){
                 const index = data.data.system.megadamage.hits.indexOf(targetKey);
@@ -317,6 +346,27 @@ export class MothershipShipSheetSBT extends ActorSheet {
         //Megadamage Menu Button
         html.find('.megadamage-menu-button').click(ev => this._onOpenMegadamage(ev));
 
+        //Megadamage Menu Button
+        html.find('.megadamage-sidebar-button').click(ev => {
+            const data = this.object;
+            console.log(data);
+
+            console.log(data.data.system.megadamage.open);
+
+            let sidebarClasses = ""
+
+            if(data.data.system.megadamage.open){
+                sidebarClasses = "sbt-megadamage-open"
+            } else {
+                sidebarClasses = "sbt-megadamage-closed"
+            }
+
+            this.object.update({
+                "data.megadamage.open": !data.data.system.megadamage.open,
+                "data.megadamage.sidebarclasses" : sidebarClasses
+            });
+        });
+
 
         html.on('mousedown', '.weapon-ammo', ev => {
             const li = ev.currentTarget.closest(".item");
@@ -376,6 +426,10 @@ export class MothershipShipSheetSBT extends ActorSheet {
         const header = event.currentTarget;
         // Get the type of item to create.
         const type = header.dataset.type;
+
+        const subtype = header.dataset.subtype;
+
+
         // Grab any data associated with this control.
         const data = duplicate(header.dataset);
         // Initialize a default name.
@@ -384,8 +438,16 @@ export class MothershipShipSheetSBT extends ActorSheet {
         const itemData = {
             name: name,
             type: type,
-            data: data
+            data: data,
+            system : {}
         };
+
+        if(type == "repair"){
+           itemData.system.major = (header.dataset.subtype == "major");
+
+           console.log(header.dataset.subtype);
+        }
+
         // Remove the type from the dataset since it's in the itemData.type prop.
         delete itemData.data["type"];
 

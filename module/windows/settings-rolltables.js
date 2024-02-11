@@ -1,6 +1,7 @@
 export class rolltableConfig extends FormApplication {
     static get defaultOptions() {
         const options = super.defaultOptions;
+        console.log(options);
         //options.id = 'sheet-modifiers';
         //options.classes = ["mosh", "sheet", "actor", "ship"];
         options.id = 'rolltable-modifiers';
@@ -9,6 +10,9 @@ export class rolltableConfig extends FormApplication {
         options.width = 800;
         options.height = 'auto';
         options.resizeable = false;
+        options.submitOnChange = true;
+        options.submitOnClose = true;
+        options.closeOnSubmit = false;
         return options;
     }
 
@@ -47,7 +51,9 @@ export class rolltableConfig extends FormApplication {
         super.activateListeners(html);
 
         // Close Button
-        html.find('.close-button').click(ev => this.close());
+        html.find('.close-button').click(ev => {
+            this.close()
+        });
     }
 
     /**
@@ -57,7 +63,6 @@ export class rolltableConfig extends FormApplication {
      * @private
      */
     async _updateObject(event, formData) {
-
         await Promise.all([
             game.settings.set("mosh", "table0ePanicStressNormal", formData["table0ePanicStressNormal"]),
             game.settings.set("mosh", "table0ePanicStressAndroid", formData["table0ePanicStressAndroid"]),
@@ -79,6 +84,6 @@ export class rolltableConfig extends FormApplication {
             game.settings.set("mosh", "table1eMaintenance", formData["table1eMaintenance"]),
             game.settings.set("mosh", "table1eBankruptcy", formData["table1eBankruptcy"])
         ]);
-        
+
     }
 }

@@ -1,1 +1,1 @@
-game.mosh.initRollTable(`XjDU2xFOWEasaZK0`,`1d10 [-]`,`low`,true,false,null,null);
+game.mosh.initRollTable(game.settings.get('mosh','table1eWoundGunshot'),`1d10 [-]`,`low`,true,false,null,null);

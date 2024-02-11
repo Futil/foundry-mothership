@@ -1,1 +1,1 @@
-game.mosh.initRollTable(`ata3fRz3uoPfNCLh`,`1d10`,`low`,true,false,null,null);
+game.mosh.initRollTable(game.settings.get('mosh','table1eWoundBleeding'),`1d10`,`low`,true,false,null,null);

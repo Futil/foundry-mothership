@@ -166,7 +166,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         const actorData = sheetData.data;
 
         //A script to return the data from a table.
-        let tableId = 'AqGWwoWXzijFs427';
+        let tableId = game.settings.get('mosh','table1eMegadamageEffects');
         let currentLocation = '';
         let tableLocation = '';
         //find where this table is located

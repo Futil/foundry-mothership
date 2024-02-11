@@ -46,17 +46,17 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
     buttons: {
       button1: {
         label: `Advantage`,
-        callback: () => game.mosh.initRollTable(`W36WFIpCfMknKgHy`,`1d10 [+]`,`low`,true,false,null,null),
+        callback: () => game.mosh.initRollTable(game.settings.get('mosh','table1eDeath'),`1d10 [+]`,`low`,true,false,null,null),
         icon: `<i class="fas fa-angle-double-up"></i>`
       },
       button2: {
         label: `Normal`,
-        callback: () => game.mosh.initRollTable(`W36WFIpCfMknKgHy`,`1d10`,`low`,true,false,null,null),
+        callback: () => game.mosh.initRollTable(game.settings.get('mosh','table1eDeath'),`1d10`,`low`,true,false,null,null),
         icon: `<i class="fas fa-minus"></i>`
       },
       button3: {
         label: `Disadvantage`,
-        callback: () => game.mosh.initRollTable(`W36WFIpCfMknKgHy`,`1d10 [-]`,`low`,true,false,null,null),
+        callback: () => game.mosh.initRollTable(game.settings.get('mosh','table1eDeath'),`1d10 [-]`,`low`,true,false,null,null),
         icon: `<i class="fas fa-angle-double-down"></i>`
       }
     }

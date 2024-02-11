@@ -1,0 +1,119 @@
+<form class="mosh sheet actor ship" autocomplete="off">
+    <header class="sheet-header">
+        <!-- Header -->
+        <div class="header-fields"></div>
+    </header>
+    <!-- Page Title -->
+    <div class="circlestattitle black" style="font-size: 1.25rem;">Rolltable Configuration <i class="fa-solid fa-list"></i></div>
+    <div class="greyline"></div>
+    <!-- Panic Tables -->
+    <div class="circle-statwrapper" style="gap: 2px;">
+        <div class="circlestattitle">Panic Check <i class="fa-solid fa-bolt"></i></div>
+        <div class="grid grid-4col" style="padding-left: 8px; padding-right: 8px;">
+            <div class="resource">
+                <label class="resource-label">Stress, Normal (0e)</label>
+                <input type="text" name="table0ePanicStressNormal" id="table0ePanicStressNormal" value="{{table0ePanicStressNormal}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Stress, Android (0e)</label>
+                <input type="text" name="table0ePanicStressAndroid" id="table0ePanicStressAndroid" value="{{table0ePanicStressAndroid}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Calm, Normal (0e)</label>
+                <input type="text" name="table0ePanicCalmNormal" id="table0ePanicCalmNormal" value="{{table0ePanicCalmNormal}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Calm, Android (0e)</label>
+                <input type="text" name="table0ePanicCalmAndroid" id="table0ePanicCalmAndroid" value="{{table0ePanicCalmAndroid}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Stress, Normal (1e)</label>
+                <input type="text" name="table1ePanicStressNormal" id="table1ePanicStressNormal" value="{{table1ePanicStressNormal}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Stress, Android (1e)</label>
+                <input type="text" name="table1ePanicStressAndroid" id="table1ePanicStressAndroid" value="{{table1ePanicStressAndroid}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Calm, Normal (1e)</label>
+                <input type="text" name="table1ePanicCalmNormal" id="table1ePanicCalmNormal" value="{{table1ePanicCalmNormal}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Calm, Android (1e)</label>
+                <input type="text" name="table1ePanicCalmAndroid" id="table1ePanicCalmAndroid" value="{{table1ePanicCalmAndroid}}" data-dtype="String" />
+            </div>
+        </div>
+    </div>
+    <br/>
+    <!-- Wounds Tables -->
+    <div class="circle-statwrapper" style="gap: 2px;">
+        <div class="circlestattitle">Wound Check <i class="fa-solid fa-user-injured"></i></div>
+        <div class="grid grid-5col" style="padding-left: 8px; padding-right: 8px;">
+            <div class="resource">
+                <label class="resource-label">Blunt Force</label>
+                <input type="text" name="table1eWoundBluntForce" id="table1eWoundBluntForce" value="{{table1eWoundBluntForce}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Bleeding</label>
+                <input type="text" name="table1eWoundBleeding" id="table1eWoundBleeding" value="{{table1eWoundBleeding}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Gunshot</label>
+                <input type="text" name="table1eWoundGunshot" id="table1eWoundGunshot" value="{{table1eWoundGunshot}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Fire & Explosives</label>
+                <input type="text" name="table1eWoundFireExplosives" id="table1eWoundFireExplosives" value="{{table1eWoundFireExplosives}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Gore & Massive</label>
+                <input type="text" name="table1eWoundGoreMassive" id="table1eWoundGoreMassive" value="{{table1eWoundGoreMassive}}" data-dtype="String" />
+            </div>
+        </div>
+    </div>
+    <br/>
+    <!-- Death Tables -->
+    <div class="circle-statwrapper" style="gap: 2px;">
+        <div class="circlestattitle">Death Check <i class="fa-solid fa-heartbeat"></i></div>
+        <div class="grid grid-4col" style="padding-left: 8px; padding-right: 8px;">
+            <div></div>
+            <div class="resource">
+                <label class="resource-label">Death Save (0e)</label>
+                <input type="text" name="table0eDeath" id="table0eDeath" value="{{table0eDeath}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Death Save (1e)</label>
+                <input type="text" name="table1eDeath" id="table1eDeath" value="{{table1eDeath}}" data-dtype="String" />
+            </div>
+            <div></div>
+        </div>
+    </div>
+    <br/>
+    <!-- Ship Tables -->
+    <div class="circle-statwrapper" style="gap: 2px;">
+        <div class="circlestattitle">Ship Checks <i class="fa-solid fa-rocket"></i></div>
+        <div class="grid grid-4col" style="padding-left: 8px; padding-right: 8px;">
+            <div class="resource">
+                <label class="resource-label">Distress Signal</label>
+                <input type="text" name="table1eDistressSignal" id="table1eDistressSignal" value="{{table1eDistressSignal}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Megadamage Effects</label>
+                <input type="text" name="table1eMegadamageEffects" id="table1eMegadamageEffects" value="{{table1eMegadamageEffects}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Maintenance Check</label>
+                <input type="text" name="table1eMaintenance" id="table1eMaintenance" value="{{table1eMaintenance}}" data-dtype="String" />
+            </div>
+            <div class="resource">
+                <label class="resource-label">Bankruptcy Check</label>
+                <input type="text" name="table1eBankruptcy" id="table1eBankruptcy" value="{{table1eBankruptcy}}" data-dtype="String" />
+            </div>
+        </div>
+    </div>
+    <br/>
+    <!-- Finish -->
+    <div class="" style="gap: 10px;">
+        <div class="button-white close-button list-roll" style="width: 100%;">FINISH <i class="fa-solid fa-right-long"></i></div>
+    </div>
+</form>

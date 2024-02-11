@@ -1345,14 +1345,14 @@ export class MothershipActor extends Actor {
         if (firstEdition) { 
           if (androidPanic && this.system.class.value.toLowerCase() === 'android') { 
             if (useCalm) {
-              tableId = 'GCtYeCCQVQJ5M6SE';
+              tableId = game.settings.get('mosh','table1ePanicCalmAndroid');
               aimFor = 'low';
               zeroBased = true;
               checkCrit = true;
               rollAgainst = 'system.other.stress.value';
               comparison = '<';
             } else {
-              tableId = 'aBnY19jlhPXzibCt';
+              tableId = game.settings.get('mosh','table1ePanicStressAndroid');
               aimFor = 'high';
               zeroBased = false;
               checkCrit = false;
@@ -1361,14 +1361,14 @@ export class MothershipActor extends Actor {
             }
           } else {
             if (useCalm) { 
-              tableId = 'MOYI6Ntj5OVFYk06';
+              tableId = game.settings.get('mosh','table1ePanicCalmNormal');
               aimFor = 'low';
               zeroBased = true;
               checkCrit = true;
               rollAgainst = 'system.other.stress.value';
               comparison = '<';
             } else {
-              tableId = 'ypcoikqHLhnc9tNs';
+              tableId = game.settings.get('mosh','table1ePanicStressNormal');
               aimFor = 'high';
               zeroBased = false;
               checkCrit = false;
@@ -1379,14 +1379,14 @@ export class MothershipActor extends Actor {
         } else {
           if (androidPanic && this.system.class.value.toLowerCase() === 'android') { 
             if (useCalm) { 
-              tableId = 'VW6HQ29T7zClNIZ6';
+              tableId = game.settings.get('mosh','table0ePanicCalmAndroid');
               aimFor = 'low';
               zeroBased = true;
               checkCrit = true;
               rollAgainst = 'system.other.stress.value';
               comparison = '<';
             } else {
-              tableId = 'egJ11m2mJM3HBd6d';
+              tableId = game.settings.get('mosh','table0ePanicStressAndroid');
               aimFor = 'high';
               zeroBased = false;
               checkCrit = false;
@@ -1395,14 +1395,14 @@ export class MothershipActor extends Actor {
             }
           } else {
             if (useCalm) { 
-              tableId = 'kqKpQAXyLTEEyz6Z';
+              tableId = game.settings.get('mosh','table0ePanicCalmNormal');
               aimFor = 'low';
               zeroBased = true;
               checkCrit = true;
               rollAgainst = 'system.other.stress.value';
               comparison = '<';
             } else {
-              tableId = '1vCm4ElRPotQXgNB';
+              tableId = game.settings.get('mosh','table0ePanicStressNormal');
               aimFor = 'high';
               zeroBased = false;
               checkCrit = false;
@@ -1426,7 +1426,7 @@ export class MothershipActor extends Actor {
         //set special roll value for use later
         specialRoll = tableId;
         //assign variables
-        tableId = 'kqz8GsFVPfjvqO0N';
+        tableId = game.settings.get('mosh','table1eMaintenance');
         zeroBased = true;
         checkCrit = true;
         rollAgainst = 'system.stats.systems.value';
@@ -2405,7 +2405,7 @@ export class MothershipActor extends Actor {
             let compendium = game.packs;
             let currentLocation = ``;
             let tableLocation = ``;
-            let tableId = `BsfdIl7CJNs1PViS`;
+            let tableId = game.settings.get('mosh','table1eBankruptcy');
             //loop through each compendium
             compendium.forEach(function(pack){ 
               //is this a pack of rolltables?
@@ -3417,17 +3417,17 @@ export class MothershipActor extends Actor {
         buttons: {
           button1: {
             label: `Advantage`,
-            callback: () => this.rollTable(`UxAjAqUTjYTcCbS8`,`1d10 [+]`,`low`,true,false,null,null),
+            callback: () => this.rollTable(game.settings.get('mosh','table1eDistressSignal'),`1d10 [+]`,`low`,true,false,null,null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
           button2: {
             label: `Normal`,
-            callback: () => this.rollTable(`UxAjAqUTjYTcCbS8`,`1d10`,`low`,true,false,null,null),
+            callback: () => this.rollTable(game.settings.get('mosh','table1eDistressSignal'),`1d10`,`low`,true,false,null,null),
             icon: `<i class="fas fa-minus"></i>`
           },
           button3: {
             label: `Disadvantage`,
-            callback: () => this.rollTable(`UxAjAqUTjYTcCbS8`,`1d10 [-]`,`low`,true,false,null,null),
+            callback: () => this.rollTable(game.settings.get('mosh','table1eDistressSignal'),`1d10 [-]`,`low`,true,false,null,null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
         }

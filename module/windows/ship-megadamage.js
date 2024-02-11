@@ -40,7 +40,7 @@ export class DLShipMegaDamage extends FormApplication {
         const actorData = sheetData.object;
 
         //A script to return the data from a table.
-        let tableId = 'AqGWwoWXzijFs427';
+        let tableId = game.settings.get('mosh','table1eMegadamageEffects');
         let currentLocation = '';
         let tableLocation = '';
         //find where this table is located

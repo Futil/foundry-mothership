@@ -4,12 +4,8 @@
     <div class="showlessinfo"></div>
     <div class="rollcontainer">
 		<div class="flexrow">
-			{{#if (compare 'str' item.system.description '===' '<p>Patch</p>')}}
-			<div class="rollweaponh1" >PATCH</div>
-			{{else if (compare 'str' item.system.description '===' '<p>Trinket</p>')}}
-			<div class="rollweaponh1" >TRINKET</div>
-			{{else if (compare 'str' item.system.description '===' '<p>Maintenance Issue</p>')}}
-			<div class="rollweaponh1" >MAINTENANCE ISSUE</div>
+			{{#if swapNameDesc}}
+			<div class="rollweaponh1" >{{swapName}}</div>
 			{{else}}
 				{{#if (compare 'int' item.name.length '>=' 22)}}
 				<div class="rollweaponh1" style="font-size: 0.75rem; padding-top: 7px;">{{item.name}}</div>
@@ -59,17 +55,12 @@
 		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
 		<div style="margin-bottom : 5px;"></div>
         {{/if}}
-		{{#if (compare 'str' item.system.description '===' '<p>Trinket</p>')}}
+		{{#if swapNameDesc}}
 			<div class="description">
 				<div class="body">{{{item.name}}}</div>
 			</div>
 			<div style="margin-bottom : 16px;"></div>
-		{{else if (compare 'str' item.system.description '===' '<p>Patch</p>')}}
-			<div class="description">
-				<div class="body">{{{item.name}}}</div>
-			</div>
-			<div style="margin-bottom : 16px;"></div>
-		{{else if (compare 'str' item.system.description '===' '<p>Maintenance Issue</p>')}}
+		{{else if (compare 'str' item.system.type '===' 'repair')}}
 			<div class="description">
 			{{#if item.system.major}}
 				<div class="body"><strong>Major Repair</strong></div>

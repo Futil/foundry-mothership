@@ -3647,22 +3647,27 @@ export class MothershipActor extends Actor {
 
   // Print the item description into the chat.
   chatDesc(item) {
+    let swapNameDesc = false;
+    let swapName = '';
     let itemName = item.name?.charAt(0).toUpperCase() + item.name?.toLowerCase().slice(1);
     if (!item.name && isNaN(itemName))
       itemName = item.charAt(0)?.toUpperCase() + item.toLowerCase().slice(1);
 
-    
     var rollInsert = '';
-    
     if(item.system.roll){
       let r = new Roll(item.system.roll, {});
       r.evaluate({async: false});
-
       rollInsert = '\
         <div class="rollh2" style="text-transform: lowercase;">'+item.system.roll+'</div>\
         <div class="roll-grid">\
           <div class="roll-result">'+r._total+'</div>\
         </div>';
+    }
+
+    //add flag to swap name and description, if desc contains trinket or patch
+    if(item.system.description === '<p>Patch</p>' || item.system.description === '<p>Trinket</p>' || item.system.description === '<p>Maintenance Issue</p>') {
+      swapNameDesc = true;
+      swapName = item.system.description.replaceAll('<p>','').replaceAll('</p>','');
     }
 
     var templateData = {
@@ -3673,6 +3678,8 @@ export class MothershipActor extends Actor {
       item: item,
       insert: rollInsert,
       onlyDesc: true,
+      swapNameDesc: swapNameDesc,
+      swapName: swapName
     };
 
     let chatData = {

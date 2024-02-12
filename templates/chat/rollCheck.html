@@ -13,7 +13,7 @@
         <div class="description" style="margin-bottom: 10px;">
             <div class="body">
                 {{#if (compare 'int' parsedRollResult.total '>=' 90)}}
-                You rolled higher than 90, which is always considered a failure.
+                You rolled 90 or higher, which is always considered a failure.
                 {{else}}
                     {{#if (compare 'int' skillValue '>' 0)}}
                     You {{{outcomeVerb}}} less than your <strong>{{{attribute}}}</strong> plus <strong>{{{skill}}}</strong> skill bonus.

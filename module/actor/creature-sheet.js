@@ -162,6 +162,13 @@ export class MothershipCreatureSheet extends ActorSheet {
             this.actor.rollCheck(null,'low','combat',null,null,item);
         });
 
+        // Rollable Damage
+        html.find('.dmg-roll').click(ev => {
+            const li = ev.currentTarget.closest(".item");
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            this.actor.rollCheck(null,null,'damage',null,null,item);
+        });
+
         //increase ammo
         html.on('mousedown', '.weapon-ammo', ev => {
             //dupe item to work on

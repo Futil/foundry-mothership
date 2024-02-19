@@ -2064,6 +2064,84 @@ export class MothershipActor extends Actor {
     let firstEdition = game.settings.get('mosh','firstEdition');
     let useCalm = game.settings.get('mosh','useCalm');
     //customize this roll if its a unique use-case
+      //damage roll
+      if (attribute === 'damage') {  
+        //set special roll value for use later
+        specialRoll = attribute;
+        //parse the roll string
+        parsedDamageString = this.parseRollString(weapon.system.damage,'high');
+        //override message header
+        msgHeader = weapon.name;
+        //override  header image
+        msgImgPath = weapon.img;
+        let dsnTheme = 0;
+        if(game.settings.get('mosh', 'damageDiceTheme') != ""){ //We're going to check if the theme field is blank. Otherwise, don't use this.
+          //set damage dice color
+          dsnTheme = game.settings.get('mosh','damageDiceTheme');
+        }
+        //prepare flavortext
+        if (weapon.system.damage === "Str/10" && this.type === 'character') {
+          //determine the damage string
+          flavorText = 'You strike your target for <strong>[[floor(' + this.system.stats.strength.value + '/10)]] damage</strong>.';
+        } else {
+          flavorText = 'You inflict [[' + parsedDamageString + '[' + dsnTheme + ']' + critMod + ']] points of damage.';
+        }
+        //determine if this roll needs a description area
+        if (weapon.system.description || weapon.system.woundEffect) {
+          needsDesc = true;
+        }
+        //create wound effect string
+        if (weapon.system.woundEffect) {
+          //start with string as is
+          woundEffect = weapon.system.woundEffect;
+          //prepare array for looping
+            //replace ' [-]' and ' [+]'
+            woundEffect = woundEffect.replaceAll(' [-]','_dis').replaceAll(' [+]','_adv');
+            //simplify wounds
+            woundEffect = woundEffect.replace('Bleeding','bleeding');
+            woundEffect = woundEffect.replace('Blunt Force','blunt_force');
+            woundEffect = woundEffect.replace('Fire & Explosives','fire_explosives');
+            woundEffect = woundEffect.replace('Gore & Massive','gore_massive');
+            woundEffect = woundEffect.replace('Gunshot','gunshot');
+            //split string
+            let woundArray = woundEffect.split(' ');
+          //loop through this string and replace each wound effect with macro UUID
+          woundArray.forEach((element, index, array) => {
+            array[index] = this.getFlavorText('macro', 'wound', element);
+          });
+          //combine back into string
+          woundEffect = woundArray.join(' ');
+        }
+        //generate chat message
+          //prepare data
+          let messageData = {
+            actor: this,
+            weapon: weapon,
+            msgHeader: msgHeader,
+            msgImgPath: msgImgPath,
+            flavorText: flavorText,
+            needsDesc: needsDesc,
+            woundEffect: woundEffect,
+            specialRoll: specialRoll
+          };
+          let chatData = {
+            user: game.user.id,
+            speaker: {
+              actor: this.id,
+              token: this.token,
+              alias: this.name
+            }
+          };
+          let template = 'systems/mosh/templates/chat/rollCheck.html';
+          renderTemplate(template, messageData).then(content => {
+            chatData.content = content;
+            ChatMessage.create(chatData);
+          });
+        //log what was done
+        console.log(`Rolled damage on:${weapon.name}`);
+        //exit
+        return;
+      }
       //rest save
       if (attribute === 'restSave') {
         //1e rest save

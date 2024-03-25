@@ -17,7 +17,8 @@ export class MothershipShipSheetSBT extends ActorSheet {
             template: "systems/mosh/templates/actor/ship-sheet-sbt.html",
             width: 700,
             height: 840,
-            tabs: [{ navSelector: "#sheet-tabs", contentSelector: "#sheet-body", initial: "character" }],
+            tabs: [{ navSelector: "#sheet-tabs", contentSelector: "#sheet-body", initial: "character" },
+                    { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "close" }],
                 //    { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "crew" }],
             scrollY: [".sheet-body", "scroll-lock"]
         });
@@ -72,8 +73,6 @@ export class MothershipShipSheetSBT extends ActorSheet {
         const superData = data.data.system;
 
         superData.page = {}; //Prep the page object, for any html specific stuff we want to do.
-        console.log(superData);
-        console.log("ack");
         // Prepare items.
         if (this.actor.type == 'ship') {
             this._prepareShipItems(data);
@@ -125,8 +124,10 @@ export class MothershipShipSheetSBT extends ActorSheet {
         const weapons = [];
         const cargo = [];
         const modules = [];
-        const minorRepairs = [];
+
+        const minorRepairs = []; //We are seperating these to make sure they are always ordered by severity.
         const majorRepairs = [];
+
 
         // Iterate through items, allocating to containers
         // let totalWeight = 0;
@@ -221,19 +222,17 @@ export class MothershipShipSheetSBT extends ActorSheet {
             "data.megadamage.html": megadamageHTML
         });
 
-        console.log(actorData.system)
-
         if(actorData.system.page == undefined){
             actorData.system.page = {};
         }
 
         actorData.system.page.megadamageMenuClass = "";
 
-        if(actorData.system.megadamage.open){
-            actorData.system.page.megadamageMenuClass = "sbt-megadamage-open"
-        } else {
-            actorData.system.page.megadamageMenuClass = "sbt-megadamage-closed"
-        }
+        // if(actorData.system.megadamage.open){
+        //     actorData.system.page.megadamageMenuClass = "sbt-megadamage-open"
+        // } else {
+        //     actorData.system.page.megadamageMenuClass = "sbt-megadamage-closed"
+        // }
 
         
         // await this.object.update({
@@ -334,6 +333,30 @@ export class MothershipShipSheetSBT extends ActorSheet {
             this.actor.rollCheck(null,'low','combat',null,null,item);
         });
 
+        // Distress Signal
+        html.find('.distress-button').click(ev => {
+            //roll distress signal
+            this.actor.distressSignal();
+        });
+
+        // Maintenance Check
+        html.find('.maintenance-button').click(ev => {
+            //roll maintenance check
+            this.actor.maintenanceCheck();
+        });
+
+        // Bankruptcy Save
+        html.find('.bankruptcy-button').click(ev => {
+            //roll bankruptcy save
+            this.actor.bankruptcySave();
+        });
+
+        // Morale Check
+        html.find('.morale-button').click(ev => {
+            //roll morale check
+            this.actor.moraleCheck();
+        });
+
         // Deckplan Button
         html.find('.deckplan-button').click(ev => this._onOpenDeckplan(ev));
 
@@ -347,25 +370,22 @@ export class MothershipShipSheetSBT extends ActorSheet {
         html.find('.megadamage-menu-button').click(ev => this._onOpenMegadamage(ev));
 
         //Megadamage Menu Button
-        html.find('.megadamage-sidebar-button').click(ev => {
-            const data = this.object;
-            console.log(data);
+        // html.find('.megadamage-sidebar-button').click(ev => {
+        //     const data = this.object;
 
-            console.log(data.data.system.megadamage.open);
+        //     let sidebarClasses = ""
 
-            let sidebarClasses = ""
+        //     if(data.system.megadamage.open){
+        //         sidebarClasses = "sbt-megadamage-open"
+        //     } else {
+        //         sidebarClasses = "sbt-megadamage-closed"
+        //     }
 
-            if(data.data.system.megadamage.open){
-                sidebarClasses = "sbt-megadamage-open"
-            } else {
-                sidebarClasses = "sbt-megadamage-closed"
-            }
-
-            this.object.update({
-                "data.megadamage.open": !data.data.system.megadamage.open,
-                "data.megadamage.sidebarclasses" : sidebarClasses
-            });
-        });
+        //     this.object.update({
+        //         "data.megadamage.open": !data.system.megadamage.open,
+        //         "data.sidebar.megadamageClasses" : sidebarClasses
+        //     });
+        // });
 
 
         html.on('mousedown', '.weapon-ammo', ev => {
@@ -444,8 +464,6 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
         if(type == "repair"){
            itemData.system.major = (header.dataset.subtype == "major");
-
-           console.log(header.dataset.subtype);
         }
 
         // Remove the type from the dataset since it's in the itemData.type prop.
@@ -465,8 +483,6 @@ export class MothershipShipSheetSBT extends ActorSheet {
         event.preventDefault();
         const element = event.currentTarget;
         const dataset = element.dataset;
-
-        console.log(super.getData());
 
         if (dataset.roll) {
             let roll = new Roll(dataset.roll, this.actor.data.data);

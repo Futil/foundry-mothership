@@ -1,24 +1,95 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <div class="button-black sbt-megadamage-tab megadamage-sidebar-button list-roll">Megadamage</div>
 
-    <div class="megadamage sbt-megadamage {{{system.megadamage.sidebarclasses}}}">
-        <div class="circlestattitle">Megadamage</div>
+    
 
-        <br/>
-        <div class="megadamage-list">{{{system.megadamage.html}}}</div>
+    <!-- Actor Sidebar Buttons -->
+    <div class="actor-sidebar side-body"  id="side-body">
+        <nav class="mosh actor-sidebar-row" id="side-tabs" style="height: auto; gap: 4px;" data-group="primary">
+            <a class="tab-select button-black actor-sidebar-tab megadamage-sidebar-button" data-tab="close">X</a>
+            <a class="tab-select button-black actor-sidebar-tab megadamage-sidebar-button" data-tab="megadamage">Megadamage</a>
+            <a class="tab-select button-black actor-sidebar-tab megadamage-sidebar-button" data-tab="macros">Macros</a>
+        </nav>
+        <div class="actor-sidebar-row">
 
-        <div class="circle-statwrapper">
-            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-                <label for="system.supplies.hull.value" class="resource-label minmaxtext">Hull Points</label>
+            <!-- <i class="fa-solid fa-folder"></i>
+            <div class="button-black actor-sidebar-tab megadamage-sidebar-button list-roll">Megadamage</div>
+            <div class="button-black actor-sidebar-tab megadamage-sidebar-button list-roll">Macros</div> -->
+        </div>
 
-                <div class="valuewrapper" style="width: 120px; background: white;">
-                    <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.hull.value"
-                        value="{{system.supplies.hull.value}}" data-dtype="Number" />
+        <!-- CLOSED -->
+        <div class="tab" data-group="primary" data-tab="close">
+
+
+        </div>
+
+        <!-- MEGADAMAGE -->
+        <div class="tab megadamage sbt-megadamage" data-group="primary" data-tab="megadamage">
+            <div class="circlestattitle">Megadamage</div>
+
+            <br/>
+            <div class="megadamage-list">{{{system.megadamage.html}}}</div>
+
+            <div class="circle-statwrapper">
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.supplies.hull.value" class="resource-label minmaxtext">Hull Points</label>
+
+                    <div class="valuewrapper" style="width: 120px; background: white;">
+                        <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.hull.value"
+                            value="{{system.supplies.hull.value}}" data-dtype="Number" />
+                    </div>
                 </div>
             </div>
+            <!-- Megadamage Settings -->
+            <!-- <div class="button-grey megadamage-menu-button list-roll">Popout</div> -->
         </div>
-        <!-- Megadamage Settings -->
-        <!-- <div class="button-grey megadamage-menu-button list-roll">Popout</div> -->
+
+        <!-- MACROS -->
+        <div class="tab megadamage sbt-megadamage" data-group="primary" data-tab="macros">
+            <div class="circlestattitle">Macros</div>
+
+            <br/>
+            <!-- Stats -->
+            <div class="circle-statwrapper" style="gap: 10px;">
+                <div class="circlestattitle">Ship Macros</div>
+        
+                <!-- Distress! -->
+                <div class="button-black distress-button list-roll" style="width: 95%;">Distress Signal</div>
+        
+                <!-- Morale -->
+                <div class="button-black morale-button list-roll" style="width: 95%;">Morale Check</div>
+            </div>
+        
+            <br/>
+        
+            <!-- Finance -->
+            <div class="circle-statwrapper" style="gap: 5px;">
+        
+                <div class="circlestattitle">Finances <i class="fa-solid fa-chart-line-down"></i></div>
+        
+        
+                <div class="resource circle-stat">
+                    <input class="circle-input" type="text" name="system.stats.bankruptcy.value"
+                        value="{{system.stats.bankruptcy.value}}" data-dtype="Number" />
+                </div>
+                <div class="circlestatlabel">
+                    <span class="ability-mod circlestattext" data-key="bankruptcy" data-label="Bankruptcy">Bankruptcy</span>
+                </div>
+        
+                <div class="button-black bankruptcy-button list-roll" style="width: 95%;">Bankruptcy Check</div>
+        
+        
+            </div>
+        
+            <br/>
+        
+            <div class="circle-statwrapper" style="gap: 10px;">
+                <div class="circlestattitle">Maintenance & Repairs <i class="fa-solid fa-wrench"></i></div>
+                <!-- Maintenance -->
+                <div class="button-black maintenance-button list-roll" style="width: 95%;">Maintenance Check</div>
+                <!-- Starting Conditions -->
+                <!-- <div class="button-black maintenance-button list-roll" style="width: 95%;">Roll Starting Condition</div> -->
+            </div>
+        </div>
 
     </div>
 
@@ -28,7 +99,7 @@
         
         <img class="sbt-profile" src="{{img}}" data-edit="img" title="{{name}}" height="150" width="150" />
 
-        <div class="headergrid" style="grid-template-columns: 1fr 0.2fr 22px; padding: 1em;">
+        <div class="headergrid" style="grid-template-columns: 1fr 0.2fr; padding: 1em;">
             <!-- <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}" height="150" width="150"/> -->
 
             <!-- SHIP NAME -->
@@ -48,9 +119,9 @@
             </div>
 
             <!-- Macro Menu -->
-            <div class="center-icon">
+            <!-- <div class="center-icon">
                 <i class="fa-regular fa-ellipsis-vertical macro-menu-button list-roll"></i>
-            </div>
+            </div> -->
 
             <!-- Distress -->
             <!-- <div class="transponder">
@@ -444,35 +515,14 @@
         {{!-- Repair Tab --}}
         <div class="tab items" data-group="primary" data-tab="repairs">
             <div style="display: flex; gap: 10px;">
-                <!-- minorRepairs -->
+                <!-- Repairs -->
                 <ol class="items-list" style="width: 100%;">
                     <li class="item flexrow item-header">
                         <div class="item-image"></div>
-                        <div class="skill-stat" style="flex-grow: 2;">Minor Repairs</div>
+                        <div class="skill-stat" style="flex-grow: 2;">Repairs</div>
+                        <div class="skill-stat">Type</div>
                         <div class="item-controls">
                             <a class="item-control item-create" title="Create Item" data-type="repair" data-subtype="minor"><i
-                                    class="fas fa-plus"></i> Add</a>
-                        </div>
-                    </li>
-                    {{#each minorRepairs as |item id|}}
-                    <li class="item flexrow dropitem" data-item-id="{{item._id}}">
-                        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
-                        </div>
-                        <h4 class="skill-name list-roll description-roll" style="flex-grow: 2;">{{item.name}}</h4>
-                        <div class="item-controls">
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                        </div>
-                    </li>
-                    {{/each}}
-                </ol>
-                <!-- majorRepairs -->
-                <ol class="items-list" style="width: 100%;">
-                    <li class="item flexrow item-header">
-                        <div class="item-image"></div>
-                        <div class="skill-stat" style="flex-grow: 2;">Major Repairs</div>
-                        <div class="item-controls">
-                            <a class="item-control item-create" title="Create Item" data-type="repair" data-subtype="major"><i
                                     class="fas fa-plus"></i> Add</a>
                         </div>
                     </li>
@@ -481,6 +531,23 @@
                         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
                         </div>
                         <h4 class="skill-name list-roll description-roll" style="flex-grow: 2;">{{item.name}}</h4>
+                        <div class="skill-stat">
+                            Major
+                        </div>
+                        <div class="item-controls">
+                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </li>
+                    {{/each}}
+                    {{#each minorRepairs as |item id|}}
+                    <li class="item flexrow dropitem" data-item-id="{{item._id}}">
+                        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                        </div>
+                        <h4 class="skill-name list-roll description-roll" style="flex-grow: 2;">{{item.name}}</h4>
+                        <div class="skill-stat">
+                            Minor
+                        </div>
                         <div class="item-controls">
                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                             <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>

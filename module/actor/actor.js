@@ -1045,7 +1045,7 @@ export class MothershipActor extends Actor {
   }
 
   //central roll parsing function | TAKES '1d100',[Foundry roll object],true,true,41,'<' | RETURNS enriched Foundry roll object
-  parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison) {
+  parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison,specialRoll) {
     //init vars
     let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
     let enrichedRollResult = rollResult;
@@ -1091,12 +1091,128 @@ export class MothershipActor extends Actor {
         if (rollString.includes("[")) {
           //if [-] pick a new lowest number
           if (rollResult.formula.includes("kl")) {
-            //set result value
-            newTotal = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //are we checking for crit?
+            if (checkCrit) {
+              //check first die
+                //check for doubles
+                if (doubles.has(enrichedRollResult.dice[0].results[0].result)) {
+                  //compare values based on compararison setting
+                  if (comparison === '<') {
+                    //check against being under the target
+                    if (enrichedRollResult.dice[0].results[0].result > rollTarget || enrichedRollResult.dice[0].results[0].result >= 90) {
+                      //set result value
+                      newTotal = enrichedRollResult.dice[0].results[0].result;
+                    }
+                  } else {
+                    //check against being over the target
+                    if (enrichedRollResult.dice[0].results[0].result < rollTarget || enrichedRollResult.dice[0].results[0].result >= 90) {
+                      //set result value
+                      newTotal = enrichedRollResult.dice[0].results[0].result;
+                    }
+                  }
+                }
+              //check second die
+                //check for doubles
+                if (doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                  //compare values based on compararison setting
+                  if (comparison === '<') {
+                    //check against being under the target
+                    if (enrichedRollResult.dice[1].results[0].result > rollTarget || enrichedRollResult.dice[1].results[0].result >= 90) {
+                      //set result value
+                      newTotal = enrichedRollResult.dice[1].results[0].result;
+                    }
+                  } else {
+                    //check against being over the target
+                    if (enrichedRollResult.dice[1].results[0].result < rollTarget || enrichedRollResult.dice[1].results[0].result >= 90) {
+                      //set result value
+                      newTotal = enrichedRollResult.dice[1].results[0].result;
+                    }
+                  }
+                }
+            } else {
+              //is this a panic check?
+              if (specialRoll === 'panicCheck') {
+                //compare values based on compararison setting
+                if (comparison === '<') {
+                  //are both a failure?
+                  if (enrichedRollResult.dice[0].results[0].result > rollTarget && enrichedRollResult.dice[1].results[0].result > rollTarget) {
+                    //choose 
+                    newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+                  }
+                } else {
+                  //check against being over the target
+                  if (enrichedRollResult.dice[0].results[0].result < rollTarget && enrichedRollResult.dice[1].results[0].result < rollTarget) {
+                    //set result value
+                    newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+                  }
+                }
+              } else {
+                //choose lowest
+                newTotal = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+              }
+            }
           //if [+] pick a new highest number
           } else if (rollResult.formula.includes("kh")) {
-            //set result value
-            newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //are we checking for crit?
+            if (checkCrit) {
+              //check first die
+                //check for doubles
+                if (doubles.has(enrichedRollResult.dice[0].results[0].result)) {
+                  //compare values based on compararison setting
+                  if (comparison === '<') {
+                    //check against being under the target
+                    if (enrichedRollResult.dice[0].results[0].result < rollTarget) {
+                      //set result value
+                      newTotal = enrichedRollResult.dice[0].results[0].result;
+                    }
+                  } else {
+                    //check against being over the target
+                    if (enrichedRollResult.dice[0].results[0].result > rollTarget) {
+                      //set result value
+                      newTotal = enrichedRollResult.dice[0].results[0].result;
+                    }
+                  }
+                }
+              //check second die
+                //check for doubles
+                if (doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                  //compare values based on compararison setting
+                  if (comparison === '<') {
+                    //check against being under the target
+                    if (enrichedRollResult.dice[1].results[0].result < rollTarget) {
+                      //set result value
+                      newTotal = enrichedRollResult.dice[1].results[0].result;
+                    }
+                  } else {
+                    //check against being over the target
+                    if (enrichedRollResult.dice[1].results[0].result > rollTarget) {
+                      //set result value
+                      newTotal = enrichedRollResult.dice[1].results[0].result;
+                    }
+                  }
+                }
+            } else {
+              //is this a panic check?
+              if (specialRoll === 'panicCheck') {
+                //compare values based on compararison setting
+                if (comparison === '<') {
+                  //are both a failure?
+                  if (enrichedRollResult.dice[0].results[0].result > rollTarget && enrichedRollResult.dice[1].results[0].result > rollTarget) {
+                    //choose 
+                    newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+                  }
+                } else {
+                  //check against being over the target
+                  if (enrichedRollResult.dice[0].results[0].result < rollTarget && enrichedRollResult.dice[1].results[0].result < rollTarget) {
+                    //set result value
+                    newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+                  }
+                }
+              } else {
+                //set result value
+                newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+              }
+            }
           }
         //use new value if a regular roll
         } else {
@@ -1105,6 +1221,23 @@ export class MothershipActor extends Actor {
         }
         //update final roll result
         enrichedRollResult._total = newTotal;
+      }
+      //make specific change for panic check
+      if (specialRoll === 'panicCheck' && rollString.includes("[")) {
+        //compare values based on compararison setting
+        if (comparison === '<') {
+          //are both a failure?
+          if (enrichedRollResult.dice[0].results[0].result > rollTarget && enrichedRollResult.dice[1].results[0].result > rollTarget) {
+            //choose 
+            enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+          }
+        } else {
+          //check against being over the target
+          if (enrichedRollResult.dice[0].results[0].result < rollTarget && enrichedRollResult.dice[1].results[0].result < rollTarget) {
+            //set result value
+            enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+          }
+        }
       }
     //enrich roll result object
       //add data point: detect critical 
@@ -1273,7 +1406,7 @@ export class MothershipActor extends Actor {
         //update final roll html string
         enrichedRollResult.rollHtml = rollHtml;
     //log what was done
-    console.log(`Enriched the standard roll result.`);
+    console.log(`Enriched the standard roll result. rollString: ${rollString},rollResult: ${rollResult},zeroBased: ${zeroBased},checkCrit: ${checkCrit},rollTarget: ${rollTarget},comparison: ${comparison},specialRoll: ${specialRoll}`);
     //return the enriched roll result object
     return enrichedRollResult;
   }
@@ -1515,7 +1648,7 @@ export class MothershipActor extends Actor {
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
-      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison,specialRoll);
     //if this is a panic check, we may need to roll again OR add modifiers to our result total
       //roll a second die if needed
       if (!parsedRollResult.success && specialRoll === 'maintenanceCheck' && !firstEdition && !useCalm) {
@@ -1533,7 +1666,7 @@ export class MothershipActor extends Actor {
         //roll second dice
         rollResult2 = await new Roll(rollString2).evaluate();
         //roll second set of dice
-        parsedRollResult2 = this.parseRollResult(rollString2,rollResult2,false,false,null,null);
+        parsedRollResult2 = this.parseRollResult(rollString2,rollResult2,false,false,null,null,specialRoll);
         //set marker for HTML
         secondRoll = true;
         //set table result number
@@ -1547,7 +1680,7 @@ export class MothershipActor extends Actor {
         //roll second dice
         rollResult2 = await new Roll(rollString2).evaluate();
         //roll second set of dice
-        parsedRollResult2 = this.parseRollResult(rollString2,rollResult2,true,false,null,null);
+        parsedRollResult2 = this.parseRollResult(rollString2,rollResult2,true,false,null,null,specialRoll);
         //set marker for HTML
         secondRoll = true;
         //set table result number
@@ -2268,7 +2401,7 @@ export class MothershipActor extends Actor {
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
-      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,'<');
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,'<',specialRoll);
     //prep damage dice in case its needed
     if(weapon && parsedRollResult.success) {
       //parse the roll string
@@ -2813,7 +2946,7 @@ export class MothershipActor extends Actor {
           //roll the dice
           let rollResult = await new Roll(parsedRollString).evaluate();
           //interpret the results
-          let parsedRollResult = this.parseRollResult(modRollString,rollResult,false,false,null,null);
+          let parsedRollResult = this.parseRollResult(modRollString,rollResult,false,false,null,null,null);
         //update modChange
         modifyChange = modifyChange + parsedRollResult.total;
         //calculate impact to the actor

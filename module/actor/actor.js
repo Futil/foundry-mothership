@@ -2329,6 +2329,33 @@ export class MothershipActor extends Actor {
         //lets get the max megadamage value
         rollTargetOverride = Math.max.apply(null, this.system.megadamage.hits);
       }
+    //bounce this request away if certain parameters are NULL
+      //if attribute is blank, redirect player to choose an attribute
+      if (!attribute && !specialRoll) {
+        //run the choose attribute function
+        let chosenAttributes = await this.chooseAttribute(rollString,aimFor);
+        //set variables
+        rollString = chosenAttributes[0];
+        aimFor = chosenAttributes[1];
+        attribute = chosenAttributes[2];
+        //if null, zero them out
+      }
+      //if skill is blank and actor is a character, redirect player to choose a skill
+      if (!skill && this.type === 'character') {
+      //run the choose attribute function
+      let chosenSkills = await this.chooseSkill(this.system.stats[attribute].rollLabel,rollString);
+        //set variables
+        rollString = chosenSkills[0];
+        skill = chosenSkills[1];
+        skillValue = chosenSkills[2];
+      }
+      //if rollString is STILL blank, redirect player to choose the roll
+      if (!rollString) {
+        //run the choose attribute function
+        let chosenRollType = await this.chooseAdvantage(this.system.stats[attribute].rollLabel,'1d100');
+        //set variables
+        rollString = chosenRollType[0];
+      }
     //if this is a weapon roll
     if (weapon) {
       //check to see if this weapon uses ammo
@@ -2357,33 +2384,6 @@ export class MothershipActor extends Actor {
         }
       }
     }
-    //bounce this request away if certain parameters are NULL
-      //if attribute is blank, redirect player to choose an attribute
-      if (!attribute && !specialRoll) {
-        //run the choose attribute function
-        let chosenAttributes = await this.chooseAttribute(rollString,aimFor);
-        //set variables
-        rollString = chosenAttributes[0];
-        aimFor = chosenAttributes[1];
-        attribute = chosenAttributes[2];
-        //if null, zero them out
-      }
-      //if skill is blank and actor is a character, redirect player to choose a skill
-      if (!skill && this.type === 'character') {
-      //run the choose attribute function
-      let chosenSkills = await this.chooseSkill(this.system.stats[attribute].rollLabel,rollString);
-        //set variables
-        rollString = chosenSkills[0];
-        skill = chosenSkills[1];
-        skillValue = chosenSkills[2];
-      }
-      //if rollString is STILL blank, redirect player to choose the roll
-      if (!rollString) {
-        //run the choose attribute function
-        let chosenRollType = await this.chooseAdvantage(this.system.stats[attribute].rollLabel,'1d100');
-        //set variables
-        rollString = chosenRollType[0];
-      }
     //make the rollTarget value
     if (!rollTargetOverride) {
       //retrieve the attribute

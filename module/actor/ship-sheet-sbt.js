@@ -326,12 +326,13 @@ export class MothershipShipSheetSBT extends ActorSheet {
             const weapon = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
             weapon.sheet.render(true);
         });
-        // Rollable Weapon
-        html.find('.weapon-roll').click(ev => {
-            const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-            this.actor.rollCheck(null,'low','combat',null,null,item);
-        });
+
+        // Rollable Weapon - not needed since individual ship weapons are not fired
+        // html.find('.weapon-roll').click(ev => {
+        //     const li = ev.currentTarget.closest(".item");
+        //     const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+        //     this.actor.rollCheck(null,'low','combat',null,null,item);
+        // });
 
         // Distress Signal
         html.find('.distress-button').click(ev => {

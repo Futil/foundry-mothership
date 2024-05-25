@@ -1,0 +1,1 @@
+game.mosh.initModifyActor('system.stats.systems.value',null,'-1d10',true);

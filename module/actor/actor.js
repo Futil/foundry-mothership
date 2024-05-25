@@ -156,6 +156,10 @@ export class MothershipActor extends Actor {
           radiation: {
             android: `Catastro▒ic d⟑ta ▓loss de|/~ ⋥t⋱d`,
             human: `You stare into blackness and feel completely unable to pull yourself out of it.`
+          },
+          cryo: {
+            android: `Your systems malfunction from the condensation damage.`,
+            human: `You awaken cold and frigid, barely able to move.`
           }
         }
       },
@@ -3388,6 +3392,57 @@ export class MothershipActor extends Actor {
     },{keepId:true});
     //log what was done
     console.log(`Took radiation damage.`);
+  }
+
+  //make the player take radiation damage
+  async takeCryoDamage(rollString) {
+    //init vars
+    let chatId = randomID();
+    //roll the dice
+      //parse the roll string
+      let parsedRollString = this.parseRollString(rollString,'low');
+      //roll the dice
+      let rollResult = await new Roll(parsedRollString).evaluate();
+      //interpret the results
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,false,false,null,null,null);
+    //reduce all stats and saves by roll result
+    this.modifyActor('system.stats.strength.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.speed.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.intellect.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.combat.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.sanity.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.fear.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.body.value',parsedRollResult.total,null,false);
+    //get flavor text
+    let msgFlavor = this.getFlavorText('item','condition','cryo');
+    let msgOutcome = `All stats and saves decreased by <strong>1</strong>.`;
+    //create chat message text
+    let messageContent = `
+    <div class="mosh">
+      <div class="rollcontainer">
+          <div class="flexrow" style="margin-bottom: 5px;">
+          <div class="rollweaponh1">Cryofreeze Damage</div>
+          <div style="text-align: right"><img class="roll-image" src="systems/mosh/images/icons/ui/attributes/health.png" /></div>
+          </div>
+          <div class="description"" style="margin-bottom: 20px;">
+          <div class="body">
+          ${msgFlavor}
+          <br><br>
+          ${msgOutcome}
+          </div>
+          </div>
+      </div>
+    </div>
+    `;
+    //push message
+    ChatMessage.create({
+      id: chatId,
+      user: game.user.id,
+      speaker: {actor: this.id, token: this.token, alias: this.name},
+      content: messageContent
+    },{keepId:true});
+    //log what was done
+    console.log(`Took cryofreeze damage.`);
   }
 
   //ask the player to choose cover

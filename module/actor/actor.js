@@ -2119,6 +2119,7 @@ export class MothershipActor extends Actor {
     let messageContent = ``;
     let attributeLabel = ``;
     let parsedDamageString = rollTarget;
+    let comparison = ``;
     let damageResult = null;
     let parsedDamageResult = null;
     let critFail = false;
@@ -2336,8 +2337,14 @@ export class MothershipActor extends Actor {
       let parsedRollString = this.parseRollString(rollString,aimFor);
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
+      //set comparison based on aimFor
+      if (aimFor === 'low') {
+        comparison = '<';
+      } else {
+        comparison = '>';
+      }
       //interpret the results
-      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,'<',specialRoll);
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison,specialRoll);
     //prep damage dice in case its needed
     if(weapon && parsedRollResult.success) {
       //parse the roll string

@@ -56,12 +56,12 @@ Hooks.once('init', async function () {
 
   Actors.registerSheet("mosh", MothershipShipSheetSBT, {
     types: ['ship'],
-    makeDefault: false
+    makeDefault: true
   });
 
   Actors.registerSheet("mosh", MothershipShipSheet, {
     types: ['ship'],
-    makeDefault: true
+    makeDefault: false
   });
 
   Items.unregisterSheet("core", ItemSheet);

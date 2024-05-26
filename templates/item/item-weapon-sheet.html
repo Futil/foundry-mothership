@@ -160,7 +160,8 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
       <a class="tab-select" data-tab="description">Description</a>
-      <a class="tab-select" data-tab="item">Item</a>
+      <a class="tab-select" data-tab="item">Other</a>
+
     </nav>
   
     <br/>
@@ -176,15 +177,46 @@
       {{!-- Item Tab --}}
       <div class="tab ranges" data-group="primary" data-tab="item">
         <div class="grid grid-3col">
-          <div class="resource">
+
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.cost" class="resource-label minmaxtext">Value</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.cost" value="{{system.cost}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+
+          <!-- <div class="resource">
             <label class="resource-label">Value</label>
             <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
-          </div>
-          <div class="resource">
+          </div> -->
+
+          <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.weight" class="resource-label minmaxtext">Weight</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.weight" value="{{system.weight}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+
+        <!-- Bonus -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.bonus" class="resource-label minmaxtext">Ship Weapon Bonus</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.bonus" value="{{system.bonus}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+
+          <!-- <div class="resource">
             <label class="resource-label">Weight</label>
             <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
-          </div>
+          </div> -->
         </div>
       </div>
+
     </section>
 </form>

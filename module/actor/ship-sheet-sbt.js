@@ -144,6 +144,8 @@ export class MothershipShipSheetSBT extends ActorSheet {
             } else if (i.type === 'module') {
                 modules.push(i);
             } else if (i.type == 'repair'){
+                i.name = i.name.split('.')[0];
+
                 if(i.system.major){
                     majorRepairs.push(i);
                 }

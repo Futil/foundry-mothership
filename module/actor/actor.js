@@ -1091,140 +1091,62 @@ export class MothershipActor extends Actor {
             });
           });
         }
-        //pick a new winner if [-] or [+]
-        if (rollString.includes("[")) {
-          //if [-] pick a new lowest number
-          if (rollResult.formula.includes("kl")) {
-            //are we checking for crit?
-            if (checkCrit) {
-              //check first die
-                //check for doubles
-                if (doubles.has(enrichedRollResult.dice[0].results[0].result)) {
-                  //compare values based on compararison setting
-                  if (comparison === '<') {
-                    //check against being under the target
-                    if (enrichedRollResult.dice[0].results[0].result > rollTarget || enrichedRollResult.dice[0].results[0].result >= 90) {
-                      //set result value
-                      newTotal = enrichedRollResult.dice[0].results[0].result;
-                    }
-                  } else {
-                    //check against being over the target
-                    if (enrichedRollResult.dice[0].results[0].result < rollTarget || enrichedRollResult.dice[0].results[0].result >= 90) {
-                      //set result value
-                      newTotal = enrichedRollResult.dice[0].results[0].result;
-                    }
-                  }
-                }
-              //check second die
-                //check for doubles
-                if (doubles.has(enrichedRollResult.dice[1].results[0].result)) {
-                  //compare values based on compararison setting
-                  if (comparison === '<') {
-                    //check against being under the target
-                    if (enrichedRollResult.dice[1].results[0].result > rollTarget || enrichedRollResult.dice[1].results[0].result >= 90) {
-                      //set result value
-                      newTotal = enrichedRollResult.dice[1].results[0].result;
-                    }
-                  } else {
-                    //check against being over the target
-                    if (enrichedRollResult.dice[1].results[0].result < rollTarget || enrichedRollResult.dice[1].results[0].result >= 90) {
-                      //set result value
-                      newTotal = enrichedRollResult.dice[1].results[0].result;
-                    }
-                  }
-                }
-            } else {
-              //is this a panic check?
-              if (specialRoll === 'panicCheck') {
-                //compare values based on compararison setting
-                if (comparison === '<') {
-                  //are both a failure?
-                  if (enrichedRollResult.dice[0].results[0].result > rollTarget && enrichedRollResult.dice[1].results[0].result > rollTarget) {
-                    //choose 
-                    newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-                  }
-                } else {
-                  //check against being over the target
-                  if (enrichedRollResult.dice[0].results[0].result < rollTarget && enrichedRollResult.dice[1].results[0].result < rollTarget) {
-                    //set result value
-                    newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-                  }
-                }
+      }
+      //pick a new winner if [-] or [+]
+      if (rollString.includes("[")) {
+        //if [-] pick a new worst number
+        if (rollString.includes("[-]")) {
+          //are we checking for crit?
+          if (checkCrit) {
+            //is this rolling dis and both are a failure?
+            if ((enrichedRollResult.dice[0].results[0].result > rollTarget || enrichedRollResult.dice[0].results[0].result >= 90) && (enrichedRollResult.dice[1].results[0].result > rollTarget || enrichedRollResult.dice[1].results[0].result >= 90)) {
+              //are both crits? choose the highest
+              if (doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+              //is the first one a crit? choose that
+              } else if (doubles.has(enrichedRollResult.dice[0].results[0].result) && !doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = enrichedRollResult.dice[0].results[0].result;
+              //is the second one a crit? choose that
+              } else if (!doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = enrichedRollResult.dice[1].results[0].result;
+              //no crits? choose the highest
               } else {
-                //choose lowest
-                newTotal = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+                enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
               }
             }
-          //if [+] pick a new highest number
-          } else if (rollResult.formula.includes("kh")) {
-            //are we checking for crit?
-            if (checkCrit) {
-              //check first die
-                //check for doubles
-                if (doubles.has(enrichedRollResult.dice[0].results[0].result)) {
-                  //compare values based on compararison setting
-                  if (comparison === '<') {
-                    //check against being under the target
-                    if (enrichedRollResult.dice[0].results[0].result < rollTarget) {
-                      //set result value
-                      newTotal = enrichedRollResult.dice[0].results[0].result;
-                    }
-                  } else {
-                    //check against being over the target
-                    if (enrichedRollResult.dice[0].results[0].result > rollTarget) {
-                      //set result value
-                      newTotal = enrichedRollResult.dice[0].results[0].result;
-                    }
-                  }
-                }
-              //check second die
-                //check for doubles
-                if (doubles.has(enrichedRollResult.dice[1].results[0].result)) {
-                  //compare values based on compararison setting
-                  if (comparison === '<') {
-                    //check against being under the target
-                    if (enrichedRollResult.dice[1].results[0].result < rollTarget) {
-                      //set result value
-                      newTotal = enrichedRollResult.dice[1].results[0].result;
-                    }
-                  } else {
-                    //check against being over the target
-                    if (enrichedRollResult.dice[1].results[0].result > rollTarget) {
-                      //set result value
-                      newTotal = enrichedRollResult.dice[1].results[0].result;
-                    }
-                  }
-                }
-            } else {
-              //is this a panic check?
-              if (specialRoll === 'panicCheck') {
-                //compare values based on compararison setting
-                if (comparison === '<') {
-                  //are both a failure?
-                  if (enrichedRollResult.dice[0].results[0].result > rollTarget && enrichedRollResult.dice[1].results[0].result > rollTarget) {
-                    //choose 
-                    newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-                  }
-                } else {
-                  //check against being over the target
-                  if (enrichedRollResult.dice[0].results[0].result < rollTarget && enrichedRollResult.dice[1].results[0].result < rollTarget) {
-                    //set result value
-                    newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-                  }
-                }
-              } else {
-                //set result value
-                newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-              }
-            }
+          } else {
+            //choose highest
+            enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
           }
-        //use new value if a regular roll
-        } else {
-          //set result value
-          newTotal = enrichedRollResult.dice[0].results[0].result;
+        //if [+] pick a new lowest number
+        } else if (rollString.includes("[+]")) {
+          //are we checking for crit?
+          if (checkCrit) {
+            //is this rolling adv and both are a failure?
+            if ((enrichedRollResult.dice[0].results[0].result <= rollTarget || enrichedRollResult.dice[0].results[0].result < 90) && (enrichedRollResult.dice[1].results[0].result <= rollTarget || enrichedRollResult.dice[1].results[0].result < 90)) {
+              //are both crits? choose the lowest
+              if (doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+              //is the first one a crit? choose that
+              } else if (doubles.has(enrichedRollResult.dice[0].results[0].result) && !doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = enrichedRollResult.dice[0].results[0].result;
+              //is the second one a crit? choose that
+              } else if (!doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = enrichedRollResult.dice[1].results[0].result;
+              //no crits? choose the lowest
+              } else {
+                enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+              }
+            }
+          } else {
+            //choose lowest
+            enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+          }
         }
-        //update final roll result
-        enrichedRollResult._total = newTotal;
+      //use new value if a regular roll
+      } else {
+        //set result value
+        enrichedRollResult._total = enrichedRollResult.dice[0].results[0].result;
       }
       //make specific change for panic check
       if (specialRoll === 'panicCheck' && rollString.includes("[")) {
@@ -1232,14 +1154,24 @@ export class MothershipActor extends Actor {
         if (comparison === '<') {
           //are both a failure?
           if (enrichedRollResult.dice[0].results[0].result > rollTarget && enrichedRollResult.dice[1].results[0].result > rollTarget) {
-            //choose 
-            enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //advantage
+            if (rollString.includes("[+]")) {
+              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //disadvantage 
+            } else if (rollString.includes("[-]")) {
+              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            }
           }
         } else {
           //check against being over the target
           if (enrichedRollResult.dice[0].results[0].result < rollTarget && enrichedRollResult.dice[1].results[0].result < rollTarget) {
-            //set result value
-            enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //advantage
+            if (rollString.includes("[+]")) {
+              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //disadvantage 
+            } else if (rollString.includes("[-]")) {
+              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            }
           }
         }
       }

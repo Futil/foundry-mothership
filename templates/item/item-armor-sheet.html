@@ -1,19 +1,23 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header">
-        <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}"/>
+
+  <header class="sheet-header">
+    <div class="header" style="grid-template-columns: 0.15fr 1fr;">
+      <!-- Image -->
+      <img class="sbt-profile" style="height: auto;" src="{{img}}" data-edit="img" title="{{name}}" />
+
+      <!-- NAME -->
+      <div class="">
+        <div class="headerinputtext">Name</div>
+        <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
+            placeholder="Name" /></div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- <header class="sheet-header">
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{name}}" placeholder="Name"/></h1>
             <div class="grid grid-2col">
-              <div class="resource">
-                <label class="resource-label">Armor Points</label>
-                  <input type="text" name="system.armorPoints" value="{{system.armorPoints}}" data-dtype="Number"/>
-              </div>
-              <div class="resource">
-                {{#if system.settings.firstEdition}}
-                <label class="resource-label">DMG Reduction</label>
-                  <input type="text" name="system.damageReduction" value="{{system.damageReduction}}" data-dtype="Number"/>
-                {{/if}}
-              </div>
               <div class="resource">
                 <label class="resource-label">Max O2</label>
                   <input type="text" name="system.oxygenMax" value="{{system.oxygenMax}}" data-dtype="Number"/>
@@ -21,10 +25,6 @@
               <div class="resource">
                 <label class="resource-label">Current O2</label>
                   <input type="text" name="system.oxygenCurrent" value="{{system.oxygenCurrent}}" data-dtype="Number"/>
-              </div>
-              <div class="resource">
-                <label class="resource-label">Speed</label>
-                  <input type="text" name="system.speed" value="{{system.speed}}" data-dtype="String"/>
               </div>
               <div class="resource">
                 <label class="resource-label">Features</label>
@@ -36,34 +36,126 @@
               </div>
             </div>
         </div>
-    </header>
+    </header> -->
 
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">Description</a>
-        <a class="item" data-tab="item">Item</a> 
-    </nav>
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
+  <br />
+  <div class="item-armor-grid" style="margin-top: 10px; margin-bottom: 10px;">
+    <div>
+      <!-- Second Row -->
+      <div class="circle-statwrapper-horizontal transparentBackground">
 
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor system.description target="system.description" button=true owner=owner editable=true}}
+        <!-- Armor Points -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+          <label for="system.armorPoints" class="resource-label minmaxtext">Armor Points</label>
+
+          <div class="valuewrapper" style="width: 120px; background: white;">
+            <input class="maxhealth-input darkGreyText" type="text" name="system.armorPoints"
+              value="{{system.armorPoints}}" data-dtype="Number" />
+          </div>
+        </div>
+        {{#if system.settings.firstEdition}}
+        <!-- DMG Reduction -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+          <label for="system.damageReduction" class="resource-label minmaxtext">DMG Reduction</label>
+
+          <div class="valuewrapper" style="width: 120px; background: white;">
+            <input class="maxhealth-input darkGreyText" type="text" name="system.damageReduction"
+              value="{{system.damageReduction}}" data-dtype="Number" />
+          </div>
+        </div>
+        {{/if}}
+      </div>
+
+      <!-- Second Row -->
+      <div class="circle-statwrapper-horizontal transparentBackground">
+        <!-- Equipped -->
+        <div class="resource healthspread blankstat flex-center" style="grid-template-rows: max-content;">
+          <label for="system.quantity" class="resource-label minmaxtext">Equipped</label>
+          <input type="checkbox" name="system.equipped" data-dtype="Boolean" {{checked system.equipped}} />
         </div>
 
-        {{!-- Item Tab --}}
-        <div class="tab ranges" data-group="primary" data-tab="item">
-            <div class="grid grid-3col">
-                <div class="resource">
-                    <label class="resource-label">Value</label>
-                    <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Weight</label>
-                    <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
-                </div>
-            </div>
+
+        <!-- Speed -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+          <label for="system.speed" class="resource-label minmaxtext">Speed</label>
+
+          <div class="valuewrapper" style="width: 120px; background: white;">
+            <input class="maxhealth-input darkGreyText" type="text" name="system.speed" value="{{system.speed}}"
+              data-dtype="Number" />
+          </div>
         </div>
-    </section>
+
+      </div>
+    </div>
+
+    <!-- First Row -->
+    <div class="circle-statwrapper-vertical" style="gap: 10px;">
+
+      <!-- Max O2 -->
+      <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+        <label for="system.oxygenMax" class="resource-label minmaxtext">Max O2</label>
+
+        <div class="valuewrapper" style="width: 120px; background: white;">
+          <input class="maxhealth-input darkGreyText" type="text" name="system.oxygenMax" value="{{system.oxygenMax}}"
+            data-dtype="Number" />
+        </div>
+      </div>
+      <!-- Current O2 -->
+      <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+        <label for="system.oxygenCurrent" class="resource-label minmaxtext">Current O2</label>
+
+        <div class="valuewrapper" style="width: 120px; background: white;">
+          <input class="maxhealth-input darkGreyText" type="text" name="system.oxygenCurrent"
+            value="{{system.oxygenCurrent}}" data-dtype="Number" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- Features -->
+  <div class="resource minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+    <label for="system.features" class="resource-label minmaxtext">Features</label>
+
+    <div class="textvaluewrapper" style="width: 100%; background: white;">
+      <input class="textvaluewrapper-input darkGreyText" type="text" name="system.features" value="{{system.features}}"
+        data-dtype="String" />
+    </div>
+  </div>
+
+  <br />
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
+    <a class="tab-select" data-tab="description">Description</a>
+    <a class="tab-select" data-tab="item">Item</a>
+  </nav>
+  
+  <br/>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{editor system.description target="system.description" button=true owner=owner editable=true}}
+    </div>
+
+    {{!-- Item Tab --}}
+    <div class="tab ranges" data-group="primary" data-tab="item">
+      <div class="grid grid-3col">
+        <div class="resource">
+          <label class="resource-label">Value</label>
+          <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+          <label class="resource-label">Weight</label>
+          <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
+        </div>
+      </div>
+    </div>
+  </section>
 </form>

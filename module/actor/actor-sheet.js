@@ -156,7 +156,7 @@ export class MothershipActorSheet extends ActorSheet {
       };
     }
 
-    actorData.system.weight.capacity = Math.ceil((actorData.system.stats.strength.value/10) + 3);
+    actorData.system.weight.capacity = Math.ceil((actorData.system.stats.strength.value/10)); //Removed a +3 here because I misunderstood some Traaa.sh stuff. This whole thing can probably be ripped out tbh.
     actorData.system.weight.current = curWeight;
     //console.log("Current Weight: " + curWeight + " Capacity: " + actorData.data.weight.capacity);
 
@@ -326,6 +326,13 @@ export class MothershipActorSheet extends ActorSheet {
       this.actor.rollCheck(null,'low','combat',null,null,item);
     });
 
+    // Rollable Damage
+    html.find('.dmg-roll').click(ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      this.actor.rollCheck(null,null,'damage',null,null,item);
+    });
+
     // Rollable Item/Anything with a description that we want to click on.
     html.find('.description-roll').click(ev => {
       const li = ev.currentTarget.closest(".item");
@@ -360,13 +367,13 @@ export class MothershipActorSheet extends ActorSheet {
     // Calm - Panic Check
     html.find('.calm-roll').click(ev => {
       //roll panic check
-      this.actor.rollTable('panicCheck',null,null,null,null,'system.other.stress.value',null);
+      this.actor.rollTable('panicCheck',null,null,null,null,null,null);
     });
     
     // Stress - Panic Check
     html.find('.stress-roll').click(ev => {
       //roll panic check
-      this.actor.rollTable('panicCheck',null,null,null,null,'system.other.stress.value',null);
+      this.actor.rollTable('panicCheck',null,null,null,null,null,null);
     });
 
     // Clicking on Armor

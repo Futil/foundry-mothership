@@ -221,6 +221,15 @@
         "layout" : "systems/mosh/images/Galloway_Top.png",
         "beauty" : "systems/mosh/images/Galloway_Top.png"
       },
+      "runSetup" : true,
+      "megadamage" : {
+        "html" : "",
+        "hits" : [],
+        "menu" : {
+          "html" : ""
+        },
+        "open" : false
+      },
       "stats": {
         "armor": {
           "value": 10,
@@ -249,6 +258,34 @@
           "max": 99,
           "label": "Speed",
           "rollLabel": "Speed Check"
+        },
+        "thrusters": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Thrusters",
+          "rollLabel": "Thrusters Save"
+        },
+        "battle": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Battle",
+          "rollLabel": "Battle Save"
+        },
+        "systems": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Systems",
+          "rollLabel": "Systems Save"
+        },
+        "bankruptcy": {
+          "value": 10,
+          "min": 0,
+          "max": 99,
+          "label": "Bankruptcy",
+          "rollLabel": "Bankruptcy Save"
         }
       },
       "supplies": {
@@ -266,7 +303,42 @@
         "stock": {
           "value": 10,
           "max": 10
+        },
+        "crew": {
+          "value": 10,
+          "max": 10
+        },
+        "oxygen": {
+          "value": 0
+        },
+        "warp-cores": {
+          "value": 0
+        },
+        "cryopods": {
+          "value": 0
+        },
+        "escape-pods": {
+          "value": 0
+        },
+        "upgrades": {
+          "value": 0,
+          "max" : 0
         }
+      },
+      "weapon-stats" : {
+        "weapons": {
+          "value": 0,
+          "max": 1
+        },
+        "megadamage": {
+          "value": 0,
+          "max": 1
+        },
+        "hardpoints": {
+          "value": 0,
+          "max": 1
+        }
+
       }
     }
   },
@@ -278,7 +350,9 @@
       "armor",
       "ability",
       "module",
-      "condition"
+      "condition",
+      "crew",
+      "repair"
     ],
     "templates": {
       "base": {
@@ -298,7 +372,9 @@
         "base"
       ],
       "rank": "Trained",
-      "bonus": 10
+      "bonus": 10,
+      "prerequisite_ids": [],
+      "class_tags": []
     },
     "weapon": {
       "templates": [
@@ -356,6 +432,20 @@
       ],
       "text": "An Ability",
       "roll": ""
+    },
+    "crew": {
+      "templates": [
+        "base"
+      ],
+      "text": "",
+      "job" : ""
+    },
+    "repair": {
+      "templates": [
+        "base"
+      ],
+      "quantity": 1,
+      "major": false
     },
     "module": {
       "templates": [

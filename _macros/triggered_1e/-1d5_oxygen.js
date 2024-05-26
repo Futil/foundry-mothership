@@ -1,0 +1,1 @@
+game.mosh.initModifyActor('system.stats.oxygen.value',null,'-1d5',true);

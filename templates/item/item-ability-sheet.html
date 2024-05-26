@@ -1,20 +1,37 @@
 <form class="{{cssClass}}" autocomplete="off">
+
     <header class="sheet-header">
-        <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}"/>
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{name}}" placeholder="Name"/></h1>
-            <div class="grid grid-2col">
-              <div class="resource">
-                <label class="resource-label">Damage</label>
-                  <input type="text" name="system.roll" value="{{system.roll}}" data-dtype="String"/>
-              </div>
+        <div class="header" style="grid-template-columns: 0.15fr 1fr;">
+            <!-- Image -->
+            <img class="sbt-profile" style="height: auto;" src="{{img}}" data-edit="img" title="{{name}}" />
+
+            <!-- NAME -->
+            <div class="">
+                <div class="headerinputtext">Name</div>
+                <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
+                        placeholder="Name" /></div>
             </div>
+
         </div>
     </header>
+    <br />
+    <div class="circle-statwrapper-horizontal">
+        <!-- Damage -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.roll" class="resource-label minmaxtext">Damage</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.roll"
+                    value="{{system.roll}}" data-dtype="Number" />
+            </div>
+        </div>
+    </div>
+    <br />
+
 
     {{!-- Sheet Tab Navigation --}}
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">Description</a>
+    <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
+        <a class="tab-select" data-tab="description">Description</a>
     </nav>
 
     {{!-- Sheet Body --}}

@@ -2,7 +2,7 @@
   "id": "mosh",
   "title": "MoSh - Unofficial Mothership",
   "description": "The unofficial Mothership system for FoundryVTT.",
-  "version": "0.4.33",
+  "version": "0.5.0",
   "esmodules": [
     "module/mosh.js"
   ],
@@ -15,6 +15,18 @@
       "label": "Conditions (1e)",
       "system": "mosh",
       "path": "packs/conditions_1e.db",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "items_maintenance_1e",
+      "label": "Maintenance Issues (1e)",
+      "system": "mosh",
+      "path": "packs/items_maintenance_1e.db",
       "type": "Item",
       "flags": {},
       "ownership": {

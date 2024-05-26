@@ -1,3 +1,5 @@
+import { rolltableConfig } from "./windows/settings-rolltables.js";
+
 export const registerSettings = function () {
   
   game.settings.register('mosh', 'firstEdition', {
@@ -145,9 +147,9 @@ export const registerSettings = function () {
   });
 
   game.settings.register('mosh', 'hideWeight', {
-    name: "Hide Weight",
-    hint: "Hide weight in the items list for players and ships?",
-    default: false,
+    name: "Hide 0e Weight",
+    hint: "Hide the 0e weight mechanic in the items list for players and ships?",
+    default: true,
     scope: 'world',
     type: Boolean,
     config: true,
@@ -293,6 +295,153 @@ export const registerSettings = function () {
       //log the change
       console.log("autoStress set to " + value)
     }
+  });
+
+  game.settings.registerMenu('mosh', 'rolltableSelector', {
+    name: "Rolltable Configuration",
+    label: "Choose Tables",
+    hint: "Customize which rolltables are used.",
+    icon: "fa-solid fa-list",
+    type: rolltableConfig
+  });
+
+  game.settings.register('mosh', 'rolltableSelector', {
+    scope: 'world',
+    config: true,
+    type: Object
+  });
+
+  game.settings.register('mosh', 'table0ePanicStressNormal', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "1vCm4ElRPotQXgNB"
+  });
+
+  game.settings.register('mosh', 'table0ePanicStressAndroid', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "egJ11m2mJM3HBd6d"
+  });
+
+  game.settings.register('mosh', 'table0ePanicCalmNormal', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "kqKpQAXyLTEEyz6Z"
+  });
+
+  game.settings.register('mosh', 'table0ePanicCalmAndroid', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "VW6HQ29T7zClNIZ6"
+  });
+
+  game.settings.register('mosh', 'table1ePanicStressNormal', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "ypcoikqHLhnc9tNs"
+  });
+
+  game.settings.register('mosh', 'table1ePanicStressAndroid', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "aBnY19jlhPXzibCt"
+  });
+
+  game.settings.register('mosh', 'table1ePanicCalmNormal', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "MOYI6Ntj5OVFYk06"
+  });
+
+  game.settings.register('mosh', 'table1ePanicCalmAndroid', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "GCtYeCCQVQJ5M6SE"
+  });
+
+  game.settings.register('mosh', 'table1eWoundBluntForce', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "31YibfjueXuZdNLb"
+  });
+
+  game.settings.register('mosh', 'table1eWoundBleeding', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "ata3fRz3uoPfNCLh"
+  });
+
+  game.settings.register('mosh', 'table1eWoundGunshot', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "XjDU2xFOWEasaZK0"
+  });
+
+  game.settings.register('mosh', 'table1eWoundFireExplosives', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "lqiaWwh5cGcJhvnu"
+  });
+
+  game.settings.register('mosh', 'table1eWoundGoreMassive', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "uVfC1CqYdojaJ7yR"
+  });
+
+  game.settings.register('mosh', 'table0eDeath', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "cZOHlhEJcYGZsQBM"
+  });
+
+  game.settings.register('mosh', 'table1eDeath', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "W36WFIpCfMknKgHy"
+  });
+
+  game.settings.register('mosh', 'table1eDistressSignal', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "UxAjAqUTjYTcCbS8"
+  });
+
+  game.settings.register('mosh', 'table1eMegadamageEffects', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "AqGWwoWXzijFs427"
+  });
+
+  game.settings.register('mosh', 'table1eMaintenance', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "kqz8GsFVPfjvqO0N"
+  });
+
+  game.settings.register('mosh', 'table1eBankruptcy', {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: "BsfdIl7CJNs1PViS"
   });
 
 };

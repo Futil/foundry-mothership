@@ -9,18 +9,47 @@
             {{/if}}
             <div style="text-align: right"><img class="roll-image" src="{{{msgImgPath}}}" /></div>
         </div>
-        {{{parsedRollResult.outcomeHtml}}}
-        <div class="description" style="margin-bottom: 10px;">
-            <div class="body">
-                {{#if (compare 'int' skillValue '>' 0)}}
-                You {{{outcomeVerb}}} less than your <strong>{{{attribute}}}</strong> plus <strong>{{{skill}}}</strong> skill bonus.
-                {{else}}
-                You {{{outcomeVerb}}} less than your <strong>{{{attribute}}}</strong>.
-                {{/if}}
+        {{#if (compare 'str' specialRoll '!==' 'damage')}}
+            {{{parsedRollResult.outcomeHtml}}}
+            <div class="description" style="margin-bottom: 10px;">
+                <div class="body">
+                    {{#if (compare 'int' parsedRollResult.total '>=' 90)}}
+                    You rolled 90 or higher, which is always considered a failure.
+                    {{else}}
+                        {{#if (compare 'int' skillValue '>' 0)}}
+                        You {{{outcomeVerb}}} less than your <strong>{{{attribute}}}</strong> plus <strong>{{{skill}}}</strong> skill bonus.
+                        {{else}}
+                        You {{{outcomeVerb}}} less than your <strong>{{{attribute}}}</strong>.
+                        {{/if}}
+                    {{/if}}
+                </div>
             </div>
-        </div>
-        {{{parsedRollResult.rollHtml}}}
+            {{{parsedRollResult.rollHtml}}}
+        {{/if}}
         <div class="description" style="margin-bottom : 20px;">
+        {{#if (compare 'str' specialRoll '===' 'damage')}}
+            <div class="description">{{{flavorText}}}</div>
+            {{#if needsDesc}}
+            <div style="margin-bottom : 10px;"></div>
+            <div class="grid grid-2col" style="grid-template-columns: 10px 75px auto">
+                <div style="border-bottom:1px solid #999; height: 50%;"></div>
+                <div style= "font-size:0.65rem; text-align:center;">DESCRIPTION</div>  
+                <div style="border-bottom:1px solid #999; height: 50%;"></div>
+            </div>
+            <div style="margin-bottom : 10px;"></div>
+            <div class="description">
+                <div class="body">{{{weapon.system.description}}}</div>
+                {{#if woundEffect}}
+                <div class="body">
+                    <br><strong>Wound Effect</strong>
+                    <div style="margin-bottom : 3px;"></div>
+                    {{{woundEffect}}}
+                </div>
+                {{/if}}
+            {{/if}}
+            </div>
+            <div style="margin-bottom : 16px;"></div>
+        {{else}}
             {{#if parsedRollResult.success}}
                 {{#if weapon}}
                     <div class="description">{{{flavorText}}}</div>
@@ -53,6 +82,7 @@
                 <br><br>@UUID[Compendium.mosh.macros_hotbar_1e.IgWvaabVqzKDzLL4]{Make a Panic Check}
                 {{/if}}
             {{/if}}
+        {{/if}}
         </div>
     </div>
 </div>

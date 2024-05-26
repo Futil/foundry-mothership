@@ -1,124 +1,222 @@
 <form class="{{cssClass}}" autocomplete="off">
+
+
     <header class="sheet-header">
-        <img class="profile-img" src="{{img}}" data-edit="img" title="{{name}}" />
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{name}}" placeholder="Name" /></h1>
-            <div class="grid grid-3col">
-                <div class="resource">
-                    <label class="resource-label">Damage</label>
-                    <input type="text" name="system.damage" value="{{system.damage}}" data-dtype="String" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Max Shots</label>
-                    <input type="text" name="system.shots" value="{{system.shots}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Current Shots</label>
-                    <input type="text" name="system.curShots" value="{{system.curShots}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Shots Per Firing</label>
-                    <input type="text" name="system.shotsPerFire" value="{{system.shotsPerFire}}" data-dtype="String" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Ammunition</label>
-                    <input type="text" name="system.ammo" value="{{system.ammo}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Ammo Type</label>
-                    <input type="text" name="system.ammoType" value="{{system.ammoType}}" data-dtype="String" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Range</label>
-                    <input type="text" name="system.ranges.value" value="{{system.ranges.value}}" data-dtype="String" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Critical Damage</label>
-                    <input type="text" name="system.critDmg" value="{{system.critDmg}}" data-dtype="String" />
-                </div>
-                <div class="resource">
-                    {{#if system.settings.firstEdition}}
-                    <label class="resource-label">Wound Effect</label>
-                    <input type="text" list="woundRolls" name="system.woundEffect" value="{{system.woundEffect}}" data-dtype="String">
-                    <datalist id="woundRolls">
-                        <option value="Bleeding" />
-                        <option value="Bleeding [-]" />
-                        <option value="Bleeding [+]" />
-                        <option value="Blunt Force" />
-                        <option value="Blunt Force [-]" />
-                        <option value="Blunt Force [+]" />
-                        <option value="Fire & Explosives" />
-                        <option value="Fire & Explosives [-]" />
-                        <option value="Fire & Explosives [+]" />
-                        <option value="Gore & Massive" />
-                        <option value="Gore & Massive [-]" />
-                        <option value="Gore & Massive [+]" />
-                        <option value="Gunshot" />
-                        <option value="Gunshot [-]" />
-                        <option value="Gunshot [+]" />
-                    </datalist>
-                    {{/if}}
-                </div>
-                {{#if system.settings.firstEdition}}
-                <div class="resource">
-                    <label class="resource-label">Anti-Armor</label>
-                    <input type="checkbox" name="system.antiArmor" value="{{system.antiArmor}}" {{#if system.antiArmor}}checked{{/if}} data-dtype="Boolean" />
-                </div>
-                {{/if}}
-                <div class="resource">
-                    <label class="resource-label">Uses Ammo</label>
-                    <input type="checkbox" name="system.useAmmo" value="{{system.useAmmo}}" {{#if system.useAmmo}}checked{{/if}} data-dtype="Boolean" />
-                </div>
-                <hr />
+        <div class="header" style="grid-template-columns: 0.15fr 1fr;">
+            <!-- Image -->
+            <img class="sbt-profile" style="height: auto;" src="{{img}}" data-edit="img" title="{{name}}" />
+
+            <!-- NAME -->
+            <div class="">
+                <div class="headerinputtext">Name</div>
+                <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
+                        placeholder="Name" /></div>
             </div>
         </div>
     </header>
+    <div class="item-armor-grid" style="margin-top: 10px; margin-bottom: 10px;">
+        <div>
+            <!-- Main Row -->
+            <div class="circle-statwrapper-horizontal transparentBackground">
+
+                <!-- Damage -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.damage" class="resource-label minmaxtext">Damage</label>
+
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.damage"
+                            value="{{system.damage}}" data-dtype="Number" />
+                    </div>
+                </div>
+                <!-- Critical Damage -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.critDmg" class="resource-label minmaxtext">Critical Damage</label>
+
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.critDmg"
+                            value="{{system.critDmg}}" data-dtype="String" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row - Range -->
+            <div class="circle-statwrapper-horizontal transparentBackground">
+                {{#if system.settings.firstEdition}}
+                <!-- Anti-Armor -->
+                <div class="resource healthspread blankstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.antiArmor" class="resource-label minmaxtext">Anti-Armor</label>
+                    <input type="checkbox" name="system.antiArmor" data-dtype="Boolean" {{checked system.antiArmor}} />
+                </div>
+                {{/if}}
+
+                <!-- Range -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.ranges.value" class="resource-label minmaxtext">Range</label>
+
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.ranges.value"
+                            value="{{system.ranges.value}}" data-dtype="String" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Row - Ammo 2 -->
+            <div class="circle-statwrapper-horizontal ">
+                <!-- Ammo Type -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.ammoType" class="resource-label minmaxtext">Ammo Type</label>
+
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.ammoType"
+                            value="{{system.ammoType}}" data-dtype="String" />
+                    </div>
+                </div>
+
+                <!-- Uses Ammo -->
+                <div class="resource healthspread blankstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.useAmmo" class="resource-label minmaxtext">Uses Ammo</label>
+                    <input type="checkbox" name="system.useAmmo" data-dtype="Boolean" {{checked system.useAmmo}} />
+                </div>
+            </div>
+
+
+            <br />
+
+            <div class="resource">
+                {{#if system.settings.firstEdition}}
+                <label class="resource-label">Wound Effect</label>
+                <input type="text" list="woundRolls" name="system.woundEffect" value="{{system.woundEffect}}"
+                    data-dtype="String">
+                <datalist id="woundRolls">
+                    <option value="Bleeding" />
+                    <option value="Bleeding [-]" />
+                    <option value="Bleeding [+]" />
+                    <option value="Blunt Force" />
+                    <option value="Blunt Force [-]" />
+                    <option value="Blunt Force [+]" />
+                    <option value="Fire & Explosives" />
+                    <option value="Fire & Explosives [-]" />
+                    <option value="Fire & Explosives [+]" />
+                    <option value="Gore & Massive" />
+                    <option value="Gore & Massive [-]" />
+                    <option value="Gore & Massive [+]" />
+                    <option value="Gunshot" />
+                    <option value="Gunshot [-]" />
+                    <option value="Gunshot [+]" />
+                </datalist>
+                {{/if}}
+            </div>
+
+        </div>
+
+        <!-- Ammo Column -->
+        <div class="circle-statwrapper-vertical" style="gap: 10px;">
+
+            <!-- Max Shots -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.shots" class="resource-label minmaxtext">Max Shots</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.shots" value="{{system.shots}}"
+                        data-dtype="Number" />
+                </div>
+            </div>
+
+            <!-- Current Shots -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.curShots" class="resource-label minmaxtext">Current Shots</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.curShots"
+                        value="{{system.curShots}}" data-dtype="Number" />
+                </div>
+            </div>
+
+            <!-- Shots Per Firing -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.shotsPerFire" class="resource-label minmaxtext">Shots Per Firing</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.shotsPerFire"
+                        value="{{system.shotsPerFire}}" data-dtype="String" />
+                </div>
+            </div>
+
+            <!-- Ammunition -->
+            <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <label for="system.ammo" class="resource-label minmaxtext">Ammunition</label>
+
+                <div class="valuewrapper" style="width: 120px; background: white;">
+                    <input class="maxhealth-input darkGreyText" type="text" name="system.ammo" value="{{system.ammo}}"
+                        data-dtype="Number" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
 
     {{!-- Sheet Tab Navigation --}}
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">Description</a>
-        <!-- <a class="item" data-tab="ranges">Ranges</a> -->
-        <a class="item" data-tab="item">Item</a>
-    </nav>
+    <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
+      <a class="tab-select" data-tab="description">Description</a>
+      <a class="tab-select" data-tab="item">Other</a>
 
+    </nav>
+  
+    <br/>
+    
     {{!-- Sheet Body --}}
     <section class="sheet-body">
+  
+      {{!-- Description Tab --}}
+      <div class="tab" data-group="primary" data-tab="description">
+        {{editor system.description target="system.description" button=true owner=owner editable=true}}
+      </div>
+  
+      {{!-- Item Tab --}}
+      <div class="tab ranges" data-group="primary" data-tab="item">
+        <div class="grid grid-3col">
 
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor system.description target="system.description" button=true owner=owner editable=true}}
-        </div>
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.cost" class="resource-label minmaxtext">Value</label>
 
-        {{!-- Ranges Tab --}}
-        <div class="tab ranges" data-group="primary" data-tab="ranges">
-            <div class="grid grid-3col">
-                <div class="resource">
-                    <label class="resource-label">Short Range</label>
-                    <input type="text" name="system.ranges.short" value="{{system.ranges.short}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Medium Range</label>
-                    <input type="text" name="system.ranges.medium" value="{{system.ranges.medium}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Long Range</label>
-                    <input type="text" name="system.ranges.long" value="{{system.ranges.long}}" data-dtype="Number" />
-                </div>
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.cost" value="{{system.cost}}"
+                    data-dtype="Number" />
             </div>
         </div>
 
-        {{!-- Item Tab --}}
-        <div class="tab ranges" data-group="primary" data-tab="item">
-            <div class="grid grid-3col">
-                <div class="resource">
-                    <label class="resource-label">Value</label>
-                    <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="resource-label">Weight</label>
-                    <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
-                </div>
+          <!-- <div class="resource">
+            <label class="resource-label">Value</label>
+            <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
+          </div> -->
+
+          <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.weight" class="resource-label minmaxtext">Weight</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.weight" value="{{system.weight}}"
+                    data-dtype="Number" />
             </div>
         </div>
+
+        <!-- Bonus -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.bonus" class="resource-label minmaxtext">Ship Weapon Bonus</label>
+
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.bonus" value="{{system.bonus}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+
+          <!-- <div class="resource">
+            <label class="resource-label">Weight</label>
+            <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
+          </div> -->
+        </div>
+      </div>
+
     </section>
 </form>

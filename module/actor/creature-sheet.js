@@ -2,9 +2,7 @@
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-import {
-    DLCreatureSettings
-} from "../settings/creature-settings.js";
+import { DLCreatureSettings } from "../settings/creature-settings.js";
 
 export class MothershipCreatureSheet extends ActorSheet {
 
@@ -162,6 +160,13 @@ export class MothershipCreatureSheet extends ActorSheet {
             const li = ev.currentTarget.closest(".item");
             const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
             this.actor.rollCheck(null,'low','combat',null,null,item);
+        });
+
+        // Rollable Damage
+        html.find('.dmg-roll').click(ev => {
+            const li = ev.currentTarget.closest(".item");
+            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            this.actor.rollCheck(null,null,'damage',null,null,item);
         });
 
         //increase ammo

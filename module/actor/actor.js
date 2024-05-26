@@ -19,6 +19,7 @@ export class MothershipActor extends Actor {
     else if (actorData.type === 'ship') this._prepareShipData(actorData);
 
   }
+
   //Prepare Character type specific data
   _prepareCharacterData(actorData) {
     const data = actorData.system;
@@ -122,6 +123,19 @@ export class MothershipActor extends Actor {
             android: `System resources free up and you regain control.`,
             human: `You take a deep breath and regain your composure.`
           }
+        },
+        distress_signal: {
+          roll: {
+            human: `You send out a distress signal and wait for help.`
+          }
+        },
+        maintenance_issues: {
+          roll: {
+            human: `You perform a full inspection of the ship for wear and tear.`
+          },
+          success: {
+            human: `You find nothing wrong with the ship.`
+          }
         }
       },
       //condition flavor text
@@ -142,6 +156,10 @@ export class MothershipActor extends Actor {
           radiation: {
             android: `Catastro▒ic d⟑ta ▓loss de|/~ ⋥t⋱d`,
             human: `You stare into blackness and feel completely unable to pull yourself out of it.`
+          },
+          cryo: {
+            android: `Your systems malfunction from the condensation damage.`,
+            human: `You awaken cold and frigid, barely able to move.`
           }
         }
       },
@@ -413,7 +431,6 @@ export class MothershipActor extends Actor {
             human: `Your speed cannot get any lower.`
           }
         },
-
         //intellect flavor text
         intellect: {
           check: {
@@ -789,6 +806,114 @@ export class MothershipActor extends Actor {
             android: `Your armor cannot get any lower.`,
             human: `Your armor cannot get any lower.`
           }
+        },
+        //thrusters flavor text
+        thrusters: {
+          check: {
+            human: `You successfully manuever the craft through danger.`
+          },
+          increase: {
+            human: `Thrusters upgraded. Agility, acceleration, and top speed have improved.`
+          },
+          increaseHeader: {
+            human: `Thrusters Enhanced`
+          },
+          increaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/thrusters.png`
+          },
+          hitCeiling: {
+            human: `Your thrusters are at maximum.`
+          },
+          pastCeiling: {
+            human: `Your thrusters are already at maximum and cannot be improved further.`
+          },
+          decrease: {
+            human: `Thrusters damaged. Agility, acceleration, and top speed are impaired.`
+          },
+          decreaseHeader: {
+            human: `Thrusters Impaired`
+          },
+          decreaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/thrusters.png`
+          },
+          hitFloor: {
+            human: `You've lost your thrusters.`
+          },
+          pastFloor: {
+            human: `Your thrusters are broken and cannot be damaged further.`
+          }
+        },
+        //battle flavor text
+        battle: {
+          check: {
+            human: `You land a successful hit on the target.`
+          },
+          increase: {
+            human: `Targeting systems upgraded. Combat readiness has improved.`
+          },
+          increaseHeader: {
+            human: `Battle Enhanced`
+          },
+          increaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/battle.png`
+          },
+          hitCeiling: {
+            human: `Your targeting systems are at maximum.`
+          },
+          pastCeiling: {
+            human: `Your targeting systems are already at maximum and cannot be improved further.`
+          },
+          decrease: {
+            human: `Targeting systems damaged. Combat readiness have been impaired.`
+          },
+          decreaseHeader: {
+            human: `Battle Impaired`
+          },
+          decreaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/battle.png`
+          },
+          hitFloor: {
+            human: `You've lost your targeting systems.`
+          },
+          pastFloor: {
+            human: `Your targeting systems are broken and cannot be damaged further.`
+          }
+        },
+        //systems flavor text
+        systems: {
+          check: {
+            human: `Your ship's systems are running smoothly.`
+          },
+          increase: {
+            human: `Systems upgraded. Sensors, computers, and other systems have improved.`
+          },
+          increaseHeader: {
+            human: `Systems Enhanced`
+          },
+          increaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/battle.png`
+          },
+          hitCeiling: {
+            human: `Your ship's systems are at maximum.`
+          },
+          pastCeiling: {
+            human: `Your ship's systems are already at maximum and cannot be improved further.`
+          },
+          decrease: {
+            human: `Systems damaged. Sensors, computers, and other systems have been impaired.`
+          },
+          decreaseHeader: {
+            human: `Systems Impaired`
+          },
+          decreaseImg: {
+            human: `systems/mosh/images/icons/ui/attributes/battle.png`
+          },
+          hitFloor: {
+            human: `You've lost your ship's systems.`
+          },
+          pastFloor: {
+            human: `Your ship's systems are broken and cannot be damaged further.`
+          }
         }
       },
       //macro flavor text (embedding actions)
@@ -924,7 +1049,7 @@ export class MothershipActor extends Actor {
   }
 
   //central roll parsing function | TAKES '1d100',[Foundry roll object],true,true,41,'<' | RETURNS enriched Foundry roll object
-  parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison) {
+  parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison,specialRoll) {
     //init vars
     let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
     let enrichedRollResult = rollResult;
@@ -966,24 +1091,89 @@ export class MothershipActor extends Actor {
             });
           });
         }
-        //pick a new winner if [-] or [+]
-        if (rollString.includes("[")) {
-          //if [-] pick a new lowest number
-          if (rollResult.formula.includes("kl")) {
-            //set result value
-            newTotal = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-          //if [+] pick a new highest number
-          } else if (rollResult.formula.includes("kh")) {
-            //set result value
-            newTotal = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+      }
+      //pick a new winner if [-] or [+]
+      if (rollString.includes("[")) {
+        //if [-] pick a new worst number
+        if (rollString.includes("[-]")) {
+          //are we checking for crit?
+          if (checkCrit) {
+            //is this rolling dis and both are a failure?
+            if ((enrichedRollResult.dice[0].results[0].result > rollTarget || enrichedRollResult.dice[0].results[0].result >= 90) && (enrichedRollResult.dice[1].results[0].result > rollTarget || enrichedRollResult.dice[1].results[0].result >= 90)) {
+              //are both crits? choose the highest
+              if (doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+              //is the first one a crit? choose that
+              } else if (doubles.has(enrichedRollResult.dice[0].results[0].result) && !doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = enrichedRollResult.dice[0].results[0].result;
+              //is the second one a crit? choose that
+              } else if (!doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = enrichedRollResult.dice[1].results[0].result;
+              //no crits? choose the highest
+              } else {
+                enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+              }
+            }
+          } else {
+            //choose highest
+            enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
           }
-        //use new value if a regular roll
-        } else {
-          //set result value
-          newTotal = enrichedRollResult.dice[0].results[0].result;
+        //if [+] pick a new lowest number
+        } else if (rollString.includes("[+]")) {
+          //are we checking for crit?
+          if (checkCrit) {
+            //is this rolling adv and both are a failure?
+            if ((enrichedRollResult.dice[0].results[0].result <= rollTarget || enrichedRollResult.dice[0].results[0].result < 90) && (enrichedRollResult.dice[1].results[0].result <= rollTarget || enrichedRollResult.dice[1].results[0].result < 90)) {
+              //are both crits? choose the lowest
+              if (doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+              //is the first one a crit? choose that
+              } else if (doubles.has(enrichedRollResult.dice[0].results[0].result) && !doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = enrichedRollResult.dice[0].results[0].result;
+              //is the second one a crit? choose that
+              } else if (!doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
+                enrichedRollResult._total = enrichedRollResult.dice[1].results[0].result;
+              //no crits? choose the lowest
+              } else {
+                enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+              }
+            }
+          } else {
+            //choose lowest
+            enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+          }
         }
-        //update final roll result
-        enrichedRollResult._total = newTotal;
+      //use new value if a regular roll
+      } else {
+        //set result value
+        enrichedRollResult._total = enrichedRollResult.dice[0].results[0].result;
+      }
+      //make specific change for panic check
+      if (specialRoll === 'panicCheck' && rollString.includes("[")) {
+        //compare values based on compararison setting
+        if (comparison === '<') {
+          //are both a failure?
+          if (enrichedRollResult.dice[0].results[0].result > rollTarget && enrichedRollResult.dice[1].results[0].result > rollTarget) {
+            //advantage
+            if (rollString.includes("[+]")) {
+              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //disadvantage 
+            } else if (rollString.includes("[-]")) {
+              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            }
+          }
+        } else {
+          //check against being over the target
+          if (enrichedRollResult.dice[0].results[0].result < rollTarget && enrichedRollResult.dice[1].results[0].result < rollTarget) {
+            //advantage
+            if (rollString.includes("[+]")) {
+              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //disadvantage 
+            } else if (rollString.includes("[-]")) {
+              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            }
+          }
+        }
       }
     //enrich roll result object
       //add data point: detect critical 
@@ -1152,9 +1342,44 @@ export class MothershipActor extends Actor {
         //update final roll html string
         enrichedRollResult.rollHtml = rollHtml;
     //log what was done
-    console.log(`Enriched the standard roll result.`);
+    console.log(`Enriched the standard roll result. rollString: ${rollString},rollResult: ${rollResult},zeroBased: ${zeroBased},checkCrit: ${checkCrit},rollTarget: ${rollTarget},comparison: ${comparison},specialRoll: ${specialRoll}`);
     //return the enriched roll result object
     return enrichedRollResult;
+  }
+
+  //A script to return the data from a table.
+  async getRollTableData(tableId){
+    let currentLocation = '';
+    let tableLocation = '';
+      //find where this table is located
+    //get current compendium
+    let compendium = game.packs;
+    //loop through each compendium
+    compendium.forEach(function(pack){ 
+      //is this a pack of rolltables?
+      if (pack.metadata.type === 'RollTable') {
+        //log where we are
+        currentLocation = pack.metadata.id;
+        //loop through each pack to find the right table
+        pack.index.forEach(function(table) { 
+          //is this our table?
+          if (table._id === tableId) {
+            //grab the table location
+            tableLocation = currentLocation;
+          }
+        });
+      }
+    });
+    //get table data
+    let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+    //get table name
+    let tableName = tableData.name;
+    //get table name
+    let tableImg = tableData.img;
+    //get table result
+    let tableDie = tableData.formula.replace('-1','');
+
+    return tableData;
   }
 
   //central table rolling function | TAKES 'W36WFIpCfMknKgHy','1d10','low',true,true,41,'<' | RETURNS chat message showing roll table result
@@ -1167,6 +1392,8 @@ export class MothershipActor extends Actor {
     let msgDesc = ``;
     let flavorText = ``;
     let woundText = ``;
+    let tableResultEdited = ``;
+    let tableResultFooter = ``;
     let chatId = randomID();
     let rollTarget = null;
     let valueAddress = [];
@@ -1187,14 +1414,14 @@ export class MothershipActor extends Actor {
         if (firstEdition) { 
           if (androidPanic && this.system.class.value.toLowerCase() === 'android') { 
             if (useCalm) {
-              tableId = 'GCtYeCCQVQJ5M6SE';
+              tableId = game.settings.get('mosh','table1ePanicCalmAndroid');
               aimFor = 'low';
               zeroBased = true;
               checkCrit = true;
               rollAgainst = 'system.other.stress.value';
               comparison = '<';
             } else {
-              tableId = 'aBnY19jlhPXzibCt';
+              tableId = game.settings.get('mosh','table1ePanicStressAndroid');
               aimFor = 'high';
               zeroBased = false;
               checkCrit = false;
@@ -1203,14 +1430,14 @@ export class MothershipActor extends Actor {
             }
           } else {
             if (useCalm) { 
-              tableId = 'MOYI6Ntj5OVFYk06';
+              tableId = game.settings.get('mosh','table1ePanicCalmNormal');
               aimFor = 'low';
               zeroBased = true;
               checkCrit = true;
               rollAgainst = 'system.other.stress.value';
               comparison = '<';
             } else {
-              tableId = 'ypcoikqHLhnc9tNs';
+              tableId = game.settings.get('mosh','table1ePanicStressNormal');
               aimFor = 'high';
               zeroBased = false;
               checkCrit = false;
@@ -1221,14 +1448,14 @@ export class MothershipActor extends Actor {
         } else {
           if (androidPanic && this.system.class.value.toLowerCase() === 'android') { 
             if (useCalm) { 
-              tableId = 'VW6HQ29T7zClNIZ6';
+              tableId = game.settings.get('mosh','table0ePanicCalmAndroid');
               aimFor = 'low';
               zeroBased = true;
               checkCrit = true;
               rollAgainst = 'system.other.stress.value';
               comparison = '<';
             } else {
-              tableId = 'egJ11m2mJM3HBd6d';
+              tableId = game.settings.get('mosh','table0ePanicStressAndroid');
               aimFor = 'high';
               zeroBased = false;
               checkCrit = false;
@@ -1237,14 +1464,14 @@ export class MothershipActor extends Actor {
             }
           } else {
             if (useCalm) { 
-              tableId = 'kqKpQAXyLTEEyz6Z';
+              tableId = game.settings.get('mosh','table0ePanicCalmNormal');
               aimFor = 'low';
               zeroBased = true;
               checkCrit = true;
               rollAgainst = 'system.other.stress.value';
               comparison = '<';
             } else {
-              tableId = '1vCm4ElRPotQXgNB';
+              tableId = game.settings.get('mosh','table0ePanicStressNormal');
               aimFor = 'high';
               zeroBased = false;
               checkCrit = false;
@@ -1262,6 +1489,17 @@ export class MothershipActor extends Actor {
           //if calm, then 1d100
           if (useCalm) {rollString = '1d100' + rollString;}
         }
+      }
+      //maintenance check
+      if (tableId === 'maintenanceCheck') {
+        //set special roll value for use later
+        specialRoll = tableId;
+        //assign variables
+        tableId = game.settings.get('mosh','table1eMaintenance');
+        zeroBased = true;
+        checkCrit = true;
+        rollAgainst = 'system.stats.systems.value';
+        comparison = '<';
       }
     //bounce this request away if certain parameters are NULL
       //if rollString is STILL blank, redirect player to choose the roll
@@ -1346,15 +1584,15 @@ export class MothershipActor extends Actor {
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
       //interpret the results
-      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison);
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison,specialRoll);
     //if this is a panic check, we may need to roll again OR add modifiers to our result total
       //roll a second die if needed
-      if (!parsedRollResult.success && specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+      if (!parsedRollResult.success && specialRoll === 'maintenanceCheck' && !firstEdition && !useCalm) {
         //determine the rollString
         let rollString2 = '2d10';
         //add modifiers if needed
           //0e modifier: + Stress - Resolve
-          if (specialRoll === 'panicCheck' && !firstEdition && !useCalm) {
+          if (specialRoll === 'maintenanceCheck' && !firstEdition && !useCalm) {
             rollString2 = rollString2 + ' + ' + this.system.other.stress.value + ' - ' + this.system.other.resolve.value
           }
           //Calm modifier: + Stress - Resolve
@@ -1364,24 +1602,39 @@ export class MothershipActor extends Actor {
         //roll second dice
         rollResult2 = await new Roll(rollString2).evaluate();
         //roll second set of dice
-        parsedRollResult2 = this.parseRollResult(rollString2,rollResult2,false,false,null,null);
+        parsedRollResult2 = this.parseRollResult(rollString2,rollResult2,false,false,null,null,specialRoll);
         //set marker for HTML
         secondRoll = true;
         //set table result number
         tableResultNumber = parsedRollResult2.total
       }
-      //set table result number if null
-      if(!tableResultNumber) {tableResultNumber = parsedRollResult.total;}
+    //if this is a maintenance check, we need to roll again if a failure
+      //roll a second die if needed
+      if (!parsedRollResult.success && specialRoll === 'maintenanceCheck' && firstEdition) {
+        //determine the rollString
+        let rollString2 = '1d100';
+        //roll second dice
+        rollResult2 = await new Roll(rollString2).evaluate();
+        //roll second set of dice
+        parsedRollResult2 = this.parseRollResult(rollString2,rollResult2,true,false,null,null,specialRoll);
+        //set marker for HTML
+        secondRoll = true;
+        //set table result number
+        tableResultNumber = parsedRollResult2.total;
+        //log second die
+        console.log(`Rolled second die`);
+      }
+    //set table result number if null
+    if(!tableResultNumber) {tableResultNumber = parsedRollResult.total;}
     //fetch the table result
-      //get table result
-      let tableResult = tableData.getResultsForRoll(tableResultNumber);
+    let tableResult = tableData.getResultsForRoll(tableResultNumber);
     //make any custom changes to chat message
       //panic check #19 customiziation
       if (tableName === 'Panic Check' && tableResultNumber === 19) {
         if (this.system.class.value.toLowerCase() === 'android') {
-          tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","SHORT CIRCUIT.");
+          tableResultEdited = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","SHORT CIRCUIT.");
         } else {
-          tableResult[0].text = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","HEART ATTACK.");
+          tableResultEdited = tableResult[0].text.replace("HEART ATTACK / SHORT CIRCUIT (ANDROIDS).","HEART ATTACK.");
         }
       }
     //assign message description text
@@ -1399,13 +1652,35 @@ export class MothershipActor extends Actor {
       }
       //append Calm effects for Critical Panic Failure
       if (useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        tableResult[0].text = tableResult[0].text + `<br><br>You lose 1d10 Calm because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+        tableResultFooter = `<br><br>You lose 1d10 Calm because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+      }
+      //append effects for Stress + Maintenance Check Failure
+      if (specialRoll === 'maintenanceCheck' && !useCalm && !parsedRollResult.success && !parsedRollResult.critical) {
+        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}`;
+      }
+      //append effects for Stress + Critical Maintenance Check Failure
+      if (specialRoll === 'maintenanceCheck' && !useCalm && !parsedRollResult.success && parsedRollResult.critical) {
+        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
+      }
+      //append effects for Calm + Maintenance Check Failure
+      if (specialRoll === 'maintenanceCheck' && useCalm && !parsedRollResult.success && !parsedRollResult.critical) {
+        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+      }
+      //append effects for Calm + Critical Maintenance Check Failure
+      if (specialRoll === 'maintenanceCheck' && useCalm && !parsedRollResult.success && parsedRollResult.critical) {
+        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
+      }
+      //append effects for Calm + Critical Maintenance Check Success
+      if (specialRoll === 'maintenanceCheck' && useCalm && parsedRollResult.success && parsedRollResult.critical) {
+        flavorText = flavorText + ` Gain 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.k2TtLFOG9mGaWVx3]{+1d10 Calm}`;
       }
 	  //generate chat message
       //prepare data
       let messageData = {
         actor: this,
         tableResult: tableResult,
+        tableResultEdited: tableResultEdited,
+        tableResultFooter: tableResultFooter,
         parsedRollResult: parsedRollResult,
         tableName: tableName,
         tableImg: tableImg,
@@ -1413,7 +1688,8 @@ export class MothershipActor extends Actor {
         flavorText: flavorText,
         woundText: woundText,
         secondRoll: secondRoll,
-        parsedRollResult2: parsedRollResult2
+        parsedRollResult2: parsedRollResult2,
+        specialRoll: specialRoll
       };
       //prepare template
       messageTemplate = 'systems/mosh/templates/chat/rollTable.html';
@@ -1837,9 +2113,13 @@ export class MothershipActor extends Actor {
     let specialRoll = ``;
     let checkCrit = true;
     let zeroBased = true;
+    let rollTarget = null;
+    let rollTargetOverride = null;
     let messageTemplate = ``;
     let messageContent = ``;
-    let parsedDamageString = null;
+    let attributeLabel = ``;
+    let parsedDamageString = rollTarget;
+    let comparison = ``;
     let damageResult = null;
     let parsedDamageResult = null;
     let critFail = false;
@@ -1853,8 +2133,85 @@ export class MothershipActor extends Actor {
     let chatId = randomID();
     let firstEdition = game.settings.get('mosh','firstEdition');
     let useCalm = game.settings.get('mosh','useCalm');
-    let androidPanic = game.settings.get('mosh','androidPanic');
     //customize this roll if its a unique use-case
+      //damage roll
+      if (attribute === 'damage') {  
+        //set special roll value for use later
+        specialRoll = attribute;
+        //parse the roll string
+        parsedDamageString = this.parseRollString(weapon.system.damage,'high');
+        //override message header
+        msgHeader = weapon.name;
+        //override  header image
+        msgImgPath = weapon.img;
+        let dsnTheme = 0;
+        if(game.settings.get('mosh', 'damageDiceTheme') != ""){ //We're going to check if the theme field is blank. Otherwise, don't use this.
+          //set damage dice color
+          dsnTheme = game.settings.get('mosh','damageDiceTheme');
+        }
+        //prepare flavortext
+        if (weapon.system.damage === "Str/10" && this.type === 'character') {
+          //determine the damage string
+          flavorText = 'You strike your target for <strong>[[floor(' + this.system.stats.strength.value + '/10)]] damage</strong>.';
+        } else {
+          flavorText = 'You inflict [[' + parsedDamageString + '[' + dsnTheme + ']' + critMod + ']] points of damage.';
+        }
+        //determine if this roll needs a description area
+        if (weapon.system.description || weapon.system.woundEffect) {
+          needsDesc = true;
+        }
+        //create wound effect string
+        if (weapon.system.woundEffect) {
+          //start with string as is
+          woundEffect = weapon.system.woundEffect;
+          //prepare array for looping
+            //replace ' [-]' and ' [+]'
+            woundEffect = woundEffect.replaceAll(' [-]','_dis').replaceAll(' [+]','_adv');
+            //simplify wounds
+            woundEffect = woundEffect.replace('Bleeding','bleeding');
+            woundEffect = woundEffect.replace('Blunt Force','blunt_force');
+            woundEffect = woundEffect.replace('Fire & Explosives','fire_explosives');
+            woundEffect = woundEffect.replace('Gore & Massive','gore_massive');
+            woundEffect = woundEffect.replace('Gunshot','gunshot');
+            //split string
+            let woundArray = woundEffect.split(' ');
+          //loop through this string and replace each wound effect with macro UUID
+          woundArray.forEach((element, index, array) => {
+            array[index] = this.getFlavorText('macro', 'wound', element);
+          });
+          //combine back into string
+          woundEffect = woundArray.join(' ');
+        }
+        //generate chat message
+          //prepare data
+          let messageData = {
+            actor: this,
+            weapon: weapon,
+            msgHeader: msgHeader,
+            msgImgPath: msgImgPath,
+            flavorText: flavorText,
+            needsDesc: needsDesc,
+            woundEffect: woundEffect,
+            specialRoll: specialRoll
+          };
+          let chatData = {
+            user: game.user.id,
+            speaker: {
+              actor: this.id,
+              token: this.token,
+              alias: this.name
+            }
+          };
+          let template = 'systems/mosh/templates/chat/rollCheck.html';
+          renderTemplate(template, messageData).then(content => {
+            chatData.content = content;
+            ChatMessage.create(chatData);
+          });
+        //log what was done
+        console.log(`Rolled damage on:${weapon.name}`);
+        //exit
+        return;
+      }
       //rest save
       if (attribute === 'restSave') {
         //1e rest save
@@ -1891,6 +2248,51 @@ export class MothershipActor extends Actor {
           attribute = 'fear';
         }
       }
+      //bankruptcy save
+      if (attribute === 'bankruptcySave') {  
+        //set special roll value for use later
+        specialRoll = attribute;
+        //set attribute value
+        attribute = 'bankruptcy';
+      }
+      //morale check
+      if (attribute === 'moraleCheck') {  
+        //set special roll value for use later
+        specialRoll = attribute;
+        //disable criticals for this roll
+        checkCrit = false;
+        //set attribute value
+        attribute = 'megadamage';
+        //lets get the max megadamage value
+        rollTargetOverride = Math.max.apply(null, this.system.megadamage.hits);
+      }
+    //bounce this request away if certain parameters are NULL
+      //if attribute is blank, redirect player to choose an attribute
+      if (!attribute && !specialRoll) {
+        //run the choose attribute function
+        let chosenAttributes = await this.chooseAttribute(rollString,aimFor);
+        //set variables
+        rollString = chosenAttributes[0];
+        aimFor = chosenAttributes[1];
+        attribute = chosenAttributes[2];
+        //if null, zero them out
+      }
+      //if skill is blank and actor is a character, redirect player to choose a skill
+      if (!skill && this.type === 'character') {
+      //run the choose attribute function
+      let chosenSkills = await this.chooseSkill(this.system.stats[attribute].rollLabel,rollString);
+        //set variables
+        rollString = chosenSkills[0];
+        skill = chosenSkills[1];
+        skillValue = chosenSkills[2];
+      }
+      //if rollString is STILL blank, redirect player to choose the roll
+      if (!rollString) {
+        //run the choose attribute function
+        let chosenRollType = await this.chooseAdvantage(this.system.stats[attribute].rollLabel,'1d100');
+        //set variables
+        rollString = chosenRollType[0];
+      }
     //if this is a weapon roll
     if (weapon) {
       //check to see if this weapon uses ammo
@@ -1919,57 +2321,36 @@ export class MothershipActor extends Actor {
         }
       }
     }
-    //bounce this request away if certain parameters are NULL
-      //if attribute is blank, redirect player to choose an attribute
-      if (!attribute && !specialRoll) {
-        //run the choose attribute function
-        let chosenAttributes = await this.chooseAttribute(rollString,aimFor);
-        //set variables
-        rollString = chosenAttributes[0];
-        aimFor = chosenAttributes[1];
-        attribute = chosenAttributes[2];
-        //if null, zero them out
-      }
-      //if skill is blank and actor is a character, redirect player to choose a skill
-      if (!skill && this.type === 'character') {
-      //run the choose attribute function
-      let chosenSkills = await this.chooseSkill(this.system.stats[attribute].rollLabel,rollString);
-        //set variables
-        rollString = chosenSkills[0];
-        skill = chosenSkills[1];
-        skillValue = chosenSkills[2];
-      }
-      //if rollString is STILL blank, redirect player to choose the roll
-      if (!rollString) {
-        //run the choose attribute function
-        let chosenRollType = await this.chooseAdvantage(this.system.stats[attribute].rollLabel,'1d100');
-        //set variables
-        rollString = chosenRollType[0];
-      }
     //make the rollTarget value
+    if (!rollTargetOverride) {
       //retrieve the attribute
-      let rollTarget = this.system.stats[attribute].value
+      rollTarget = this.system.stats[attribute].value
       //add the mod value
       rollTarget = Number(rollTarget) + (Number(this.system.stats[attribute].mod) || 0);
       //add the skill value
-      rollTarget = Number(rollTarget) + Number(skillValue || 0);   
+      rollTarget = Number(rollTarget) + Number(skillValue || 0);
+    } else {
+      rollTarget = rollTargetOverride;
+    }
     //roll the dice
       //parse the roll string
       let parsedRollString = this.parseRollString(rollString,aimFor);
       //roll the dice
       let rollResult = await new Roll(parsedRollString).evaluate();
+      //set comparison based on aimFor
+      if (aimFor === 'low') {
+        comparison = '<';
+      } else {
+        comparison = '>';
+      }
       //interpret the results
-      let parsedRollResult = this.parseRollResult(rollString,rollResult,checkCrit,zeroBased,rollTarget,'<');
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison,specialRoll);
     //prep damage dice in case its needed
     if(weapon && parsedRollResult.success) {
       //parse the roll string
       parsedDamageString = this.parseRollString(weapon.system.damage,'high');
     }
     //set chat message text
-      //message header
-      msgHeader = this.system.stats[attribute].rollLabel;
-      //set header image
-      msgImgPath = 'systems/mosh/images/icons/ui/attributes/' + attribute + '.png';
       //set roll result as greater than or less than
       if (parsedRollResult.success) {
         outcomeVerb = `rolled`;
@@ -1987,6 +2368,8 @@ export class MothershipActor extends Actor {
           //set damage dice color
           dsnTheme = game.settings.get('mosh','damageDiceTheme');
         }
+        //prepare attribute label
+        attributeLabel = this.system.stats[attribute].label;
         //set crit damage effect
         if (parsedRollResult.success === true && parsedRollResult.critical === true) {
           if (game.settings.get('mosh','critDamage') === 'doubleDamage') {
@@ -2077,14 +2460,16 @@ export class MothershipActor extends Actor {
       } else if (specialRoll) {
         //rest save
         if (specialRoll === 'restSave') {
+          //override message header
+          msgHeader = `Rest Save`;
+          //override  header image
+          msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
+          //prepare attribute label
+          attributeLabel = this.system.stats[attribute].label;
           //1e rest save
           if (firstEdition) {
             //calm outcome
             if (useCalm) {
-              //override message header
-              msgHeader = `Rest Save`;
-              //override  header image
-              msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
               //prep text based on success or failure
               if (parsedRollResult.success === false && this.type === 'character') {
                 //set fail text
@@ -2098,10 +2483,6 @@ export class MothershipActor extends Actor {
               }
             //no calm outcome
             } else {
-              //override message header
-              msgHeader = `Rest Save`;
-              //override  header image
-              msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
               //prep text based on success or failure
               if (parsedRollResult.success === false && this.type === 'character') {
                 if(game.settings.get('mosh','autoStress')){ //If the automatic stress option is enabled
@@ -2126,10 +2507,6 @@ export class MothershipActor extends Actor {
           } else {
             //calm outcome
             if (useCalm) {
-              //override message header
-              msgHeader = `Rest Save`;
-              //override  header image
-              msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
               //prep text based on success or failure
               if (parsedRollResult.success === false && this.type === 'character') {
                 //set fail text
@@ -2145,10 +2522,6 @@ export class MothershipActor extends Actor {
               }
             //no calm outcome
             } else {
-              //override message header
-              msgHeader = `Rest Save`;
-              //override  header image
-              msgImgPath = `systems/mosh/images/icons/ui/macros/rest_save.png`;
               //prep text based on success or failure
               if (parsedRollResult.success === false && this.type === 'character') {
                 if(game.settings.get('mosh','autoStress')){ //If the automatic stress option is enabled
@@ -2173,8 +2546,81 @@ export class MothershipActor extends Actor {
             }
           }
         }
+        //bankruptcy save
+        if (specialRoll === 'bankruptcySave') {
+          //message header
+          msgHeader = 'Bankruptcy Save';
+          //set header image
+          msgImgPath = 'systems/mosh/images/icons/ui/rolltables/bankruptcy_save.png';
+          //prepare attribute label
+          attributeLabel = 'Bankruptcy';
+          //get the bankruptcy table
+            //get current compendium
+            let compendium = game.packs;
+            let currentLocation = ``;
+            let tableLocation = ``;
+            let tableId = game.settings.get('mosh','table1eBankruptcy');
+            //loop through each compendium
+            compendium.forEach(function(pack){ 
+              //is this a pack of rolltables?
+              if (pack.metadata.type === 'RollTable') {
+                //log where we are
+                currentLocation = pack.metadata.id;
+                //loop through each pack to find the right table
+                pack.index.forEach(function(table) { 
+                  //is this our table?
+                  if (table._id === tableId) {
+                    //grab the table location
+                    tableLocation = currentLocation;
+                  }
+                });
+              }
+            });
+            //get table data
+            let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+          //prep text for success
+          if (parsedRollResult.success && parsedRollResult.critical) {
+            //flavor text
+            flavorText = tableData.getResultsForRoll(0)[0].text;
+          //prep text for critical success
+          } else if (parsedRollResult.success && !parsedRollResult.critical) {
+            //flavor text
+            flavorText = tableData.getResultsForRoll(1)[0].text;
+          //prep text for failure
+          } else if (!parsedRollResult.success && !parsedRollResult.critical) {
+            //flavor text
+            flavorText = tableData.getResultsForRoll(2)[0].text;
+          //prep text for critical failure
+          } else if (!parsedRollResult.success && parsedRollResult.critical) {
+            //flavor text
+            flavorText = tableData.getResultsForRoll(3)[0].text;
+          }
+        }
+        //morale check
+        if (specialRoll === 'moraleCheck') {
+          //message header
+          msgHeader = 'Morale Check';
+          //set header image
+          msgImgPath = 'systems/mosh/images/icons/ui/macros/morale_check.png';
+          //prepare attribute label
+          attributeLabel = 'Megadamage';
+          //prep text based on success or failure
+          if (!parsedRollResult.success) {
+            //flavor text
+            flavorText = `The crew, once focused on their tasks, now exchange anxious glances as the reality of the situation set in. Struggling to maintain composure in the chaos, the crew decides to send a hail and hope for mercy.`;
+          } else {
+            //flavor text
+            flavorText = `As the ship shudders under the impact of enemy fire, a sense of urgency fills the control room. Alarms blare, emergency lights bath the crew in a stark glow, but there is no panic. The crew, seasoned and unyielding, maintain their focus on the task at hand.`;
+          }
+        }
       //prepare flavor text for regular checks
       } else {
+        //prepare attribute label
+        attributeLabel = this.system.stats[attribute].label;
+        //message header
+        msgHeader = this.system.stats[attribute].rollLabel;
+        //set header image
+        msgImgPath = 'systems/mosh/images/icons/ui/attributes/' + attribute + '.png';
         //prep text based on success or failure
         if (parsedRollResult.success === false && this.type === 'character') {
           //if first edition
@@ -2232,7 +2678,7 @@ export class MothershipActor extends Actor {
         msgHeader: msgHeader,
         msgImgPath: msgImgPath,
         outcomeVerb: outcomeVerb,
-        attribute: this.system.stats[attribute].label,
+        attribute: attributeLabel,
         flavorText: flavorText,
         needsDesc: needsDesc,
         woundEffect: woundEffect,
@@ -2443,7 +2889,7 @@ export class MothershipActor extends Actor {
           //roll the dice
           let rollResult = await new Roll(parsedRollString).evaluate();
           //interpret the results
-          let parsedRollResult = this.parseRollResult(modRollString,rollResult,false,false,null,null);
+          let parsedRollResult = this.parseRollResult(modRollString,rollResult,false,false,null,null,null);
         //update modChange
         modifyChange = modifyChange + parsedRollResult.total;
         //calculate impact to the actor
@@ -2713,7 +3159,7 @@ export class MothershipActor extends Actor {
     console.log(`Asked for reload.`);
   }
 
-  //tell user we are out of ammo
+  //tell the player we are out of ammo
   async outOfAmmo() {
     //wrap the whole thing in a promise, so that it waits for the form to be interacted with
     return new Promise(async (resolve) => {
@@ -2737,7 +3183,7 @@ export class MothershipActor extends Actor {
     console.log(`Told user they are out of ammo.`);
   }
 
-  //reload weapon
+  //reload the players weapon
   async reloadWeapon(itemId) {
     //init vars
     let messageTemplate = ``;
@@ -2803,7 +3249,7 @@ export class MothershipActor extends Actor {
     console.log(`Reloaded weapon.`);
   }
 
-  //take bleeding damage
+  //make the player take bleeding damage
   async takeBleedingDamage() {
     //init vars
     let chatId = randomID();  
@@ -2843,7 +3289,7 @@ export class MothershipActor extends Actor {
     console.log(`Took bleeding damage.`);
   }
 
-  //take radiation damage
+  //make the player take radiation damage
   async takeRadiationDamage() {
     //init vars
     let chatId = randomID();  
@@ -2887,7 +3333,58 @@ export class MothershipActor extends Actor {
     console.log(`Took radiation damage.`);
   }
 
-  //choose cover
+  //make the player take radiation damage
+  async takeCryoDamage(rollString) {
+    //init vars
+    let chatId = randomID();
+    //roll the dice
+      //parse the roll string
+      let parsedRollString = this.parseRollString(rollString,'low');
+      //roll the dice
+      let rollResult = await new Roll(parsedRollString).evaluate();
+      //interpret the results
+      let parsedRollResult = this.parseRollResult(rollString,rollResult,false,false,null,null,null);
+    //reduce all stats and saves by roll result
+    this.modifyActor('system.stats.strength.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.speed.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.intellect.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.combat.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.sanity.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.fear.value',parsedRollResult.total,null,false);
+    this.modifyActor('system.stats.body.value',parsedRollResult.total,null,false);
+    //get flavor text
+    let msgFlavor = this.getFlavorText('item','condition','cryo');
+    let msgOutcome = `All stats and saves decreased by <strong>1</strong>.`;
+    //create chat message text
+    let messageContent = `
+    <div class="mosh">
+      <div class="rollcontainer">
+          <div class="flexrow" style="margin-bottom: 5px;">
+          <div class="rollweaponh1">Cryofreeze Damage</div>
+          <div style="text-align: right"><img class="roll-image" src="systems/mosh/images/icons/ui/attributes/health.png" /></div>
+          </div>
+          <div class="description"" style="margin-bottom: 20px;">
+          <div class="body">
+          ${msgFlavor}
+          <br><br>
+          ${msgOutcome}
+          </div>
+          </div>
+      </div>
+    </div>
+    `;
+    //push message
+    ChatMessage.create({
+      id: chatId,
+      user: game.user.id,
+      speaker: {actor: this.id, token: this.token, alias: this.name},
+      content: messageContent
+    },{keepId:true});
+    //log what was done
+    console.log(`Took cryofreeze damage.`);
+  }
+
+  //ask the player to choose cover
   async chooseCover() {
     //wrap the whole thing in a promise, so that it waits for the form to be interacted with
     return new Promise(async (resolve) => {
@@ -3079,6 +3576,274 @@ export class MothershipActor extends Actor {
     
   }
 
+  //activate ship's distress signal
+  async distressSignal() {
+    //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+    return new Promise(async (resolve) => {
+      //create pop-up HTML
+      let msgContent = `
+      <style>
+        .macro_window{
+          background: rgb(230,230,230);
+          border-radius: 9px;
+        }
+        .macro_img{
+          display: flex;
+          justify-content: center;
+        }
+        .macro_desc{
+          font-family: "Roboto", sans-serif;
+          font-size: 10.5pt;
+          font-weight: 400;
+          padding-top: 8px;
+          padding-right: 8px;
+          padding-bottom: 8px;
+        }
+        .grid-2col {
+          display: grid;
+          grid-column: span 2 / span 2;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 2px;
+          padding: 0;
+        }
+      </style>
+      <div class ="macro_window" style="margin-bottom : 7px;">
+        <div class="grid grid-2col" style="grid-template-columns: 150px auto">
+          <div class="macro_img"><img src="systems/mosh/images/icons/ui/rolltables/distress_signal.png" style="border:none"/></div>
+          <div class="macro_desc"><h3>Distress Signal</h3>Occasionally you may need to put your ship on emergency power, seal yourselves in cryopods, send out a Distress Signal, and wait for help. It’s a long shot, but sometimes it’s the only shot you’ve got. When this happens, roll on this table.</div>    
+        </div>
+      </div>
+      <h4>Select your roll type:</h4>
+      `;
+      //create final dialog data
+      const dialogData = {
+        title: `Distress Signal`,
+        content: msgContent,
+        buttons: {
+          button1: {
+            label: `Advantage`,
+            callback: () => this.rollTable(game.settings.get('mosh','table1eDistressSignal'),`1d10 [+]`,`low`,true,false,null,null),
+            icon: `<i class="fas fa-angle-double-up"></i>`
+          },
+          button2: {
+            label: `Normal`,
+            callback: () => this.rollTable(game.settings.get('mosh','table1eDistressSignal'),`1d10`,`low`,true,false,null,null),
+            icon: `<i class="fas fa-minus"></i>`
+          },
+          button3: {
+            label: `Disadvantage`,
+            callback: () => this.rollTable(game.settings.get('mosh','table1eDistressSignal'),`1d10 [-]`,`low`,true,false,null,null),
+            icon: `<i class="fas fa-angle-double-down"></i>`
+          }
+        }
+      };
+      //render dialog
+      const dialog = new Dialog(dialogData,{width: 600,height: 265}).render(true);
+      });
+    
+  }
+
+  //activate ship's distress signal
+  async maintenanceCheck() {
+    //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+    return new Promise(async (resolve) => {
+      //create pop-up HTML
+      let msgContent = `
+      <style>
+        .macro_window{
+          background: rgb(230,230,230);
+          border-radius: 9px;
+        }
+        .macro_img{
+          display: flex;
+          justify-content: center;
+        }
+        .macro_desc{
+          font-family: "Roboto", sans-serif;
+          font-size: 10.5pt;
+          font-weight: 400;
+          padding-top: 8px;
+          padding-right: 8px;
+          padding-bottom: 8px;
+        }
+        .grid-2col {
+          display: grid;
+          grid-column: span 2 / span 2;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 2px;
+          padding: 0;
+        }
+      </style>
+      <div class ="macro_window" style="margin-bottom : 7px;">
+        <div class="grid grid-2col" style="grid-template-columns: 150px auto">
+          <div class="macro_img"><img src="systems/mosh/images/icons/ui/rolltables/maintenance_issues.png" style="border:none"/></div>
+          <div class="macro_desc"><h3>Maintenance Check</h3>Eventually, your ship needs a tune-up, or sometimes a complete overhaul. When this happens, you’ll need to get it repaired. <strong>Minor Repairs</strong> cover cosmetic damage, cleanup, and other handyman type work that can be handled in flight, usually within 2d10 days. <strong>Major Repairs</strong> cover large scale structural or system damage, including repairing Megadamage and Hull, and can only be fixed in port.</div>    
+        </div>
+      </div>
+      <h4>Select your roll type:</h4>
+      `;
+      //create final dialog data
+      const dialogData = {
+        title: `Maintenance Check`,
+        content: msgContent,
+        buttons: {
+          button1: {
+            label: `Advantage`,
+            callback: () => this.rollTable(`maintenanceCheck`,`1d100 [+]`,`low`,null,null,null,null),
+            icon: `<i class="fas fa-angle-double-up"></i>`
+          },
+          button2: {
+            label: `Normal`,
+            callback: () => this.rollTable(`maintenanceCheck`,`1d100`,`low`,null,null,null,null),
+            icon: `<i class="fas fa-minus"></i>`
+          },
+          button3: {
+            label: `Disadvantage`,
+            callback: () => this.rollTable(`maintenanceCheck`,`1d100 [-]`,`low`,null,null,null,null),
+            icon: `<i class="fas fa-angle-double-down"></i>`
+          }
+        }
+      };
+      //render dialog
+      const dialog = new Dialog(dialogData,{width: 600,height: 265}).render(true);
+      });
+    
+  }
+
+  //activate ship's distress signal
+  async bankruptcySave() {
+    //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+    return new Promise(async (resolve) => {
+      //create pop-up HTML
+      let msgContent = `
+      <style>
+        .macro_window{
+          background: rgb(230,230,230);
+          border-radius: 9px;
+        }
+        .macro_img{
+          display: flex;
+          justify-content: center;
+        }
+        .macro_desc{
+          font-family: "Roboto", sans-serif;
+          font-size: 10.5pt;
+          font-weight: 400;
+          padding-top: 8px;
+          padding-right: 8px;
+          padding-bottom: 8px;
+        }
+        .grid-2col {
+          display: grid;
+          grid-column: span 2 / span 2;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 2px;
+          padding: 0;
+        }
+      </style>
+      <div class ="macro_window" style="margin-bottom : 7px;">
+        <div class="grid grid-2col" style="grid-template-columns: 150px auto">
+          <div class="macro_img"><img src="systems/mosh/images/icons/ui/rolltables/bankruptcy_save.png" style="border:none"/></div>
+          <div class="macro_desc"><h3>Bankruptcy Save</h3>A slim minority of ships are owned by small banking firms who share ownership with the operators, fronting all costs of the vessel and taking most of the profits. In exchange, you get a ship and a relatively free hand in conducting your business on the Rim. Each year <em>(or quarter, as determined by your Warden)</em>, make a <strong>Bankruptcy Save</strong> to determine the financial health of the company.</div>    
+        </div>
+      </div>
+      <h4>Select your roll type:</h4>
+      `;
+      //create final dialog data
+      const dialogData = {
+        title: `Bankruptcy Save`,
+        content: msgContent,
+        buttons: {
+          button1: {
+            label: `Advantage`,
+            callback: () => this.rollCheck(`1d100 [+]`,`low`,`bankruptcySave`,null,null,null),
+            icon: `<i class="fas fa-angle-double-up"></i>`
+          },
+          button2: {
+            label: `Normal`,
+            callback: () => this.rollCheck(`1d100`,`low`,`bankruptcySave`,null,null,null),
+            icon: `<i class="fas fa-minus"></i>`
+          },
+          button3: {
+            label: `Disadvantage`,
+            callback: () => this.rollCheck(`1d100 [-]`,`low`,`bankruptcySave`,null,null,null),
+            icon: `<i class="fas fa-angle-double-down"></i>`
+          }
+        }
+      };
+      //render dialog
+      const dialog = new Dialog(dialogData,{width: 600,height: 265}).render(true);
+      });
+    
+  }
+
+  //activate ship's distress signal
+  async moraleCheck() {
+    //wrap the whole thing in a promise, so that it waits for the form to be interacted with
+    return new Promise(async (resolve) => {
+      //create pop-up HTML
+      let msgContent = `
+      <style>
+        .macro_window{
+          background: rgb(230,230,230);
+          border-radius: 9px;
+        }
+        .macro_img{
+          display: flex;
+          justify-content: center;
+        }
+        .macro_desc{
+          font-family: "Roboto", sans-serif;
+          font-size: 10.5pt;
+          font-weight: 400;
+          padding-top: 8px;
+          padding-right: 8px;
+          padding-bottom: 8px;
+        }
+        .grid-2col {
+          display: grid;
+          grid-column: span 2 / span 2;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 2px;
+          padding: 0;
+        }
+      </style>
+      <div class ="macro_window" style="margin-bottom : 7px;">
+        <div class="grid grid-2col" style="grid-template-columns: 150px auto">
+          <div class="macro_img"><img src="systems/mosh/images/icons/ui/macros/morale_check.png" style="border:none"/></div>
+          <div class="macro_desc"><h3>Morale Check</h3>After any Ship Round where your ship takes MDMG, you must make a Morale Check. To make a Morale Check, roll 1d10. If the roll is under your current MDMG, the crew may send a hail offering a ceasefire and to resume negotiations.</div>
+        </div>
+      </div>
+      <h4>Select your roll type:</h4>
+      `;
+      //create final dialog data
+      const dialogData = {
+        title: `Morale Check`,
+        content: msgContent,
+        buttons: {
+          button1: {
+            label: `Advantage`,
+            callback: () => this.rollCheck(`1d10 [+]`,`high`,`moraleCheck`,null,null,null),
+            icon: `<i class="fas fa-angle-double-up"></i>`
+          },
+          button2: {
+            label: `Normal`,
+            callback: () => this.rollCheck(`1d10`,`high`,`moraleCheck`,null,null,null),
+            icon: `<i class="fas fa-minus"></i>`
+          },
+          button3: {
+            label: `Disadvantage`,
+            callback: () => this.rollCheck(`1d10 [-]`,`high`,`moraleCheck`,null,null,null),
+            icon: `<i class="fas fa-angle-double-down"></i>`
+          }
+        }
+      };
+      //render dialog
+      const dialog = new Dialog(dialogData,{width: 600,height: 265}).render(true);
+      });
+    
+  }
+
   // print description
   printDescription(itemId, options = { event: null }) {
     let item = duplicate(this.getEmbeddedDocument('Item',itemId));
@@ -3087,22 +3852,27 @@ export class MothershipActor extends Actor {
 
   // Print the item description into the chat.
   chatDesc(item) {
+    let swapNameDesc = false;
+    let swapName = '';
     let itemName = item.name?.charAt(0).toUpperCase() + item.name?.toLowerCase().slice(1);
     if (!item.name && isNaN(itemName))
       itemName = item.charAt(0)?.toUpperCase() + item.toLowerCase().slice(1);
 
-    
     var rollInsert = '';
-    
     if(item.system.roll){
       let r = new Roll(item.system.roll, {});
       r.evaluate({async: false});
-
       rollInsert = '\
         <div class="rollh2" style="text-transform: lowercase;">'+item.system.roll+'</div>\
         <div class="roll-grid">\
           <div class="roll-result">'+r._total+'</div>\
         </div>';
+    }
+
+    //add flag to swap name and description, if desc contains trinket or patch
+    if(item.system.description === '<p>Patch</p>' || item.system.description === '<p>Trinket</p>' || item.system.description === '<p>Maintenance Issue</p>') {
+      swapNameDesc = true;
+      swapName = item.system.description.replaceAll('<p>','').replaceAll('</p>','');
     }
 
     var templateData = {
@@ -3113,6 +3883,8 @@ export class MothershipActor extends Actor {
       item: item,
       insert: rollInsert,
       onlyDesc: true,
+      swapNameDesc: swapNameDesc,
+      swapName: swapName
     };
 
     let chatData = {

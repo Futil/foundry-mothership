@@ -2,7 +2,7 @@
   "id": "mosh",
   "title": "MoSh - Unofficial Mothership",
   "description": "The unofficial Mothership system for FoundryVTT.",
-  "version": "0.5.1",
+  "version": "0.5.11",
   "esmodules": [
     "module/mosh.js"
   ],
@@ -132,8 +132,8 @@
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "other.stress",
   "url": "https://github.com/Futil/foundry-mothership",
-  "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/0.5.1/system.json",
-  "download": "https://github.com/Futil/foundry-mothership/releases/download/0.5.1/foundry-mothership.zip",
+  "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/0.5.11/system.json",
+  "download": "https://github.com/Futil/foundry-mothership/releases/download/0.5.11/foundry-mothership.zip",
   "license": "LICENSE.txt",
   "authors": [
     {

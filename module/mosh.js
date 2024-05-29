@@ -518,7 +518,7 @@ async function createActorFromJson(jsonData) {
     for (let i = 0; i < actorData.weapons.length; i++) {
       console.log(actorData.weapons[i]);
       items.push({
-        "name": actorData.weapons[i].name,
+        "name":  actorData.weapons[i].name ? actorData.weapons[i].name + " " + actorData.weapons[i].weaponType : actorData.weapons[i].weaponType,
         "type": "weapon",
         "system": {
           "description": actorData.weapons[i].special,

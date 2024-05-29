@@ -1115,8 +1115,14 @@ export class MothershipActor extends Actor {
               }
             }
           } else {
-            //choose highest
-            enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //compare values based on comparison setting
+            if (comparison === '<') {
+              //choose lowest
+              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            } else {
+              //choose highest
+              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            }
           }
         //if [+] pick a new lowest number
         } else if (rollString.includes("[+]")) {
@@ -1139,8 +1145,14 @@ export class MothershipActor extends Actor {
               }
             }
           } else {
-            //choose lowest
-            enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            //compare values based on comparison setting
+            if (comparison === '<') {
+              //choose lowest
+              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            } else {
+              //choose highest
+              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            }
           }
         }
       //use new value if a regular roll
@@ -1153,7 +1165,7 @@ export class MothershipActor extends Actor {
         //compare values based on compararison setting
         if (comparison === '<') {
           //are both a failure?
-          if (enrichedRollResult.dice[0].results[0].result > rollTarget && enrichedRollResult.dice[1].results[0].result > rollTarget) {
+          if (enrichedRollResult.dice[0].results[0].result >= rollTarget && enrichedRollResult.dice[1].results[0].result >= rollTarget) {
             //advantage
             if (rollString.includes("[+]")) {
               enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
@@ -1164,7 +1176,7 @@ export class MothershipActor extends Actor {
           }
         } else {
           //check against being over the target
-          if (enrichedRollResult.dice[0].results[0].result < rollTarget && enrichedRollResult.dice[1].results[0].result < rollTarget) {
+          if (enrichedRollResult.dice[0].results[0].result <= rollTarget && enrichedRollResult.dice[1].results[0].result <= rollTarget) {
             //advantage
             if (rollString.includes("[+]")) {
               enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);

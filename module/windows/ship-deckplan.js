@@ -50,16 +50,9 @@ export class DLShipDeckplan extends ActorSheet {
      * @private
      */
     async _updateObject(event, formData) {
-        // console.log(this.object.system);
-        // console.log(formData);
-        // console.log(formData['actor.system.images.layout']);
-
-        // Loyalty
-        // await this.object.update({
-        //     "system.images.layout": formData['actor.system.images.layout']
-        // });
-
-        // await this.object.updateEmbeddedEntity("OwnedItem", update);
+        await this.object.update({
+            "system.images.layout": formData['actor.system.images.layout']
+        });
 
         this.object.update({
             formData

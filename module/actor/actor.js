@@ -1208,37 +1208,29 @@ export class MothershipActor extends Actor {
           if (comparison === '<') {
             //check against being under the target
             if (enrichedRollResult.total < rollTarget) {
-              //result < target is a success
               enrichedRollResult.success = true;
             } else {
-              //result >= target is a failure
               enrichedRollResult.success = false;
             }
           } else if (comparison === '<=') {
-            //check against being under the target
+            //check against being under or equal to the target
             if (enrichedRollResult.total <= rollTarget) {
-              //result >= target is a failure
               enrichedRollResult.success = true;
             } else {
-              //result < target is a success
               enrichedRollResult.success = false;
             }
           } else if (comparison === '>') {
-            //check against being under the target
+            //check against being over the target
             if (enrichedRollResult.total > rollTarget) {
-              //result >= target is a failure
               enrichedRollResult.success = true;
             } else {
-              //result < target is a success
               enrichedRollResult.success = false;
             }
           } else if (comparison === '>=') {
-            //check against being over the target
+            //check against being over or equal to the target
             if (enrichedRollResult.total >= rollTarget) {
-              //result < target is a failure
               enrichedRollResult.success = true;
             } else {
-              //result < target is a success
               enrichedRollResult.success = false;
             }
           }

@@ -1116,12 +1116,12 @@ export class MothershipActor extends Actor {
             }
           } else {
             //compare values based on comparison setting
-            if (comparison === '<') {
-              //choose lowest
-              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-            } else {
+            if (comparison === '<' || comparison === '<=') {
               //choose highest
               enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
+            } else {
+              //choose lowest
+              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
             }
           }
         //if [+] pick a new lowest number
@@ -1146,7 +1146,7 @@ export class MothershipActor extends Actor {
             }
           } else {
             //compare values based on comparison setting
-            if (comparison === '<') {
+            if (comparison === '<' || comparison === '<=') {
               //choose lowest
               enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
             } else {
@@ -1214,9 +1214,27 @@ export class MothershipActor extends Actor {
               //result < target is a success
               enrichedRollResult.success = false;
             }
-          } else {
-            //check against being over the target
+          } else if (comparison === '<=') {
+            //check against being under the target
+            if (enrichedRollResult.total <= rollTarget) {
+              //result >= target is a failure
+              enrichedRollResult.success = true;
+            } else {
+              //result < target is a success
+              enrichedRollResult.success = false;
+            }
+          } else if (comparison === '>') {
+            //check against being under the target
             if (enrichedRollResult.total > rollTarget) {
+              //result >= target is a failure
+              enrichedRollResult.success = true;
+            } else {
+              //result < target is a success
+              enrichedRollResult.success = false;
+            }
+          } else if (comparison === '>=') {
+            //check against being over the target
+            if (enrichedRollResult.total >= rollTarget) {
               //result < target is a failure
               enrichedRollResult.success = true;
             } else {
@@ -1250,9 +1268,13 @@ export class MothershipActor extends Actor {
         //prepare variables
           //make comparison icon
           if (comparison === '<') {
-            compareIcon = '<i class="fas fa-angle-left"></i>';
-          } else {
-            compareIcon = '<i class="fas fa-angle-right"></i>';
+            compareIcon = '<i class="fas fa-less-than"></i>';
+          } else if (comparison === '<=') {
+            compareIcon = '<i class="fas fa-less-than-equal"></i>';
+          } else if (comparison === '>') {
+            compareIcon = '<i class="fas fa-greater-than"></i>';
+          } else if (comparison === '>=') {
+            compareIcon = '<i class="fas fa-greater-than-equal"></i>';
           }
           //prepare formula
           if (rollTarget) {
@@ -1291,25 +1313,13 @@ export class MothershipActor extends Actor {
                         //result >= 90 is a failure, no highlight needed
                         critHighlight = ' min';
                       } else {
-                        //compare values based on compararison setting
-                        if (comparison === '<') {
-                          //check against being under the target
-                          if (die.result < rollTarget) {
-                            //result >= target is a failure
-                            critHighlight = ' max';
-                          } else {
-                            //result < target is a success
-                            critHighlight = ' min';
-                          }
+                        //check against being under the target
+                        if (enrichedRollResult.success = true) {
+                          //result >= target is a failure
+                          critHighlight = ' max';
                         } else {
-                          //check against being over the target
-                          if (die.result > rollTarget) {
-                            //result < target is a failure
-                            critHighlight = ' max';
-                          } else {
-                            //result < target is a success
-                            critHighlight = ' min';
-                          }
+                          //result < target is a success
+                          critHighlight = ' min';
                         }
                       }
                     }
@@ -2138,6 +2148,7 @@ export class MothershipActor extends Actor {
     let critMod = ``;
     let outcomeVerb = ``;
     let flavorText = ``;
+    let comparisonText = ``;
     let needsDesc = false;
     let woundEffect = ``;
     let msgHeader = ``;
@@ -2352,8 +2363,16 @@ export class MothershipActor extends Actor {
       //set comparison based on aimFor
       if (aimFor === 'low') {
         comparison = '<';
-      } else {
+        comparisonText = 'less than';
+      } else if (aimFor === 'low-equal') {
+        comparison = '<=';
+        comparisonText = 'less than or equal to';
+      } else if (aimFor === 'high') {
         comparison = '>';
+        comparisonText = 'greater than';
+      } else if (aimFor === 'high-equal') {
+        comparison = '>=';
+        comparisonText = 'greater than or equal to';
       }
       //interpret the results
       let parsedRollResult = this.parseRollResult(rollString,rollResult,zeroBased,checkCrit,rollTarget,comparison,specialRoll);
@@ -2692,6 +2711,7 @@ export class MothershipActor extends Actor {
         outcomeVerb: outcomeVerb,
         attribute: attributeLabel,
         flavorText: flavorText,
+        comparisonText: comparisonText,
         needsDesc: needsDesc,
         woundEffect: woundEffect,
         critFail: critFail,
@@ -3823,7 +3843,7 @@ export class MothershipActor extends Actor {
       <div class ="macro_window" style="margin-bottom : 7px;">
         <div class="grid grid-2col" style="grid-template-columns: 150px auto">
           <div class="macro_img"><img src="systems/mosh/images/icons/ui/macros/morale_check.png" style="border:none"/></div>
-          <div class="macro_desc"><h3>Morale Check</h3>After any Ship Round where your ship takes MDMG, you must make a Morale Check. To make a Morale Check, roll 1d10. If the roll is under your current MDMG, the crew may send a hail offering a ceasefire and to resume negotiations.</div>
+          <div class="macro_desc"><h3>Morale Check</h3>After any Ship Round where an enemy takes MDMG, they must make a Morale Check. To make a Morale Check, roll 1d10. If they roll under their current MDMG, they may send a hail offering a ceasefire and to resume negotiations.</div>
         </div>
       </div>
       <h4>Select your roll type:</h4>
@@ -3835,17 +3855,17 @@ export class MothershipActor extends Actor {
         buttons: {
           button1: {
             label: `Advantage`,
-            callback: () => this.rollCheck(`1d10 [+]`,`high`,`moraleCheck`,null,null,null),
+            callback: () => this.rollCheck(`1d10 [+]`,`high-equal`,`moraleCheck`,null,null,null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
           button2: {
             label: `Normal`,
-            callback: () => this.rollCheck(`1d10`,`high`,`moraleCheck`,null,null,null),
+            callback: () => this.rollCheck(`1d10`,`high-equal`,`moraleCheck`,null,null,null),
             icon: `<i class="fas fa-minus"></i>`
           },
           button3: {
             label: `Disadvantage`,
-            callback: () => this.rollCheck(`1d10 [-]`,`high`,`moraleCheck`,null,null,null),
+            callback: () => this.rollCheck(`1d10 [-]`,`high-equal`,`moraleCheck`,null,null,null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
         }

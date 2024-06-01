@@ -17,9 +17,9 @@
                     You rolled 90 or higher, which is always considered a failure.
                     {{else}}
                         {{#if (compare 'int' skillValue '>' 0)}}
-                        You {{{outcomeVerb}}} less than your <strong>{{{attribute}}}</strong> plus <strong>{{{skill}}}</strong> skill bonus.
+                        You {{{outcomeVerb}}} {{{comparisonText}}} your <strong>{{{attribute}}}</strong> plus <strong>{{{skill}}}</strong> skill bonus.
                         {{else}}
-                        You {{{outcomeVerb}}} less than your <strong>{{{attribute}}}</strong>.
+                        You {{{outcomeVerb}}} {{{comparisonText}}} your <strong>{{{attribute}}}</strong>.
                         {{/if}}
                     {{/if}}
                 </div>

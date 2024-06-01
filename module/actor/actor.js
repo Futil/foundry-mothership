@@ -1208,10 +1208,10 @@ export class MothershipActor extends Actor {
           if (comparison === '<') {
             //check against being under the target
             if (enrichedRollResult.total < rollTarget) {
-              //result >= target is a failure
+              //result < target is a success
               enrichedRollResult.success = true;
             } else {
-              //result < target is a success
+              //result >= target is a failure
               enrichedRollResult.success = false;
             }
           } else if (comparison === '<=') {
@@ -1314,7 +1314,7 @@ export class MothershipActor extends Actor {
                         critHighlight = ' min';
                       } else {
                         //check against being under the target
-                        if (enrichedRollResult.success = true) {
+                        if (enrichedRollResult.success === true) {
                           //result >= target is a failure
                           critHighlight = ' max';
                         } else {
@@ -1365,6 +1365,7 @@ export class MothershipActor extends Actor {
         enrichedRollResult.rollHtml = rollHtml;
     //log what was done
     console.log(`Enriched the standard roll result. rollString: ${rollString},rollResult: ${rollResult},zeroBased: ${zeroBased},checkCrit: ${checkCrit},rollTarget: ${rollTarget},comparison: ${comparison},specialRoll: ${specialRoll}`);
+    console.log(enrichedRollResult);
     //return the enriched roll result object
     return enrichedRollResult;
   }

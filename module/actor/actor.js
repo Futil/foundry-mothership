@@ -1071,26 +1071,37 @@ export class MothershipActor extends Actor {
       //change data point: change each 100 or 10 result to zero
       if (zeroBased) {
         //1d10 changes
-        if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d10' || rollString === '1d10') {
+        if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d10' || rollString === '1d10' || rollString.substr(0,rollString.indexOf("[")).trim() === '-1d10' || rollString === '-1d10') {
           //loop through dice
           enrichedRollResult.dice.forEach(function(roll){ 
             //loop through each result
             roll.results.forEach(function(die) { 
               //change any 10s to 0s
-              if (die.result === 10) {die.result = 0;}
+              if (die.result === 10 || die.result === -10) {die.result = 0;}
             });
           });
         //1d100 changes
-        } else if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d100' || rollString === '1d100') {
+        } else if (rollString.substr(0,rollString.indexOf("[")).trim() === '1d100' || rollString === '1d100' || rollString.substr(0,rollString.indexOf("[")).trim() === '-1d100' || rollString === '-1d100') {
           //loop through dice
           enrichedRollResult.dice.forEach(function(roll){ 
             //loop through each result
             roll.results.forEach(function(die) { 
               //change any 100s to 0s
-              if (die.result === 100) {die.result = 0;}
+              if (die.result === 100 || die.result === -100) {die.result = 0;}
             });
           });
         }
+      }
+      //update dice totals to negative for negative rolls
+      if (rollString.substr(0,1) === '-') {
+        //loop through dice
+        enrichedRollResult.dice.forEach(function(roll){ 
+          //loop through each result
+          roll.results.forEach(function(die) { 
+            //change any non-zero 
+            die.result = die.result*-1;
+          });
+        });
       }
       //pick a new winner if [-] or [+]
       if (rollString.includes("[")) {
@@ -3379,7 +3390,7 @@ export class MothershipActor extends Actor {
     this.modifyActor('system.stats.body.value',parsedRollResult.total,null,false);
     //get flavor text
     let msgFlavor = this.getFlavorText('item','condition','cryo');
-    let msgOutcome = `All stats and saves decreased by <strong>1</strong>.`;
+    let msgOutcome = `All stats and saves decreased by <strong>` + Math.abs(parsedRollResult.total).toString() + `</strong>.`;
     //create chat message text
     let messageContent = `
     <div class="mosh">

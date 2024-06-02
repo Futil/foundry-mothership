@@ -127,6 +127,10 @@
       "flags": {}
     }
   ],
+  "grid": {
+    "distance": 1,
+    "units": "meter"
+  },
   "gridDistance": 1,
   "gridUnits": "meter",
   "primaryTokenAttribute": "health",

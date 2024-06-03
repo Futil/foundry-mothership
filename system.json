@@ -147,6 +147,7 @@
   ],
   "compatibility": {
     "minimum": "0.8.6",
+    "maximum": "11",
     "verified": "11"
   }
 }

@@ -1729,13 +1729,18 @@ export class MothershipActor extends Actor {
         content: messageContent
       },{keepId:true});
       if(game.modules.get("dice-so-nice").active){
+        //log what was done
+        console.log(`Rolled on table ID: ${tableId}, with: rollString:${rollString}, aimFor:${aimFor}, zeroBased:${zeroBased}, checkCrit:${checkCrit}, rollAgainst:${rollAgainst}, comparison:${comparison}`);
+        //return messageData
+        return [messageData];
         //wait for dice
         await game.dice3d.waitFor3DAnimationByMessageID(chatId);
       }
-    //log what was done
-    console.log(`Rolled on table ID: ${tableId}, with: rollString:${rollString}, aimFor:${aimFor}, zeroBased:${zeroBased}, checkCrit:${checkCrit}, rollAgainst:${rollAgainst}, comparison:${comparison}`);
-    //return messageData
-    return [messageData];
+    //will come back later to do optional chat message  
+      ////log what was done
+      //console.log(`Rolled on table ID: ${tableId}, with: rollString:${rollString}, aimFor:${aimFor}, zeroBased:${zeroBased}, checkCrit:${checkCrit}, rollAgainst:${rollAgainst}, comparison:${comparison}`);
+      ////return messageData
+      //return [messageData];
   }
 
   //central adding addribute function | TAKES '1d10','low' | RETURNS player selected attribute. If parameters are null, it asks the player.
@@ -2738,13 +2743,18 @@ export class MothershipActor extends Actor {
       },{keepId:true});
       //is DSN active?
       if(game.modules.get("dice-so-nice").active){
+        //log what was done
+        console.log(`Rolled a check on: ${attribute}, with: rollString:${rollString}, aimFor:${aimFor}, skill:${skill}, skillValue:${skillValue}.`);
+        //return messageData
+        return [messageData];
         //wait for dice
         await game.dice3d.waitFor3DAnimationByMessageID(chatId);
       }
-    //log what was done
-    console.log(`Rolled a check on: ${attribute}, with: rollString:${rollString}, aimFor:${aimFor}, skill:${skill}, skillValue:${skillValue}, weapon:${weapon.name}`);
-    //return messageData
-    return [messageData];
+    //will come back here and turn on optional chat message
+      ////log what was done
+      //console.log(`Rolled a check on: ${attribute}, with: rollString:${rollString}, aimFor:${aimFor}, skill:${skill}, skillValue:${skillValue}.`);
+      ////return messageData
+      //return [messageData];
   }
 
   //central function to modify actors | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message
@@ -3046,6 +3056,10 @@ export class MothershipActor extends Actor {
                   content: messageContent
                 },{keepId:true});
                 if(game.modules.get("dice-so-nice").active){
+                  //log what was done
+                  console.log(`Modified actor: ${this.name}, with: fieldAddress:${fieldAddress}, modValue:${modValue}, modRollString:${modRollString}, outputChatMsg:${outputChatMsg}`);     
+                  //return modification values
+                  return [msgFlavor,msgOutcome,msgChange];
                   //wait for dice
                   await game.dice3d.waitFor3DAnimationByMessageID(chatId);
                 }

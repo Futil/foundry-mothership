@@ -1734,6 +1734,8 @@ export class MothershipActor extends Actor {
       }
     //log what was done
     console.log(`Rolled on table ID: ${tableId}, with: rollString:${rollString}, aimFor:${aimFor}, zeroBased:${zeroBased}, checkCrit:${checkCrit}, rollAgainst:${rollAgainst}, comparison:${comparison}`);
+    //return messageData
+    return [messageData];
   }
 
   //central adding addribute function | TAKES '1d10','low' | RETURNS player selected attribute. If parameters are null, it asks the player.
@@ -2236,8 +2238,8 @@ export class MothershipActor extends Actor {
           });
         //log what was done
         console.log(`Rolled damage on:${weapon.name}`);
-        //exit
-        return;
+        //return messageData
+        return [messageData];
       }
       //rest save
       if (attribute === 'restSave') {
@@ -2734,13 +2736,15 @@ export class MothershipActor extends Actor {
         speaker: {actor: this.id, token: this.token, alias: this.name},
         content: messageContent
       },{keepId:true});
-
+      //is DSN active?
       if(game.modules.get("dice-so-nice").active){
         //wait for dice
         await game.dice3d.waitFor3DAnimationByMessageID(chatId);
       }
     //log what was done
     console.log(`Rolled a check on: ${attribute}, with: rollString:${rollString}, aimFor:${aimFor}, skill:${skill}, skillValue:${skillValue}, weapon:${weapon.name}`);
+    //return messageData
+    return [messageData];
   }
 
   //central function to modify actors | TAKES 'system.other.stress.value',-1,'-1d5',true | RETURNS change details, and optional chat message

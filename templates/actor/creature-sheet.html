@@ -189,13 +189,20 @@
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
-          {{#if weapon.system.shots}}
-          <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}} <i
-              class="fas fa-sync weapon-reload list-roll"></i></div>
+          {{#if weapon.system.useAmmo}}
+            {{#if (compare 'int' weapon.system.curShots '===' weapon.system.shots)}}
+            <div class="skill-stat">
+              <a class="weapon-shots list-roll" title="Edit Weapon">{{weapon.system.curShots}}/{{weapon.system.shots}}</a>
+            </div>
+            {{else}}
+            <div class="skill-stat">
+              <a class="weapon-shots list-roll">{{weapon.system.curShots}}/{{weapon.system.shots}}</a>
+              <a class="weapon-reload list-roll"><i class="fas fa-sync"></i></a>
+            </div>
+            {{/if}}
           {{else}}
           <div class="skill-stat">N/A</div>
           {{/if}}
-          
           {{#if weapon.system.ranges.value}}
           <!-- <div class="skill-stat">{{weapon.system.ranges.short}}/{{weapon.system.ranges.medium}}/{{weapon.system.ranges.long}} -->
           <!-- </div> -->

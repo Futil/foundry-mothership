@@ -189,6 +189,24 @@ export class MothershipCreatureSheet extends ActorSheet {
             this.actor.updateEmbeddedDocuments('Item', [item]);
         });
 
+    //increase shots
+    html.on('mousedown', '.weapon-shots', ev => {
+        const li = ev.currentTarget.closest(".item");
+        const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+        if (event.button == 0) {
+          if (item.system.curShots >= 0 && item.system.curShots < item.system.shots && item.system.ammo > 0) {
+            item.system.curShots = Number(item.system.curShots) + 1;
+            item.system.ammo = Number(item.system.ammo) - 1;
+          }
+        } else if (event.button == 2) {
+          if (item.system.curShots > 0) {
+            item.system.curShots = Number(item.system.curShots) - 1;
+            item.system.ammo = Number(item.system.ammo) + 1;
+          }
+        }
+        this.actor.updateEmbeddedDocuments('Item', [item]);
+      });
+    
         //Reload Shots
         html.on('mousedown', '.weapon-reload', ev => {
             const li = ev.currentTarget.closest(".item");

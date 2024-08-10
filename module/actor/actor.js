@@ -2884,7 +2884,10 @@ export class MothershipActor extends Actor {
             //set default message outcome
             if (msgAction === 'increase' || msgAction === 'decrease') {
               msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
-            //set message outcome for stress going from < 20 to > 20
+            //set message outcome for past ceiling or floor
+            } else if (msgAction === 'pastFloor' || msgAction === 'pastCeiling') {
+              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
+              //set message outcome for stress going from < 20 to > 20
             } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifySurplus > 0) {
               msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
             //set message outcome for stress going from 20 to > 20
@@ -3011,6 +3014,9 @@ export class MothershipActor extends Actor {
                 //set default message outcome
                 if (msgAction === 'increase' || msgAction === 'decrease') {
                   msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+                //set message outcome for past ceiling or floor
+                } else if (msgAction === 'pastFloor' || msgAction === 'pastCeiling') {
+                  msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
                 //set message outcome for stress going from < 20 to > 20
                 } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifySurplus > 0) {
                   msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;

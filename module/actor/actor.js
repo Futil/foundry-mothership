@@ -3625,7 +3625,7 @@ export class MothershipActor extends Actor {
           icon: '<i class="fas fa-check"></i>'
         };
       //render dialog
-      const dialog = new Dialog(dialogData,{width: 600,height: 567}).render(true);
+      const dialog = new Dialog(dialogData,{width: 600,height: 580}).render(true);
       });
     
   }

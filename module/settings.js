@@ -305,12 +305,6 @@ export const registerSettings = function () {
     type: rolltableConfig
   });
 
-  game.settings.register('mosh', 'rolltableSelector', {
-    scope: 'world',
-    config: true,
-    type: Object
-  });
-
   game.settings.register('mosh', 'table0ePanicStressNormal', {
     scope: 'world',
     config: false,

@@ -393,7 +393,7 @@
           <div class="skill-stat" role="cell">{{armor.system.damageReduction}}</div>
           <div class="skill-stat">{{armor.system.speed}}</div>
           {{#if armor.system.oxygenMax}}
-          <div class="skill-stat" role="cell">{{armor.system.oxygenCurrent}}/{{armor.system.oxygenMax}}</div>
+          <div class="skill-stat armor-oxy" role="cell">{{armor.system.oxygenCurrent}}/{{armor.system.oxygenMax}}</div>
           {{else}}
           <div class="skill-stat" role="cell">N/A</div>
           {{/if}}
@@ -427,7 +427,7 @@
           <div class="skill-stat" role="cell">{{armor.system.armorPoints}}</div>
           <div class="skill-stat">{{armor.system.speed}}</div>
           {{#if armor.system.oxygenMax}}
-          <div class="skill-stat" role="cell">{{armor.system.oxygenCurrent}}/{{armor.system.oxygenMax}}</div>
+          <div class="skill-stat armor-oxy" role="cell">{{armor.system.oxygenCurrent}}/{{armor.system.oxygenMax}}</div>
           {{else}}
           <div class="skill-stat" role="cell">N/A</div>
           {{/if}}

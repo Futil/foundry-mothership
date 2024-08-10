@@ -382,6 +382,23 @@ export class MothershipActorSheet extends ActorSheet {
       this.actor.reloadWeapon(li.dataset.itemId);
     });
 
+    //increase oxygen
+    html.on('mousedown', '.armor-oxy', ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      let amount = item.system.oxygenCurrent;
+      if (event.button == 0) {
+        if (amount < item.system.oxygenMax) {
+          item.system.oxygenCurrent = Number(amount) + 1;
+        }
+      } else if (event.button == 2) {
+        if (amount > 0) {
+          item.system.oxygenCurrent = Number(amount) - 1;
+        }
+      }
+      this.actor.updateEmbeddedDocuments('Item', [item]);
+    });
+
     // Calm - Panic Check
     html.find('.calm-roll').click(ev => {
       //roll panic check

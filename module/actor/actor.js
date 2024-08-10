@@ -3138,7 +3138,7 @@ export class MothershipActor extends Actor {
         //increase severity of the condition
         this.items.getName(itemData.name).update({'system.quantity': addAmount});
         //create message text
-        flavorText = `You add <strong>` + addAmount + `</strong> of these to your inventory..`;
+        flavorText = `You add <strong>` + addAmount + `</strong> of these to your inventory.`;
       //if this is a condition, add it
       } else if (itemData.type === 'condition') {
         //give the character the item

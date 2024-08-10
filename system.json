@@ -119,6 +119,19 @@
       }
     }
   ],
+  "media": [
+    {
+      "type": "cover",
+      "loop": false,
+      "flags": {}
+    },
+    {
+      "type": "setup",
+      "url": "systems/mosh/images/icons/ui/system/mosh-repo.webp",
+      "thumbnail": "systems/mosh/images/icons/ui/system/mosh-thumbnail.webp"
+    }
+  ],
+  "background": "systems/mosh/images/icons/ui/system/mosh-background.webp",
   "languages": [
     {
       "lang": "en",

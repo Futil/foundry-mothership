@@ -41,6 +41,23 @@
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Branding */
+#logo {
+  content: url("/systems/mosh/images/icons/ui/system/logo.webp");
+  width: 100px;
+  height: 50px;
+}
+
+#pause>img {
+  content: url("/systems/mosh/images/icons/ui/system/pause.webp");
+  width: 200px;
+  height: 170px;
+  top: -100px;
+  left: calc(50% - 100px);
+  opacity: .7;
+}
+
+
 /* Paragraph */
 p {
   margin: 0em 0;
@@ -1681,12 +1698,4 @@ p {
 
 .mosh .items-tab-grid{
   grid-template-columns: 50% 50%;
-}
-
-#logo {
-  content: url("systems/mosh/images/icons/ui/system/logo.webp");
-}
-
-#pause .pause-image {
-  background: url("systems/mosh/images/icons/ui/system/pause.webp");
 }

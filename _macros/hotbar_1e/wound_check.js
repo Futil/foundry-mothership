@@ -6,9 +6,9 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
   game.mosh.noCharSelected();
 //else pop up the dialog
 } else {
-  //pop up the wound check dialog box
+  //pop up the wound roll dialog box
   new Dialog({
-    title: `Wound Check`,
+    title: `Wound Roll`,
     content: `
       <style>
         .macro_window{
@@ -38,8 +38,8 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
 
       <div class ="macro_window" style="margin-bottom : 7px;">
         <div class="grid grid-2col" style="grid-template-columns: 150px auto">
-          <div class="macro_img"><img src="systems/mosh/images/icons/ui/macros/wound_check.png" style="border:none"/></div>
-          <div class="macro_desc"><h3>Wound Check</h3>Make a <strong>Wound Check</strong> according to the type of Damage received. <strong>Flesh Wounds</strong> are small inconveniences. <strong>Minor/Major Injuries</strong> cause lasting issues which require medical treatment. <strong>Lethal Injuries</strong> can kill you if not dealt with immediately. <strong>Fatal Injuries</strong> can kill outright. <strong>Bleeding</strong> wounds, if not treated can quickly overwhelm you.</div>    
+          <div class="macro_img"><img src="systems/mosh/images/icons/ui/macros/wound_roll.png" style="border:none"/></div>
+          <div class="macro_desc"><h3>Wound Roll</h3>Make a <strong>Wound Roll</strong> according to the type of Damage received. <strong>Flesh Wounds</strong> are small inconveniences. <strong>Minor/Major Injuries</strong> cause lasting issues which require medical treatment. <strong>Lethal Injuries</strong> can kill you if not dealt with immediately. <strong>Fatal Injuries</strong> can kill outright. <strong>Bleeding</strong> wounds, if not treated can quickly overwhelm you.</div>    
         </div>
       </div>
       <label for="bf">

@@ -309,12 +309,12 @@ export class MothershipActor extends Actor {
             human: `systems/mosh/images/icons/ui/attributes/health.png`
           },
           hitCeiling: {
-            android: `@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
-            human: `@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`
+            android: `You are most likely going to die, so you better make your final moments count. You have an opportunity to make your death meaningful. @UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}.`,
+            human: `You are most likely going to die, so you better make your final moments count. You have an opportunity to make your death meaningful. @UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}.`
           },
           pastCeiling: {
-            android: `@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
-            human: `@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`
+            android: `You are most likely going to die, so you better make your final moments count. You have an opportunity to make your death meaningful. @UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}.`,
+            human: `You are most likely going to die, so you better make your final moments count. You have an opportunity to make your death meaningful. @UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}.`
           },
           decrease: {
             android: `System resources free up and you feel energized.`,
@@ -2868,9 +2868,9 @@ export class MothershipActor extends Actor {
           }
           //get modification description
             //calculate change type
-            if (modifySurplus < 0) {
+            if (modifySurplus < 0 && modifyDifference === 0) {
               msgAction = 'pastFloor';
-            } else if (modifySurplus > 0) {
+            } else if (modifySurplus > 0 && modifyDifference === 0) {
               msgAction = 'pastCeiling';
             } else if (modifySurplus === 0 && modifyNew === modifyMinimum && modifyChange != 0) {
               msgAction = 'hitFloor';
@@ -2995,9 +2995,9 @@ export class MothershipActor extends Actor {
               }
               //get modification description
                 //calculate change type
-                if (modifySurplus < 0) {
+                if (modifySurplus < 0 && modifyDifference === 0) {
                   msgAction = 'pastFloor';
-                } else if (modifySurplus > 0) {
+                } else if (modifySurplus > 0 && modifyDifference === 0) {
                   msgAction = 'pastCeiling';
                 } else if (modifySurplus === 0 && modifyNew === modifyMinimum && modifyChange != 0) {
                   msgAction = 'hitFloor';

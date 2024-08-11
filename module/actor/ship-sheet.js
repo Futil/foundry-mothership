@@ -22,7 +22,7 @@ export class MothershipShipSheet extends ActorSheet {
         const data = super.getData();
 
         data.dtypes = ["String", "Number", "Boolean"];
-        
+
         // for (let attr of Object.values(data.data.system.attributes)) {
         //     attr.isCheckbox = attr.dtype === "Boolean";
         // }
@@ -45,7 +45,7 @@ export class MothershipShipSheet extends ActorSheet {
 
         let maxHull = superData.supplies.hull.max;
 
-        superData.supplies.hull.percentage = " [ "+Math.round(maxHull * 0.25)+" | "+Math.round(maxHull * 0.5)+" | "+Math.round(maxHull * 0.75)+" ]";
+        superData.supplies.hull.percentage = " [ " + Math.round(maxHull * 0.25) + " | " + Math.round(maxHull * 0.5) + " | " + Math.round(maxHull * 0.75) + " ]";
 
         return data.data;
     }
@@ -103,7 +103,7 @@ export class MothershipShipSheet extends ActorSheet {
         // Delete Inventory Item
         html.find('.item-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
-            this.actor.deleteEmbeddedDocuments("Item",[li.data("itemId")]);
+            this.actor.deleteEmbeddedDocuments("Item", [li.data("itemId")]);
             li.slideUp(200, () => this.render(false));
         });
 
@@ -123,7 +123,12 @@ export class MothershipShipSheet extends ActorSheet {
         //Quantity adjuster
         html.on('mousedown', '.item-quantity', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+            var item;
+            if (game.release.generation >= 12) {
+                item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            } else {
+                item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
             let amount = item.system.quantity;
 
             if (event.button == 0) {
@@ -143,7 +148,7 @@ export class MothershipShipSheet extends ActorSheet {
         html.find('.stat-roll').click(ev => {
             const div = $(ev.currentTarget);
             const statName = div.data("key");
-            this.actor.rollCheck(null,'low',statName,null,null,null);
+            this.actor.rollCheck(null, 'low', statName, null, null, null);
         });
 
         //Weapons
@@ -158,13 +163,23 @@ export class MothershipShipSheet extends ActorSheet {
         // Rollable Weapon
         html.find('.weapon-roll').click(ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-            this.actor.rollCheck(null,'low','combat',null,null,item);
+            var item;
+            if (game.release.generation >= 12) {
+                item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            } else {
+                item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
+            this.actor.rollCheck(null, 'low', 'combat', null, null, item);
         });
 
         html.on('mousedown', '.weapon-ammo', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+            var item;
+            if (game.release.generation >= 12) {
+                item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            } else {
+                item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
             let amount = item.system.ammo;
 
             if (event.button == 0) {
@@ -220,7 +235,13 @@ export class MothershipShipSheet extends ActorSheet {
         // Get the type of item to create.
         const type = header.dataset.type;
         // Grab any data associated with this control.
-        const data = duplicate(header.dataset);
+        var data;
+        if (game.release.generation >= 12) {
+            data = foundry.utils.duplicate(header.dataset);
+        } else {
+            data = duplicate(header.dataset);
+        }
+
         // Initialize a default name.
         const name = `New ${type.capitalize()}`;
         // Prepare the item object.
@@ -233,7 +254,7 @@ export class MothershipShipSheet extends ActorSheet {
         delete itemData.data["type"];
 
         // Finally, create the item!
-        return this.actor.createEmbeddedDocuments("Item",[itemData]);
+        return this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
 
 

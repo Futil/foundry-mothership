@@ -6,12 +6,18 @@ export class MothershipItemSheet extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    var options = {
       classes: ["mosh", "sheet", "item"],
       width: 600,
       height: 500,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
-    });
+    };
+
+    if (game.release.generation >= 12) {
+      return foundry.utils.mergeObject(super.defaultOptions, options);
+    } else {
+      return mergeObject(super.defaultOptions, options);
+    }
   }
 
   /** @override */
@@ -32,8 +38,8 @@ export class MothershipItemSheet extends ItemSheet {
     const data = super.getData();
     const superData = data.system;
 
-    if(data.type == "weapon"){
-      if(superData.ranges.value == "" && superData.ranges.medium > 0){
+    if (data.type == "weapon") {
+      if (superData.ranges.value == "" && superData.ranges.medium > 0) {
         superData.ranges.value = superData.ranges.short + "/" + superData.ranges.medium + "/" + superData.ranges.long;
         superData.ranges.medium = 0;
       }
@@ -45,7 +51,7 @@ export class MothershipItemSheet extends ItemSheet {
     data.data.system.settings.useCalm = game.settings.get("mosh", "useCalm");
     data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
     data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
-    data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");    
+    data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
 
     return data.data;
   }

@@ -6,13 +6,19 @@ export class MothershipActorSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    var options = {
       classes: ["mosh", "sheet", "actor", "character"],
       template: "systems/mosh/templates/actor/actor-sheet.html",
       width: 820,
       height: 820,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
-    });
+    }
+
+    if (game.release.generation >= 12) {
+      return foundry.utils.mergeObject(super.defaultOptions, options);
+    } else {
+      return mergeObject(super.defaultOptions, options);
+    }
   }
 
   /* -------------------------------------------- */
@@ -24,7 +30,7 @@ export class MothershipActorSheet extends ActorSheet {
     data.dtypes = ["String", "Number", "Boolean"];
 
     const superData = data.data.system;
-    
+
     for (let attr of Object.values(data.data.system.attributes)) {
       attr.isCheckbox = attr.dtype === "Boolean";
     }
@@ -41,34 +47,34 @@ export class MothershipActorSheet extends ActorSheet {
     data.data.system.settings.useCalm = game.settings.get("mosh", "useCalm");
     data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
     data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
-    data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");    
+    data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
 
 
     //SKILL XP BUTTONS
     superData.xp.html = '';
-    if(superData.xp.html == ''){
-      for(let i = 1; i <= 15; i ++){
-        if(i > superData.xp.value){
-          if(i % 5){
+    if (superData.xp.html == '') {
+      for (let i = 1; i <= 15; i++) {
+        if (i > superData.xp.value) {
+          if (i % 5) {
             superData.xp.html += '<div class="circle"></div>';
           }
           else { //If a special one
             let trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -54px;">Trained</div>';
-            if(i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px;">Expert</div>';
-            else if(i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px;">Master</div>';
-            superData.xp.html += '<div class="circle" style="background:rgb(200,200,200);">'+trainLevel+'</div>';
+            if (i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px;">Expert</div>';
+            else if (i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px;">Master</div>';
+            superData.xp.html += '<div class="circle" style="background:rgb(200,200,200);">' + trainLevel + '</div>';
           }
         }
-        else{
-        if(i % 5){
-          superData.xp.html += '<div class="circle-f"></div>';
-        }
-        else { //If a special one
-          let trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -54px; color:black;">Trained</div>';
-          if(i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px; color:black;">Expert</div>';
-          else if(i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px; color:black;">Master</div>';
-          superData.xp.html += '<div class="circle-f" style="background:black;">'+trainLevel+'</div>';
-        }
+        else {
+          if (i % 5) {
+            superData.xp.html += '<div class="circle-f"></div>';
+          }
+          else { //If a special one
+            let trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -54px; color:black;">Trained</div>';
+            if (i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px; color:black;">Expert</div>';
+            else if (i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px; color:black;">Master</div>';
+            superData.xp.html += '<div class="circle-f" style="background:black;">' + trainLevel + '</div>';
+          }
 
         }
       }
@@ -87,8 +93,8 @@ export class MothershipActorSheet extends ActorSheet {
    */
   _prepareCharacterItems(sheetData) {
     const actorData = sheetData.data;
-    console.log(sheetData);
-    console.log("sheetdata Above");
+    //console.log(sheetData);
+    ///console.log("sheetdata Above");
     // Initialize containers.
     const gear = [];
     const skills = [];
@@ -105,21 +111,21 @@ export class MothershipActorSheet extends ActorSheet {
 
       if (i.type === 'item') {
         gear.push(i);
-        curWeight+=item.weight*item.quantity;
+        curWeight += item.weight * item.quantity;
       } else if (i.type === 'skill') {
         skills.push(i);
       } else if (i.type === 'armor') {
         armors.push(i);
-        curWeight+=item.weight;
+        curWeight += item.weight;
       } else if (i.type === 'weapon') {
         //We need to update this from the old system.    
-        if(item.ranges.value == "" && item.ranges.medium > 0){
+        if (item.ranges.value == "" && item.ranges.medium > 0) {
           item.ranges.value = item.ranges.short + "/" + item.ranges.medium + "/" + item.ranges.long;
           item.ranges.medium = 0;
         }
 
         weapons.push(i);
-        curWeight+=item.weight;
+        curWeight += item.weight;
       } else if (i.type === 'condition') {
         // We'll handle the pip html here.
         if (item.treatment == null) {
@@ -130,10 +136,10 @@ export class MothershipActorSheet extends ActorSheet {
         }
         let pipHtml = "";
         for (let i = 0; i < 3; i++) {
-          if (i < item.treatment.value){
+          if (i < item.treatment.value) {
             pipHtml += '<i class="fas fa-circle"></i>';
           }
-          else{
+          else {
             pipHtml += '<i class="far fa-circle"></i>';
           }
         }
@@ -144,19 +150,19 @@ export class MothershipActorSheet extends ActorSheet {
       }
     }
 
-    if(actorData.system.weight == undefined){
+    if (actorData.system.weight == undefined) {
       actorData.system.weight = {
-        "current" : 0,
-        "capacity" : 0
+        "current": 0,
+        "capacity": 0
       };
     }
-    if(actorData.system.credits == undefined){
+    if (actorData.system.credits == undefined) {
       actorData.system.credits = {
-        "value" : 0,
+        "value": 0,
       };
     }
 
-    actorData.system.weight.capacity = Math.ceil((actorData.system.stats.strength.value/10)); //Removed a +3 here because I misunderstood some Traaa.sh stuff. This whole thing can probably be ripped out tbh.
+    actorData.system.weight.capacity = Math.ceil((actorData.system.stats.strength.value / 10)); //Removed a +3 here because I misunderstood some Traaa.sh stuff. This whole thing can probably be ripped out tbh.
     actorData.system.weight.current = curWeight;
     //console.log("Current Weight: " + curWeight + " Capacity: " + actorData.data.weight.capacity);
 
@@ -202,14 +208,20 @@ export class MothershipActorSheet extends ActorSheet {
         value: attribute.value
       }
 
-      const updateString = "data."+targetName;
+      const updateString = "data." + targetName;
 
-      this.actor.update({[updateString] : updated});
+      this.actor.update({ [updateString]: updated });
     });
 
     html.on('mousedown', '.treatment-button', ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
 
       let amount = item.system.treatment.value;
 
@@ -230,7 +242,13 @@ export class MothershipActorSheet extends ActorSheet {
     // Update Inventory Item
     html.find('.item-equip').click(ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
 
       item.system.equipped = !item.system.equipped;
       this.actor.updateEmbeddedDocuments('Item', [item]);
@@ -249,7 +267,13 @@ export class MothershipActorSheet extends ActorSheet {
     //Quantity adjuster
     html.on('mousedown', '.item-quantity', ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
       let amount = item.system.quantity;
 
       if (event.button == 0) {
@@ -264,7 +288,13 @@ export class MothershipActorSheet extends ActorSheet {
     //Severity adjuster
     html.on('mousedown', '.severity', ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
+
       let amount = item.system.severity;
 
       if (event.button == 0) {
@@ -279,7 +309,7 @@ export class MothershipActorSheet extends ActorSheet {
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      this.actor.deleteEmbeddedDocuments("Item",[li.data("itemId")]);
+      this.actor.deleteEmbeddedDocuments("Item", [li.data("itemId")]);
       li.slideUp(200, () => this.render(false));
     });
 
@@ -309,28 +339,46 @@ export class MothershipActorSheet extends ActorSheet {
     html.find('.stat-roll').click(ev => {
       const div = $(ev.currentTarget);
       const statName = div.data("key");
-      this.actor.rollCheck(null,'low',statName,null,null,null);
+      this.actor.rollCheck(null, 'low', statName, null, null, null);
     });
 
     // Rollable Skill
     html.find('.skill-roll').click(ev => {
       const li = event.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-      this.actor.rollCheck(null,null,null,item.name,item.system.bonus,null);
+      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
+      this.actor.rollCheck(null, null, null, item.name, item.system.bonus, null);
     });
 
     // Rollable Weapon
     html.find('.weapon-roll').click(ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-      this.actor.rollCheck(null,'low','combat',null,null,item);
+      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
+      this.actor.rollCheck(null, 'low', 'combat', null, null, item);
     });
 
     // Rollable Damage
     html.find('.dmg-roll').click(ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-      this.actor.rollCheck(null,null,'damage',null,null,item);
+      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
+      this.actor.rollCheck(null, null, 'damage', null, null, item);
     });
 
     // Rollable Item/Anything with a description that we want to click on.
@@ -344,7 +392,13 @@ export class MothershipActorSheet extends ActorSheet {
     //increase ammo
     html.on('mousedown', '.weapon-ammo', ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
       let amount = item.system.ammo;
       if (event.button == 0) {
         if (amount >= 0) {
@@ -361,7 +415,13 @@ export class MothershipActorSheet extends ActorSheet {
     //increase shots
     html.on('mousedown', '.weapon-shots', ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
       if (event.button == 0) {
         if (item.system.curShots >= 0 && item.system.curShots < item.system.shots && item.system.ammo > 0) {
           item.system.curShots = Number(item.system.curShots) + 1;
@@ -385,7 +445,13 @@ export class MothershipActorSheet extends ActorSheet {
     //increase oxygen
     html.on('mousedown', '.armor-oxy', ev => {
       const li = ev.currentTarget.closest(".item");
-      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+      var item;
+      if (game.release.generation >= 12) {
+        item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      } else {
+        item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+      }
       let amount = item.system.oxygenCurrent;
       if (event.button == 0) {
         if (amount < item.system.oxygenMax) {
@@ -402,13 +468,13 @@ export class MothershipActorSheet extends ActorSheet {
     // Calm - Panic Check
     html.find('.calm-roll').click(ev => {
       //roll panic check
-      this.actor.rollTable('panicCheck',null,null,null,null,null,null);
+      this.actor.rollTable('panicCheck', null, null, null, null, null, null);
     });
-    
+
     // Stress - Panic Check
     html.find('.stress-roll').click(ev => {
       //roll panic check
-      this.actor.rollTable('panicCheck',null,null,null,null,null,null);
+      this.actor.rollTable('panicCheck', null, null, null, null, null, null);
     });
 
     // Clicking on Armor
@@ -444,7 +510,13 @@ export class MothershipActorSheet extends ActorSheet {
     // Get the type of item to create.
     const type = header.dataset.type;
     // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
+    var data;
+    if (game.release.generation >= 12) {
+      data = foundry.utils.duplicate(header.dataset);
+    } else {
+      data = duplicate(header.dataset);
+    }
+
     // Initialize a default name.
     const name = `New ${type.capitalize()}`;
     // Prepare the item object.
@@ -459,7 +531,7 @@ export class MothershipActorSheet extends ActorSheet {
 
 
     // Finally, create the item!
-    return this.actor.createEmbeddedDocuments("Item",[itemData]);
+    return this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
   /**
@@ -473,7 +545,13 @@ export class MothershipActorSheet extends ActorSheet {
     // Get the type of item to create.
     const type = header.dataset.type;
     // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
+    var data;
+    if (game.release.generation >= 12) {
+      data = foundry.utils.duplicate(header.dataset);
+    } else {
+      data = duplicate(header.dataset);
+    }
+    //const data = duplicate(header.dataset);
     // Initialize a default name.
     const name = `New Skill`;
     // Prepare the item object.
@@ -499,16 +577,16 @@ export class MothershipActorSheet extends ActorSheet {
           label: "Create",
           callback: (html) => {
             var rank = html.find('[id=\"rank\"]')[0].value;
-            if(rank == "Trained")
+            if (rank == "Trained")
               itemData.data.bonus = 10;
-            if(rank == "Expert")
+            if (rank == "Expert")
               itemData.data.bonus = 15;
-            if(rank == "Master")
+            if (rank == "Master")
               itemData.data.bonus = 20;
 
             itemData.data.rank = rank;
             itemData.name = html.find('[id=\"name\"]')[0].value
-            this.actor.createEmbeddedDocuments("Item",[itemData]);
+            this.actor.createEmbeddedDocuments("Item", [itemData]);
           }
         },
         cancel: {
@@ -523,7 +601,7 @@ export class MothershipActorSheet extends ActorSheet {
     d.render(true);
 
     // Finally, create the item!
-    return ;
+    return;
   }
 
 
@@ -549,7 +627,13 @@ export class MothershipActorSheet extends ActorSheet {
 
   async _updateObject(event, formData) {
     const actor = this.object;
-    const updateData = expandObject(formData);
+
+    var updateData;
+    if (game.release.generation >= 12) {
+      updateData = foundry.utils.expandObject(formData);
+    } else {
+      updateData = expandObject(formData);
+    }
 
     await actor.update(updateData, {
       diff: false

@@ -8,13 +8,19 @@ export class MothershipCreatureSheet extends ActorSheet {
 
     /** @override */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        var options = {
             classes: ["mosh", "sheet", "actor", "creature"],
             template: "systems/mosh/templates/actor/creature-sheet.html",
             width: 700,
             height: 650,
             tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
-        });
+        };
+
+        if (game.release.generation >= 12) {
+            return foundry.utils.mergeObject(super.defaultOptions, options);
+        } else {
+            return mergeObject(super.defaultOptions, options);
+        }
     }
 
     /**
@@ -46,7 +52,13 @@ export class MothershipCreatureSheet extends ActorSheet {
 
     async _updateObject(event, formData) {
         const actor = this.object;
-        const updateData = expandObject(formData);
+        var updateData;
+        if (game.release.generation >= 12) {
+          updateData = foundry.utils.expandObject(formData);
+        } else {
+          updateData = expandObject(formData);
+        }
+    
 
         await actor.update(updateData, {
             diff: false
@@ -70,12 +82,12 @@ export class MothershipCreatureSheet extends ActorSheet {
 
         if (data.data.system.settings == null) {
             data.data.system.settings = {};
-          }
-          data.data.system.settings.useCalm = game.settings.get("mosh", "useCalm");
-          data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
-          data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
-          data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");    
-      
+        }
+        data.data.system.settings.useCalm = game.settings.get("mosh", "useCalm");
+        data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
+        data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
+        data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
+
         return data.data;
     }
 
@@ -88,7 +100,7 @@ export class MothershipCreatureSheet extends ActorSheet {
      */
     _prepareCreatureItems(sheetData) {
         const actorData = sheetData.data;
-        
+
         // Initialize containers.
         const abilities = [];
         const weapons = [];
@@ -102,7 +114,7 @@ export class MothershipCreatureSheet extends ActorSheet {
             if (i.type === 'ability') {
                 abilities.push(i);
             } else if (i.type === 'weapon') {
-                if(item.ranges.value == "" && item.ranges.medium > 0){
+                if (item.ranges.value == "" && item.ranges.medium > 0) {
                     item.ranges.value = item.ranges.short + "/" + item.ranges.medium + "/" + item.ranges.long;
                     item.ranges.medium = 0;
                 }
@@ -126,7 +138,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         // Delete Inventory Item
         html.find('.item-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
-            this.actor.deleteEmbeddedDocuments("Item",[li.data("itemId")]);
+            this.actor.deleteEmbeddedDocuments("Item", [li.data("itemId")]);
             li.slideUp(200, () => this.render(false));
         });
 
@@ -141,7 +153,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         html.find('.stat-roll').click(ev => {
             const div = $(ev.currentTarget);
             const statName = div.data("key");
-            this.actor.rollCheck(null,'low',statName,null,null,null);
+            this.actor.rollCheck(null, 'low', statName, null, null, null);
         });
 
         //Weapons
@@ -158,22 +170,37 @@ export class MothershipCreatureSheet extends ActorSheet {
         // Rollable Weapon
         html.find('.weapon-roll').click(ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-            this.actor.rollCheck(null,'low','combat',null,null,item);
+            var item;
+            if (game.release.generation >= 12) {
+                item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            } else {
+                item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
+            this.actor.rollCheck(null, 'low', 'combat', null, null, item);
         });
 
         // Rollable Damage
         html.find('.dmg-roll').click(ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-            this.actor.rollCheck(null,null,'damage',null,null,item);
+            var item;
+            if (game.release.generation >= 12) {
+                item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            } else {
+                item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
+            this.actor.rollCheck(null, null, 'damage', null, null, item);
         });
 
         //increase ammo
         html.on('mousedown', '.weapon-ammo', ev => {
             //dupe item to work on
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+            var item;
+            if (game.release.generation >= 12) {
+                item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            } else {
+                item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
             let amount = item.system.ammo;
             //increase ammo
             if (event.button == 0) {
@@ -189,24 +216,29 @@ export class MothershipCreatureSheet extends ActorSheet {
             this.actor.updateEmbeddedDocuments('Item', [item]);
         });
 
-    //increase shots
-    html.on('mousedown', '.weapon-shots', ev => {
-        const li = ev.currentTarget.closest(".item");
-        const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
-        if (event.button == 0) {
-          if (item.system.curShots >= 0 && item.system.curShots < item.system.shots && item.system.ammo > 0) {
-            item.system.curShots = Number(item.system.curShots) + 1;
-            item.system.ammo = Number(item.system.ammo) - 1;
-          }
-        } else if (event.button == 2) {
-          if (item.system.curShots > 0) {
-            item.system.curShots = Number(item.system.curShots) - 1;
-            item.system.ammo = Number(item.system.ammo) + 1;
-          }
-        }
-        this.actor.updateEmbeddedDocuments('Item', [item]);
-      });
-    
+        //increase shots
+        html.on('mousedown', '.weapon-shots', ev => {
+            const li = ev.currentTarget.closest(".item");
+            var item;
+            if (game.release.generation >= 12) {
+                item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            } else {
+                item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
+            if (event.button == 0) {
+                if (item.system.curShots >= 0 && item.system.curShots < item.system.shots && item.system.ammo > 0) {
+                    item.system.curShots = Number(item.system.curShots) + 1;
+                    item.system.ammo = Number(item.system.ammo) - 1;
+                }
+            } else if (event.button == 2) {
+                if (item.system.curShots > 0) {
+                    item.system.curShots = Number(item.system.curShots) - 1;
+                    item.system.ammo = Number(item.system.ammo) + 1;
+                }
+            }
+            this.actor.updateEmbeddedDocuments('Item', [item]);
+        });
+
         //Reload Shots
         html.on('mousedown', '.weapon-reload', ev => {
             const li = ev.currentTarget.closest(".item");
@@ -247,7 +279,12 @@ export class MothershipCreatureSheet extends ActorSheet {
         // Get the type of item to create.
         const type = header.dataset.type;
         // Grab any data associated with this control.
-        const data = duplicate(header.dataset);
+        var data;
+        if (game.release.generation >= 12) {
+            data = foundry.utils.duplicate(header.dataset);
+        } else {
+            data = duplicate(header.dataset);
+        }
         // Initialize a default name.
         const name = `New ${type.capitalize()}`;
         // Prepare the item object.
@@ -260,7 +297,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         delete itemData.data["type"];
 
         // Finally, create the item!
-        return this.actor.createEmbeddedDocuments("Item",[itemData]);
+        return this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
 
 

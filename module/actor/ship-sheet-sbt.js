@@ -12,16 +12,26 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
     /** @override */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+
+        var options = {
             classes: ["mosh", "sheet", "actor", "ship"],
             template: "systems/mosh/templates/actor/ship-sheet-sbt.html",
             width: 700,
             height: 840,
             tabs: [{ navSelector: "#sheet-tabs", contentSelector: "#sheet-body", initial: "character" },
-                    { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "close" }],
-                //    { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "crew" }],
+            { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "close" }],
+            //    { navSelector: "#side-tabs", contentSelector: "#side-body", initial: "crew" }],
             scrollY: [".sheet-body", "scroll-lock"]
-        });
+        }
+
+
+        if (game.release.generation >= 12) {
+            return foundry.utils.mergeObject(super.defaultOptions, options);
+        } else {
+            return mergeObject(super.defaultOptions, options);
+        }
+
+
     }
 
     _onOpenDeckplan(event) {
@@ -65,7 +75,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         data.dtypes = ["String", "Number", "Boolean"];
 
         // console.log(this.actor.getRollTableData('AqGWwoWXzijFs427'));
-        
+
         // for (let attr of Object.values(data.data.system.attributes)) {
         //     attr.isCheckbox = attr.dtype === "Boolean";
         // }
@@ -89,7 +99,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
         let maxHull = superData.supplies.hull.max;
 
-        superData.supplies.hull.percentage = " [ "+Math.round(maxHull * 0.25)+" | "+Math.round(maxHull * 0.5)+" | "+Math.round(maxHull * 0.75)+" ]";
+        superData.supplies.hull.percentage = " [ " + Math.round(maxHull * 0.25) + " | " + Math.round(maxHull * 0.5) + " | " + Math.round(maxHull * 0.75) + " ]";
 
 
         //Run Setup
@@ -103,12 +113,12 @@ export class MothershipShipSheetSBT extends ActorSheet {
         //     data.data.system.runSetup = false;
         // }
 
-        this._prepareMegadamage(data);
+        this._prepareMegadamage(superData);
 
         return data.data;
     }
 
-    
+
     /**
      * Organize and classify Items for Character sheets.
      *
@@ -143,13 +153,13 @@ export class MothershipShipSheetSBT extends ActorSheet {
                 cargo.push(i);
             } else if (i.type === 'module') {
                 modules.push(i);
-            } else if (i.type == 'repair'){
+            } else if (i.type == 'repair') {
                 i.name = i.name.split('.')[0];
 
-                if(i.system.major){
+                if (i.system.major) {
                     majorRepairs.push(i);
                 }
-                else{
+                else {
                     minorRepairs.push(i);
                 }
             }
@@ -165,31 +175,30 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
     }
 
-    async _prepareMegadamage(sheetData){
-        const actorData = sheetData.data;
-
+    async _prepareMegadamage(sheetData) {
+        const actorData = sheetData;
         //A script to return the data from a table.
-        let tableId = game.settings.get('mosh','table1eMegadamageEffects');
+        let tableId = game.settings.get('mosh', 'table1eMegadamageEffects');
         let currentLocation = '';
         let tableLocation = '';
         //find where this table is located
         //get current compendium
         let compendium = game.packs;
         //loop through each compendium
-        compendium.forEach(function(pack){ 
-        //is this a pack of rolltables?
-        if (pack.metadata.type === 'RollTable') {
-            //log where we are
-            currentLocation = pack.metadata.id;
-            //loop through each pack to find the right table
-            pack.index.forEach(function(table) { 
-            //is this our table?
-            if (table._id === tableId) {
-                //grab the table location
-                tableLocation = currentLocation;
+        compendium.forEach(function (pack) {
+            //is this a pack of rolltables?
+            if (pack.metadata.type === 'RollTable') {
+                //log where we are
+                currentLocation = pack.metadata.id;
+                //loop through each pack to find the right table
+                pack.index.forEach(function (table) {
+                    //is this our table?
+                    if (table._id === tableId) {
+                        //grab the table location
+                        tableLocation = currentLocation;
+                    }
+                });
             }
-            });
-        }
         });
         //get table data
         let tableData = await game.packs.get(tableLocation).getDocument(tableId);
@@ -197,38 +206,37 @@ export class MothershipShipSheetSBT extends ActorSheet {
         let megadamageHTML = "";
 
         let entries = Array.from(tableData.results.entries());
-
         //Prep Megadamage List
         // if(actorData.system.megadamage.hits.length > 0){
-            let index = 0;
-            for(const entry of entries){
+        let index = 0;
+        for (const entry of entries) {
 
-                // Megadamage - Only Active
-                if(index != 0 && actorData.system.megadamage.hits.includes(index)){
-                    // megadamageHTML += `<i class="fa-solid fa-wrench megadamage-button rollable" data-key="${index}"></i> &nbsp`;
-                    megadamageHTML += `<i class="fas fa-circle megadamage-button rollable" data-key="${index}"></i> &nbsp`;
-                    megadamageHTML += `<b>${index} |</b> ${entry[1].text} <br/> <br/>`;
-                } else if(index != 0) {
-                    // megadamageHTML += `<i class="fa-solid fa-wrench megadamage-button rollable" data-key="${index}"></i> &nbsp`;
-                    megadamageHTML += `<div class="grey"><i class="far fa-circle megadamage-button rollable grey" data-key="${index}"></i> &nbsp`;
-                    megadamageHTML += `<b>${index} |</b> ${entry[1].text} <br/> <br/></div>`;
-                }
-                index++;
+            // Megadamage - Only Active
+            if (index != 0 && actorData.megadamage.hits.includes(index)) {
+                // megadamageHTML += `<i class="fa-solid fa-wrench megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+                megadamageHTML += `<i class="fas fa-circle megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+                megadamageHTML += `<b>${index} |</b> ${entry[1].text} <br/> <br/>`;
+            } else if (index != 0) {
+                // megadamageHTML += `<i class="fa-solid fa-wrench megadamage-button rollable" data-key="${index}"></i> &nbsp`;
+                megadamageHTML += `<div class="grey"><i class="far fa-circle megadamage-button rollable grey" data-key="${index}"></i> &nbsp`;
+                megadamageHTML += `<b>${index} |</b> ${entry[1].text} <br/> <br/></div>`;
             }
+            index++;
+        }
         // } else {
-            
-            // megadamageHTML += entries[0][1].text + "<br/> <br/>";
+
+        // megadamageHTML += entries[0][1].text + "<br/> <br/>";
         // }
 
         await this.object.update({
-            "data.megadamage.html": megadamageHTML
+            "system.megadamage.html": megadamageHTML
         });
 
-        if(actorData.system.page == undefined){
-            actorData.system.page = {};
+        if (actorData.page == undefined) {
+            actorData.page = {};
         }
 
-        actorData.system.page.megadamageMenuClass = "";
+        actorData.page.megadamageMenuClass = "";
 
         // if(actorData.system.megadamage.open){
         //     actorData.system.page.megadamageMenuClass = "sbt-megadamage-open"
@@ -236,7 +244,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         //     actorData.system.page.megadamageMenuClass = "sbt-megadamage-closed"
         // }
 
-        
+
         // await this.object.update({
         //     "data.megadamage.hits": []
         // });
@@ -253,22 +261,22 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
         html.on('mousedown', '.megadamage-button', ev => {
             const data = this.object;
-      
+
             const div = $(ev.currentTarget);
             const targetKey = div.data("key");
 
-            if(data.data.system.megadamage.hits.includes(targetKey)){
-                const index = data.data.system.megadamage.hits.indexOf(targetKey);
-                data.data.system.megadamage.hits.splice(index, 1);
+            if (data.system.megadamage.hits.includes(targetKey)) {
+                const index = data.system.megadamage.hits.indexOf(targetKey);
+                data.system.megadamage.hits.splice(index, 1);
             } else {
-                data.data.system.megadamage.hits.push(targetKey);
+                data.system.megadamage.hits.push(targetKey);
             }
-            
+
             this.object.update({
-                "data.megadamage.hits": data.data.system.megadamage.hits
+                "system.megadamage.hits": data.system.megadamage.hits
             });
 
-            this._prepareMegadamage(data);
+            this._prepareMegadamage(data.system);
         });
 
         // Create inventory item.
@@ -276,7 +284,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         // Delete Inventory Item
         html.find('.item-delete').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
-            this.actor.deleteEmbeddedDocuments("Item",[li.data("itemId")]);
+            this.actor.deleteEmbeddedDocuments("Item", [li.data("itemId")]);
             li.slideUp(200, () => this.render(false));
         });
 
@@ -296,7 +304,13 @@ export class MothershipShipSheetSBT extends ActorSheet {
         //Quantity adjuster
         html.on('mousedown', '.item-quantity', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+            //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+            var item;
+            if (game.release.generation >= 12) {
+                item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            } else {
+                item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
             let amount = item.system.quantity;
 
             if (event.button == 0) {
@@ -316,7 +330,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         html.find('.stat-roll').click(ev => {
             const div = $(ev.currentTarget);
             const statName = div.data("key");
-            this.actor.rollCheck(null,'low',statName,null,null,null);
+            this.actor.rollCheck(null, 'low', statName, null, null, null);
         });
 
         //Weapons
@@ -330,11 +344,16 @@ export class MothershipShipSheetSBT extends ActorSheet {
         });
 
         // Rollable Weapon - not needed since individual ship weapons are not fired
-        // html.find('.weapon-roll').click(ev => {
-        //     const li = ev.currentTarget.closest(".item");
-        //     const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
-        //     this.actor.rollCheck(null,'low','combat',null,null,item);
-        // });
+        html.find('.weapon-roll').click(ev => {
+            // const li = ev.currentTarget.closest(".item");
+            // const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            // this.actor.rollCheck(null,'low','combat',null,null,item);
+
+            const li = ev.currentTarget.closest(".item");
+            this.actor.printDescription(li.dataset.itemId, {
+                event: ev
+            });
+        });
 
         // Distress Signal
         html.find('.distress-button').click(ev => {
@@ -393,7 +412,13 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
         html.on('mousedown', '.weapon-ammo', ev => {
             const li = ev.currentTarget.closest(".item");
-            const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+            var item;
+            if (game.release.generation >= 12) {
+                item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            } else {
+                item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
+            //const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
             let amount = item.system.ammo;
 
             if (event.button == 0) {
@@ -454,7 +479,13 @@ export class MothershipShipSheetSBT extends ActorSheet {
 
 
         // Grab any data associated with this control.
-        const data = duplicate(header.dataset);
+        var data;
+        if (game.release.generation >= 12) {
+            data = foundry.utils.duplicate(header.dataset);
+        } else {
+            data = duplicate(header.dataset);
+        }
+
         // Initialize a default name.
         const name = `New ${type.capitalize()}`;
         // Prepare the item object.
@@ -462,18 +493,18 @@ export class MothershipShipSheetSBT extends ActorSheet {
             name: name,
             type: type,
             data: data,
-            system : {}
+            system: {}
         };
 
-        if(type == "repair"){
-           itemData.system.major = (header.dataset.subtype == "major");
+        if (type == "repair") {
+            itemData.system.major = (header.dataset.subtype == "major");
         }
 
         // Remove the type from the dataset since it's in the itemData.type prop.
         delete itemData.data["type"];
 
         // Finally, create the item!
-        return this.actor.createEmbeddedDocuments("Item",[itemData]);
+        return this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
 
 
@@ -488,7 +519,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         const dataset = element.dataset;
 
         if (dataset.roll) {
-            let roll = new Roll(dataset.roll, this.actor.data.data);
+            let roll = new Roll(dataset.roll, this.actor.data.system);
             let label = dataset.label ? `Rolling ${dataset.label} to score under ${dataset.target}` : '';
             roll.roll().toMessage({
                 speaker: ChatMessage.getSpeaker({ actor: this.actor }),

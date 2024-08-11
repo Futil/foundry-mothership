@@ -6,6 +6,7 @@ export class MothershipActor extends Actor {
 
   //Augment the basic actor data with additional dynamic data.
   prepareData() {
+    //console.log(game.release.generation);
     super.prepareData();
 
     const actorData = this;
@@ -1420,7 +1421,7 @@ export class MothershipActor extends Actor {
     let woundText = ``;
     let tableResultEdited = ``;
     let tableResultFooter = ``;
-    let chatId = randomID();
+    let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
     let rollTarget = null;
     let valueAddress = [];
     let specialRoll = null;
@@ -2164,7 +2165,7 @@ export class MothershipActor extends Actor {
     let woundEffect = ``;
     let msgHeader = ``;
     let msgImgPath = ``;
-    let chatId = randomID();
+    let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID());
     let firstEdition = game.settings.get('mosh','firstEdition');
     let useCalm = game.settings.get('mosh','useCalm');
     //customize this roll if its a unique use-case
@@ -2777,7 +2778,7 @@ export class MothershipActor extends Actor {
     let msgFlavor = ``;
     let msgOutcome = ``;
     let msgChange = ``;
-    let chatId = randomID();
+    let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
     let halfDamage = false;
     let firstEdition = game.settings.get('mosh','firstEdition');
     let useCalm = game.settings.get('mosh','useCalm');
@@ -3087,7 +3088,7 @@ export class MothershipActor extends Actor {
     let oldValue = 0;
     let newValue = 0;
     let flavorText = ``;
-    let chatId = randomID();
+    let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
     //find where this item is located
       //get current compendium
       let compendium = game.packs;
@@ -3249,9 +3250,15 @@ export class MothershipActor extends Actor {
     let messageTemplate = ``;
     let messageContent = ``;
     let msgBody = ``;
-    let chatId = randomID();
+    let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
     //dupe item to work with
-    let item = duplicate(this.getEmbeddedDocument('Item',itemId));
+    var item;
+    if (game.release.generation >= 12) {
+      item = foundry.utils.duplicate(this.getEmbeddedDocument('Item',itemId));
+    } else {
+      item = duplicate(this.getEmbeddedDocument('Item',itemId));
+    }
+
     //reload
     if (!item.system.useAmmo) {
       //exit function (it should not be possible to get here)
@@ -3312,7 +3319,7 @@ export class MothershipActor extends Actor {
   //make the player take bleeding damage
   async takeBleedingDamage() {
     //init vars
-    let chatId = randomID();  
+    let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
     //determine bleeding amount
     let healthLost = this.items.getName("Bleeding").system.severity*-1;
     //run the function for the player's 'Selected Character'
@@ -3352,7 +3359,7 @@ export class MothershipActor extends Actor {
   //make the player take radiation damage
   async takeRadiationDamage() {
     //init vars
-    let chatId = randomID();  
+    let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
     //reduce all stats and saves by 1
     this.modifyActor('system.stats.strength.value',-1,null,false);
     this.modifyActor('system.stats.speed.value',-1,null,false);
@@ -3396,7 +3403,7 @@ export class MothershipActor extends Actor {
   //make the player take radiation damage
   async takeCryoDamage(rollString) {
     //init vars
-    let chatId = randomID();
+    let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
     //roll the dice
       //parse the roll string
       let parsedRollString = this.parseRollString(rollString,'low');
@@ -3906,7 +3913,12 @@ export class MothershipActor extends Actor {
 
   // print description
   printDescription(itemId, options = { event: null }) {
-    let item = duplicate(this.getEmbeddedDocument('Item',itemId));
+    var item;
+    if (game.release.generation >= 12) {
+      item = foundry.utils.duplicate(this.getEmbeddedDocument('Item',itemId));
+    } else {
+      item = duplicate(this.getEmbeddedDocument('Item',itemId));
+    }
     this.chatDesc(item);
   }
 

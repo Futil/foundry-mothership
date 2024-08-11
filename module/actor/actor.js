@@ -127,7 +127,7 @@ export class MothershipActor extends Actor {
         },
         distress_signal: {
           roll: {
-            human: `You send out a distress signal and wait for help.`
+            human: `You put your ship on emergency power, seal yourselves in cryopods, send out a Distress Signal, and wait for help. It’s a long shot, but sometimes it’s the only shot you’ve got. Will you be found?`
           }
         },
         maintenance_issues: {
@@ -310,12 +310,12 @@ export class MothershipActor extends Actor {
             human: `systems/mosh/images/icons/ui/attributes/health.png`
           },
           hitCeiling: {
-            android: `You are most likely going to die, so you better make your final moments count. You have an opportunity to make your death meaningful. @UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}.`,
-            human: `You are most likely going to die, so you better make your final moments count. You have an opportunity to make your death meaningful. @UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}.`
+            android: `You are about to to die, make your final moments count. Let your death meaningful with your final action.<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
+            human: `You are about to to die, make your final moments count. Let your death meaningful with your final action.<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`
           },
           pastCeiling: {
-            android: `You are most likely going to die, so you better make your final moments count. You have an opportunity to make your death meaningful. @UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}.`,
-            human: `You are most likely going to die, so you better make your final moments count. You have an opportunity to make your death meaningful. @UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}.`
+            android: `You are about to to die, make your final moments count. Let your death meaningful with your final action.<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
+            human: `You are about to to die, make your final moments count. Let your death meaningful with your final action.<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`
           },
           decrease: {
             android: `System resources free up and you feel energized.`,

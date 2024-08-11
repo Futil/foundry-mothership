@@ -299,7 +299,7 @@ export class MothershipActorSheet extends ActorSheet {
 
       if (event.button == 0) {
         item.system.severity = Number(amount) + 1;
-      } else if (event.button == 2 && amount > 1) {
+      } else if (event.button == 2 && amount > 0) {
         item.system.severity = Number(amount) - 1;
       }
 

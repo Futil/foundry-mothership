@@ -1419,6 +1419,7 @@ export class MothershipActor extends Actor {
     let msgDesc = ``;
     let flavorText = ``;
     let woundText = ``;
+    let tableResultType = ``;
     let tableResultEdited = ``;
     let tableResultFooter = ``;
     let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
@@ -1701,11 +1702,20 @@ export class MothershipActor extends Actor {
       if (specialRoll === 'maintenanceCheck' && useCalm && parsedRollResult.success && parsedRollResult.critical) {
         flavorText = flavorText + ` Gain 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.k2TtLFOG9mGaWVx3]{+1d10 Calm}`;
       }
+    //set table result type (using first value)
+    if (tableResult[0].type === 0 || tableResult[0].type === 'text') {
+      tableResultType = `text`;
+    } else if (tableResult[0].type === 1 || tableResult[0].type === 'document') {
+      tableResultType = `document`;
+    } else {
+      tableResultType = `unknown`;
+    }
 	  //generate chat message
       //prepare data
       let messageData = {
         actor: this,
         tableResult: tableResult,
+        tableResultType: tableResultType,
         tableResultEdited: tableResultEdited,
         tableResultFooter: tableResultFooter,
         parsedRollResult: parsedRollResult,

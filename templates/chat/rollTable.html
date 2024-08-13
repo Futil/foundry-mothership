@@ -27,7 +27,7 @@
             {{#if woundText}}
                 {{{woundText}}}<br><br>
             {{/if}}
-            {{#if (compare 'int' tableResult.[0].type '===' 1)}}
+            {{#if (compare 'str' tableResultType '===' 'document')}}
                 <ol class="table-results">
                 {{#each tableResult}}
                 <li class="table-result flexrow" data-result-id="{{{this._id}}}">
@@ -37,7 +37,7 @@
                 {{/each}}
                 </ol>
             {{/if}}
-            {{#if (compare 'int' tableResult.[0].type '===' 0)}}
+            {{#if (compare 'str' tableResultType '===' 'text')}}
                 {{#if tableResultEdited}}
                     <div class="description" style="margin-bottom : 20px;">{{{tableResultEdited}}}{{{tableResultFooter}}}</div>
                 {{else}}

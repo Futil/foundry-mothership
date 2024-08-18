@@ -49,14 +49,18 @@
 }
 
 #pause>img {
+  background: none;
   content: url("/systems/mosh/images/icons/ui/system/pause.webp");
   width: 200px;
-  height: 170px;
-  top: -100px;
+  height: 200px;
+  top: -95px;
   left: calc(50% - 100px);
-  opacity: .7;
+  opacity: .3;
 }
 
+#pause {
+  background: none;
+}
 
 /* Paragraph */
 p {

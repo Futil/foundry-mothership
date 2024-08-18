@@ -1054,7 +1054,16 @@ export class MothershipActor extends Actor {
     //init vars
     let doubles = new Set([0, 11, 22, 33, 44, 55, 66, 77, 88, 99]);
     let enrichedRollResult = rollResult;
-    let newTotal = 0;
+    let rollFormula = enrichedRollResult.formula;
+    let rollAim = rollFormula.substr(rollFormula.indexOf("}")+1,2);
+    let useCalm = game.settings.get('mosh','useCalm');
+    let die0value = 999;
+    let die1value = 999;
+    let die0success = false;
+    let die1success = false;
+    let die0crit = false;
+    let die1crit = false;
+    let newTotal = 999;
     let diceFormula = ``;
     let compareIcon = ``;
     let outcome = ``;
@@ -1104,101 +1113,100 @@ export class MothershipActor extends Actor {
           });
         });
       }
-      //pick a new winner if [-] or [+]
+      //set roll A and B
+      if(enrichedRollResult.dice[0]) {die0value = enrichedRollResult.dice[0].results[0].result;}
+      if(enrichedRollResult.dice[1]) {die1value = enrichedRollResult.dice[1].results[0].result;}
+      //do we need to pick a winner?
       if (rollString.includes("[")) {
+        //set whether each die succeeded
+          //die 0
+          if(comparison === '<' && die0value < rollTarget && die0value < 90) {die0success = true;}
+          if(comparison === '<=' && die0value <= rollTarget && die0value < 90) {die0success = true;}
+          if(comparison === '>' && die0value > rollTarget && die0value < 90) {die0success = true;}
+          if(comparison === '>=' && die0value >= rollTarget && die0value < 90) {die0success = true;}
+          //die 1
+          if(comparison === '<' && die1value < rollTarget && die1value < 90) {die1success = true;}
+          if(comparison === '<=' && die1value <= rollTarget && die1value < 90) {die1success = true;}
+          if(comparison === '>' && die1value > rollTarget && die1value < 90) {die1success = true;}
+          if(comparison === '>=' && die1value >= rollTarget && die1value < 90) {die1success = true;}
+        //set whether each die are a crit
+          //die 0
+          if(checkCrit && doubles.has(die0value)) {die0crit = true;}
+          //die 1
+          if(checkCrit && doubles.has(die1value)) {die1crit = true;}
         //if [-] pick a new worst number
         if (rollString.includes("[-]")) {
-          //are we checking for crit?
-          if (checkCrit) {
-            //is this rolling dis and both are a failure?
-            if ((enrichedRollResult.dice[0].results[0].result > rollTarget || enrichedRollResult.dice[0].results[0].result >= 90) && (enrichedRollResult.dice[1].results[0].result > rollTarget || enrichedRollResult.dice[1].results[0].result >= 90)) {
-              //are both crits? choose the highest
-              if (doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
-                enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-              //is the first one a crit? choose that
-              } else if (doubles.has(enrichedRollResult.dice[0].results[0].result) && !doubles.has(enrichedRollResult.dice[1].results[0].result)) {
-                enrichedRollResult._total = enrichedRollResult.dice[0].results[0].result;
-              //is the second one a crit? choose that
-              } else if (!doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
-                enrichedRollResult._total = enrichedRollResult.dice[1].results[0].result;
-              //no crits? choose the highest
-              } else {
-                enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-              }
-            }
-          } else {
-            //compare values based on comparison setting
-            if (comparison === '<' || comparison === '<=') {
-              //choose highest
-              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-            } else {
-              //choose lowest
-              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-            }
+          //if we are trying to keep the highest
+          if(rollAim === 'kh') {
+            //set default result value to the highest value
+            newTotal = Math.max(die0value,die1value);
+            //if both are a success and only dice 0 is a crit: don't pick the crit
+            if(die0success && die1success && die0crit && !die1crit) {newTotal = die1value;}
+            //if both are a success and only dice 1 is a crit: don't pick the crit
+            if(die0success && die1success && !die0crit && die1crit) {newTotal = die0value;}
+            //if both are a failure and only dice 0 is a crit: pick the crit
+            if(!die0success && !die1success && die0crit && !die1crit) {newTotal = die0value;}
+            //if both are a failure and only dice 1 is a crit: pick the crit
+            if(!die0success && !die1success && !die0crit && die1crit) {newTotal = die1value;}
+            //if this is a panic check and both are a failure: pick the worst
+            if(specialRoll === 'panicCheck' && !useCalm && !die0success && !die1success) {newTotal = Math.max(die0value,die1value);}
           }
-        //if [+] pick a new lowest number
-        } else if (rollString.includes("[+]")) {
-          //are we checking for crit?
-          if (checkCrit) {
-            //is this rolling adv and both are a failure?
-            if ((enrichedRollResult.dice[0].results[0].result <= rollTarget || enrichedRollResult.dice[0].results[0].result < 90) && (enrichedRollResult.dice[1].results[0].result <= rollTarget || enrichedRollResult.dice[1].results[0].result < 90)) {
-              //are both crits? choose the lowest
-              if (doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
-                enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-              //is the first one a crit? choose that
-              } else if (doubles.has(enrichedRollResult.dice[0].results[0].result) && !doubles.has(enrichedRollResult.dice[1].results[0].result)) {
-                enrichedRollResult._total = enrichedRollResult.dice[0].results[0].result;
-              //is the second one a crit? choose that
-              } else if (!doubles.has(enrichedRollResult.dice[0].results[0].result) && doubles.has(enrichedRollResult.dice[1].results[0].result)) {
-                enrichedRollResult._total = enrichedRollResult.dice[1].results[0].result;
-              //no crits? choose the lowest
-              } else {
-                enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-              }
-            }
-          } else {
-            //compare values based on comparison setting
-            if (comparison === '<' || comparison === '<=') {
-              //choose lowest
-              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-            } else {
-              //choose highest
-              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-            }
+          //if we are trying to keep the lowest
+          if(rollAim === 'kl') {
+            //set default result value to the lowest value
+            newTotal = Math.min(die0value,die1value);
+            //if both are a success and only dice 0 is a crit: don't pick the crit
+            if(die0success && die1success && die0crit && !die1crit) {newTotal = die1value;}
+            //if both are a success and only dice 1 is a crit: don't pick the crit
+            if(die0success && die1success && !die0crit && die1crit) {newTotal = die0value;}
+            //if both are a failure and only dice 0 is a crit: pick the crit
+            if(!die0success && !die1success && die0crit && !die1crit) {newTotal = die0value;}
+            //if both are a failure and only dice 1 is a crit: pick the crit
+            if(!die0success && !die1success && !die0crit && die1crit) {newTotal = die1value;}
+            //if this is a panic check and both are a failure: pick the worst
+            if(specialRoll === 'panicCheck' && !useCalm && !die0success && !die1success) {newTotal = Math.max(die0value,die1value);}
           }
         }
-      //use new value if a regular roll
+        //if [+] pick a new best number
+        if (rollString.includes("[+]")) {
+          //if we are trying to keep the highest
+          if(rollAim === 'kh') {
+            //set default result value to the highest value
+            newTotal = Math.max(die0value,die1value);
+            //if both are a success and only dice 0 is a crit: pick the crit
+            if(die0success && die1success && die0crit && !die1crit) {newTotal = die0value;}
+            //if both are a success and only dice 1 is a crit: pick the crit
+            if(die0success && die1success && !die0crit && die1crit) {newTotal = die1value;}
+            //if both are a failure and only dice 0 is a crit: don't pick the crit
+            if(!die0success && !die1success && die0crit && !die1crit) {newTotal = die1value;}
+            //if both are a failure and only dice 1 is a crit: don't pick the crit
+            if(!die0success && !die1success && !die0crit && die1crit) {newTotal = die0value;}
+            //if this is a panic check and both are a failure: pick the best
+            if(specialRoll === 'panicCheck' && !useCalm && !die0success && !die1success) {newTotal = Math.min(die0value,die1value);}
+          }
+          //if we are trying to keep the lowest
+          if(rollAim === 'kl') {
+            //set default result value to the lowest value
+            newTotal = Math.min(die0value,die1value);
+            //if both are a success and only dice 0 is a crit: pick the crit
+            if(die0success && die1success && die0crit && !die1crit) {newTotal = die1value;}
+            //if both are a success and only dice 1 is a crit: pick the crit
+            if(die0success && die1success && !die0crit && die1crit) {newTotal = die0value;}
+            //if both are a failure and only dice 0 is a crit: don't pick the crit
+            if(!die0success && !die1success && die0crit && !die1crit) {newTotal = die0value;}
+            //if both are a failure and only dice 1 is a crit: don't pick the crit
+            if(!die0success && !die1success && !die0crit && die1crit) {newTotal = die1value;}
+            //if this is a panic check and both are a failure: pick the best
+            if(specialRoll === 'panicCheck' && !useCalm && !die0success && !die1success) {newTotal = Math.min(die0value,die1value);}
+          }
+        }
+      //we don't need to pick a winner
       } else {
-        //set result value
-        enrichedRollResult._total = enrichedRollResult.dice[0].results[0].result;
+        //set result value to the only die
+        newTotal = die0value;
       }
-      //make specific change for panic check
-      if (specialRoll === 'panicCheck' && rollString.includes("[")) {
-        //compare values based on compararison setting
-        if (comparison === '<') {
-          //are both a failure?
-          if (enrichedRollResult.dice[0].results[0].result >= rollTarget && enrichedRollResult.dice[1].results[0].result >= rollTarget) {
-            //advantage
-            if (rollString.includes("[+]")) {
-              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-            //disadvantage 
-            } else if (rollString.includes("[-]")) {
-              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-            }
-          }
-        } else {
-          //check against being over the target
-          if (enrichedRollResult.dice[0].results[0].result <= rollTarget && enrichedRollResult.dice[1].results[0].result <= rollTarget) {
-            //advantage
-            if (rollString.includes("[+]")) {
-              enrichedRollResult._total = Math.min(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-            //disadvantage 
-            } else if (rollString.includes("[-]")) {
-              enrichedRollResult._total = Math.max(enrichedRollResult.dice[0].results[0].result,enrichedRollResult.dice[1].results[0].result);
-            }
-          }
-        }
-      }
+      //set final total value
+      enrichedRollResult._total = newTotal;
     //enrich roll result object
       //add data point: detect critical 
       if (checkCrit) {
@@ -1317,14 +1325,12 @@ export class MothershipActor extends Actor {
                         //result >= 90 is a failure, no highlight needed
                         critHighlight = ' min';
                       } else {
-                        //check against being under the target
-                        if (enrichedRollResult.success === true) {
-                          //result >= target is a failure
-                          critHighlight = ' max';
-                        } else {
-                          //result < target is a success
-                          critHighlight = ' min';
-                        }
+                        //check against beating the target
+                        if(comparison === '<' && die.result < rollTarget) {critHighlight = ' max';} 
+                        else if(comparison === '<=' && die.result <= rollTarget) {critHighlight = ' max';}
+                        else if(comparison === '>' && die.result > rollTarget) {critHighlight = ' max';}
+                        else if(comparison === '>=' && die.result >= rollTarget) {critHighlight = ' max';}
+                        else {critHighlight = ' min';}
                       }
                     }
                   } else {

@@ -1,0 +1,166 @@
+{
+  "id": "mosh",
+  "title": "MoSh - Unofficial Mothership",
+  "description": "The unofficial Mothership system for FoundryVTT.",
+  "version": "0.5.20",
+  "esmodules": [
+    "module/mosh.js"
+  ],
+  "styles": [
+    "css/mosh.css"
+  ],
+  "packs": [
+    {
+      "name": "conditions_1e",
+      "label": "Conditions (1e)",
+      "system": "mosh",
+      "path": "packs/conditions_1e.db",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "items_maintenance_1e",
+      "label": "Maintenance Issues (1e)",
+      "system": "mosh",
+      "path": "packs/items_maintenance_1e.db",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros_hotbar_1e",
+      "label": "Hotbar Macros (1e)",
+      "system": "mosh",
+      "path": "packs/macros_hotbar_1e.db",
+      "type": "Macro",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros_triggered_1e",
+      "label": "Triggered Macros (1e)",
+      "system": "mosh",
+      "path": "packs/macros_triggered_1e.db",
+      "type": "Macro",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "rolltables_1e",
+      "label": "Rolltables (1e)",
+      "system": "mosh",
+      "path": "packs/rolltables_1e.db",
+      "type": "RollTable",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "conditions_0e",
+      "label": "Conditions (0e)",
+      "system": "mosh",
+      "path": "packs/conditions_0e.db",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros_hotbar_0e",
+      "label": "Hotbar Macros (0e)",
+      "system": "mosh",
+      "path": "packs/macros_hotbar_0e.db",
+      "type": "Macro",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros_triggered_0e",
+      "label": "Triggered Macros (0e)",
+      "system": "mosh",
+      "path": "packs/macros_triggered_0e.db",
+      "type": "Macro",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "rolltables_0e",
+      "label": "Rolltables (0e)",
+      "system": "mosh",
+      "path": "packs/rolltables_0e.db",
+      "type": "RollTable",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    }
+  ],
+  "media": [
+    {
+      "type": "cover",
+      "loop": false,
+      "flags": {}
+    },
+    {
+      "type": "setup",
+      "url": "systems/mosh/images/icons/ui/system/mosh-repo.webp",
+      "thumbnail": "systems/mosh/images/icons/ui/system/mosh-thumbnail.webp"
+    }
+  ],
+  "background": "systems/mosh/images/icons/ui/system/mosh-background.webp",
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    }
+  ],
+  "gridDistance": 1,
+  "gridUnits": "meter",
+  "primaryTokenAttribute": "health",
+  "secondaryTokenAttribute": "other.stress",
+  "url": "https://github.com/Futil/foundry-mothership",
+  "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/0.5.20/system.json",
+  "download": "https://github.com/Futil/foundry-mothership/releases/download/0.5.20/foundry-mothership.zip",
+  "license": "LICENSE.txt",
+  "authors": [
+    {
+      "name": "Futilrevenge",
+      "flags": {}
+    },
+    {
+      "name": "hollowphoton",
+      "flags": {}
+    }
+  ],
+  "compatibility": {
+    "minimum": "0.8.6",
+    "maximum": "12",
+    "verified": "12"
+  }
+}

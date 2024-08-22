@@ -1102,17 +1102,6 @@ export class MothershipActor extends Actor {
           });
         }
       }
-      //update dice totals to negative for negative rolls
-      if (rollString.substr(0,1) === '-') {
-        //loop through dice
-        enrichedRollResult.dice.forEach(function(roll){ 
-          //loop through each result
-          roll.results.forEach(function(die) { 
-            //change any non-zero 
-            die.result = die.result*-1;
-          });
-        });
-      }
       //set roll A and B
       if(enrichedRollResult.dice[0]) {die0value = enrichedRollResult.dice[0].results[0].result;}
       if(enrichedRollResult.dice[1]) {die1value = enrichedRollResult.dice[1].results[0].result;}
@@ -1205,8 +1194,12 @@ export class MothershipActor extends Actor {
         //set result value to the only die
         newTotal = die0value;
       }
-      //set final total value
-      enrichedRollResult._total = newTotal;
+      //set final total value - apply negative for negative rolls
+      if (rollString.substr(0,1) === '-') {
+        enrichedRollResult._total = newTotal * -1;
+      } else {
+        enrichedRollResult._total = newTotal;
+      }
     //enrich roll result object
       //add data point: detect critical 
       if (checkCrit) {

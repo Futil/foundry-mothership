@@ -2891,31 +2891,32 @@ export class MothershipActor extends Actor {
             } else if (modifyChange < 0) {
               msgAction = 'decrease';
             }
-            //set default message outcome
-            if (msgAction === 'increase' || msgAction === 'decrease') {
-              msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
-            //set message outcome for past ceiling or floor
-            } else if (msgAction === 'pastFloor' || msgAction === 'pastCeiling') {
-              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
-              //set message outcome for stress going from < 20 to > 20
-            } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifySurplus > 0) {
-              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
-            //set message outcome for stress going from 20 to > 20
-            } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifySurplus > 0) {
-              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
-            //set message outcome for health reaches zero or goes past it, and you have wounds remaining
-            } else if (getWound) {
-              //can this player take a wound and not die?
-              if (this.system.hits.value + 1 === this.system.hits.max) {
-                //you are dead!
-                msgOutcome = this.getFlavorText('attribute','hits','hitCeiling');
-              } else {
-                //you are wounded!
-                msgOutcome = `Your health has hit zero and you must take a wound. Your health has been reset to <strong>${modifyNew}</strong>.<br><br>` + this.getFlavorText('attribute','hits','increase');
-              }
+        //prepare flavor text
+          //set message outcome for health reaches zero or goes past it, and you have wounds remaining
+          if (getWound) {
+            //can this player take a wound and not die?
+            if (this.system.hits.value + 1 === this.system.hits.max) {
+              //you are dead!
+              msgOutcome = this.getFlavorText('attribute','hits','hitCeiling');
             } else {
-              msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+              //you are wounded!
+              msgOutcome = `Your health has hit zero and you must take a wound. Your health has been reset to <strong>${modifyNew}</strong>.<br><br>` + this.getFlavorText('attribute','hits','increase');
             }
+          //set message outcome for past ceiling or floor
+          } else if (msgAction === 'pastFloor' || msgAction === 'pastCeiling') {
+            msgOutcome = this.getFlavorText('attribute',fieldId,msgAction);
+          //set message outcome for stress going from < 20 to > 20
+          } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifySurplus > 0) {
+            msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+          //set message outcome for stress going from 20 to > 20
+          } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifySurplus > 0) {
+            msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+          //set default message outcome
+          } else if (msgAction === 'increase' || msgAction === 'decrease') {
+            msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+          } else {
+            msgOutcome = this.getFlavorText('attribute',fieldId,msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+          }
         //push message if asked
         if (outputChatMsg) {
           //generate chat message

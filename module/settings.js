@@ -105,13 +105,16 @@ export const registerSettings = function () {
   game.settings.register('mosh', 'critDamage', {
     name: "Critical Hit Damage",
     hint: "What should the damage be on a critical hit?",
-    default: "doubleDice",
+    default: "advantage",
     scope: 'world',
     type: String,
     choices: {
-      "doubleDamage": "Double the damage value",
-      "doubleDice": "Roll the dice twice",
-      "weaponValue": "Defer to the weapon's crit damage"
+      "advantage": "Roll with advantage",
+      "doubleDamage": "Double the damage result",
+      "doubleDice": "Double the damage dice",
+      "maxDamage": "Maximum possible damage result",
+      "weaponValue": "Defer to each weapon's critical damage",
+      "none": "No critical damage"
     },
     config: true,
     onChange: value => {

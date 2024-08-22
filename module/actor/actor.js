@@ -1178,13 +1178,13 @@ export class MothershipActor extends Actor {
             //set default result value to the lowest value
             newTotal = Math.min(die0value,die1value);
             //if both are a success and only dice 0 is a crit: pick the crit
-            if(die0success && die1success && die0crit && !die1crit) {newTotal = die1value;}
+            if(die0success && die1success && die0crit && !die1crit) {newTotal = die0value;}
             //if both are a success and only dice 1 is a crit: pick the crit
-            if(die0success && die1success && !die0crit && die1crit) {newTotal = die0value;}
+            if(die0success && die1success && !die0crit && die1crit) {newTotal = die1value;}
             //if both are a failure and only dice 0 is a crit: don't pick the crit
-            if(!die0success && !die1success && die0crit && !die1crit) {newTotal = die0value;}
+            if(!die0success && !die1success && die0crit && !die1crit) {newTotal = die1value;}
             //if both are a failure and only dice 1 is a crit: don't pick the crit
-            if(!die0success && !die1success && !die0crit && die1crit) {newTotal = die1value;}
+            if(!die0success && !die1success && !die0crit && die1crit) {newTotal = die0value;}
             //if this is a panic check and both are a failure: pick the best
             if(specialRoll === 'panicCheck' && !useCalm && !die0success && !die1success) {newTotal = Math.min(die0value,die1value);}
           }
@@ -2424,12 +2424,18 @@ export class MothershipActor extends Actor {
         attributeLabel = this.system.stats[attribute].label;
         //set crit damage effect
         if (parsedRollResult.success === true && parsedRollResult.critical === true) {
-          if (game.settings.get('mosh','critDamage') === 'doubleDamage') {
-            critMod = ` * 2`;
+          if (game.settings.get('mosh','critDamage') === 'advantage') {
+            parsedDamageString = '{' + parsedDamageString + ',' + parsedDamageString + '}kh';
+          } else if (game.settings.get('mosh','critDamage') === 'doubleDamage') {
+            critMod = ' * 2';
           } else if (game.settings.get('mosh','critDamage') === 'doubleDice') {
-            critMod = ` + ` + parsedDamageString + '[' + dsnTheme + ']';
+            critMod = ' + ' + parsedDamageString + '[' + dsnTheme + ']';
+          } else if (game.settings.get('mosh','critDamage') === 'maxDamage') {
+            parsedDamageString = parsedDamageString.replaceAll('d',' * ');
           } else if (game.settings.get('mosh','critDamage') === 'weaponValue') {
-            critMod = ` + ` + weapon.system.critDmg + '[' + dsnTheme + ']';
+            critMod = ' + ' + weapon.system.critDmg + '[' + dsnTheme + ']';
+          } else if (game.settings.get('mosh','critDamage') === 'none') {
+            //do nothing
           }
         }
         //flavor text = the attack roll result

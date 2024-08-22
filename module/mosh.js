@@ -104,8 +104,12 @@ Hooks.once('init', async function () {
 Hooks.once("ready", async function () {
   
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
-  Hooks.on("hotbarDrop", (bar, data, slot) => createMothershipMacro(data, slot));
-  //Calm & 1e/0e character updates
+  Hooks.on("hotbarDrop", (bar, data, slot) => {
+    createMothershipMacro(data, slot);
+    return false;
+  });
+  
+    //Calm & 1e/0e character updates
     // if the user has calm enabled at the start, 
     if (game.settings.get('mosh','useCalm')) {
       //get list of actors
@@ -299,17 +303,28 @@ Hooks.on('renderSidebarTab', async (app, html) => {
  * @returns {Promise}
  */
 async function createMothershipMacro(data, slot) {
-  if (data.type !== "Item") return;
-  if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
-  const item = data.data;
 
-  console.log(data);
+  if (data.type !== "Item") return;
+
+  var itemUUID = data.uuid.split("."); 
+  console.log(itemUUID);
+
+  var actor = game.actors.get(itemUUID[1]);
+  var item;
+
+  if (game.release.generation >= 12) {
+    item = foundry.utils.duplicate(actor.getEmbeddedDocument('Item',itemUUID[3]));
+  } else {
+    item = duplicate(actor.getEmbeddedDocument('Item',itemUUID[3]));
+  }
+  console.log(item);
+
+  if (!item) return ui.notifications.warn("You can only create macro buttons for owned Items");
 
   // Create the macro command
   let command = `game.mosh.rollItemMacro("${item.name}");`;
-
-
-  let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));
+console.log(command);
+  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
@@ -661,11 +676,11 @@ function rollItemMacro(itemName) {
   console.log();
 
   if (item.type == "weapon") {
-    return actor.rollWeapon(item.id);
-  } else if (item.type == "item" || item.type == "armor" || item.type == "ability") {
+    return actor.rollCheck(null, 'low', 'combat', null, null, item);
+  } else if (item.type == "item" || item.type == "armor" || item.type == "ability" || item.type == "condition" || item.type == "repair") {
     return actor.printDescription(item.id);
   } else if (item.type == "skill") {
-    return actor.rollSkill(item.id);
+    return actor.rollCheck(null, null, null, item.name, item.system.bonus, null);
   }
 
   console.error("No item type found: " + item);

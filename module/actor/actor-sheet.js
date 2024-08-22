@@ -183,34 +183,27 @@ export class MothershipActorSheet extends ActorSheet {
     if (!this.options.editable) return;
 
     html.on('mousedown', '.char-pip-button', ev => {
-      const data = super.getData();
-
+		
       const div = $(ev.currentTarget);
       const targetName = div.data("key");
-      const attribute = data.data.data[targetName];
-
-      let amount = attribute.value;
+		
+	  let amount = this.actor.system.xp.value;
+	  let newAmount = amount;
       let max = div.data("max");
       let min = div.data("min");
 
       if (event.button == 0) {
         if (amount < max) {
-          attribute.value = Number(amount) + 1;
+          newAmount = Number(amount) + 1;
         }
       } else if (event.button == 2) {
         if (amount > min) {
-          attribute.value = Number(amount) - 1;
+          newAmount = Number(amount) - 1;
         }
       }
+	  
+	  this.actor.update({'system.xp.value': newAmount});
 
-      let updated = {
-        html: '',
-        value: attribute.value
-      }
-
-      const updateString = "data." + targetName;
-
-      this.actor.update({ [updateString]: updated });
     });
 
     html.on('mousedown', '.treatment-button', ev => {

@@ -3987,11 +3987,6 @@ export class MothershipActor extends Actor {
     let rollMode = game.settings.get("core", "rollMode");
     if (["gmroll", "blindroll"].includes(rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM");
 
-    /*
-            if (this.data.type == "creature") {
-                chatData.whisper = game.user._id;
-            }
-    */
     let template = 'systems/mosh/templates/chat/itemRoll.html';
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;

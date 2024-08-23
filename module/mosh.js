@@ -836,7 +836,7 @@ async function noCharSelected() {
     let errorMessage = ``;
     //create error text based on current settings
     if (game.settings.get('mosh','macroTarget') === 'character') {
-      errorMessage = `<h3>No Character Selected</h3>Macro Target is set to the currently selected character. To select a character, modify your User Configuration in the Players menu located in the lower-left of the interface.<br><br>If you prefer Macros to be run on the currently active token(s) in the scene, you should change your settings accordingly.<br><br>`;
+      errorMessage = `<h3>No Character Selected</h3>Macro Target is set to the currently selected character. To select a character, modify your User Configuration in the Players menu located in the lower-left of the interface.<br><br>If you prefer Macros to be run on the currently selected token(s) in the scene, you should change your settings accordingly.<br><br>`;
     } else if (game.settings.get('mosh','macroTarget') === 'token') {
       errorMessage = `<h3>No Character Selected</h3>Macro Target is set to the currently selected token(s) in the scene. To select token(s), click or draw a box around token(s) in the current scene.<br><br>If you prefer Macros to be run on the currently selected character for your user, you should change your settings accordingly.<br><br>`;
     }
@@ -868,7 +868,7 @@ async function noShipSelected() {
     let errorMessage = ``;
     //create error text based on current settings
     if (game.settings.get('mosh','macroTarget') === 'character') {
-      errorMessage = `<h3>No Ship Selected</h3>Macro Target is set to the currently selected character. To select a ship, modify your User Configuration in the Players menu located in the lower-left of the interface.<br><br>If you prefer Macros to be run on the currently active token(s) in the scene, you should change your settings accordingly.<br><br>`;
+      errorMessage = `<h3>No Ship Selected</h3>Macro Target is set to the currently selected character. To select a ship, modify your User Configuration in the Players menu located in the lower-left of the interface.<br><br>If you prefer Macros to be run on the currently selected token(s) in the scene, you should change your settings accordingly.<br><br>`;
     } else if (game.settings.get('mosh','macroTarget') === 'token') {
       errorMessage = `<h3>No Ship Selected</h3>Macro Target is set to the currently selected token(s) in the scene. To select token(s), click or draw a box around token(s) in the current scene.<br><br>If you prefer Macros to be run on the currently selected character for your user, you should change your settings accordingly.<br><br>`;
     }

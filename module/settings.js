@@ -92,8 +92,8 @@ export const registerSettings = function () {
     scope: 'world',
     type: String,
     choices: {
-      "character": "Currently active character for the player",
-      "token": "Currently selected token(s) on the scene"
+      "character": "Currently selected character for the player",
+      "token": "Currently selected token(s) in the scene"
     },
     config: true,
     onChange: value => {

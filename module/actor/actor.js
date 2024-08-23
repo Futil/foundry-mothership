@@ -310,12 +310,12 @@ export class MothershipActor extends Actor {
             human: `systems/mosh/images/icons/ui/attributes/health.png`
           },
           hitCeiling: {
-            android: `You are about to to die, make your final moments count. Let your death meaningful with your final action.<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
-            human: `You are about to to die, make your final moments count. Let your death meaningful with your final action.<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`
+            android: `The end draws near . . .<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
+            human: `The end draws near . . .<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`
           },
           pastCeiling: {
-            android: `You are about to to die, make your final moments count. Let your death meaningful with your final action.<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
-            human: `You are about to to die, make your final moments count. Let your death meaningful with your final action.<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`
+            android: `The end draws near . . .<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`,
+            human: `The end draws near . . .<br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Make a Death Save}`
           },
           decrease: {
             android: `System resources free up and you feel energized.`,

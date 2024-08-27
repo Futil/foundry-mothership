@@ -105,8 +105,10 @@ Hooks.once("ready", async function () {
   
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => {
-    createMothershipMacro(data, slot);
-    return false;
+    if (data.type === "Item") {
+      createMothershipMacro(data, slot);
+      return false;
+    }
   });
   
     //Calm & 1e/0e character updates
@@ -666,24 +668,65 @@ d.render(true);
  * @return {Promise}
  */
 function rollItemMacro(itemName) {
-  const speaker = ChatMessage.getSpeaker();
-  let actor;
-  if (speaker.token) actor = game.actors.tokens[speaker.token];
-  if (!actor) actor = game.actors.get(speaker.actor);
-  const item = actor ? actor.items.find(i => i.name === itemName) : null;
-  if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
-
-  console.log();
-
-  if (item.type == "weapon") {
-    return actor.rollCheck(null, 'low', 'combat', null, null, item);
-  } else if (item.type == "item" || item.type == "armor" || item.type == "ability" || item.type == "condition" || item.type == "repair") {
-    return actor.printDescription(item.id);
-  } else if (item.type == "skill") {
-    return actor.rollCheck(null, null, null, item.name, item.system.bonus, null);
+  //init vars
+  let item;
+  let itemId;
+  //determine who to run the macro for
+  if (game.settings.get('mosh','macroTarget') === 'character') {
+    //is there a selected character? warn if no
+    if (!game.user.character) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for the player's 'Selected Character'
+        //get item id
+        itemId = game.user.character.items.getName(itemName)._id;
+        //get item
+        if (game.release.generation >= 12) {
+          item = foundry.utils.duplicate(game.user.character.getEmbeddedDocument("Item", itemId));
+        } else {
+          item = duplicate(game.user.character.getEmbeddedDocument("Item", itemId));
+        }
+        //warn if no item
+        if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+        //roll action
+        if (item.type == "weapon") {
+          return game.user.character.rollCheck(null, 'low', 'combat', null, null, item);
+        } else if (item.type == "item" || item.type == "armor" || item.type == "ability" || item.type == "condition" || item.type == "repair") {
+          return game.user.character.printDescription(item.id);
+        } else if (item.type == "skill") {
+          return game.user.character.rollCheck(null, null, null, item.name, item.system.bonus, null);
+        }
+    }
+  } else if (game.settings.get('mosh','macroTarget') === 'token') {
+    //is there a selected character? warn if no
+    if (!canvas.tokens.controlled.length) {
+      //warn player
+      game.mosh.noCharSelected();
+    } else {
+      //run the function for all selected tokens
+      canvas.tokens.controlled.forEach(function(token){
+        //get item id
+        itemId = token.actor.items.getName(itemName)._id;
+        //get item
+        if (game.release.generation >= 12) {
+          item = foundry.utils.duplicate(token.actor.getEmbeddedDocument("Item", itemId));
+        } else {
+          item = duplicate(token.actor.getEmbeddedDocument("Item", itemId));
+        }
+        //warn if no item
+        if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+        //roll action
+        if (item.type == "weapon") {
+          return actor.rollCheck(null, 'low', 'combat', null, null, item);
+        } else if (item.type == "item" || item.type == "armor" || item.type == "ability" || item.type == "condition" || item.type == "repair") {
+          return actor.printDescription(item.id);
+        } else if (item.type == "skill") {
+          return actor.rollCheck(null, null, null, item.name, item.system.bonus, null);
+        }
+      });
+    }
   }
-
-  console.error("No item type found: " + item);
 }
 
 

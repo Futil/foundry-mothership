@@ -718,11 +718,11 @@ function rollItemMacro(itemName) {
         if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
         //roll action
         if (item.type == "weapon") {
-          return actor.rollCheck(null, 'low', 'combat', null, null, item);
+          return token.actor.rollCheck(null, 'low', 'combat', null, null, item);
         } else if (item.type == "item" || item.type == "armor" || item.type == "ability" || item.type == "condition" || item.type == "repair") {
-          return actor.printDescription(item.id);
+          return token.actor.printDescription(item.id);
         } else if (item.type == "skill") {
-          return actor.rollCheck(null, null, null, item.name, item.system.bonus, null);
+          return token.actor.rollCheck(null, null, null, item.name, item.system.bonus, null);
         }
       });
     }

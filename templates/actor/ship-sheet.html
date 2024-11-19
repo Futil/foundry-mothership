@@ -9,34 +9,34 @@
 
             <!-- PLAYER NAME -->
             <div class="headernamegrid">
-                <div class="headerinputtext">NAME</div>
+                <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
                 <div class="headerinputfield charname"><input name="name" class="noborder" type="text"
                         value="{{name}}" placeholder="Name" /></div>
             </div>
             <!-- CLASS -->
             <div class="">
-                <div class="headerinputtext">CLASS</div>
+                <div class="headerinputtext">{{ localize 'Mosh.Cass' }}</div>
                 <div class="headerinputfield charname"><input name="system.class" class="noborder" type="text"
                         value="{{system.class}}" placeholder="" /></div>
             </div>
 
             <!-- RANK -->
             <div class="">
-                <div class="headerinputtext">Type</div>
+                <div class="headerinputtext">{{ localize 'Mosh.Type' }}</div>
                 <div class="headerinputfield charname"><input name="system.type" class="noborder" type="text"
                         value="{{system.type}}" placeholder="" /></div>
             </div>
 
             <!-- Cost -->
             <div class="">
-                <div class="headerinputtext">Cost</div>
+                <div class="headerinputtext">{{ localize 'Mosh.Cost' }}</div>
                 <div class="headerinputfield charname"><input name="system.cost" class="noborder" type="text"
                         value="{{system.cost}}" placeholder="" /></div>
             </div>
 
             <!-- Owed -->
             <div class="">
-                <div class="headerinputtext">Owed</div>
+                <div class="headerinputtext">{{ localize 'Mosh.Owed' }}</div>
                 <div class="headerinputfield charname"><input name="system.owed" class="noborder" type="text"
                         value="{{system.owed}}" placeholder="" /></div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="resource mainstat">
                     <div class="mainstatlabel">
                         <span class="ability-mod stat-roll rollable mainstattext" data-key="armor"
-                            data-label="Armor">Armor</span>
+                            data-label="Armor">{{ localize 'Mosh.Armor' }}</span>
                     </div>
                     <input class="circle-input" type="text" name="system.stats.armor.value"
                         value="{{system.stats.armor.value}}" data-dtype="Number" />
@@ -67,7 +67,7 @@
                 <div class="resource mainstat">
                     <div class="mainstatlabel">
                         <span class="ability-mod stat-roll rollable mainstattext" data-key="speed" data-roll="d100"
-                            data-label="Speed">SPEED</span>
+                            data-label="Speed">{{ localize 'Mosh.Speed' }}</span>
                     </div>
                     <input class="circle-input" type="text" name="system.stats.speed.value"
                         value="{{system.stats.speed.value}}" data-dtype="Number" />
@@ -82,7 +82,7 @@
                 <div class="resource mainstat">
                     <div class="mainstatlabel">
                         <span class="ability-mod stat-roll rollable mainstattext" data-key="intellect" data-roll="d100"
-                            data-label="Intellect">INTELLECT</span>
+                            data-label="Intellect">{{ localize 'Mosh.Intellect' }}</span>
                     </div>
                     <input class="circle-input" type="text" name="system.stats.intellect.value"
                         value="{{system.stats.intellect.value}}" data-dtype="Number" />
@@ -97,7 +97,7 @@
                 <div class="resource mainstat">
                     <div class="mainstatlabel">
                         <span class="ability-mod stat-roll rollable mainstattext" data-key="combat" data-roll="d100"
-                            data-label="Combat">COMBAT</span>
+                            data-label="Combat">{{ localize 'Mosh.Combat' }}</span>
                     </div>
                     <input class="circle-input" type="text" name="system.stats.combat.value"
                         value="{{system.stats.combat.value}}" data-dtype="Number" />
@@ -111,7 +111,7 @@
         <div class="grid grid-1col">
             <!-- Hull -->
             <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: 12px 19px;">
-                <label for="system.supplies.hull.value" class="resource-label minmaxtext">Hull</label>
+                <label for="system.supplies.hull.value" class="resource-label minmaxtext">{{ localize 'Mosh.Hull' }}</label>
                 <div class="faded-label">{{system.supplies.hull.percentage}}</div>
 
                 <div class="minmaxwrapper">
@@ -122,14 +122,14 @@
                         value="{{system.supplies.hull.max}}" data-dtype="Number" />
                 </div>
 
-                <div class="healthmaxtext">Current</div>
-                <div class="healthmaxtext">Maximum</div>
+                <div class="healthmaxtext">{{ localize 'Mosh.Current' }}</div>
+                <div class="healthmaxtext">{{ localize 'Mosh.Maximum' }}</div>
             </div>
 
 
             <!-- Fuel -->
             <div class="resource healthspread minmaxtopstat flex-center">
-                <label for="system.supplies.fuel.value" class="resource-label minmaxtext">Fuel</label>
+                <label for="system.supplies.fuel.value" class="resource-label minmaxtext">{{ localize 'Mosh.Fuel' }}</label>
 
                 <div class="minmaxwrapper">
                     <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.fuel.value"
@@ -139,11 +139,11 @@
                         value="{{system.supplies.fuel.max}}" data-dtype="Number" />
                 </div>
 
-                <div class="healthmaxtext">Current</div>
-                <div class="healthmaxtext">Maximum</div>
+                <div class="healthmaxtext">{{ localize 'Mosh.Current' }}</div>
+                <div class="healthmaxtext">{{ localize 'Mosh.Maximum' }}</div>
             </div>
             <div class="resource healthspread minmaxtopstat flex-center">
-                <label for="system.supplies.stock.value" class="resource-label minmaxtext">Stock</label>
+                <label for="system.supplies.stock.value" class="resource-label minmaxtext">{{ localize 'Mosh.Stock' }}</label>
 
                 <div class="minmaxwrapper">
                     <input class="maxhealth-input darkGreyText" type="text" name="system.supplies.stock.value"
@@ -153,13 +153,13 @@
                         value="{{system.supplies.stock.max}}" data-dtype="Number" />
                 </div>
 
-                <div class="healthmaxtext">Current</div>
-                <div class="healthmaxtext">Maximum</div>
+                <div class="healthmaxtext">{{ localize 'Mosh.Current' }}</div>
+                <div class="healthmaxtext">{{ localize 'Mosh.Maximum' }}</div>
             </div>
         </div>
 
         <div class="creature-abilities" style="height: 220px;">
-            <div class="creature-ability-container creature-ability-title">Notes</div>
+            <div class="creature-ability-container creature-ability-title">{{ localize 'Mosh.Notes' }}</div>
             <div class="whiteline"></div>
             {{#each abilities as |ability id|}}
             <div class="creature-ability-container item" data-item-id="{{ability._id}}">
@@ -180,11 +180,11 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="mosh sheet-tabs tabs" data-group="primary">
-        <a class="tab-select" data-tab="weapons">Weapons</a>
-        <a class="tab-select" data-tab="modules">Modules</a>
-        <a class="tab-select" data-tab="cargo">Cargo</a>
-        <a class="tab-select" data-tab="layout">Deck Plan</a>
-        <a class="tab-select" data-tab="description">Bio</a>
+        <a class="tab-select" data-tab="weapons">{{ localize 'Mosh.Weapons' }}</a>
+        <a class="tab-select" data-tab="modules">{{ localize 'Mosh.Modules' }}</a>
+        <a class="tab-select" data-tab="cargo">{{ localize 'Mosh.Cargo' }}</a>
+        <a class="tab-select" data-tab="layout">{{ localize 'Mosh.DeckPlan' }}</a>
+        <a class="tab-select" data-tab="description">{{ localize 'Mosh.Bio' }}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -206,13 +206,13 @@
             <ol class="items-list">
                 <li class="item flexrow item-header">
                     <div class="item-image"></div>
-                    <div class="skill-stat" style="flex-grow: 2;">Name</div>
-                    <div class="skill-stat">Damage</div>
-                    <div class="skill-stat">Ammo</div>
-                    <div class="skill-stat">Shots</div>
+                    <div class="skill-stat" style="flex-grow: 2;">{{ localize 'Mosh.Name' }}</div>
+                    <div class="skill-stat">{{ localize 'Mosh.Damage' }}</div>
+                    <div class="skill-stat">{{ localize 'Mosh.Ammo' }}</div>
+                    <div class="skill-stat">{{ localize 'Mosh.Shots' }}</div>
                     <div class="item-controls">
                         <a class="item-control weapon-create" title="Create Weapon" data-type="weapon">
-                            <i class="fas fa-plus"></i> Add
+                            <i class="fas fa-plus"></i>{{ localize 'Mosh.Add' }} 
                         </a>
                     </div>
                 </li>
@@ -225,17 +225,17 @@
                     {{#if weapon.system.useAmmo}}
                     <div class="skill-stat weapon-ammo list-roll">{{weapon.system.ammo}}</div>
                     {{else}}
-                    <div class="skill-stat">N/A</div>
+                    <div class="skill-stat">{{ localize 'Mosh.NA' }}</div>
                     {{/if}}
                     {{#if weapon.system.shots}}
                     <div class="skill-stat">{{weapon.system.curShots}}/{{weapon.system.shots}} <i
                         class="fas fa-sync weapon-reload list-roll"></i></div>
                     {{else}}
-                    <div class="skill-stat">N/A</div>
+                    <div class="skill-stat">{{ localize 'Mosh.NA' }</div>
                     {{/if}}
                     <div class="item-controls">
-                      <a class="item-control weapon-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
-                      <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                      <a class="item-control weapon-edit" title="{{ localize 'Mosh.EditWeapon' }}"><i class="fas fa-edit"></i></a>
+                      <a class="item-control item-delete" title="{{ localize 'Mosh.DeleteWeapon' }}"><i class="fas fa-trash"></i></a>
                     </div>
                   </li>
                 {{/each}}
@@ -247,13 +247,13 @@
             <ol class="items-list">
                 <li class="item flexrow item-header">
                     <div class="item-image"></div>
-                    <div class="skill-stat" style="flex-grow: 2;">Module Name</div>
-                    <div class="skill-stat">Quantity</div>
-                    <div class="skill-stat">Hull</div>
-                    <div class="skill-stat" style="flex-grow: 2;">Feature</div>
+                    <div class="skill-stat" style="flex-grow: 2;">{{ localize 'Mosh.ModuleName' }}</div>
+                    <div class="skill-stat">{{ localize 'Mosh.Quantity' }}</div>
+                    <div class="skill-stat">{{ localize 'Mosh.Hull' }}</div>
+                    <div class="skill-stat" style="flex-grow: 2;">{{ localize 'Mosh.Feature' }}</div>
                     <div class="item-controls">
                         <a class="item-control item-create" title="Create Module" data-type="module">
-                            <i class="fas fa-plus"></i> Add
+                            <i class="fas fa-plus"></i>{{ localize 'Mosh.Add' }} 
                         </a>
                     </div>
                 </li>
@@ -266,8 +266,8 @@
                     <div class="skill-stat">{{module.system.hull}}</div>
                     <div class="skill-stat" style="flex-grow: 2;">{{module.system.feature}}</div>
                     <div class="item-controls">
-                        <a class="item-control item-edit" title="Edit Module"><i class="fas fa-edit"></i></a>
-                        <a class="item-control item-delete" title="Delete Module"><i class="fas fa-trash"></i></a>
+                        <a class="item-control item-edit" title="{{ localize 'Mosh.EditModule' }}"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="{{ localize 'Mosh.DeleteModule' }}"><i class="fas fa-trash"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -279,13 +279,13 @@
             <ol class="items-list">
                 <li class="item flexrow item-header">
                     <div class="item-image"></div>
-                    <div class="skill-stat" style="flex-grow: 2;">Item Name</div>
-                    <div class="skill-stat">Quantity</div>
-                    <div class="skill-stat">Weight</div>
-                    <div class="skill-stat">Value</div>
+                    <div class="skill-stat" style="flex-grow: 2;">{{ localize 'Mosh.ItemName' }}</div>
+                    <div class="skill-stat">{{ localize 'Mosh.Quantity' }}</div>
+                    <div class="skill-stat">{{ localize 'Mosh.Weight' }}</div>
+                    <div class="skill-stat">{{ localize 'Mosh.Value' }}</div>
                     <div class="item-controls">
                         <a class="item-control item-create" title="Create Item" data-type="item"><i
-                                class="fas fa-plus"></i> Add</a>
+                                class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
                     </div>
                 </li>
                 {{#each cargo as |item id|}}

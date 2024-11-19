@@ -9,10 +9,10 @@
     <div class="greyline"></div>
     <!-- Stats -->
     <div class="circle-statwrapper" style="gap: 10px;">
-        <div class="circlestattitle">Emergency <i class="fa-solid fa-tower-broadcast"></i></div>
+        <div class="circlestattitle">{{ localize 'Mosh.Emergency' }} <i class="fa-solid fa-tower-broadcast"></i></div>
 
         <!-- Distress! -->
-        <div class="button-black distress-button list-roll" style="width: 95%;">Distress Signal</div>
+        <div class="button-black distress-button list-roll" style="width: 95%;">{{ localize 'Mosh.DistressSignal' }}</div>
 
     </div>
 
@@ -21,7 +21,7 @@
     <!-- Finance -->
     <div class="circle-statwrapper" style="gap: 5px;">
 
-        <div class="circlestattitle">Finances <i class="fa-solid fa-chart-line-down"></i></div>
+        <div class="circlestattitle">{{ localize 'Mosh.Finances' }} <i class="fa-solid fa-chart-line-down"></i></div>
 
 
         <div class="resource circle-stat">
@@ -29,10 +29,10 @@
                 value="{{actor.system.stats.bankruptcy.value}}" data-dtype="Number" />
         </div>
         <div class="circlestatlabel">
-            <span class="ability-mod circlestattext" data-key="bankruptcy" data-label="Bankruptcy">Bankruptcy</span>
+            <span class="ability-mod circlestattext" data-key="bankruptcy" data-label="Bankruptcy">{{ localize 'Mosh.Bankruptcy' }}</span>
         </div>
 
-        <div class="button-black bankruptcy-button list-roll" style="width: 95%;">Bankruptcy Check</div>
+        <div class="button-black bankruptcy-button list-roll" style="width: 95%;">{{ localize 'Mosh.BankruptcyCheck' }}</div>
 
 
     </div>
@@ -40,9 +40,9 @@
     <br/>
 
     <div class="circle-statwrapper" style="gap: 10px;">
-        <div class="circlestattitle">Maintenance & Repairs <i class="fa-solid fa-wrench"></i></div>
+        <div class="circlestattitle">{{ localize 'Mosh.MaintenanceAndRepairs' }}<i class="fa-solid fa-wrench"></i></div>
         <!-- Maintenance -->
-        <div class="button-black maintenance-button list-roll" style="width: 95%;">Maintenance Check</div>
+        <div class="button-black maintenance-button list-roll" style="width: 95%;">{{ localize 'Mosh.MaintenanceCheck' }}</div>
         <!-- Starting Conditions -->
         <!-- <div class="button-black maintenance-button list-roll" style="width: 95%;">Roll Starting Condition</div> -->
     </div>
@@ -51,10 +51,10 @@
 
     <!-- ENEMY SHIPS -->
     <div class="circle-statwrapper" style="gap: 10px;">
-        <div class="circlestattitle">Enemy Ships <i class="fa-solid fa-rocket"></i></div>
+        <div class="circlestattitle">{{ localize 'Mosh.EnemyShips' }} <i class="fa-solid fa-rocket"></i></div>
 
         <!-- Morale -->
-        <div class="button-black morale-button list-roll" style="width: 95%;">Morale Check</div>
+        <div class="button-black morale-button list-roll" style="width: 95%;">{{ localize 'Mosh.MoraleCheck' }}</div>
     </div>
 
         <!-- Deckplan -->
@@ -64,6 +64,6 @@
 
     <!-- <br/> -->
 
-    <div class="button-white close-button list-roll" style="width: 95%;">CLOSE MENU <i class="fa-solid fa-circle-xmark"></i></div>
+    <div class="button-white close-button list-roll" style="width: 95%;">{{ localize 'Mosh.CloseMenu' }} <i class="fa-solid fa-circle-xmark"></i></div>
 
 </form>

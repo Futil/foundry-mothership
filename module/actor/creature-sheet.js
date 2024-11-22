@@ -92,6 +92,15 @@ export class MothershipCreatureSheet extends ActorSheet {
     }
 
     /**
+     * Get the remaining wounds of the creature
+     * @param {JQuery} html 
+     * @returns {int} hits.max - hits.value
+     */
+    getWoundsLeft(html){
+        return html.find(`input[name="system.hits.max"]`).prop('value') - html.find(`input[name="system.hits.value"]`).prop('value'); 
+      }
+
+    /**
      * Organize and classify Items for Character sheets.
      *
      * @param {Object} actorData The actor to prepare.
@@ -176,6 +185,11 @@ export class MothershipCreatureSheet extends ActorSheet {
             } else {
                 item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
             }
+            if (this.actor.system.swarm && this.actor.system.swarm.enabled){
+                //replace the roll damage for swarm actors
+                let new_dice_ammount = item.system.damage.match(/([0-9]+)d[0-9]+/i)[1]*this.getWoundsLeft(html);
+                item.system.damage = item.system.damage.replace(/([0-9]+)(d[0-9]+)/i,`${new_dice_ammount}$2`);
+            }
             this.actor.rollCheck(null, 'low', 'combat', null, null, item);
         });
 
@@ -187,6 +201,11 @@ export class MothershipCreatureSheet extends ActorSheet {
                 item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
             } else {
                 item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
+            if (this.actor.system.swarm && this.actor.system.swarm.enabled){
+                //replace the roll damage for swarm actors
+                let new_dice_ammount = item.system.damage.match(/([0-9]+)d[0-9]+/i)[1]*this.getWoundsLeft(html);
+                item.system.damage = item.system.damage.replace(/([0-9]+)(d[0-9]+)/i,`${new_dice_ammount}$2`);
             }
             this.actor.rollCheck(null, null, 'damage', null, null, item);
         });
@@ -263,6 +282,26 @@ export class MothershipCreatureSheet extends ActorSheet {
                 li.addEventListener("dragstart", handler, false);
             });
         }
+
+        // update swarm combat
+        html.find(`input[name="system.swarm.combat.value"]`).change(ev => {
+            let new_combat_value =  $(ev.currentTarget).prop('value') * this.getWoundsLeft(html);
+            this.actor.update({"system.stats.combat.value":new_combat_value});
+        });
+        html.find(`input[name="system.hits.max"]`).change(ev => {
+            //Max wounds changed -> calculate new combat stat
+            if (this.actor.system.swarm &&  this.actor.system.swarm.enabled){
+                let new_combat_value =  html.find(`input[name="system.swarm.combat.value"]`).prop('value') * this.getWoundsLeft(html);
+                this.actor.update({"system.stats.combat.value":new_combat_value});
+            }
+        });
+        html.find(`input[name="system.hits.value"]`).change(ev => {
+            //Current wounds changed -> calculate new combat stat
+            if (this.actor.system.swarm && this.actor.system.swarm.enabled){
+                let new_combat_value =  html.find(`input[name="system.swarm.combat.value"]`).prop('value') * this.getWoundsLeft(html);
+                this.actor.update({"system.stats.combat.value":new_combat_value});
+            }
+        });
 
     }
 

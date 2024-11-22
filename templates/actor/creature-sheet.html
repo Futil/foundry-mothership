@@ -9,10 +9,17 @@
       <!-- Combat -->
       <div class="mainstatwrapper">
         <div class="resource creature-mainstat">
-          <span class="ability-mod stat-roll rollable creaturestat" data-key="combat" data-roll="d100"
+          {{#if system.swarm.enabled}}
+            <span class="ability-mod stat-roll rollable creaturestat" data-key="combat" data-roll="d100"
+            data-label="Combat">COMBAT W*</span>
+            <input class="creaturestat noborder" style="width: 30px;" type="text" name="system.swarm.combat.value"
+              value="{{system.swarm.combat.value}}" data-dtype="Number" />
+          {{else}}
+            <span class="ability-mod stat-roll rollable creaturestat" data-key="combat" data-roll="d100"
             data-label="Combat">COMBAT</span>
-          <input class="creaturestat noborder" style="width: 30px;" type="text" name="system.stats.combat.value"
+            <input class="creaturestat noborder" style="width: 30px;" type="text" name="system.stats.combat.value"
             value="{{system.stats.combat.value}}" data-dtype="Number" />
+          {{/if}}
         </div>
       </div>
       {{/if}}
@@ -169,7 +176,11 @@
         <li class="item flexrow item-header">
           <div class="item-image"></div>
           <div class="skill-stat" style="flex-grow: 2;">Name</div>
-          <div class="skill-stat">Damage</div>
+          {{#if system.swarm.enabled}}
+            <div class="skill-stat">Damage w*</div>
+          {{else}}
+            <div class="skill-stat">Damage</div>
+          {{/if}}
           <div class="skill-stat">Ammo</div>
           <div class="skill-stat">Shots</div>
           <div class="skill-stat">Range</div>

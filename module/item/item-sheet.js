@@ -34,7 +34,7 @@ export class MothershipItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
+  async getData() {
     const data = super.getData();
     const superData = data.system;
 
@@ -52,6 +52,9 @@ export class MothershipItemSheet extends ItemSheet {
     data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
     data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
     data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
+
+    data.data.enriched = [];
+    data.data.enriched.description = await TextEditor.enrichHTML(data.data.system.description, {async: true});
 
     return data.data;
   }

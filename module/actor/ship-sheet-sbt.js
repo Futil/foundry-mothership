@@ -69,7 +69,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
     /* -------------------------------------------- */
 
     /** @override */
-    getData() {
+    async getData() {
         const data = super.getData();
 
         data.dtypes = ["String", "Number", "Boolean"];
@@ -100,7 +100,10 @@ export class MothershipShipSheetSBT extends ActorSheet {
         let maxHull = superData.supplies.hull.max;
 
         superData.supplies.hull.percentage = " [ " + Math.round(maxHull * 0.25) + " | " + Math.round(maxHull * 0.5) + " | " + Math.round(maxHull * 0.75) + " ]";
-
+        
+        data.data.enriched = [];
+        data.data.enriched.biography = await TextEditor.enrichHTML(data.data.system.biography, {async: true});
+        
 
         //Run Setup
         // if(data.data.system.runSetup){

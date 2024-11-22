@@ -1,3 +1,4 @@
+import { DLActorGenerator } from "../windows/actor-generator.js";
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -633,6 +634,28 @@ export class MothershipActorSheet extends ActorSheet {
     });
   }
 
-
-
+  /**
+     * Extend and override the sheet header buttons
+     * @override
+     */
+  _getHeaderButtons() {
+    let buttons = super._getHeaderButtons();
+    const canConfigure = game.user.isGM || this.actor.isOwner;
+    if (this.options.editable && canConfigure) {
+        buttons = [{
+            label: 'Character Generator',
+            class: 'configure-actor',
+            icon: 'fas fa-cogs',
+            onclick: (ev) => this._onConfigureCreature(ev),
+        },].concat(buttons);
+    }
+    return buttons;
+  }
+  _onConfigureCreature(event) {
+    event.preventDefault();
+    new DLActorGenerator(this.actor, {
+        top: this.position.top + 40,
+        left: this.position.left + (this.position.width - 400) / 2
+    }).render(true);
+  }
 }

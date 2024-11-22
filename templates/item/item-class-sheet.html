@@ -1,0 +1,85 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    <header class="sheet-header">
+        <div class="header" style="grid-template-columns: 0.15fr 1fr;">
+            <!-- Image -->
+            <img class="sbt-profile" style="height: auto;" src="{{img}}" data-edit="img" title="{{name}}"/>
+
+            <!-- NAME -->
+            <div class="">
+                <div class="headerinputtext">Name</div>
+                <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
+                        placeholder="Name" /></div>
+            </div>
+
+        </div>
+    </header>
+    <br/>
+
+    <div class="circle-statwrapper-horizontal">
+        <!-- PatchTable -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.PatchTable" class="resource-label minmaxtext">Patch Table</label>
+
+            <div class="textvaluewrapper" style="width: 180px; background: white;">
+                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.PatchTable"
+                    value="{{system.PatchTable}}" data-dtype="String" />
+            </div>
+        </div>
+        <!-- TrinketTable -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.TrinketTable" class="resource-label minmaxtext">Trinket Table</label>
+
+            <div class="textvaluewrapper" style="width: 180px; background: white;">
+                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.TrinketTable" value="{{system.TrinketTable}}"
+                    data-dtype="String" />
+            </div>
+        </div>
+        <!-- LoadoutTable -->
+        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+            <label for="system.loadoutTable" class="resource-label minmaxtext">Loadout Table</label>
+
+            <div class="textvaluewrapper" style="width: 180px; background: white;">
+                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.loadoutTable"
+                    value="{{system.loadoutTable}}" data-dtype="String" />
+            </div>
+        </div>
+    </div>
+
+    <br/>
+
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
+        <a class="tab-select" data-tab="description">Description</a>
+        <a class="tab-select" data-tab="traumaresponse">Trauma Response</a>
+        <a class="tab-select" data-tab="stats&saves">Stats&Saves</a>
+        <a class="tab-select" data-tab="skills">Skills</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Description Tab --}}
+        <div class="tab" data-group="primary" data-tab="description">
+            {{editor enriched.description target="system.description" button=true owner=owner editable=true}}
+        </div>
+        {{!-- Trauma Tab --}}
+        <div class="tab" data-group="primary" data-tab="traumaresponse">
+            <textarea name="system.trauma" rows="2" class="textarea-input" type="text"
+              data-target="system.trauma" placeholder="" style="height: 50px;">{{system.trauma}}</textarea>
+
+            {{!--editor system.trauma target="system.trauma" button=true owner=owner editable=true--}}
+        </div>
+        {{!-- stats&saves Tab --}}
+        <div class="tab" data-group="primary" data-tab="stats&saves">
+
+            {{editor system.statsandsaves target="system.statsandsaves" button=true owner=owner editable=true}}
+
+        </div>
+        {{!-- skills Tab --}}
+        <div class="tab" data-group="primary" data-tab="skills">
+            {{editor enriched.skills target="system.skills" button=true owner=owner editable=true}}
+        </div>
+    </section>
+</form>

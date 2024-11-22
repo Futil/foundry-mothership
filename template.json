@@ -352,7 +352,8 @@
       "module",
       "condition",
       "crew",
-      "repair"
+      "repair",
+      "class"
     ],
     "templates": {
       "base": {
@@ -446,6 +447,18 @@
       ],
       "quantity": 1,
       "major": false
+    },
+    "class": {
+      "templates": [
+        "base"
+      ],
+
+      "TrinketTable": "Compendium.fvtt_mosh_1e_psg.rolltables_1e.RollTable.3iJxbTylcgZ0BRaQ",
+      "PatchTable": "Compendium.fvtt_mosh_1e_psg.rolltables_1e.RollTable.Vry1q39PNXR3X4oY",
+      "loadoutTable": "",
+      "statsandsaves":"",
+      "skills":"",
+      "trauma":""
     },
     "module": {
       "templates": [

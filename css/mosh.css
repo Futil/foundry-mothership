@@ -1703,3 +1703,35 @@ p {
 .mosh .items-tab-grid{
   grid-template-columns: 50% 50%;
 }
+.mosh form.actor-generator div.fulllabel {
+  border-radius: 2em;
+}
+.mosh form.actor-generator div.ulinputfield {
+  min-height: 150px;
+}
+.mosh form.actor-generator .smalltext {
+  font-size: 0.7rem;
+}
+.mosh form.actor-generator div#generator-header-grid-1col  {
+  grid-column: span 1 / span 1;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.mosh form.actor-generator .element-group {
+  margin-top: 10px;
+}
+
+.mosh form.actor-generator .credit-img{
+  height: 30px;
+  margin-top: 0%;
+}
+
+.mosh form.actor-generator .checkbox-round {
+  appearance: none;
+}
+.mosh form.actor-generator .checkbox-round:checked {
+  background-color: gray;
+}
+.mosh form.actor-generator .clicable-item{
+  cursor: pointer;
+}

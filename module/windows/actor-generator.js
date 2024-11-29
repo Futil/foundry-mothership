@@ -229,12 +229,12 @@ export class DLActorGenerator extends FormApplication {
              buttons_options[j] = {
                 icon: '<i class="fas fa-check"></i>',
                 label: option_stats_and_saves.stats[j],//.replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
-                callback: () => this._element.find(`input[name="system.stats.${obj.options[j]}.bonus"]`).prop("value",option_stats_and_saves.modification)
+                callback: () => this._element.find(`input[name="system.stats.${ option_stats_and_saves.stats[j]}.bonus"]`).prop("value",option_stats_and_saves.modification)
              };
           }
           let d = new Dialog({
              title: game.i18n.localize("Mosh.CharacterGeneratorStatOptionPopupTitle"),
-             content: `<p>${ game.i18n.localize("Mosh.CharacterGeneratorStatOptionPopupTitle")} (${obj.value})</p>`,
+             content: `<p>${ game.i18n.localize("Mosh.CharacterGeneratorStatOptionPopupTitle")} (${option_stats_and_saves.modification})</p>`,
              buttons: buttons_options,
              default: "1",
              //render: html => console.log("Register interactivity in the rendered dialog"),

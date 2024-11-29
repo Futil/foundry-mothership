@@ -20,10 +20,6 @@
             type="text" value="{{system.class.value}}" placeholder="" />
   
             <datalist id="class_options"> 
-              {{#each class_options as |class_option id|}}
-              {{id}}
-                <option class="class_option" data-uuid="{{class_option._id}}" value="{{class_option.name}}-{{class_option._id}}">{{class_option.pack}}</option>
-              {{/each}}
             </datalist>
   
             <!--input id="system.class.value" name="system.class.value" class="noborder"

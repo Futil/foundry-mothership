@@ -28,23 +28,6 @@ export class DLActorGenerator extends FormApplication {
        //   this.updateClass(this.object.system.class.uuid);
        //}
        let data=this.object;
-       data.class_options = game.items.filter(i => i.type=="class");
-
-       let compendium = game.packs;
-       //loop through each compendium
-       //TODO: this is not working, the page is rendered before this data is retrieved.
-       //maybe have it as a triget on ready and manualy/hard replace the html selector ¿? 
-       await compendium.forEach(async function(pack){ 
-         //is this a pack of items?
-         if (pack.metadata.type === 'Item') {
-            //get classes: 
-            let classes = await pack.getDocuments({ type: "class" })
-            //loop through class
-            classes.forEach(function(item) { 
-               data.class_options.push(item);
-             });
-         }
-       });
 
        data.system.class.value = "";
        return data;
@@ -53,15 +36,15 @@ export class DLActorGenerator extends FormApplication {
  
     async rollDices(dices, html, id,chatmsg="") {
  
-       if (html.find(`img[id="` + id + `"]`).prop('hidden') == false) {
+       if (html.find(`img[id="${ id }"]`).prop('hidden') == false) {
           let roll = await new Roll(dices).roll();
           if (chatmsg != ""){
              await roll.toMessage({flavor: chatmsg});
           }
           //console.log(id + "->" + roll.total)
-          html.find(`img[id="` + id + `"]`).prop('hidden', true);
-          html.find(`input[id="` + id + `"]`).prop('hidden', false);
-          html.find(`input[id="` + id + `"]`).prop('value', roll.total);
+          html.find(`img[id="${ id }"]`).prop('hidden', true);
+          html.find(`input[id="${ id }"]`).prop('hidden', false);
+          html.find(`input[id="${ id }"]`).prop('value', roll.total);
        }
     }
  
@@ -302,10 +285,37 @@ export class DLActorGenerator extends FormApplication {
        await this.updateClass(droppedUuid.uuid);
        //this._render();
     }
- 
+
+
+   async fill_class_options(html){
+        
+      let class_options = game.items.filter(i => i.type=="class");
+
+      for(const [class_key, class_value] of class_options.entries()){
+      
+         html.find(`datalist[id="class_options"]`).append(
+            `<option class="class_option" data-uuid="${class_value._id}" value="${class_value.name}">world.Item</option>`
+         );
+      }
+
+      let compendiums = game.packs;
+
+      for(const [compendium_key, compendium_value] of compendiums.entries()){
+         let classes = await compendium_value.getDocuments({ type: "class" });
+         for(const [class_key, class_value] of classes.entries()){
+              html.find(`datalist[id="class_options"]`).append(
+                 `<option class="class_option" data-uuid="${class_value._id}" value="${class_value.name}">${class_value.pack}</option>`
+              );
+         }
+      }
+  }
     activateListeners(html) {
        super.activateListeners(html);
- 
+
+       html.ready(ev=>{
+         this.fill_class_options(html);
+      });
+       
        /** Stats  */
        html.find(`img[id="system.stats.strength.value"]`).click(ev => {
           this.rollStrength(html)

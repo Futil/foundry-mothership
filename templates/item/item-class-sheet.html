@@ -7,7 +7,7 @@
 
             <!-- NAME -->
             <div class="">
-                <div class="headerinputtext">Name</div>
+                <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
                 <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
                         placeholder="Name" /></div>
             </div>
@@ -15,46 +15,138 @@
         </div>
     </header>
     <br/>
-
-    <div class="circle-statwrapper-horizontal">
-        <!-- PatchTable -->
-        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.PatchTable" class="resource-label minmaxtext">Patch Table</label>
-
-            <div class="textvaluewrapper" style="width: 180px; background: white;">
-                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.PatchTable"
-                    value="{{system.PatchTable}}" data-dtype="String" />
+    <div class="header-fields grid">
+        {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
+        use both the "grid" and "grid-Ncol" class where "N" can be any number
+        from 1 to 12 and will create that number of columns. --}}
+  
+        <div class="grid grid-1col widegap">
+          <!-- Strength -->
+          <div class="mainstatwrapper">
+            <div class="resource mainstat">
+              <div class="mainstatlabel">
+                <span class=" mainstattext" data-key="strength" data-label="{{ localize 'Mosh.Strength' }}">{{ localize 'Mosh.Strength' }}</span>
+              </div>
+              <input  id="system.base_adjustment.strength" class="circle-input" type="text"
+                name="system.base_adjustment.strength" value="{{system.base_adjustment.strength}}" data-dtype="Number" />
             </div>
-        </div>
-        <!-- TrinketTable -->
-        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.TrinketTable" class="resource-label minmaxtext">Trinket Table</label>
-
-            <div class="textvaluewrapper" style="width: 180px; background: white;">
-                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.TrinketTable" value="{{system.TrinketTable}}"
-                    data-dtype="String" />
+            <div class="mainstatmod-title">+</div>
+          </div>
+  
+          <!-- Speed -->
+          <div class="mainstatwrapper">
+            <div class="resource mainstat">
+              <div class="mainstatlabel">
+                <span class=" mainstattext" data-key="speed" data-label="{{ localize 'Mosh.Speed' }}">{{ localize 'Mosh.Speed' }}</span>
+              </div>
+              <input  class="circle-input" id="system.base_adjustment.speed" type="text" name="system.base_adjustment.speed"
+                value="{{system.base_adjustment.speed}}" data-dtype="Number" />
             </div>
-        </div>
-        <!-- LoadoutTable -->
-        <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.loadoutTable" class="resource-label minmaxtext">Loadout Table</label>
-
-            <div class="textvaluewrapper" style="width: 180px; background: white;">
-                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.loadoutTable"
-                    value="{{system.loadoutTable}}" data-dtype="String" />
+            <div class="mainstatmod-title">+</div>
+          </div>
+  
+          <!-- Intellect -->
+          <div class="mainstatwrapper">
+            <div class="resource mainstat">
+              <div class="mainstatlabel">
+                <span class=" mainstattext" data-key="intellect" data-label="{{ localize 'Mosh.Intelect' }}">{{ localize 'Mosh.Intelect' }}</span>
+              </div>
+              <input  class="circle-input" id="system.base_adjustment.intellect" type="text"
+                name="system.base_adjustment.intellect" value="{{system.base_adjustment.intellect}}" data-dtype="Number" />
             </div>
+            <div class="mainstatmod-title">+</div>
+          </div>
+  
+          <!-- Combat -->
+          <div class="mainstatwrapper">
+            <div class="resource mainstat">
+              <div class="mainstatlabel">
+                <span class=" mainstattext" data-key="combat" data-label="{{ localize 'Mosh.Combat' }}">{{ localize 'Mosh.Combat' }}</span>
+              </div>
+              <input  class="circle-input" id="system.base_adjustment.combat" type="text"
+                name="system.base_adjustment.combat" value="{{system.base_adjustment.combat}}" data-dtype="Number" />
+            </div>
+            <div class="mainstatmod-title">+</div>
+          </div>
         </div>
-    </div>
-
+  
+        <div class="grid grid-1col widegap">
+          <!-- Health -->
+          <div class="mainstatwrapper">
+            <div class="resource mainstat">
+              <div class="mainstatlabel">
+                <span class=" mainstattext" data-key="health" data-label="{{#if system.settings.firstEdition}}
+                {{ localize 'Mosh.Wounds' }} 
+                 {{else}}
+                {{ localize 'Mosh.Hits' }} 
+                 {{/if}}">
+                    {{#if system.settings.firstEdition}}
+                    {{ localize 'Mosh.Wounds' }} 
+                     {{else}}
+                    {{ localize 'Mosh.Hits' }} 
+                     {{/if}}
+                </span>
+              </div>
+              <input  id="system.base_adjustment.max_wounds" class="circle-input" type="text" name="system.base_adjustment.max_wounds"
+                value="{{system.base_adjustment.max_wounds}}" data-dtype="Number" />
+            </div>
+          </div>
+  
+          <!-- Sanity -->
+          <div class="mainstatwrapper">
+            <div class="resource mainstat">
+              <div class="mainstatlabel">
+                <span class=" mainstattext" data-key="sanity" data-label="{{ localize 'Mosh.Sanity' }}">{{ localize 'Mosh.Sanity' }}</span>
+              </div>
+              <input  id="system.base_adjustment.sanity" class="circle-input" type="text"
+                name="system.base_adjustment.sanity" value="{{system.base_adjustment.sanity}}" data-dtype="Number" />
+            </div>
+            <div class="mainstatmod-title">+</div>
+          </div>
+  
+          <!-- Fear -->
+          <div class="mainstatwrapper">
+            <div class="resource mainstat">
+              <div class="mainstatlabel">
+                <span class="mainstattext" data-key="fear" data-label="{{ localize 'Mosh.Fear' }}">{{ localize 'Mosh.Fear' }}</span>
+              </div>
+              <input  id="system.base_adjustment.fear" class="circle-input" type="text" name="system.base_adjustment.fear"
+                value="{{system.base_adjustment.fear}}" data-dtype="Number" />
+            </div>
+            <div class="mainstatmod-title">+</div>
+          </div>
+  
+          <!-- body -->
+          <div class="mainstatwrapper">
+            <div class="resource mainstat">
+              <div class="mainstatlabel">
+                <span class=" mainstattext" data-key="body" data-label="{{ localize 'Mosh.Body' }}">{{ localize 'Mosh.Body' }}</span>
+              </div>
+              <input  id="system.base_adjustment.body" class="circle-input" type="text" name="system.base_adjustment.body"
+                value="{{system.base_adjustment.body}}" data-dtype="Number" />
+            </div>
+            <div class="mainstatmod-title">+</div>
+          </div>
+        </div>
+      </div>
     <br/>
+    <div class="" style="margin-left: 6px; margin-right: 0px; flex: 0; grid-column-start: 1; grid-column-end: 3;">
+        {{#if system.settings.firstEdition}}
+        <div class="resource-label">{{ localize 'Mosh.TraumaResponse' }}</div>
+        {{else}}
+        <div class="resource-label">{{ localize 'Mosh.StressResponse' }}</div>
+        {{/if}}
+        <textarea name="system.trauma_response" rows="2" class="textarea-input" type="text"
+          data-target="system.trauma_response" placeholder="" style="height: 50px;">{{system.trauma_response}}</textarea>
 
+      </div>
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
         <a class="tab-select" data-tab="description">Description</a>
-        <a class="tab-select" data-tab="traumaresponse">Trauma Response</a>
         <a class="tab-select" data-tab="stats&saves">Stats&Saves</a>
         <a class="tab-select" data-tab="skills">Skills</a>
+        <a class="tab-select" data-tab="tables">tables</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -64,22 +156,47 @@
         <div class="tab" data-group="primary" data-tab="description">
             {{editor enriched.description target="system.description" button=true owner=owner editable=true}}
         </div>
-        {{!-- Trauma Tab --}}
-        <div class="tab" data-group="primary" data-tab="traumaresponse">
-            <textarea name="system.trauma" rows="2" class="textarea-input" type="text"
-              data-target="system.trauma" placeholder="" style="height: 50px;">{{system.trauma}}</textarea>
-
-            {{!--editor system.trauma target="system.trauma" button=true owner=owner editable=true--}}
-        </div>
         {{!-- stats&saves Tab --}}
         <div class="tab" data-group="primary" data-tab="stats&saves">
 
-            {{editor system.statsandsaves target="system.statsandsaves" button=true owner=owner editable=true}}
+            {{editor system.base_adjustmentandsaves target="system.base_adjustmentandsaves" button=true owner=owner editable=true}}
 
         </div>
         {{!-- skills Tab --}}
         <div class="tab" data-group="primary" data-tab="skills">
             {{editor enriched.skills target="system.skills" button=true owner=owner editable=true}}
+        </div>
+        <div class="tab" data-group="primary" data-tab="tables"></divclass>
+            <div class="circle-statwrapper-horizontal">
+                <!-- PatchTable -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.roll_tables.patch" class="resource-label minmaxtext">Patch Table</label>
+        
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.patch"
+                            value="{{system.roll_tables.patch}}" data-dtype="String" />
+                    </div>
+                </div>
+                <!-- TrinketTable -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.roll_tables.trinket" class="resource-label minmaxtext">Trinket Table</label>
+        
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.trinket"
+                        value="{{system.roll_tables.trinket}}" data-dtype="String" />
+                    </div>
+                </div>
+                <!-- LoadoutTable -->
+                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                    <label for="system.roll_tables.loadout" class="resource-label minmaxtext">Loadout Table</label>
+        
+                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                        <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.loadout"
+                            value="{{system.roll_tables.loadout}}" data-dtype="String" />
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 </form>

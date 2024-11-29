@@ -6,14 +6,14 @@
       <div id="generator-header-grid-1col" class="header">
   
         <div class="">
-          <div class="headerinputtext">NAME</div>
+          <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
           <div class="headerinputfield charname">
             <input name="name" class="noborder" type="text" value="{{name}}" placeholder="Name" />
           </div>
         </div>
         <!-- CLASS -->
         <div class="">
-          <div class="headerinputtext">CLASS</div>
+          <div class="headerinputtext">{{ localize 'Mosh.CLASS' }}</div>
           <div class="headerinputfield charname">
   
             <input id="system.class.value" type="text"  name="system.class.value" class="noborder" list="class_options"
@@ -217,7 +217,7 @@
       <div class="grid grid-1col">
         <div class="resource mainstat">
           <div class="fulllabel mainstatlabel">
-            <span class=" mainstattext" data-key="skills" data-label="skills">Skills</span>
+            <span class=" mainstattext" data-key="skills" data-label="skills">{{ localize 'Mosh.Skills' }}</span>
           </div>
         </div>
         <div class="headerinputfield ulinputfield">

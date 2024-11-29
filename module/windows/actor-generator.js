@@ -15,7 +15,7 @@ export class DLActorGenerator extends FormApplication {
      * @type {String}
      */
     get title() {
-       return `${this.object.name}: Character Generator`;
+       return `${this.object.name}: ${game.i18n.localize("Mosh.CharacterGenerator")}`;
     }
     /* -------------------------------------------- */
  
@@ -23,12 +23,29 @@ export class DLActorGenerator extends FormApplication {
      * Construct and return the data object used to render the HTML template for this form application.
      * @return {Object}
      */
-    getData() {
+    async getData() {
        //if (this.object.system.class.uuid != null){
        //   this.updateClass(this.object.system.class.uuid);
        //}
        let data=this.object;
        data.class_options = game.items.filter(i => i.type=="class");
+
+       let compendium = game.packs;
+       //loop through each compendium
+       //TODO: this is not working, the page is rendered before this data is retrieved.
+       //maybe have it as a triget on ready and manualy/hard replace the html selector ¿? 
+       await compendium.forEach(async function(pack){ 
+         //is this a pack of items?
+         if (pack.metadata.type === 'Item') {
+            //get classes: 
+            let classes = await pack.getDocuments({ type: "class" })
+            //loop through class
+            classes.forEach(function(item) { 
+               data.class_options.push(item);
+             });
+         }
+       });
+
        data.system.class.value = "";
        return data;
     }
@@ -184,40 +201,64 @@ export class DLActorGenerator extends FormApplication {
        }
  
        this._element.find(`input[id="system.class.uuid"]`).prop("value", classUuid);
-       this._element.find(`input[id="system.class.traumaresponse"]`).prop("value", droppedObject.system.trauma);
-       this.trinketTable = droppedObject.system.TrinketTable;
-       this.patchTable = droppedObject.system.PatchTable;
-       this.loadoutTable = droppedObject.system.loadoutTable;
+       this._element.find(`input[id="system.class.traumaresponse"]`).prop("value", droppedObject.system.trauma_response);
+       this.trinketTable = droppedObject.system.roll_tables.trinket;
+       this.patchTable = droppedObject.system.roll_tables.patch;
+       this.loadoutTable = droppedObject.system.roll_tables.loadout;
  
        try{
-          let skills = JSON.parse(droppedObject.system.skills.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
+          //let skills = JSON.parse(droppedObject.system.skills.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
           let skillsUuid = [];
  
           this._element.find(`ul[id="system.class.skils.text"]`).empty();
-          if(skills.hasOwnProperty("fixed")){
-             for (let i = 0;i<skills["fixed"].length;i++){
-                let skillUuid = skills["fixed"][i];
-                /**we need to keep only the Uuid of the item, not the complete string (for now) */
-                skillsUuid.push(skillUuid.replace(/(])+(.*)/i,"").replace(/(.*)(\.)/i,""));
-                let li_html = `<li>${await TextEditor.enrichHTML(skillUuid, {async: true})}</li>`;
-                this._element.find(`ul[id="system.class.skils.text"]`).append(li_html);
-             }
+
+          let fixed_skills = droppedObject.system.base_adjustment.skills_granted;
+          for (let i = 0;i<fixed_skills.length;i++){
+             let skillUuid = fixed_skills[i];
+             /**we need to keep only the Uuid of the item, not the complete string (for now) */
+             skillsUuid.push(skillUuid.replace(/(])+(.*)/i,"").replace(/(.*)(\.)/i,""));
+             let li_html = `<li>${await TextEditor.enrichHTML(skillUuid, {async: true})}</li>`;
+             this._element.find(`ul[id="system.class.skils.text"]`).append(li_html);
           }
-          if(skills.hasOwnProperty("options")){
-             for (let k in skills["options"]){
-                //todo: instead of a reminder, render a selection pop-up loaded with all skils available found (compendium and items)
-                let li_html = skills["options"][k].join(` ${k} `);
-                this._element.find(`ul[id="system.class.skils.text"]`).append(`<li>${li_html}</li>`);
-             }
-          }
+          
+          let option_skills_1 = droppedObject.system.selected_adjustment.choose_skill_and;
+          let option_skills_2 = droppedObject.system.selected_adjustment.choose_skill_or;
+          //todo: add popups to choose skils from (following the skill tree and type)
+           
           this._element.find(`input[id="system.class.skills.uuid"]`).prop("value", skillsUuid);
        }catch{
           ui.notifications.error("Class has invalid skills configuration.");
        }
  
        try{
-          let statsandsaves = JSON.parse(droppedObject.system.statsandsaves.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
- 
+          //let statsandsaves = JSON.parse(droppedObject.system.statsandsaves.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
+          let fix_stats_and_saves =  droppedObject.system.base_adjustment;
+          delete fix_stats_and_saves["skills_granted"];
+
+          Object.entries(fix_stats_and_saves).forEach(([key, value]) => {
+            this._element.find(`input[name="system.stats.${key}.bonus"]`).prop("value",value);
+          });
+          
+          //stats options
+          let option_stats_and_saves =  droppedObject.system.selected_adjustment.choose_stat;
+          let buttons_options = {};
+          for(let j = 0; j < option_stats_and_saves.stats.length; j++) {
+             buttons_options[j] = {
+                icon: '<i class="fas fa-check"></i>',
+                label: option_stats_and_saves.stats[j],//.replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
+                callback: () => this._element.find(`input[name="system.stats.${obj.options[j]}.bonus"]`).prop("value",option_stats_and_saves.modification)
+             };
+          }
+          let d = new Dialog({
+             title: game.i18n.localize("Mosh.CharacterGeneratorStatOptionPopupTitle"),
+             content: `<p>${ game.i18n.localize("Mosh.CharacterGeneratorStatOptionPopupTitle")} (${obj.value})</p>`,
+             buttons: buttons_options,
+             default: "1",
+             //render: html => console.log("Register interactivity in the rendered dialog"),
+             //close: html => console.log("This always is logged no matter which option is chosen")
+          });
+          d.render(true);
+          /*
           for(let i = 0; i < statsandsaves.length; i++) {
              let obj = statsandsaves[i];
  
@@ -244,10 +285,11 @@ export class DLActorGenerator extends FormApplication {
                 });
                 d.render(true);
              }
-          }
+          }*/
        }catch{
           ui.notifications.error("Class has invalid stats and saves configuration.");
        }
+       //todo: add robotic flag. 
       return;
     }
  
@@ -366,8 +408,10 @@ export class DLActorGenerator extends FormApplication {
           "system.stats.fear.value": formData["system.stats.fear.value"] + (formData["system.stats.fear.bonus"] || 0),
           "system.stats.body.value": formData["system.stats.body.value"] + (formData["system.stats.body.bonus"] || 0),
        }
-       if (formData["system.hits.bonus"]){
-          data["system.hits.max"] = 2+formData["system.hits.bonus"];
+       if (formData["system.stats.max_wounds.bonus"]){
+         //todo: check if max_wounds represent the total ammount or just the bonus,
+         //I am going to asume is the total ammount, so for android is gona be a 3,
+          data["system.hits.max"] = formData["system.stats.max_wounds.bonus"];
        }
        else{
           data["system.hits.max"] = 2;
@@ -393,7 +437,7 @@ export class DLActorGenerator extends FormApplication {
           Body: ${data["system.stats.body.value"]} = ${formData["system.stats.body.value"]}+${formData["system.stats.body.bonus"]}<br />
           <br />
           Health: ${data["system.health.max"]}<br/>
-          Extra wounds: ${formData["system.hits.bonus"]}<br/>
+          Extra wounds: ${formData["system.stats.max_wounds.bonus"]}<br/>
           Credits: ${data["system.credits.value"]}   <br />
              <br />
              Trinket roll:   <br />

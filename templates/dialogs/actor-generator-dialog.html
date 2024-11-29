@@ -21,7 +21,8 @@
   
             <datalist id="class_options"> 
               {{#each class_options as |class_option id|}}
-                <option class="class_option" data-uuid="{{class_option._id}}" value="{{class_option.name}}"></option>
+              {{id}}
+                <option class="class_option" data-uuid="{{class_option._id}}" value="{{class_option.name}}-{{class_option._id}}">{{class_option.pack}}</option>
               {{/each}}
             </datalist>
   
@@ -127,7 +128,7 @@
             <input class="mainstatmod-input" type="text" name="system.health.bonus" value="{{system.health.bonus}}"
               data-dtype="Number" />
             <div class="mainstatmod-title">+</div>
-            <input type="hidden" id="system.hits.bonus" name="system.hits.bonus"class="noborder" data-dtype="Number" />
+            <input type="hidden" id="system.stats.max_wounds.bonus" name="system.stats.max_wounds.bonus"class="noborder" data-dtype="Number" />
           </div>
   
           <!-- Sanity -->

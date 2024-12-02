@@ -54,14 +54,24 @@
                     data-dtype="Number" />
             </div>
         </div>
-        <!-- Feature -->
+        <!-- VALUE -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.feature" class="resource-label minmaxtext">Feature</label>
+            <label for="system.cost" class="resource-label minmaxtext">Value</label>
 
-            <div class="textvaluewrapper" style="width: 180px; background: white;">
-                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.feature" value="{{system.feature}}"
-                    data-dtype="String" />
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.cost" value="{{system.cost}}"
+                    data-dtype="Number" />
             </div>
+        </div>        
+    </div>
+    <br/>        
+    <!-- Feature -->
+    <div class="resource minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+        <label for="system.feature" class="resource-label minmaxtext">Feature</label>
+
+        <div class="textvaluewrapper" style="width: 100%; background: white;">
+            <input class="textvaluewrapper-input darkGreyText" type="text" name="system.feature" value="{{system.feature}}"
+                data-dtype="String" />
         </div>
     </div>
     <br />

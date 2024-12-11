@@ -196,7 +196,7 @@ export class DLActorGenerator extends FormApplication {
  
           this._element.find(`ul[id="system.class.skils.text"]`).empty();
 
-          let fixed_skills = droppedObject.system.base_adjustment.skills_granted;
+          const fixed_skills = droppedObject.system.base_adjustment.skills_granted;
           for (let i = 0;i<fixed_skills.length;i++){
             let skill = fixed_skills[i];
             /**we need to keep only the Uuid of the item, not the complete string (for now) */
@@ -219,32 +219,35 @@ export class DLActorGenerator extends FormApplication {
        ///try{
           //let statsandsaves = JSON.parse(droppedObject.system.statsandsaves.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
           let fix_stats_and_saves =  droppedObject.system.base_adjustment;
-          delete fix_stats_and_saves["skills_granted"];
 
           Object.entries(fix_stats_and_saves).forEach(([key, value]) => {
-            //this sets all the bonuses of base_adjustment including max_wounds
-            this._element.find(`input[name="system.stats.${key}.bonus"]`).prop("value",value);
+            if(key!="skills_granted"){
+               //this sets all the bonuses of base_adjustment including max_wounds
+               this._element.find(`input[name="system.stats.${key}.bonus"]`).prop("value",value);
+            }
           });
           
           //stats options
           let option_stats_and_saves =  droppedObject.system.selected_adjustment.choose_stat;
-          let buttons_options = {};
-          for(let j = 0; j < option_stats_and_saves.stats.length; j++) {
-             buttons_options[j] = {
-                icon: '<i class="fas fa-check"></i>',
-                label: option_stats_and_saves.stats[j],//.replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
-                callback: () => this._element.find(`input[name="system.stats.${ option_stats_and_saves.stats[j]}.bonus"]`).prop("value",option_stats_and_saves.modification)
-             };
+          if (option_stats_and_saves.modification){
+            let buttons_options = {};
+            for(let j = 0; j < option_stats_and_saves.stats.length; j++) {
+               buttons_options[j] = {
+                  icon: '<i class="fas fa-check"></i>',
+                  label: option_stats_and_saves.stats[j],//.replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
+                  callback: () => this._element.find(`input[name="system.stats.${ option_stats_and_saves.stats[j]}.bonus"]`).prop("value",option_stats_and_saves.modification)
+               };
+            }
+            let d = new Dialog({
+               title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle"),
+               content: `<p>${ game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupText")} (${option_stats_and_saves.modification})</p>`,
+               buttons: buttons_options,
+               default: "1",
+               //render: html => console.log("Register interactivity in the rendered dialog"),
+               //close: html => console.log("This always is logged no matter which option is chosen")
+            });
+            d.render(true);
           }
-          let d = new Dialog({
-             title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle"),
-             content: `<p>${ game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupText")} (${option_stats_and_saves.modification})</p>`,
-             buttons: buttons_options,
-             default: "1",
-             //render: html => console.log("Register interactivity in the rendered dialog"),
-             //close: html => console.log("This always is logged no matter which option is chosen")
-          });
-          d.render(true);
           /*
           for(let i = 0; i < statsandsaves.length; i++) {
              let obj = statsandsaves[i];

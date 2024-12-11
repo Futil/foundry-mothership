@@ -89,19 +89,37 @@ export class MothershipClassSheet extends MothershipItemSheet {
    */
     _onStatCreate(event) {
       event.preventDefault();
-    
+      let stats = this.object.system.selected_adjustment.choose_stat.stats;
+
+      let DialogContent = `<h2>Stat</h2>\
+                  <select style='margin-bottom:10px;'name='system.selected_adjustment.choose_stat.stats' id='system.selected_adjustment.choose_stat.stats'>`
+      
+      if ( ! stats.includes("strength")){
+        DialogContent+=`<option value='strength'>${game.i18n.localize("Mosh.Strength")}</option>`
+      }
+      if ( ! stats.includes("speed")){
+        DialogContent+=`<option value='speed'>${game.i18n.localize("Mosh.Speed")}</option>`
+      }
+      if ( ! stats.includes("intellect")){
+        DialogContent+=`<option value='intellect'>${game.i18n.localize("Mosh.Intelect")}</option>`
+      }
+      if ( ! stats.includes("combat")){
+        DialogContent+=`<option value='combat'>${game.i18n.localize("Mosh.Combat")}</option>`
+      }
+      if ( ! stats.includes("sanity")){
+        DialogContent+=`<option value='sanity'>${game.i18n.localize("Mosh.Sanity")}</option>`
+      }
+      if ( ! stats.includes("fear")){
+        DialogContent+=`<option value='fear'>${game.i18n.localize("Mosh.Fear")}</option>`
+      }
+      if ( ! stats.includes("body")){
+        DialogContent+=`<option value='body'>${game.i18n.localize("Mosh.Body")}</option>`
+      }        
+      DialogContent+=`</select> <br/>`
+
       let d = new Dialog({
         title: "Select Stat",
-        content: `<h2>Stat</h2>\
-                  <select style='margin-bottom:10px;'name='system.selected_adjustment.choose_stat.stats' id='system.selected_adjustment.choose_stat.stats'>\
-                    <option value='strength'>${game.i18n.localize("Mosh.Strength")}</option>\
-                    <option value='speed'>${game.i18n.localize("Mosh.Speed")}</option>\
-                    <option value='intellect'>${game.i18n.localize("Mosh.Intelect")}</option>\
-                    <option value='combat'>${game.i18n.localize("Mosh.Combat")}</option>\
-                    <option value='sanity'>${game.i18n.localize("Mosh.Sanity")}</option>\
-                    <option value='fear'>${game.i18n.localize("Mosh.Fear")}</option>\
-                    <option value='body'>${game.i18n.localize("Mosh.Body")}</option>\
-                  </select> <br/>`,
+        content: DialogContent,
         buttons: {
           roll: {
             icon: '<i class="fas fa-check"></i>',
@@ -110,7 +128,6 @@ export class MothershipClassSheet extends MothershipItemSheet {
   
             let statname = html.find('[id=\"system.selected_adjustment.choose_stat.stats\"]')[0].value
 
-            let stats = this.object.system.selected_adjustment.choose_stat.stats;
             stats.push(statname);
             this.object.update({"system.selected_adjustment.choose_stat.stats":stats});
 

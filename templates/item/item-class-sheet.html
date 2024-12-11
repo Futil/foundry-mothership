@@ -160,7 +160,22 @@
               value="{{system.selected_adjustment.choose_stat.modification}}" data-dtype="Number" />
           </div>
           <div>
-            todo: editor to add or SELECT  the optional stats
+            <ol class="items-list" style="margin-bottom : 10px;">
+              <li class="item flexrow item-header">
+                <div class="stat-stat">{{ localize 'Mosh.Name' }}</div>
+                <div class="item-controls">
+                  <a class="item-control stat-create" title="{{ localize 'Mosh.CreateSkill' }}" data-type="stat"><i class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
+                </div>
+              </li>
+              {{#each system.selected_adjustment.choose_stat.stats as |stat id|}}
+              <li class="item flexrow dropitem" data-item-id="{{stat}}">
+                <div class="stat-name">{{stat}}</div>
+                <div class="item-controls">
+                  <a class="item-control stat-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i class="fas fa-trash"></i></a>
+                </div>
+              </li>
+              {{/each}}
+            </ol>
           </div>
         </div>
         {{!-- skills Tab --}}
@@ -183,7 +198,7 @@
               <div class="skill-stat">{{skill.system.rank}}</div>
               <div class="skill-stat">{{skill.system.bonus}}</div>
               <div class="item-controls">
-                <a class="item-control item-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i class="fas fa-trash"></i></a>
+                <a class="item-control skill-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i class="fas fa-trash"></i></a>
               </div>
             </li>
             {{/each}}

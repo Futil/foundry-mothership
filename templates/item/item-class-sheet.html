@@ -30,7 +30,6 @@
               <input  id="system.base_adjustment.strength" class="circle-input" type="text"
                 name="system.base_adjustment.strength" value="{{system.base_adjustment.strength}}" data-dtype="Number" />
             </div>
-            <div class="mainstatmod-title">+</div>
           </div>
   
           <!-- Speed -->
@@ -42,7 +41,6 @@
               <input  class="circle-input" id="system.base_adjustment.speed" type="text" name="system.base_adjustment.speed"
                 value="{{system.base_adjustment.speed}}" data-dtype="Number" />
             </div>
-            <div class="mainstatmod-title">+</div>
           </div>
   
           <!-- Intellect -->
@@ -54,7 +52,6 @@
               <input  class="circle-input" id="system.base_adjustment.intellect" type="text"
                 name="system.base_adjustment.intellect" value="{{system.base_adjustment.intellect}}" data-dtype="Number" />
             </div>
-            <div class="mainstatmod-title">+</div>
           </div>
   
           <!-- Combat -->
@@ -66,7 +63,6 @@
               <input  class="circle-input" id="system.base_adjustment.combat" type="text"
                 name="system.base_adjustment.combat" value="{{system.base_adjustment.combat}}" data-dtype="Number" />
             </div>
-            <div class="mainstatmod-title">+</div>
           </div>
         </div>
   
@@ -101,7 +97,6 @@
               <input  id="system.base_adjustment.sanity" class="circle-input" type="text"
                 name="system.base_adjustment.sanity" value="{{system.base_adjustment.sanity}}" data-dtype="Number" />
             </div>
-            <div class="mainstatmod-title">+</div>
           </div>
   
           <!-- Fear -->
@@ -113,7 +108,6 @@
               <input  id="system.base_adjustment.fear" class="circle-input" type="text" name="system.base_adjustment.fear"
                 value="{{system.base_adjustment.fear}}" data-dtype="Number" />
             </div>
-            <div class="mainstatmod-title">+</div>
           </div>
   
           <!-- body -->
@@ -125,7 +119,6 @@
               <input  id="system.base_adjustment.body" class="circle-input" type="text" name="system.base_adjustment.body"
                 value="{{system.base_adjustment.body}}" data-dtype="Number" />
             </div>
-            <div class="mainstatmod-title">+</div>
           </div>
         </div>
       </div>
@@ -143,10 +136,11 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
-        <a class="tab-select" data-tab="description">Description</a>
-        <a class="tab-select" data-tab="stats&saves">Stats&Saves</a>
-        <a class="tab-select" data-tab="skills">Skills</a>
-        <a class="tab-select" data-tab="tables">tables</a>
+        <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
+        <a class="tab-select" data-tab="stats&saves">{{ localize 'Mosh.CharacterGenerator.StatOption' }}</a>
+        <a class="tab-select" data-tab="skills.fixed">{{ localize 'Mosh.SkillsFixed' }}</a>
+        <a class="tab-select" data-tab="skills.optional">{{ localize 'Mosh.SkillsOptional' }}</a>
+        <a class="tab-select" data-tab="tables">{{ localize 'Mosh.CharacterGenerator.Tables' }}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -158,19 +152,53 @@
         </div>
         {{!-- stats&saves Tab --}}
         <div class="tab" data-group="primary" data-tab="stats&saves">
-
-            {{editor system.base_adjustmentandsaves target="system.base_adjustmentandsaves" button=true owner=owner editable=true}}
-
+          <div class="resource mainstat">
+            <div class="mainstatlabel">
+              <span class=" mainstattext" data-key="stat.modification" data-label="{{ localize 'Mosh.Value' }}">{{ localize 'Mosh.Value' }}</span>
+            </div>
+            <input  id="system.selected_adjustment.choose_stat.modification" class="circle-input" type="text" name="system.selected_adjustment.choose_stat.modification"
+              value="{{system.selected_adjustment.choose_stat.modification}}" data-dtype="Number" />
+          </div>
+          <div>
+            todo: editor to add or SELECT  the optional stats
+          </div>
         </div>
         {{!-- skills Tab --}}
-        <div class="tab" data-group="primary" data-tab="skills">
-            {{editor enriched.skills target="system.skills" button=true owner=owner editable=true}}
+      <div class="tab dropitem items" data-group="primary" data-tab="skills.fixed">   
+
+          <!-- SKILLS -->
+          <ol class="items-list" style="margin-bottom : 10px;">
+            <li class="item flexrow item-header">
+              <div class="item-image"></div>
+              <div class="skill-stat">{{ localize 'Mosh.SkillName' }}</div>
+              <div class="skill-stat">{{ localize 'Mosh.SkillRank' }}</div>
+              <div class="skill-stat">{{ localize 'Mosh.SkillBonus' }}</div>
+              <div class="item-controls">
+              </div>
+            </li>
+            {{#each system.base_adjustment.skills_granted as |skill id|}}
+            <li class="item flexrow dropitem" data-item-id="{{skill._id}}">
+              <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div>
+              <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
+              <div class="skill-stat">{{skill.system.rank}}</div>
+              <div class="skill-stat">{{skill.system.bonus}}</div>
+              <div class="item-controls">
+                <a class="item-control item-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i class="fas fa-trash"></i></a>
+              </div>
+            </li>
+            {{/each}}
+          </ol>
         </div>
+        
+        <div class="tab" data-group="primary" data-tab="skills.optional">
+        </div>
+
+        <!-- Tables -->
         <div class="tab" data-group="primary" data-tab="tables"></divclass>
             <div class="circle-statwrapper-horizontal">
                 <!-- PatchTable -->
                 <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-                    <label for="system.roll_tables.patch" class="resource-label minmaxtext">Patch Table</label>
+                    <label for="system.roll_tables.patch" class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.Table.Patch' }}</label>
         
                     <div class="textvaluewrapper" style="width: 180px; background: white;">
                         <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.patch"
@@ -179,7 +207,7 @@
                 </div>
                 <!-- TrinketTable -->
                 <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-                    <label for="system.roll_tables.trinket" class="resource-label minmaxtext">Trinket Table</label>
+                    <label for="system.roll_tables.trinket" class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.Table.Trinket' }}</label>
         
                     <div class="textvaluewrapper" style="width: 180px; background: white;">
                         <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.trinket"
@@ -188,7 +216,7 @@
                 </div>
                 <!-- LoadoutTable -->
                 <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-                    <label for="system.roll_tables.loadout" class="resource-label minmaxtext">Loadout Table</label>
+                    <label for="system.roll_tables.loadout" class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.Table.Loadout' }}</label>
         
                     <div class="textvaluewrapper" style="width: 180px; background: white;">
                         <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.loadout"

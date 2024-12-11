@@ -15,7 +15,7 @@ export class DLActorGenerator extends FormApplication {
      * @type {String}
      */
     get title() {
-       return `${this.object.name}: ${game.i18n.localize("Mosh.CharacterGenerator")}`;
+       return `${this.object.name}: ${game.i18n.localize("Mosh.CharacterGenerator.name")}`;
     }
     /* -------------------------------------------- */
  
@@ -189,7 +189,8 @@ export class DLActorGenerator extends FormApplication {
        this.patchTable = droppedObject.system.roll_tables.patch;
        this.loadoutTable = droppedObject.system.roll_tables.loadout;
  
-       try{
+       // Skills
+       //try{
           //let skills = JSON.parse(droppedObject.system.skills.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
           let skillsUuid = [];
  
@@ -197,28 +198,31 @@ export class DLActorGenerator extends FormApplication {
 
           let fixed_skills = droppedObject.system.base_adjustment.skills_granted;
           for (let i = 0;i<fixed_skills.length;i++){
-             let skillUuid = fixed_skills[i];
-             /**we need to keep only the Uuid of the item, not the complete string (for now) */
-             skillsUuid.push(skillUuid.replace(/(])+(.*)/i,"").replace(/(.*)(\.)/i,""));
-             let li_html = `<li>${await TextEditor.enrichHTML(skillUuid, {async: true})}</li>`;
-             this._element.find(`ul[id="system.class.skils.text"]`).append(li_html);
-          }
+            let skill = fixed_skills[i];
+            /**we need to keep only the Uuid of the item, not the complete string (for now) */
+            skillsUuid.push(skill._id);
+            let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await TextEditor.enrichHTML(skill.name, {async: true})}</li>`;
+            this._element.find(`ul[id="system.class.skils.text"]`).append(li_html);
+         }
+         
           
           let option_skills_1 = droppedObject.system.selected_adjustment.choose_skill_and;
           let option_skills_2 = droppedObject.system.selected_adjustment.choose_skill_or;
           //todo: add popups to choose skils from (following the skill tree and type)
            
           this._element.find(`input[id="system.class.skills.uuid"]`).prop("value", skillsUuid);
-       }catch{
-          ui.notifications.error("Class has invalid skills configuration.");
-       }
+       //}catch{
+        //  ui.notifications.error("Class has invalid skills configuration.");
+       //}
  
-       try{
+       //Stats
+       ///try{
           //let statsandsaves = JSON.parse(droppedObject.system.statsandsaves.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
           let fix_stats_and_saves =  droppedObject.system.base_adjustment;
           delete fix_stats_and_saves["skills_granted"];
 
           Object.entries(fix_stats_and_saves).forEach(([key, value]) => {
+            //this sets all the bonuses of base_adjustment including max_wounds
             this._element.find(`input[name="system.stats.${key}.bonus"]`).prop("value",value);
           });
           
@@ -233,8 +237,8 @@ export class DLActorGenerator extends FormApplication {
              };
           }
           let d = new Dialog({
-             title: game.i18n.localize("Mosh.CharacterGeneratorStatOptionPopupTitle"),
-             content: `<p>${ game.i18n.localize("Mosh.CharacterGeneratorStatOptionPopupTitle")} (${option_stats_and_saves.modification})</p>`,
+             title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle"),
+             content: `<p>${ game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupText")} (${option_stats_and_saves.modification})</p>`,
              buttons: buttons_options,
              default: "1",
              //render: html => console.log("Register interactivity in the rendered dialog"),
@@ -269,9 +273,9 @@ export class DLActorGenerator extends FormApplication {
                 d.render(true);
              }
           }*/
-       }catch{
-          ui.notifications.error("Class has invalid stats and saves configuration.");
-       }
+       //}catch{
+       //   ui.notifications.error("Class has invalid stats and saves configuration.");
+       //}
        //todo: add robotic flag. 
       return;
     }
@@ -456,7 +460,6 @@ export class DLActorGenerator extends FormApplication {
  
  
        if(formData["system.removepreviousitems"]){
- 
           let itemTypesToDelete = ["item", "armor", "weapon","skill","condition"];
           let itemsToDelete = this.object.items.filter(item => itemTypesToDelete.includes(item.type));
           await this.object.deleteEmbeddedDocuments("Item", itemsToDelete.map(item => item.id));

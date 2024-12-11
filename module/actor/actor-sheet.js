@@ -643,7 +643,7 @@ export class MothershipActorSheet extends ActorSheet {
     const canConfigure = game.user.isGM || this.actor.isOwner;
     if (this.options.editable && canConfigure) {
         buttons = [{
-            label: game.i18n.localize("Mosh.CharacterGenerator"),
+            label: game.i18n.localize("Mosh.CharacterGenerator.name"),
             class: 'configure-actor',
             icon: 'fas fa-cogs',
             onclick: (ev) => this._onConfigureCreature(ev),

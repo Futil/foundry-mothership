@@ -29,9 +29,17 @@
           <input type="hidden" id="system.class.traumaresponse" name="system.class.traumaresponse"class="noborder"/>
         </div>
   
+        <!-- Wounds -->
+        <div class="">
+          <div class="headerinputtext">{{ localize 'Mosh.Wounds'}}</div>
+          <div class="headerinputfield charname">
+            <input id="system.stats.max_wounds.bonus" name="system.stats.max_wounds.bonus" class="noborder" type="text"
+              value="{{system.stats.max_wounds.bonus}}" placeholder="" />
+          </div>
+        </div>
         <!-- Credits -->
         <div class="">
-          <div class="headerinputtext">Credits</div>
+          <div class="headerinputtext">{{ localize 'Mosh.Credits' }}</div>
           <div class="headerinputfield charname">
   
             <img class="clicable-item credit-img circle-input" id="system.credits.value" src="icons/svg/d20-black.svg" alt="roll">
@@ -124,7 +132,7 @@
             <input class="mainstatmod-input" type="text" name="system.health.bonus" value="{{system.health.bonus}}"
               data-dtype="Number" />
             <div class="mainstatmod-title">+</div>
-            <input type="hidden" id="system.stats.max_wounds.bonus" name="system.stats.max_wounds.bonus"class="noborder" data-dtype="Number" />
+            <!--input type="hidden" id="system.stats.max_wounds.bonus" name="system.stats.max_wounds.bonus"class="noborder" data-dtype="Number" /-->
           </div>
   
           <!-- Sanity -->

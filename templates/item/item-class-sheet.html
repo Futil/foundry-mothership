@@ -164,7 +164,7 @@
           </div>
         </div>
         {{!-- skills Tab --}}
-      <div class="tab dropitem items" data-group="primary" data-tab="skills.fixed">   
+        <div class="tab dropitem items" data-group="primary" data-tab="skills.fixed">   
 
           <!-- SKILLS -->
           <ol class="items-list" style="margin-bottom : 10px;">
@@ -195,36 +195,36 @@
 
         <!-- Tables -->
         <div class="tab" data-group="primary" data-tab="tables"></divclass>
-            <div class="circle-statwrapper-horizontal">
+                <br/>
                 <!-- PatchTable -->
-                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <div class="resource healthspread  flex-center" style="grid-template-rows: max-content;">
                     <label for="system.roll_tables.patch" class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.Table.Patch' }}</label>
         
-                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                    <div class="textvaluewrapper" style="background: white;">
                         <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.patch"
                             value="{{system.roll_tables.patch}}" data-dtype="String" />
                     </div>
                 </div>
+                <br/>
                 <!-- TrinketTable -->
-                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <div class="resource healthspread  flex-center" style="grid-template-rows: max-content;">
                     <label for="system.roll_tables.trinket" class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.Table.Trinket' }}</label>
         
-                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                    <div class="textvaluewrapper" style="background: white;">
                         <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.trinket"
                         value="{{system.roll_tables.trinket}}" data-dtype="String" />
                     </div>
                 </div>
+                <br/>
                 <!-- LoadoutTable -->
-                <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+                <div class="resource healthspread  flex-center" style="grid-template-rows: max-content;">
                     <label for="system.roll_tables.loadout" class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.Table.Loadout' }}</label>
         
-                    <div class="textvaluewrapper" style="width: 180px; background: white;">
+                    <div class="textvaluewrapper" style="background: white;">
                         <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.loadout"
                             value="{{system.roll_tables.loadout}}" data-dtype="String" />
                     </div>
                 </div>
-            </div>
-
         </div>
     </section>
 </form>

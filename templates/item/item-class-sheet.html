@@ -120,6 +120,17 @@
                 value="{{system.base_adjustment.body}}" data-dtype="Number" />
             </div>
           </div>
+
+          <!-- Robotic checkbox-->
+          <div class="mainstatwrapper">
+            <div class="resource mainstat">
+              <div class="mainstatlabel">
+                <span class="mainstattext" data-key="robotic" data-label="{{localize 'Mosh.Robotic'}}">{{localize 'Mosh.Robotic'}}</span>
+              </div>
+              <input class="circle-input" type="checkbox" name="system.robotic" id="system.robotic" 
+              {{checked system.robotic}} data-dtype="Boolean" />
+            </div>
+          </div>
         </div>
       </div>
     <br/>

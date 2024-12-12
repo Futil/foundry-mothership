@@ -152,6 +152,7 @@
         <a class="tab-select" data-tab="skills.fixed">{{ localize 'Mosh.SkillsFixed' }}</a>
         <a class="tab-select" data-tab="skills.optional">{{ localize 'Mosh.SkillsOptional' }}</a>
         <a class="tab-select" data-tab="tables">{{ localize 'Mosh.CharacterGenerator.Tables' }}</a>
+        <a class="tab-select" data-tab="skills.common">{{ localize 'Mosh.CharacterGenerator.CommonSkills' }}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -190,8 +191,7 @@
           </div>
         </div>
         {{!-- skills Tab --}}
-        <div class="tab dropitem items" data-group="primary" data-tab="skills.fixed">   
-
+        <div class="tab dropitem items" id="skills.fixed" data-group="primary" data-tab="skills.fixed">   
           <!-- SKILLS -->
           <ol class="items-list" style="margin-bottom : 10px;">
             <li class="item flexrow item-header">
@@ -209,7 +209,7 @@
               <div class="skill-stat">{{skill.system.rank}}</div>
               <div class="skill-stat">{{skill.system.bonus}}</div>
               <div class="item-controls">
-                <a class="item-control skill-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i class="fas fa-trash"></i></a>
+                <a class="item-control skills-granted-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i class="fas fa-trash"></i></a>
               </div>
             </li>
             {{/each}}
@@ -251,6 +251,36 @@
                             value="{{system.roll_tables.loadout}}" data-dtype="String" />
                     </div>
                 </div>
+        </div>
+
+        
+        {{!-- Common skills Tab --}}
+        <div class="tab dropitem items" id="skills.common" data-group="primary" data-tab="skills.common">   
+          <div>
+            {{ localize 'Mosh.CharacterGenerator.CommonSkillExplanation' }}
+          </div>
+          <!-- Common SKILLS -->
+          <ol class="items-list" style="margin-bottom : 10px;">
+            <li class="item flexrow item-header">
+              <div class="item-image"></div>
+              <div class="skill-stat">{{ localize 'Mosh.SkillName' }}</div>
+              <div class="skill-stat">{{ localize 'Mosh.SkillRank' }}</div>
+              <div class="skill-stat">{{ localize 'Mosh.SkillBonus' }}</div>
+              <div class="item-controls">
+              </div>
+            </li>
+            {{#each system.common_skills as |skill id|}}
+            <li class="item flexrow dropitem" data-item-id="{{skill._id}}">
+              <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div>
+              <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
+              <div class="skill-stat">{{skill.system.rank}}</div>
+              <div class="skill-stat">{{skill.system.bonus}}</div>
+              <div class="item-controls">
+                <a class="item-control skills-common-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i class="fas fa-trash"></i></a>
+              </div>
+            </li>
+            {{/each}}
+          </ol>
         </div>
     </section>
 </form>

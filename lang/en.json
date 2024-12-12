@@ -21,6 +21,8 @@
 "Mosh.Cargo": "Cargo",
 "Mosh.CarryingCapacity": "Carrying Capacity",
 "Mosh.CharacterGenerator.name": "Character Generator",
+"Mosh.CharacterGenerator.CommonSkills":"Common Skills",
+"Mosh.CharacterGenerator.CommonSkillExplanation":"This is a list of usual skill for this class to be used for random character generation.",
 "Mosh.CharacterGenerator.StatOption":"Stats & Saves",
 "Mosh.CharacterGenerator.StatOptionPopupTitle": "Class Attribute and Saves option",
 "Mosh.CharacterGenerator.StatOptionPopupText":"Choose where to apply the bonus of:",

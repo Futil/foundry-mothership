@@ -40,14 +40,23 @@ export class MothershipClassSheet extends MothershipItemSheet {
     const droppedUuid = TextEditor.getDragEventData(event);
     if (droppedUuid.type != "Item"){
        return;
-    }           
+    }
+    
     const droppedObject = await fromUuid(droppedUuid.uuid);
     if (droppedObject.type == "skill"){
-      //this.object.system.base_adjustment.skills_granted.push(droppedObject);
-      let skills = this.object.system.base_adjustment.skills_granted;
-      skills.push(droppedObject);
-      this.object.update({"system.base_adjustment.skills_granted":skills});
-      return this.render(false);
+      //todo: add a check if the skill already exist in the list and dont add it, (by id or by name?)
+      if(event.target.id == "skills.fixed"){
+        let skills = this.object.system.base_adjustment.skills_granted;
+        skills.push(droppedObject);
+        this.object.update({"system.base_adjustment.skills_granted":skills});
+        return this.render(false);
+      }
+      else if(event.target.id =="skills.common"){
+        let skills = this.object.system.common_skills;
+        skills.push(droppedObject);
+        this.object.update({"system.common_skills":skills});
+        return this.render(false);
+      }
     }
   }
 
@@ -56,14 +65,25 @@ export class MothershipClassSheet extends MothershipItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    // Delete Inventory Item
-    html.find('.skill-delete').click(ev => {
+    // Delete skills-granted
+    html.find('.skills-granted-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       
       let skills = this.object.system.base_adjustment.skills_granted.filter(function( obj ) {
           return obj._id !== li.data("itemId");
       });
       this.object.update({"system.base_adjustment.skills_granted":skills});
+      return this.render(false);
+    });
+    
+    // Delete skills-common
+    html.find('.skills-common-delete').click(ev => {
+      const li = $(ev.currentTarget).parents(".item");
+      
+      let skills = this.object.system.common_skills.filter(function( obj ) {
+          return obj._id !== li.data("itemId");
+      });
+      this.object.update({"system.common_skills":skills});
       return this.render(false);
     });
 

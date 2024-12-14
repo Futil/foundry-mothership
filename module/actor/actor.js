@@ -1396,8 +1396,13 @@ export class MothershipActor extends Actor {
         });
       }
     });
-    //get table data
-    let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+    if (tableLocation){
+      // Item found in a compendium -> get table data
+      let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+    }else{
+      //try to find the item in the world. (user defined)
+      let tableData = game.tables.filter(i=> i.id == tableId)
+    }
     //get table name
     let tableName = tableData.name;
     //get table name
@@ -1564,8 +1569,13 @@ export class MothershipActor extends Actor {
           });
         }
       });
-      //get table data
+      if (tableLocation){
+        // Table found in a compendium -> get table data
       let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+      }else{
+        //try to find the item in the world. (user defined)
+        let tableData = game.tables.filter(i=> i.id == tableId)
+      }
       //get table name
       let tableName = tableData.name;
       //get table name
@@ -2646,8 +2656,13 @@ export class MothershipActor extends Actor {
                 });
               }
             });
-            //get table data
+            if (tableLocation){
+              // Table found in a compendium -> get table data
             let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+            }else{
+              //try to find the item in the world. (user defined)
+              let tableData = game.tables.filter(i=> i.id == tableId)
+            }
           //prep text for success
           if (parsedRollResult.success && parsedRollResult.critical) {
             //flavor text
@@ -3140,8 +3155,13 @@ export class MothershipActor extends Actor {
           });
         }
       });
-    //get table data
-    let itemData = await game.packs.get(itemLocation).getDocument(itemId);
+    if (itemLocation){
+      // Item found in a compendium -> get table data
+      let itemData = await game.packs.get(itemLocation).getDocument(itemId);
+    }else{
+      //try to find the item in the world. (user defined)
+      let itemData = game.items.filter(i=> i.id == itemId)
+    }
     //add or increase the count of the item, depending on type, if the actor has it
     if (this.items.getName(itemData.name)) {
       //if this is an item, increase the count

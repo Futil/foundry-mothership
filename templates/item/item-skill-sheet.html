@@ -43,6 +43,7 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
         <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
+        <a class="tab-select" data-tab="skills.prerequisite">{{ localize 'Mosh.SkillsPrerequisite' }}</a>
     </nav>
     
     {{!-- Sheet Body --}}
@@ -52,5 +53,32 @@
         <div class="tab" data-group="primary" data-tab="description">
             {{editor system.description target="system.description" button=true owner=owner editable=true}}
         </div>
+
+        {{!-- Skills Prerequisite Tab --}}
+        <div class="tab dropitem items" id="skills.prerequisite" data-group="primary" data-tab="skills.prerequisite">   
+
+            <!-- Common SKILLS -->
+            <ol class="items-list" style="margin-bottom : 10px;">
+              <li class="item flexrow item-header">
+                <div class="item-image"></div>
+                <div class="skill-stat">{{ localize 'Mosh.SkillName' }}</div>
+                <div class="skill-stat">{{ localize 'Mosh.SkillRank' }}</div>
+                <div class="skill-stat">{{ localize 'Mosh.SkillBonus' }}</div>
+                <div class="item-controls">
+                </div>
+              </li>
+              {{#each system.prerequisite_ids as |skill id|}}
+              <li class="item flexrow dropitem" data-item-id="{{skill._id}}">
+                <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24"/></div>
+                <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
+                <div class="skill-stat">{{skill.system.rank}}</div>
+                <div class="skill-stat">{{skill.system.bonus}}</div>
+                <div class="item-controls">
+                  <a class="item-control skills-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i class="fas fa-trash"></i></a>
+                </div>
+              </li>
+              {{/each}}
+            </ol>
+          </div>
     </section>
 </form>

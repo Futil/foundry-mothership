@@ -1,4 +1,4 @@
-import { fromIdUuid } from "../mosh";
+import { fromIdUuid } from "../mosh.js";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications

@@ -949,3 +949,57 @@ async function noShipSelected() {
     console.log(`Told the user that no character was selected.`);
   });
 }
+
+
+//get item from world or compendiums by id or UUID.
+export async function fromIdUuid(id_uuid,type="", options={}){
+  let item = await fromUuid(id_uuid,options);
+  if(item != null){
+    //we found the item with the id, it probably was an uuid.
+    return item;
+  }
+
+  //we need to manualy find the item:
+  let currentLocation = '';
+  let objectLocation = '';
+  //loop through each compendium
+  game.packs.forEach(function(pack){ 
+    //is this a pack of rolltables?
+    if (pack.metadata.type === type) {
+      //log where we are
+      currentLocation = pack.metadata.id;
+      //loop through each pack to find the right table
+      pack.index.forEach(function(table) { 
+        //is this our table?
+        if (table._id === id_uuid) {
+          //grab the table location
+          objectLocation = currentLocation;
+        }
+      });
+    }
+  });
+  if (objectLocation){
+    // Item found in a compendium -> get table data
+    return await game.packs.get(objectLocation).getDocument(id_uuid);
+  }else{
+    //it is a world item.
+    switch (type) {
+      case "RollTable":
+        return game.tables.filter(i=> i.id == id_uuid);
+      case "Item":
+        return game.items.filter(i=> i.id == id_uuid);
+      default:
+        //type is not defined, and we could not find it in a compendium,
+        //now we search all world elements.
+        let itemData = game.tables.filter(i=> i.id == id_uuid);
+        if (itemData){
+          return itemData
+        }
+        itemData = game.items.filter(i=> i.id == id_uuid);
+        if (itemData){
+          return itemData
+        }
+      }
+  }
+
+}

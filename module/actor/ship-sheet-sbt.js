@@ -1,3 +1,4 @@
+import { fromIdUuid } from "../mosh";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -180,7 +181,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         //A script to return the data from a table.
         let tableId = game.settings.get('mosh', 'table1eMegadamageEffects');
         //get table data
-        let tableData = await fromIdUuid(tableId,type="RollTable");
+        let tableData = await fromIdUuid(tableId,{type:"RollTable"});
 
         let megadamageHTML = "";
 

@@ -1,3 +1,4 @@
+import { fromIdUuid } from "../mosh";
 export class DLShipMegaDamage extends FormApplication {
     static get defaultOptions() {
         const options = super.defaultOptions;
@@ -42,7 +43,7 @@ export class DLShipMegaDamage extends FormApplication {
         //A script to return the data from a table.
         let tableId = game.settings.get('mosh','table1eMegadamageEffects');
         //get table data
-        let tableData = await fromIdUuid(tableId,type="RollTable");
+        let tableData = await fromIdUuid(tableId,{type:"RollTable"});
 
         let entries = Array.from(tableData.results.entries());
 

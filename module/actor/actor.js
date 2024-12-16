@@ -1,3 +1,5 @@
+import { fromIdUuid } from "../mosh";
+
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -1376,7 +1378,7 @@ export class MothershipActor extends Actor {
   //A script to return the data from a table.
   async getRollTableData(tableId){
 
-    let tableData = await fromIdUuid(tableId,type="RollTable");
+    let tableData = await fromIdUuid(tableId,{type:"RollTable"});
     //get table name
     let tableName = tableData.name;
     //get table name
@@ -1525,7 +1527,7 @@ export class MothershipActor extends Actor {
         rollString = chosenRollType[0];
       }
 
-      let tableData = await fromIdUuid(tableId,type="RollTable");
+      let tableData = await fromIdUuid(tableId,{type:"RollTable"});
       //get current compendium
       //get table name
       let tableName = tableData.name;
@@ -2588,7 +2590,7 @@ export class MothershipActor extends Actor {
           //get the bankruptcy table
           let tableId = game.settings.get('mosh','table1eBankruptcy');
           //get Table Data
-          let tableData = await fromIdUuid(tableId,type="RollTable");
+          let tableData = await fromIdUuid(tableId,{type:"RollTable"});
           //prep text for success
           if (parsedRollResult.success && parsedRollResult.critical) {
             //flavor text
@@ -3063,7 +3065,7 @@ export class MothershipActor extends Actor {
     let flavorText = ``;
     let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
     //get item data
-    let itemData = await fromIdUuid(itemId,type="Item");
+    let itemData = await fromIdUuid(itemId,{type:"Item"});
     //add or increase the count of the item, depending on type, if the actor has it
     if (this.items.getName(itemData.name)) {
       //if this is an item, increase the count

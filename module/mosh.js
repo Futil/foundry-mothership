@@ -937,7 +937,8 @@ async function noShipSelected() {
 
 
 //get item from world or compendiums by id or UUID.
-export async function fromIdUuid(id_uuid,type="", options={}){
+export async function fromIdUuid(id_uuid, options={}){
+  let type = options.type;
   let item = await fromUuid(id_uuid,options);
   if(item != null){
     //we found the item with the id, it probably was an uuid.
@@ -970,19 +971,19 @@ export async function fromIdUuid(id_uuid,type="", options={}){
     //it is a world item.
     switch (type) {
       case "RollTable":
-        return game.tables.filter(i=> i.id == id_uuid);
+        return game.tables.filter(i=> i.id == id_uuid)[0];
       case "Item":
-        return game.items.filter(i=> i.id == id_uuid);
+        return game.items.filter(i=> i.id == id_uuid)[0];
       default:
         //type is not defined, and we could not find it in a compendium,
         //now we search all world elements.
         let itemData = game.tables.filter(i=> i.id == id_uuid);
         if (itemData){
-          return itemData
+          return itemData[0];
         }
         itemData = game.items.filter(i=> i.id == id_uuid);
         if (itemData){
-          return itemData
+          return itemData[0];
         }
       }
   }

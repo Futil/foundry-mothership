@@ -1,5 +1,4 @@
-import {fromIdUuid} from "../mosh.js";
-
+import { fromIdUuid } from "../mosh";
 export class DLShipMegaDamage extends FormApplication {
     static get defaultOptions() {
         const options = super.defaultOptions;

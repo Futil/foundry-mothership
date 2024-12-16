@@ -1,4 +1,4 @@
-import {fromIdUuid} from "../mosh.js";
+import { fromIdUuid } from "../mosh";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -3065,7 +3065,7 @@ export class MothershipActor extends Actor {
     let flavorText = ``;
     let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
     //get item data
-    let itemData = await fromIdUuid(itemId,{type: "Item"});
+    let itemData = await fromIdUuid(itemId,{type:"Item"});
     //add or increase the count of the item, depending on type, if the actor has it
     if (this.items.getName(itemData.name)) {
       //if this is an item, increase the count

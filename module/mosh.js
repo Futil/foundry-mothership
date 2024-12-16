@@ -986,9 +986,9 @@ export async function fromIdUuid(id_uuid, options={}){
     //it is a world item.
     switch (type) {
       case "RollTable":
-        return await game.tables.filter(i=> i.id == id_uuid)[0];;
+        return game.tables.filter(i=> i.id == id_uuid)[0];
       case "Item":
-        return await game.items.filter(i=> i.id == id_uuid)[0];;
+        return game.items.filter(i=> i.id == id_uuid)[0];
       default:
         //type is not defined, and we could not find it in a compendium,
         //now we search all world elements.

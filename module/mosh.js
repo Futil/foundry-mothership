@@ -936,19 +936,26 @@ async function noShipSelected() {
 }
 
 
-//get item from world or compendiums by id or UUID.
+/**
+ * get element from world or compendiums by id or UUID, filtering by specific type.
+ * @param {string} id_uuid                   The id or the full uuid of the element we want to retieve.
+ * @param {object} options                   General search options for this function and for 'fromUuid'
+ * @param {string} [options.type]            A string to filter the compendium type to search or the world element type. Valid values =["RollTable","Item","Macro","Actor","Adventure","Cards","JournalEntry","Playlist","Scene"]
+ * @returns {Promise<Document|null>}         Returns the Document if it could be found, otherwise null.
+ */
 export async function fromIdUuid(id_uuid, options={}){
   let type = options.type;
+  //first we try to find from UUID, asuming the parameter(id_uuid) is an UUID.
   let item = await fromUuid(id_uuid,options);
   if(item != null){
-    //we found the item with the id, it probably was an uuid.
+    //we found the item with the id_uuid, it probably was an uuid.
     return item;
   }
 
-  //we need to manualy find the item:
+  //we need to manualy find the item
   let currentLocation = '';
   let objectLocation = '';
-  //loop through each compendium
+  //first loop through each compendium
   game.packs.forEach(function(pack){ 
     //is this a pack of rolltables?
     if (pack.metadata.type === type) {
@@ -965,10 +972,11 @@ export async function fromIdUuid(id_uuid, options={}){
     }
   });
   if (objectLocation){
-    // Item found in a compendium -> get table data
+    // Item found in a compendium -> get document data
     return await game.packs.get(objectLocation).getDocument(id_uuid);
   }else{
-    //it is a world item.
+    //if we dont find it in a compendium, its probable a world item:
+    //Lets filtery by type to search the relevant elements only.
     switch (type) {
       case "RollTable":
         return getTableFromId(id_uuid);
@@ -1030,6 +1038,7 @@ export async function fromIdUuid(id_uuid, options={}){
     //if we get here we have not found anything with that id.
     return null;
   }
+  /**functions to get world defined elements by type and ID */ 
   function getSceneFromId(sceneId){
     return game.scenes.filter(i=> i.id == sceneId)[0];
   }

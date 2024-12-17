@@ -1,4 +1,4 @@
-export default class ChatMessageMosh extends ChatMessage {
+export class ChatMessageMosh extends ChatMessage {
     
    /* -------------------------------------------- */
   /*  Rendering                                   */
@@ -7,7 +7,6 @@ export default class ChatMessageMosh extends ChatMessage {
   /** @inheritDoc */
   async getHTML() {
     const html = await super.getHTML();
-    console.log(html);
     this._enrichChatCard(html[0]);
     return html;
   }

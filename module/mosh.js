@@ -40,6 +40,8 @@ Hooks.once('init', async function () {
 
   //Define chat message handler
   CONFIG.ChatMessage.documentClass = ChatMessageMosh;
+  //todo: check if there is a diferent way of specify this path. 
+  CONFIG.ChatMessage.template = "./systems/mosh/templates/chat/template.html";
 
   // Define custom Entity classes
   CONFIG.Actor.documentClass = MothershipActor;

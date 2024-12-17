@@ -612,6 +612,7 @@ export class MothershipActorSheet extends ActorSheet {
       let roll = new Roll(dataset.roll, this.actor.system);
       let label = dataset.label ? `Rolling ${dataset.label} to score under ${dataset.target}` : '';
       roll.roll().toMessage({
+        //todo: replace with ChatMessageMosh.getAssociatedActor()
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         flavor: label
       });

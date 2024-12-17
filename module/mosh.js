@@ -955,9 +955,9 @@ export async function fromIdUuid(id_uuid, options={}){
       //log where we are
       currentLocation = pack.metadata.id;
       //loop through each pack to find the right table
-      pack.index.forEach(function(table) { 
+      pack.index.forEach(function(pack_item) { 
         //is this our table?
-        if (table._id === id_uuid) {
+        if (pack_item._id === id_uuid) {
           //grab the table location
           objectLocation = currentLocation;
         }
@@ -971,21 +971,86 @@ export async function fromIdUuid(id_uuid, options={}){
     //it is a world item.
     switch (type) {
       case "RollTable":
-        return game.tables.filter(i=> i.id == id_uuid)[0];
+        return getTableFromId(id_uuid);
       case "Item":
-        return game.items.filter(i=> i.id == id_uuid)[0];
+        return getItemFromId(id_uuid);
+      case "Macro":
+        return getMacroFromId(id_uuid);
+      case "Actor":
+        return getActorFromId(id_uuid);
+      case "Adventure":
+        //adventures can only be defined in compendiums and not in the world (i think)
+        return null;
+      case "Cards":
+        return getCardFromId(id_uuid);
+      case "JournalEntry":
+        return getJournalFromId(id_uuid);
+      case "Playlist":
+        return getPlaylistFromId(id_uuid);
+      case "Scene":
+        return getSceneFromId(id_uuid);
+
       default:
         //type is not defined, and we could not find it in a compendium,
-        //now we search all world elements.
-        let itemData = game.tables.filter(i=> i.id == id_uuid);
-        if (itemData){
-          return itemData[0];
+        //now we search all world elements for the ID.
+        //this could lead to conflicts since ID could not be unique.
+        let tableData = getTableFromId(id_uuid);
+        if (tableData){
+          return tableData;
         }
-        itemData = game.items.filter(i=> i.id == id_uuid);
+        let itemData = getItemFromId(id_uuid);
         if (itemData){
-          return itemData[0];
+          return itemData;
+        }
+        let macroData = getMacroFromId(id_uuid);
+        if (macroData){
+          return macroData;
+        }
+        let actorData = getActorFromId(id_uuid);
+        if (actorData){
+          return actorData;
+        }
+        let cardData = getCardFromId(id_uuid);
+        if (cardData){
+          return cardData;
+        }
+        let journalData = getJournalFromId(id_uuid);
+        if (journalData){
+          return journalData;
+        }
+        let scenneData = getSceneFromId(id_uuid);
+        if (scenneData){
+          return scenneData;
+        }
+        let playlistData = getPlaylistFromId(id_uuid);
+        if (playlistData){
+          return playlistData;
         }
       }
+  }
+  function getSceneFromId(sceneId){
+    return game.scenes.filter(i=> i.id == sceneId)[0];
+  }
+  function getPlaylistFromId(playlistId){
+    return game.playlists.filter(i=> i.id == playlistId)[0];
+  }
+  function getJournalFromId(journalId){
+    return game.journal.filter(i=> i.id == journalId)[0];
+  }
+  function getCardFromId(cardId){
+    return game.cards.filter(i=> i.id == cardId)[0];
+  }
+  function getActorFromId(actorId){
+    return game.actors.filter(i=> i.id == actorId)[0];
+  }
+  function getTableFromId(tableId){
+    return game.tables.filter(i=> i.id == tableId)[0];
+  }
+  function getItemFromId(itemId){
+    return game.items.filter(i=> i.id == itemId)[0];
+  }
+  function getMacroFromId(macroId){
+    return game.macros.filter(i=> i.id == macroId)[0];
   }
 
 }

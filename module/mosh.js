@@ -1027,6 +1027,8 @@ export async function fromIdUuid(id_uuid, options={}){
           return playlistData;
         }
       }
+    //if we get here we have not found anything with that id.
+    return null;
   }
   function getSceneFromId(sceneId){
     return game.scenes.filter(i=> i.id == sceneId)[0];

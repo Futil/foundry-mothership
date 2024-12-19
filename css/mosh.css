@@ -1703,3 +1703,12 @@ p {
 .mosh .items-tab-grid{
   grid-template-columns: 50% 50%;
 }
+
+.mosh-chat-message {
+  border-width: 3px;
+  background: #fff;
+  padding: 0%; 
+}
+.mosh-chat-message .message-header {
+    border: 2px solid; 
+}

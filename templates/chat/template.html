@@ -1,5 +1,5 @@
-<li class="chat-message message flexcol {{cssClass}}" data-message-id="{{message._id}}" {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
-    <header class="message-header flexrow">
+<li class="mosh-chat-message chat-message message flexcol {{cssClass}}" data-message-id="{{message._id}}" {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
+    <header class="message-header flexrow" {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
         <h4 class="message-sender">{{alias}}</h4>
         <span class="message-metadata">
             <time class="message-timestamp">{{timeSince message.timestamp}}</time>

@@ -357,7 +357,8 @@
       "module",
       "condition",
       "crew",
-      "repair"
+      "repair",
+      "class"
     ],
     "templates": {
       "base": {

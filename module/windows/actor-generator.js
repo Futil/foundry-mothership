@@ -437,6 +437,7 @@ export class DLActorGenerator extends FormApplication {
           data["system.class.uuid"] = formData["system.class.uuid"];
           data["system.other.stressdesc.value"] = formData["system.class.traumaresponse"];
        }
+       /*
        ChatMessage.create({content:`Character Rolls<br />
           STATS<br />
           Strength: ${data["system.stats.strength.value"]} = ${formData["system.stats.strength.value"]}+${formData["system.stats.strength.bonus"]}<br />
@@ -455,7 +456,7 @@ export class DLActorGenerator extends FormApplication {
              Trinket roll:   <br />
              Patch roll:    <br />
              Loadout roll   <br />`});
- 
+         */
  
        if(formData["system.removepreviousitems"]){
           let itemTypesToDelete = ["item", "armor", "weapon","skill","condition"];

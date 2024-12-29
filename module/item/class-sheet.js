@@ -24,14 +24,29 @@ export class MothershipClassSheet extends MothershipItemSheet {
 
 
   /** @override */
-  getData() {
+  async getData() {
     const data = super.getData();
     if (typeof data.system.base_adjustment.skills_granted == 'undefined'){
       data.system.base_adjustment.skills_granted=[];
     }
+    data.system.base_adjustment.skills_granted_object = [];
+    for (const skill of data.system.base_adjustment.skills_granted){ 
+      data.system.base_adjustment.skills_granted_object.push(await fromUuid(skill));
+    };
+
+    
+    data.system.common_skills_object = [];
+    for (const skill of data.system.common_skills){ 
+      data.system.common_skills_object.push(await fromUuid(skill));
+    };
+
     if (typeof data.system.selected_adjustment.choose_stat.stats == 'undefined'){
       data.system.selected_adjustment.choose_stat.stats=[];
     }
+
+    data.enriched=[];
+    data.enriched.description = await TextEditor.enrichHTML(data.system.description, {async: true});
+
     return data;
   }
 
@@ -47,13 +62,13 @@ export class MothershipClassSheet extends MothershipItemSheet {
       //todo: add a check if the skill already exist in the list and dont add it, (by id or by name?)
       if(event.target.id == "skills.fixed"){
         let skills = this.object.system.base_adjustment.skills_granted;
-        skills.push(droppedObject);
+        skills.push(droppedObject.uuid);
         this.object.update({"system.base_adjustment.skills_granted":skills});
         return this.render(false);
       }
       else if(event.target.id =="skills.common"){
         let skills = this.object.system.common_skills;
-        skills.push(droppedObject);
+        skills.push(droppedObject.uuid);
         this.object.update({"system.common_skills":skills});
         return this.render(false);
       }
@@ -70,7 +85,7 @@ export class MothershipClassSheet extends MothershipItemSheet {
       const li = $(ev.currentTarget).parents(".item");
       
       let skills = this.object.system.base_adjustment.skills_granted.filter(function( obj ) {
-          return obj._id !== li.data("itemId");
+          return obj !== li.data("itemId");
       });
       this.object.update({"system.base_adjustment.skills_granted":skills});
       return this.render(false);
@@ -81,7 +96,7 @@ export class MothershipClassSheet extends MothershipItemSheet {
       const li = $(ev.currentTarget).parents(".item");
       
       let skills = this.object.system.common_skills.filter(function( obj ) {
-          return obj._id !== li.data("itemId");
+          return obj !== li.data("itemId");
       });
       this.object.update({"system.common_skills":skills});
       return this.render(false);

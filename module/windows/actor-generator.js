@@ -423,7 +423,7 @@ export class DLActorGenerator extends FormApplication {
        }
        if (formData["system.stats.max_wounds.bonus"]){
          //max_wounds represent the bonus, so an android get 1 fro a total of 3 (2+1),
-          data["system.hits.max"] = 2+formData["system.stats.max_wounds.bonus"];
+          data["system.hits.max"] = 2+parseInt(formData["system.stats.max_wounds.bonus"]);
        }
        else{
           data["system.hits.max"] = 2;

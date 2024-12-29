@@ -125,27 +125,24 @@ export class DLActorGenerator extends FormApplication {
  
     async rollPatch(html){
        if (this.patchTable == null){
-          this.patchTable = "Compendium.fvtt_mosh_1e_psg.rolltables_1e.RollTable.Vry1q39PNXR3X4oY";
+         ui.notifications.error("You need a class with defined patch table.");//TODO, localize
        }
-       let id = "system.class.patch";
-       await this.rollTable(html,id,this.patchTable);
+       await this.rollTable(html,"system.class.patch",this.patchTable);
  
     }
     async rollTrinket(html){
        if (this.trinketTable == null){
-          this.trinketTable = "Compendium.fvtt_mosh_1e_psg.rolltables_1e.RollTable.3iJxbTylcgZ0BRaQ";
+         ui.notifications.error("You need a class with defined trinket table.");//TODO, localize
        }
-       let id = "system.class.trinket";
-       await this.rollTable(html,id,this.trinketTable);
+       await this.rollTable(html,"system.class.trinket",this.trinketTable);
  
     }
     async rollLoadout(html){
        if (this.loadoutTable == null){
-          ui.notifications.error("You need a class with defined loadout table.");
+          ui.notifications.error("You need a class with defined loadout table.");//TODO, localize
           return;
        }
-       let id = "system.class.loadout";
-       await this.rollTable(html,id,this.loadoutTable,"ul");
+       await this.rollTable(html,"system.class.loadout",this.loadoutTable,"ul");
  
     }
  
@@ -165,7 +162,7 @@ export class DLActorGenerator extends FormApplication {
     }
  
  
-    async updateClass(classUuid){
+    async updateClass(classUuid,randomCharacter=false){
  
        const droppedObject = await fromUuid(classUuid);
        if (droppedObject.type != "class"){
@@ -192,15 +189,13 @@ export class DLActorGenerator extends FormApplication {
        // Skills
        //try{
           //let skills = JSON.parse(droppedObject.system.skills.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
-          let skillsUuid = [];
  
           this._element.find(`ul[id="system.class.skils.text"]`).empty();
 
-          const fixed_skills = droppedObject.system.base_adjustment.skills_granted;
-          for (let i = 0;i<fixed_skills.length;i++){
-            let skill = fixed_skills[i];
+          const skillsUuid = droppedObject.system.base_adjustment.skills_granted;
+          for (let i = 0;i<skillsUuid.length;i++){
+            let skill = await fromUuid(skillsUuid[i]);
             /**we need to keep only the Uuid of the item, not the complete string (for now) */
-            skillsUuid.push(skill._id);
             let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await TextEditor.enrichHTML(skill.name, {async: true})}</li>`;
             this._element.find(`ul[id="system.class.skils.text"]`).append(li_html);
          }
@@ -232,10 +227,11 @@ export class DLActorGenerator extends FormApplication {
           if (option_stats_and_saves.modification){
             let buttons_options = {};
             for(let j = 0; j < option_stats_and_saves.stats.length; j++) {
+               let prev_bonus =this._element.find(`input[name="system.stats.${ option_stats_and_saves.stats[j]}.bonus"]`).prop("value");
                buttons_options[j] = {
                   icon: '<i class="fas fa-check"></i>',
                   label: option_stats_and_saves.stats[j],//.replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
-                  callback: () => this._element.find(`input[name="system.stats.${ option_stats_and_saves.stats[j]}.bonus"]`).prop("value",option_stats_and_saves.modification)
+                  callback: () => this._element.find(`input[name="system.stats.${ option_stats_and_saves.stats[j]}.bonus"]`).prop("value",(parseInt(option_stats_and_saves.modification)+ parseInt(prev_bonus)))
                };
             }
             let d = new Dialog({
@@ -426,9 +422,8 @@ export class DLActorGenerator extends FormApplication {
           "system.stats.body.value": formData["system.stats.body.value"] + (formData["system.stats.body.bonus"] || 0),
        }
        if (formData["system.stats.max_wounds.bonus"]){
-         //todo: check if max_wounds represent the total ammount or just the bonus,
-         //I am going to asume is the total ammount, so for android is gona be a 3,
-          data["system.hits.max"] = formData["system.stats.max_wounds.bonus"];
+         //max_wounds represent the bonus, so an android get 1 fro a total of 3 (2+1),
+          data["system.hits.max"] = 2+formData["system.stats.max_wounds.bonus"];
        }
        else{
           data["system.hits.max"] = 2;

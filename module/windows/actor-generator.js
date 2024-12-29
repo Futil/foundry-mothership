@@ -29,7 +29,10 @@ export class DLActorGenerator extends FormApplication {
       //}
       let data = this.object;
 
+      data.system.class = [];
       data.system.class.value = "";
+      data.system.class.skills = [];
+      data.system.class.skills.uuid = [];
       return data;
    }
    /* -------------------------------------------- */
@@ -161,6 +164,142 @@ export class DLActorGenerator extends FormApplication {
       await this.rollLoadout(html);
    }
 
+   async updateSkillHtmlUl(html, skillsUuid) {
+      //html.find(`ul[id="system.class.skils.text"]`).empty();
+      for (let i = 0; i < skillsUuid.length; i++) {
+         let skill = await fromUuid(skillsUuid[i]);
+         /**we need to keep only the Uuid of the item, not the complete string (for now) */
+         let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await TextEditor.enrichHTML(skill.name, { async: true })}</li>`;
+         html.find(`ul[id="system.class.skils.text"]`).append(li_html);
+      }
+      let old_skills = html.find(`input[id="system.class.skills.uuid"]`).prop("value").split(",").filter(Boolean);
+      html.find(`input[id="system.class.skills.uuid"]`).prop("value", old_skills.concat(skillsUuid).join(","));
+   }
+
+   async popUpSkillOptions(skillPopupOptions) {
+
+      for (let i = 0; i < skillPopupOptions.master_full_set; i++) {
+         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-full-master-dialog.html');
+
+      }
+      for (let i = 0; i < skillPopupOptions.expert_full_set; i++) {
+         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-full-expert-dialog.html');
+
+      }
+      for (let i = 0; i < skillPopupOptions.trained; i++) {
+         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-single-dialog.html', "trained");
+
+      }
+      for (let i = 0; i < skillPopupOptions.expert; i++) {
+         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-single-dialog.html', "expert");
+
+      }
+      for (let i = 0; i < skillPopupOptions.master; i++) {
+         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-single-dialog.html', "master");
+
+      }
+      //console.log(existingSkills);
+      //return skillsUuid;
+   }
+
+   async showSkillDialog(template, exclusive = false) {
+
+      let skillsUuid = this.skillsUuid;
+
+      let all_skills = await this.getAllSkills();
+      all_skills.forEach((element, index) => {
+         all_skills[index].disabled = (skillsUuid.includes(element.uuid) ? "disabled" : "");
+      });
+
+
+      let skillPopupData = {
+         title: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionPopupTitle"),
+         existingSkills: skillsUuid,
+         skills: {
+            trained: all_skills.filter(i => i.system.rank == "Trained"),
+            expert: all_skills.filter(i => i.system.rank == "Expert"),
+            master: all_skills.filter(i => i.system.rank == "Master"),
+         }
+      };
+      if (exclusive) {
+         skillPopupData.description = game.i18n.localize("Mosh.CharacterGenerator.SkillOptionPopup" + exclusive + "Description");
+         switch (exclusive) {
+            case "master":
+               skillPopupData.skills = all_skills.filter(i => i.system.rank == "Master" && i.system.prerequisite_ids.filter(item => skillsUuid.includes(item)).length > 0);
+               break;
+            case "expert":
+               skillPopupData.skills = all_skills.filter(i => i.system.rank == "Expert" && i.system.prerequisite_ids.filter(item => skillsUuid.includes(item)).length > 0);
+               break;
+            case "trained":
+               skillPopupData.skills = all_skills.filter(i => i.system.rank == "Trained");
+               break;
+         }
+      }
+
+      let popUpContent = await renderTemplate(template, skillPopupData);
+
+      return new Promise((resolve) => {
+         let d = new Dialog({
+            title: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionPopupTitle"),
+            content: popUpContent,
+            buttons: {
+               "1": {
+                  icon: '<i class="fas fa-check"></i>',
+                  label: "Save",
+                  callback: (html) => {
+                     let form = html.find('form')[0];
+                     let formData = new FormData(form);
+                     let new_skills = [];
+                     formData.forEach((value, key) => {
+                        if (value != "") {
+                           new_skills.push(value);
+                           this.skillsUuid.push(value);
+                        }
+                     });
+
+                     this.updateSkillHtmlUl(this._element, new_skills);
+                     resolve();
+                  }
+               },
+            },
+            default: "1",
+         });
+         d.render(true);
+      });
+   }
+
+   async showOptionsDialog(option_1, option_2) {
+      let popupData = {
+         option_1: option_1,
+         option_2: option_2,
+      }
+      let popUpContent = await renderTemplate("systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-choice-dialog.html", popupData);
+      
+      return new Promise((resolve) => {
+         let d = new Dialog({
+            title: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionPopupTitle"),
+            content: popUpContent,
+            width: 450,
+            buttons: {
+               "1": {
+                  icon: '<i class="fas fa-check"></i>',
+                  label: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionChoice") + " 1",
+                  callback: () => {
+                     resolve(option_1);
+                  }
+               },
+               "2": {
+                  icon: '<i class="fas fa-check"></i>',
+                  label: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionChoice") + " 2",
+                  callback: () => {
+                     resolve(option_2);
+                  }
+               },
+            },
+         });
+         d.render(true);
+      });
+   }
 
    async updateClass(classUuid, randomCharacter = false) {
 
@@ -186,31 +325,39 @@ export class DLActorGenerator extends FormApplication {
       this.patchTable = droppedObject.system.roll_tables.patch;
       this.loadoutTable = droppedObject.system.roll_tables.loadout;
 
-      // Skills
-      //try{
-      //let skills = JSON.parse(droppedObject.system.skills.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
+      /**
+       *  Skills
+       * */
 
       this._element.find(`ul[id="system.class.skils.text"]`).empty();
 
-      const skillsUuid = droppedObject.system.base_adjustment.skills_granted;
-      for (let i = 0; i < skillsUuid.length; i++) {
-         let skill = await fromUuid(skillsUuid[i]);
-         /**we need to keep only the Uuid of the item, not the complete string (for now) */
-         let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await TextEditor.enrichHTML(skill.name, { async: true })}</li>`;
-         this._element.find(`ul[id="system.class.skils.text"]`).append(li_html);
-      }
+      this.skillsUuid = droppedObject.system.base_adjustment.skills_granted.slice();
+      await this.updateSkillHtmlUl(this._element, this.skillsUuid);
 
 
       let option_skills_1 = droppedObject.system.selected_adjustment.choose_skill_and;
+      await this.popUpSkillOptions(option_skills_1);
       let option_skills_2 = droppedObject.system.selected_adjustment.choose_skill_or;
-      //todo: add popups to choose skils from (following the skill tree and type)
+      const isEmptyOption1 = Object.values(option_skills_2.option_1).every(x => x === null || x === '' || x === 0);
+      const isEmptyOption2 = Object.values(option_skills_2.option_2).every(x => x === null || x === '' || x === 0);
+      let option_skills_2_choosed = {}
+      if (isEmptyOption1 == false && isEmptyOption2 == false) {
+         //we need to choose-> render popup with both options
+         option_skills_2_choosed = await this.showOptionsDialog(option_skills_2.option_1,option_skills_2.option_2);
+      } else if (isEmptyOption1 == false) {
+         //there is only option 1 (edge case) but we go with it.
+         option_skills_2_choosed = option_skills_2.option_1;
+      } else if (isEmptyOption2 == false) {
+         //there is only option 2 (edge case) but we go with it.
+         option_skills_2_choosed = option_skills_2.option_2;
+      }
+      await this.popUpSkillOptions(option_skills_2_choosed);
 
-      this._element.find(`input[id="system.class.skills.uuid"]`).prop("value", skillsUuid);
-      //}catch{
-      //  ui.notifications.error("Class has invalid skills configuration.");
-      //}
 
-      //Stats
+
+      /**
+       * Stats
+       */
       ///try{
       //let statsandsaves = JSON.parse(droppedObject.system.statsandsaves.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
       let fix_stats_and_saves = droppedObject.system.base_adjustment;
@@ -289,6 +436,18 @@ export class DLActorGenerator extends FormApplication {
       //this._render();
    }
 
+   async getAllSkills() {
+      /**TODO: Get only player skills ?¿ there is no way to tell pet skills apart */
+      let skills = game.items.filter(i => i.type == "skill");
+
+      for (const [compendium_key, compendium_value] of game.packs.entries()) {
+         let skillCompendium = await compendium_value.getDocuments({ type: "skill" });
+         if (skillCompendium.length > 0) {
+            skills = skills.concat(skillCompendium)
+         }
+      }
+      return skills;
+   }
 
    async fill_class_options(html) {
 

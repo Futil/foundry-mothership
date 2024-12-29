@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+
+<body>
+    <form id="skillForm">
+        <div class="grid grid-1col widegap">
+
+            <div>
+                <label for="dropdownMaster">{{localize 'Mosh.SkillRankMaster'}}:</label>
+                <select id="dropdownMaster" name="dropdownMaster" onchange="updateDropdownMaster()">
+                    <option selected id="dropdownMasterDefault" value="" data-uuid="" data-prerequisite_ids='[]'>---
+                    </option>
+
+                    {{#each skills.master as |skill id|}}
+                    <option value="{{skill.uuid}}" data-uuid="{{skill.uuid}}" {{skill.disabled}}
+                        data-prerequisite_ids='[{{#each skill.system.prerequisite_ids as |id|}}"{{id}}"{{#unless @last}},{{/unless}}{{/each}}]'>
+                        {{skill.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div>
+                <label for="dropdownExpert">{{localize 'Mosh.SkillRankExpert'}}:</label>
+                <select id="dropdownExpert" name="dropdownExpert" onchange="updateDropdownExpert()">
+                    <option selected id="dropdownExpertDefault" value="" data-uuid="" data-prerequisite_ids='[]'>---
+                    </option>
+
+                    {{#each skills.expert as |skill id|}}
+                    <option hidden value="{{skill.uuid}}" data-uuid="{{skill.uuid}}" {{skill.disabled}}
+                        data-prerequisite_ids='[{{#each skill.system.prerequisite_ids as |id|}}"{{id}}"{{#unless @last}},{{/unless}}{{/each}}]'>
+                        {{skill.name}}</option>
+                    {{/each}}
+                </select>
+
+            </div>
+            <div>
+                <label for="dropdownTrained">{{localize 'Mosh.SkillRankTrained'}}:</label>
+                <select id="dropdownTrained" name="dropdownTrained">
+                    <option selected id="dropdownTrainedDefault" value="" data-uuid="" data-prerequisite_ids='[]'>---
+                    </option>
+
+                    {{#each skills.trained as |skill id|}}
+                    <option hidden value="{{skill.uuid}}" data-uuid="{{skill.uuid}}" {{skill.disabled}}
+                        data-prerequisite_ids='[{{#each skill.system.prerequisite_ids as |id|}}"{{id}}"{{#unless @last}},{{/unless}}{{/each}}]'>
+                        {{skill.name}}</option>
+                    {{/each}}
+
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function updateDropdownMaster() {
+            // Logic to update dropdownExpert based on the selection of dropdownMaster
+
+            let dropdownMaster = document.getElementById('dropdownMaster');
+            let dropdownExpert = document.getElementById('dropdownExpert');
+            let selectedValue = dropdownMaster.options[dropdownMaster.selectedIndex].getAttribute('data-uuid');
+
+            let prerequisiteIds = JSON.parse(dropdownMaster.options[dropdownMaster.selectedIndex].getAttribute('data-prerequisite_ids'));
+
+            for (let i = 0; i < dropdownExpert.options.length; i++) {
+                let option = dropdownExpert.options[i];
+                let optionUuid = option.getAttribute('data-uuid');
+                if (prerequisiteIds.includes(optionUuid)) {
+                    option.hidden = false;
+                } else {
+                    option.hidden = true;
+                    if (dropdownExpert.options[dropdownExpert.selectedIndex].getAttribute('data-uuid') == optionUuid) {
+                        dropdownExpert.selectedIndex = 0;
+                        let dropdownTrained = document.getElementById('dropdownTrained');
+                        dropdownTrained.selectedIndex = 0;
+                    }
+                }
+            }
+        }
+
+
+        function updateDropdownExpert() {
+            // Logic to update dropdownTrained based on the selection of dropdownExpert
+
+            let dropdownExpert = document.getElementById('dropdownExpert');
+            let dropdownTrained = document.getElementById('dropdownTrained');
+            let selectedValue = dropdownExpert.options[dropdownExpert.selectedIndex].getAttribute('data-uuid');
+
+            let prerequisiteIds = JSON.parse(dropdownExpert.options[dropdownExpert.selectedIndex].getAttribute('data-prerequisite_ids'));
+
+            for (let i = 0; i < dropdownTrained.options.length; i++) {
+                let option = dropdownTrained.options[i];
+                let optionUuid = option.getAttribute('data-uuid');
+                if (prerequisiteIds.includes(optionUuid)) {
+                    option.hidden = false;
+                } else {
+                    option.hidden = true;
+                    if (dropdownTrained.options[dropdownTrained.selectedIndex].getAttribute('data-uuid') == optionUuid) {
+                        dropdownTrained.selectedIndex = 0;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

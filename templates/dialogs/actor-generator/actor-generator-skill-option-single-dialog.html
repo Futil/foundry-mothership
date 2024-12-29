@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+
+<body>
+    <form id="skillForm">
+        <div class="grid grid-1col widegap">
+
+            <div>
+                <label for="dropdownSkill">{{description}}:</label>
+                <select id="dropdownSkill" name="dropdownSkill">
+                    <option selected id="dropdownSkillDefault" value="" data-uuid="" data-prerequisite_ids='[]'>---
+                    </option>
+
+                    {{#each skills as |skill id|}}
+                    <option value="{{skill.uuid}}" data-uuid="{{skill.uuid}}" {{skill.disabled}}
+                        data-prerequisite_ids='[{{#each skill.system.prerequisite_ids as |id|}}"{{id}}"{{#unless @last}},{{/unless}}{{/each}}]'>
+                        {{skill.name}}</option>
+                    {{/each}}
+
+                </select>
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>

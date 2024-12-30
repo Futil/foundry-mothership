@@ -516,8 +516,7 @@ export class DLActorGenerator extends FormApplication {
             return;
          }
          //we have a valid class item to process.
-         let class_uuid = `Item.${class_option["uuid"]}`;
-         this.updateClass(class_uuid);
+         this.updateClass(class_option["uuid"]);
 
       });
 

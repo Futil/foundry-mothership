@@ -172,7 +172,7 @@ export class DLActorGenerator extends FormApplication {
          let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await TextEditor.enrichHTML(skill.name, { async: true })}</li>`;
          html.find(`ul[id="system.class.skils.text"]`).append(li_html);
       }
-      let old_skills = html.find(`input[id="system.class.skills.uuid"]`).prop("value").split(",").filter(Boolean);
+      let old_skills = await html.find(`input[id="system.class.skills.uuid"]`).prop("value").split(",").filter(Boolean);
       html.find(`input[id="system.class.skills.uuid"]`).prop("value", old_skills.concat(skillsUuid).join(","));
    }
 
@@ -187,15 +187,15 @@ export class DLActorGenerator extends FormApplication {
 
       }
       for (let i = 0; i < skillPopupOptions.trained; i++) {
-         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-single-dialog.html', "trained");
+         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-single-dialog.html', "Trained");
 
       }
       for (let i = 0; i < skillPopupOptions.expert; i++) {
-         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-single-dialog.html', "expert");
+         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-single-dialog.html', "Expert");
 
       }
       for (let i = 0; i < skillPopupOptions.master; i++) {
-         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-single-dialog.html', "master");
+         await this.showSkillDialog('systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-single-dialog.html', "Master");
 
       }
       //console.log(existingSkills);
@@ -213,7 +213,7 @@ export class DLActorGenerator extends FormApplication {
 
 
       let skillPopupData = {
-         title: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionPopupTitle"),
+         title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle"),
          existingSkills: skillsUuid,
          skills: {
             trained: all_skills.filter(i => i.system.rank == "Trained"),
@@ -222,15 +222,15 @@ export class DLActorGenerator extends FormApplication {
          }
       };
       if (exclusive) {
-         skillPopupData.description = game.i18n.localize("Mosh.CharacterGenerator.SkillOptionPopup" + exclusive + "Description");
+         skillPopupData.description = game.i18n.localize("Mosh.CharacterGenerator.SkillOption.Popup" + exclusive + "Description");
          switch (exclusive) {
-            case "master":
+            case "Master":
                skillPopupData.skills = all_skills.filter(i => i.system.rank == "Master" && i.system.prerequisite_ids.filter(item => skillsUuid.includes(item)).length > 0);
                break;
-            case "expert":
+            case "Expert":
                skillPopupData.skills = all_skills.filter(i => i.system.rank == "Expert" && i.system.prerequisite_ids.filter(item => skillsUuid.includes(item)).length > 0);
                break;
-            case "trained":
+            case "Trained":
                skillPopupData.skills = all_skills.filter(i => i.system.rank == "Trained");
                break;
          }
@@ -240,7 +240,7 @@ export class DLActorGenerator extends FormApplication {
 
       return new Promise((resolve) => {
          let d = new Dialog({
-            title: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionPopupTitle"),
+            title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle"),
             content: popUpContent,
             buttons: {
                "1": {
@@ -277,20 +277,20 @@ export class DLActorGenerator extends FormApplication {
       
       return new Promise((resolve) => {
          let d = new Dialog({
-            title: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionPopupTitle"),
+            title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle"),
             content: popUpContent,
-            width: 450,
+            window:{width: 500,},
             buttons: {
                "1": {
                   icon: '<i class="fas fa-check"></i>',
-                  label: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionChoice") + " 1",
+                  label: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.ChoiceWord") + " 1",
                   callback: () => {
                      resolve(option_1);
                   }
                },
                "2": {
                   icon: '<i class="fas fa-check"></i>',
-                  label: game.i18n.localize("Mosh.CharacterGenerator.SkillOptionChoice") + " 2",
+                  label: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.ChoiceWord") + " 2",
                   callback: () => {
                      resolve(option_2);
                   }
@@ -299,6 +299,38 @@ export class DLActorGenerator extends FormApplication {
          });
          d.render(true);
       });
+   }
+
+   async applyClassSkills(html) {
+      let class_uuid = html.find(`input[id="system.class.uuid"]`).prop("value");
+      if (class_uuid == "") {
+         ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.SkillOption.Classerror"));
+      }
+      let classObject = await fromUuid(class_uuid);
+      await html.find(`ul[id="system.class.skils.text"]`).empty();
+      await html.find(`input[id="system.class.skills.uuid"]`).prop("value", "");
+
+      this.skillsUuid = classObject.system.base_adjustment.skills_granted.slice();
+      await this.updateSkillHtmlUl(html, this.skillsUuid);
+
+
+      let option_skills_1 = classObject.system.selected_adjustment.choose_skill_and;
+      await this.popUpSkillOptions(option_skills_1);
+      let option_skills_2 = classObject.system.selected_adjustment.choose_skill_or;
+      const isEmptyOption1 = Object.values(option_skills_2.option_1).every(x => x === null || x === '' || x === 0);
+      const isEmptyOption2 = Object.values(option_skills_2.option_2).every(x => x === null || x === '' || x === 0);
+      let option_skills_2_choosed = {}
+      if (isEmptyOption1 == false && isEmptyOption2 == false) {
+         //we need to choose-> render popup with both options
+         option_skills_2_choosed = await this.showOptionsDialog(option_skills_2.option_1,option_skills_2.option_2);
+      } else if (isEmptyOption1 == false) {
+         //there is only option 1 (edge case) but we go with it.
+         option_skills_2_choosed = option_skills_2.option_1;
+      } else if (isEmptyOption2 == false) {
+         //there is only option 2 (edge case) but we go with it.
+         option_skills_2_choosed = option_skills_2.option_2;
+      }
+      await this.popUpSkillOptions(option_skills_2_choosed);
    }
 
    async updateClass(classUuid, randomCharacter = false) {
@@ -329,31 +361,7 @@ export class DLActorGenerator extends FormApplication {
        *  Skills
        * */
 
-      this._element.find(`ul[id="system.class.skils.text"]`).empty();
-
-      this.skillsUuid = droppedObject.system.base_adjustment.skills_granted.slice();
-      await this.updateSkillHtmlUl(this._element, this.skillsUuid);
-
-
-      let option_skills_1 = droppedObject.system.selected_adjustment.choose_skill_and;
-      await this.popUpSkillOptions(option_skills_1);
-      let option_skills_2 = droppedObject.system.selected_adjustment.choose_skill_or;
-      const isEmptyOption1 = Object.values(option_skills_2.option_1).every(x => x === null || x === '' || x === 0);
-      const isEmptyOption2 = Object.values(option_skills_2.option_2).every(x => x === null || x === '' || x === 0);
-      let option_skills_2_choosed = {}
-      if (isEmptyOption1 == false && isEmptyOption2 == false) {
-         //we need to choose-> render popup with both options
-         option_skills_2_choosed = await this.showOptionsDialog(option_skills_2.option_1,option_skills_2.option_2);
-      } else if (isEmptyOption1 == false) {
-         //there is only option 1 (edge case) but we go with it.
-         option_skills_2_choosed = option_skills_2.option_1;
-      } else if (isEmptyOption2 == false) {
-         //there is only option 2 (edge case) but we go with it.
-         option_skills_2_choosed = option_skills_2.option_2;
-      }
-      await this.popUpSkillOptions(option_skills_2_choosed);
-
-
+      await this.applyClassSkills(this._element);
 
       /**
        * Stats
@@ -391,38 +399,6 @@ export class DLActorGenerator extends FormApplication {
          });
          d.render(true);
       }
-      /*
-      for(let i = 0; i < statsandsaves.length; i++) {
-         let obj = statsandsaves[i];
- 
-         if (obj.options.length == 1){
-            //only 1 option, then its forced
-            this._element.find(`input[name="${obj.options[0]}"]`).prop("value",obj.value);
-         }else{
- 
-            let buttons_options = {};
-            for(let j = 0; j < obj.options.length; j++) {
-               buttons_options[j] = {
-                  icon: '<i class="fas fa-check"></i>',
-                  label: obj.options[j].replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
-                  callback: () => this._element.find(`input[name="${obj.options[j]}"]`).prop("value",obj.value)
-               };
-            }
-            let d = new Dialog({
-               title: "Class Attribute and Saves option",
-               content: `<p>You must choose where to apply the bonus of (${obj.value})</p>`,
-               buttons: buttons_options,
-               default: "1",
-               //render: html => console.log("Register interactivity in the rendered dialog"),
-               //close: html => console.log("This always is logged no matter which option is chosen")
-            });
-            d.render(true);
-         }
-      }*/
-      //}catch{
-      //   ui.notifications.error("Class has invalid stats and saves configuration.");
-      //}
-      //todo: add robotic flag. 
       return;
    }
 
@@ -513,6 +489,12 @@ export class DLActorGenerator extends FormApplication {
       html.find(`img[id="system.credits.value"]`).click(ev => {
          this.rollCredits(html)
       });
+
+      /** Redo Skills */
+      html.find(`i[id="system.class.skills.redo"]`).click(ev => {
+         this.applyClassSkills(html)
+      });
+
       /** Roll everything button */
       html.find(`div[id="roll.everything"]`).click(ev => {
          this.rollEverything(html)

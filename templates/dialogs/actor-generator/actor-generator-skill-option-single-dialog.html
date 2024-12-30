@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="mosh">
+    <form id="skillForm" class="{{cssClass}} characterGeneratorSkillPopup">
+        <div>
+            <p class="skillpopupDescription">{{description}}:</p>
+        </div>
+        <div class="grid grid-1col widegap center">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
-</head>
-
-<body>
-    <form id="skillForm">
-        <div class="grid grid-1col widegap">
-
-            <div>
-                <label for="dropdownSkill">{{description}}:</label>
+            <div class="dropdownSkill">
                 <select id="dropdownSkill" name="dropdownSkill">
                     <option selected id="dropdownSkillDefault" value="" data-uuid="" data-prerequisite_ids='[]'>---
                     </option>
@@ -28,6 +21,4 @@
         </div>
     </form>
 
-</body>
-
-</html>
+</div>

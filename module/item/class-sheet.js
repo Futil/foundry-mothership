@@ -136,7 +136,7 @@ export class MothershipClassSheet extends MothershipItemSheet {
         DialogContent+=`<option value='speed'>${game.i18n.localize("Mosh.Speed")}</option>`
       }
       if ( ! stats.includes("intellect")){
-        DialogContent+=`<option value='intellect'>${game.i18n.localize("Mosh.Intelect")}</option>`
+        DialogContent+=`<option value='intellect'>${game.i18n.localize("Mosh.Intellect")}</option>`
       }
       if ( ! stats.includes("combat")){
         DialogContent+=`<option value='combat'>${game.i18n.localize("Mosh.Combat")}</option>`

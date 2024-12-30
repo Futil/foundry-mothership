@@ -19,11 +19,17 @@ export class MothershipSkillSheet extends MothershipItemSheet {
   }
 
   /** @override */
-  getData() {
+  async getData() {
     const data = super.getData();
     if (typeof data.system.prerequisite_ids == 'undefined'){
       data.system.prerequisite_ids=[];
     }
+    data.system.prerequisite_object = [];
+    for (const skill of data.system.prerequisite_ids){ 
+      data.system.prerequisite_object.push(await fromUuid(skill));
+    };
+
+
     return data;
   }
 
@@ -39,7 +45,7 @@ export class MothershipSkillSheet extends MothershipItemSheet {
       //todo: add a check if the skill already exist in the list and dont add it, (by id or by name?)
       if(event.target.id == "skills.prerequisite"){
         let skills = this.object.system.prerequisite_ids;
-        skills.push(droppedObject);
+        skills.push(droppedObject.uuid);
         this.object.update({"system.prerequisite_ids":skills});
         return this.render(false);
       }
@@ -56,7 +62,7 @@ export class MothershipSkillSheet extends MothershipItemSheet {
       const li = $(ev.currentTarget).parents(".item");
       
       let skills = this.object.system.prerequisite_ids.filter(function( obj ) {
-          return obj._id !== li.data("itemId");
+        return obj !== li.data("itemId");
       });
       this.object.update({"system.prerequisite_ids":skills});
       return this.render(false);

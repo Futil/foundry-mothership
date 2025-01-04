@@ -351,7 +351,8 @@ p {
   display: grid;
   grid-template-areas:
   'header header header'
-  'abilities centercol saves ';
+  'abilities centercol saves '
+  'mobilehealth mobilehealth mobilehealth';
   grid-gap: 10px;
   /* background-color: rgb(226, 226, 226); */
   padding: 2px;
@@ -364,7 +365,7 @@ p {
 .mosh .stress {grid-area: stress;}
 .mosh .health {grid-area: centercol;}
 @media screen and (max-width: 660px) {
-  .mosh .health {grid-area: 3 / 1 / 3 / 4;}
+  .mosh .health {grid-area: mobilehealth;}
 }
 .mosh .healthspread {width:96%;}
 

@@ -357,6 +357,7 @@ p {
   /* background-color: rgb(226, 226, 226); */
   padding: 2px;
   grid-template-columns: 238px auto 100px;
+  container-type: inline-size;
 }
 
 .mosh .abilities {grid-area: abilities;}
@@ -364,7 +365,7 @@ p {
 
 .mosh .stress {grid-area: stress;}
 .mosh .health {grid-area: centercol;}
-@media screen and (max-width: 660px) {
+@container (max-width: 610px) {
   .mosh .health {grid-area: mobilehealth;}
 }
 .mosh .healthspread {width:96%;}

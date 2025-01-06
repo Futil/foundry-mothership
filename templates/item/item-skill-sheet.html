@@ -7,9 +7,9 @@
 
             <!-- NAME -->
             <div class="">
-                <div class="headerinputtext">Name</div>
+                <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
                 <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
-                        placeholder="Name" /></div>
+                        placeholder="{{ localize 'Mosh.Name' }}" /></div>
             </div>
 
         </div>
@@ -19,7 +19,7 @@
     <div class="circle-statwrapper-horizontal">
         <!-- Bonus -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.bonus" class="resource-label minmaxtext">Bonus</label>
+            <label for="system.bonus" class="resource-label minmaxtext">{{ localize 'Mosh.Bonus' }}</label>
 
             <div class="valuewrapper" style="width: 120px; background: white;">
                 <input class="maxhealth-input darkGreyText" type="text" name="system.bonus"
@@ -28,7 +28,7 @@
         </div>
         <!-- Rank -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.rank" class="resource-label minmaxtext">Rank</label>
+            <label for="system.rank" class="resource-label minmaxtext">{{ localize 'Mosh.RANK' }}</label>
 
             <div class="textvaluewrapper" style="width: 180px; background: white;">
                 <input class="textvaluewrapper-input darkGreyText" type="text" name="system.rank" value="{{system.rank}}"
@@ -42,7 +42,7 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
-        <a class="tab-select" data-tab="description">Description</a>
+        <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
     </nav>
     
     {{!-- Sheet Body --}}

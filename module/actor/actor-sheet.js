@@ -19,7 +19,7 @@ export class MothershipActorSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
+  async getData() {
     const data = super.getData();
 
     data.dtypes = ["String", "Number", "Boolean"];
@@ -43,6 +43,10 @@ export class MothershipActorSheet extends ActorSheet {
     data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
     data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
     data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
+
+    data.data.enriched = [];
+    data.data.enriched.notes = await TextEditor.enrichHTML(superData.notes, {async: true});
+    data.data.enriched.biography = await TextEditor.enrichHTML(superData.biography, {async: true});
 
 
     //SKILL XP BUTTONS

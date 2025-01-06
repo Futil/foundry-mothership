@@ -257,7 +257,7 @@ Hooks.on("preCreateActor", (document, createData, options, userId) => {
   }
 
   // Set wounds, advantage, and display name visibility
-  mergeObject(createData,
+  foundry.utils.mergeObject(createData,
     {
       "token.bar1": { "attribute": "health" },        // Default Bar 1 to Health 
       "token.bar2": { "attribute": "hits" },      // Default Bar 2 to Insanity

@@ -13,10 +13,10 @@
 		{{#if secondRoll}}
 			<div class="description" style="margin-bottom: 10px;">
                 {{#if (compare 'str' specialRoll '===' 'panicCheck')}}
-				    <div class="body">Rolling for panic effect...</div>
+				    <div class="body">{{ localize 'Mosh.RollingForPanicEffect' }}</div>
                 {{/if}}
                 {{#if (compare 'str' specialRoll '===' 'maintenanceCheck')}}
-				    <div class="body">Rolling for maintenance issue...</div>
+				    <div class="body">{{ localize 'Mosh.RollingForMaintenanceIssue' }}</div>
                 {{/if}}
 			</div>
 			{{{parsedRollResult2.rollHtml}}}

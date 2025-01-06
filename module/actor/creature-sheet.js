@@ -16,11 +16,7 @@ export class MothershipCreatureSheet extends ActorSheet {
             tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
         };
 
-        if (game.release.generation >= 12) {
-            return foundry.utils.mergeObject(super.defaultOptions, options);
-        } else {
-            return mergeObject(super.defaultOptions, options);
-        }
+        return foundry.utils.mergeObject(super.defaultOptions, options);
     }
 
     /**

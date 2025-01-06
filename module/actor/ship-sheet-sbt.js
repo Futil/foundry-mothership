@@ -24,12 +24,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
             scrollY: [".sheet-body", "scroll-lock"]
         }
 
-
-        if (game.release.generation >= 12) {
-            return foundry.utils.mergeObject(super.defaultOptions, options);
-        } else {
-            return mergeObject(super.defaultOptions, options);
-        }
+        return foundry.utils.mergeObject(super.defaultOptions, options);
 
 
     }

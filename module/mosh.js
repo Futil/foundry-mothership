@@ -1,4 +1,5 @@
 // Import Modules
+import { ChatMessageMosh } from "./chat-message.js";
 import { MothershipActor } from "./actor/actor.js";
 import { MothershipActorSheet } from "./actor/actor-sheet.js";
 import { MothershipCreatureSheet } from "./actor/creature-sheet.js";
@@ -36,6 +37,11 @@ Hooks.once('init', async function () {
     formula: "1d100",
     decimals: 2
   };
+
+  //Define chat message handler
+  CONFIG.ChatMessage.documentClass = ChatMessageMosh;
+  //todo: check if there is a diferent way of specify this path. 
+  CONFIG.ChatMessage.template = "./systems/mosh/templates/chat/template.html";
 
   // Define custom Entity classes
   CONFIG.Actor.documentClass = MothershipActor;
@@ -110,7 +116,7 @@ Hooks.once("ready", async function () {
       return false;
     }
   });
-  
+
     //Calm & 1e/0e character updates
     // if the user has calm enabled at the start, 
     if (game.settings.get('mosh','useCalm')) {
@@ -737,6 +743,7 @@ function rollItemMacro(itemName) {
  */
 function rollStatMacro() {
   var selected = canvas.tokens.controlled;
+  //todo: replace with ChatMessageMosh.getAssociatedActor()
   const speaker = ChatMessage.getSpeaker();
 
   if (selected.length == 0) {

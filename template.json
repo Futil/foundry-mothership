@@ -18,6 +18,11 @@
           "min": 0,
           "max" : 2,
           "label" : "Wounds"
+        },
+        "bleeding": {
+          "value": 0,
+          "min": 0,
+          "label" : "Bleeding"
         }
       }
     },
@@ -352,7 +357,8 @@
       "module",
       "condition",
       "crew",
-      "repair"
+      "repair",
+      "class"
     ],
     "templates": {
       "base": {
@@ -373,8 +379,7 @@
       ],
       "rank": "Trained",
       "bonus": 10,
-      "prerequisite_ids": [],
-      "class_tags": []
+      "prerequisite_ids": []
     },
     "weapon": {
       "templates": [
@@ -456,6 +461,62 @@
       "totalHull" : 1,
       "feature" : "",
       "offline" : false
+    },
+    "class": {
+      "templates": [
+        "base"
+      ],
+      "source": "",
+      "author": "",
+      "link": "",
+      "trauma_response": "",
+      "robotic": true,
+      "common_skills": [],
+      "base_adjustment": {
+        "strength": 0,
+        "speed": 0,
+        "intellect": 0,
+        "combat": 0,
+        "sanity": 0,
+        "fear": 0,
+        "body": 0,
+        "max_wounds": 0,
+        "skills_granted": []
+      },
+      "selected_adjustment": {
+        "choose_stat": {
+          "stats": [],
+          "modification":0
+        },
+        "choose_skill_and": {
+          "trained": 0,
+          "expert": 0,
+          "expert_full_set": 0,
+          "master": 0,
+          "master_full_set": 0
+        },
+        "choose_skill_or": {
+          "option_1": {
+            "trained": 0,
+            "expert": 0,
+            "expert_full_set": 0,
+            "master": 0,
+            "master_full_set": 0
+          },
+          "option_2": {
+            "trained": 0,
+            "expert": 0,
+            "expert_full_set": 0,
+            "master": 0,
+            "master_full_set": 0
+          }
+        }
+      },
+      "roll_tables": {
+        "loadout": "",
+        "trinket": "",
+        "patch": ""
+      }
     }
   }
 }

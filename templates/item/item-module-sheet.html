@@ -27,9 +27,9 @@
 
             <!-- NAME -->
             <div class="">
-                <div class="headerinputtext">Name</div>
+                <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
                 <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
-                        placeholder="Name" /></div>
+                        placeholder="{{ localize 'Mosh.Name' }}" /></div>
             </div>
 
         </div>
@@ -38,7 +38,7 @@
     <div class="circle-statwrapper-horizontal">
         <!-- QUANTITY -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.quantity" class="resource-label minmaxtext">Quantity</label>
+            <label for="system.quantity" class="resource-label minmaxtext">{{ localize 'Mosh.Quantity' }}</label>
 
             <div class="valuewrapper" style="width: 120px; background: white;">
                 <input class="maxhealth-input darkGreyText" type="text" name="system.quantity"
@@ -47,21 +47,31 @@
         </div>
         <!-- HULL -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.hull" class="resource-label minmaxtext">Hull</label>
+            <label for="system.hull" class="resource-label minmaxtext">{{ localize 'Mosh.Hull' }}</label>
 
             <div class="valuewrapper" style="width: 120px; background: white;">
                 <input class="maxhealth-input darkGreyText" type="text" name="system.hull" value="{{system.hull}}"
                     data-dtype="Number" />
             </div>
         </div>
-        <!-- Feature -->
+        <!-- VALUE -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.feature" class="resource-label minmaxtext">Feature</label>
-
-            <div class="textvaluewrapper" style="width: 180px; background: white;">
-                <input class="textvaluewrapper-input darkGreyText" type="text" name="system.feature" value="{{system.feature}}"
-                    data-dtype="String" />
+            <label for="system.cost" class="resource-label minmaxtext">{{ localize 'Mosh.Value' }}</label>
+            
+            <div class="valuewrapper" style="width: 120px; background: white;">
+                <input class="maxhealth-input darkGreyText" type="text" name="system.cost" value="{{system.cost}}"
+                    data-dtype="Number" />
             </div>
+        </div>        
+    </div>
+    <br/>        
+    <!-- Feature -->
+    <div class="resource minmaxtopstat flex-center" style="grid-template-rows: max-content;">
+        <label for="system.feature" class="resource-label minmaxtext">{{ localize 'Mosh.Feature' }}</label>
+
+        <div class="textvaluewrapper" style="width: 100%; background: white;">
+            <input class="textvaluewrapper-input darkGreyText" type="text" name="system.feature" value="{{system.feature}}"
+                data-dtype="String" />
         </div>
     </div>
     <br />
@@ -69,7 +79,7 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
-        <a class="tab-select" data-tab="description">Description</a>
+        <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
     </nav>
 
     {{!-- Sheet Body --}}

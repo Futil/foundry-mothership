@@ -29,3 +29,14 @@ form.actor-generator{
         cursor: pointer;
     }
 }
+.characterGeneratorSkillPopup{
+    margin-bottom: 10px;
+    .skillpopupDescription{
+        text-align: center;
+        font-weight: bold;
+        padding-bottom: 0.2em;
+    }
+    .center{
+        text-align: center;
+    }
+}

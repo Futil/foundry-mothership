@@ -1,3 +1,5 @@
+import { fromIdUuid } from "../mosh.js";
+
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -1375,29 +1377,8 @@ export class MothershipActor extends Actor {
 
   //A script to return the data from a table.
   async getRollTableData(tableId){
-    let currentLocation = '';
-    let tableLocation = '';
-      //find where this table is located
-    //get current compendium
-    let compendium = game.packs;
-    //loop through each compendium
-    compendium.forEach(function(pack){ 
-      //is this a pack of rolltables?
-      if (pack.metadata.type === 'RollTable') {
-        //log where we are
-        currentLocation = pack.metadata.id;
-        //loop through each pack to find the right table
-        pack.index.forEach(function(table) { 
-          //is this our table?
-          if (table._id === tableId) {
-            //grab the table location
-            tableLocation = currentLocation;
-          }
-        });
-      }
-    });
-    //get table data
-    let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+
+    let tableData = await fromIdUuid(tableId,{type:"RollTable"});
     //get table name
     let tableName = tableData.name;
     //get table name
@@ -1545,27 +1526,9 @@ export class MothershipActor extends Actor {
         //set variables
         rollString = chosenRollType[0];
       }
-    //find where this table is located
+
+      let tableData = await fromIdUuid(tableId,{type:"RollTable"});
       //get current compendium
-      let compendium = game.packs;
-      //loop through each compendium
-      compendium.forEach(function(pack){ 
-        //is this a pack of rolltables?
-        if (pack.metadata.type === 'RollTable') {
-          //log where we are
-          currentLocation = pack.metadata.id;
-          //loop through each pack to find the right table
-          pack.index.forEach(function(table) { 
-            //is this our table?
-            if (table._id === tableId) {
-              //grab the table location
-              tableLocation = currentLocation;
-            }
-          });
-        }
-      });
-      //get table data
-      let tableData = await game.packs.get(tableLocation).getDocument(tableId);
       //get table name
       let tableName = tableData.name;
       //get table name
@@ -2625,29 +2588,9 @@ export class MothershipActor extends Actor {
           //prepare attribute label
           attributeLabel = 'Bankruptcy';
           //get the bankruptcy table
-            //get current compendium
-            let compendium = game.packs;
-            let currentLocation = ``;
-            let tableLocation = ``;
-            let tableId = game.settings.get('mosh','table1eBankruptcy');
-            //loop through each compendium
-            compendium.forEach(function(pack){ 
-              //is this a pack of rolltables?
-              if (pack.metadata.type === 'RollTable') {
-                //log where we are
-                currentLocation = pack.metadata.id;
-                //loop through each pack to find the right table
-                pack.index.forEach(function(table) { 
-                  //is this our table?
-                  if (table._id === tableId) {
-                    //grab the table location
-                    tableLocation = currentLocation;
-                  }
-                });
-              }
-            });
-            //get table data
-            let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+          let tableId = game.settings.get('mosh','table1eBankruptcy');
+          //get Table Data
+          let tableData = await fromIdUuid(tableId,{type:"RollTable"});
           //prep text for success
           if (parsedRollResult.success && parsedRollResult.critical) {
             //flavor text
@@ -3121,27 +3064,8 @@ export class MothershipActor extends Actor {
     let newValue = 0;
     let flavorText = ``;
     let chatId = (game.release.generation >= 12 ? foundry.utils.randomID(): randomID())
-    //find where this item is located
-      //get current compendium
-      let compendium = game.packs;
-      //loop through each compendium
-      compendium.forEach(function(pack){ 
-        //is this a pack of items?
-        if (pack.metadata.type === 'Item') {
-          //log where we are
-          currentLocation = pack.metadata.id;
-          //loop through each pack to find the right table
-          pack.index.forEach(function(item) { 
-            //is this our table?
-            if (item._id === itemId) {
-              //grab the table location
-              itemLocation = currentLocation;
-            }
-          });
-        }
-      });
-    //get table data
-    let itemData = await game.packs.get(itemLocation).getDocument(itemId);
+    //get item data
+    let itemData = await fromIdUuid(itemId,{type:"Item"});
     //add or increase the count of the item, depending on type, if the actor has it
     if (this.items.getName(itemData.name)) {
       //if this is an item, increase the count

@@ -934,3 +934,134 @@ async function noShipSelected() {
     console.log(`Told the user that no character was selected.`);
   });
 }
+
+
+/**
+ * get element from world or compendiums by id or UUID, filtering by specific type.
+ * @param {string} id_uuid                   The id or the full uuid of the element we want to retieve.
+ * @param {object} options                   General search options for this function and for 'fromUuid'
+ * @param {string} [options.type]            A string to filter the compendium type to search or the world element type. Valid values =["RollTable","Item","Macro","Actor","Adventure","Cards","JournalEntry","Playlist","Scene"]
+ * @returns {Promise<Document|null>}         Returns the Document if it could be found, otherwise null.
+ */
+export async function fromIdUuid(id_uuid, options={}){
+  let type = options.type;
+  //first we try to find from UUID, asuming the parameter(id_uuid) is an UUID.
+  let item = await fromUuid(id_uuid,options);
+  if(item != null){
+    //we found the item with the id_uuid, it probably was an uuid.
+    return item;
+  }
+
+  //we need to manualy find the item
+  let currentLocation = '';
+  let objectLocation = '';
+  //first loop through each compendium
+  game.packs.forEach(function(pack){ 
+    //is this a pack of rolltables?
+    if (pack.metadata.type === type) {
+      //log where we are
+      currentLocation = pack.metadata.id;
+      //loop through each pack to find the right table
+      pack.index.forEach(function(pack_item) { 
+        //is this our table?
+        if (pack_item._id === id_uuid) {
+          //grab the table location
+          objectLocation = currentLocation;
+        }
+      });
+    }
+  });
+  if (objectLocation){
+    // Item found in a compendium -> get document data
+    return await game.packs.get(objectLocation).getDocument(id_uuid);
+  }else{
+    //if we dont find it in a compendium, its probable a world item:
+    //Lets filtery by type to search the relevant elements only.
+    switch (type) {
+      case "RollTable":
+        return getTableFromId(id_uuid);
+      case "Item":
+        return getItemFromId(id_uuid);
+      case "Macro":
+        return getMacroFromId(id_uuid);
+      case "Actor":
+        return getActorFromId(id_uuid);
+      case "Adventure":
+        //adventures can only be defined in compendiums and not in the world (i think)
+        return null;
+      case "Cards":
+        return getCardFromId(id_uuid);
+      case "JournalEntry":
+        return getJournalFromId(id_uuid);
+      case "Playlist":
+        return getPlaylistFromId(id_uuid);
+      case "Scene":
+        return getSceneFromId(id_uuid);
+
+      default:
+        //type is not defined, and we could not find it in a compendium,
+        //now we search all world elements for the ID.
+        //this could lead to conflicts since ID could not be unique.
+        let tableData = getTableFromId(id_uuid);
+        if (tableData){
+          return tableData;
+        }
+        let itemData = getItemFromId(id_uuid);
+        if (itemData){
+          return itemData;
+        }
+        let macroData = getMacroFromId(id_uuid);
+        if (macroData){
+          return macroData;
+        }
+        let actorData = getActorFromId(id_uuid);
+        if (actorData){
+          return actorData;
+        }
+        let cardData = getCardFromId(id_uuid);
+        if (cardData){
+          return cardData;
+        }
+        let journalData = getJournalFromId(id_uuid);
+        if (journalData){
+          return journalData;
+        }
+        let scenneData = getSceneFromId(id_uuid);
+        if (scenneData){
+          return scenneData;
+        }
+        let playlistData = getPlaylistFromId(id_uuid);
+        if (playlistData){
+          return playlistData;
+        }
+      }
+    //if we get here we have not found anything with that id.
+    return null;
+  }
+  /**functions to get world defined elements by type and ID */ 
+  function getSceneFromId(sceneId){
+    return game.scenes.filter(i=> i.id == sceneId)[0];
+  }
+  function getPlaylistFromId(playlistId){
+    return game.playlists.filter(i=> i.id == playlistId)[0];
+  }
+  function getJournalFromId(journalId){
+    return game.journal.filter(i=> i.id == journalId)[0];
+  }
+  function getCardFromId(cardId){
+    return game.cards.filter(i=> i.id == cardId)[0];
+  }
+  function getActorFromId(actorId){
+    return game.actors.filter(i=> i.id == actorId)[0];
+  }
+  function getTableFromId(tableId){
+    return game.tables.filter(i=> i.id == tableId)[0];
+  }
+  function getItemFromId(itemId){
+    return game.items.filter(i=> i.id == itemId)[0];
+  }
+  function getMacroFromId(macroId){
+    return game.macros.filter(i=> i.id == macroId)[0];
+  }
+
+}

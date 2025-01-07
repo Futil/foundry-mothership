@@ -212,20 +212,51 @@
           <div class="skill-stat">{{ localize 'Mosh.SkillName' }}</div>
           <div class="skill-stat">{{ localize 'Mosh.SkillRank' }}</div>
           <div class="skill-stat">{{ localize 'Mosh.SkillBonus' }}</div>
-          <div class="item-controls">
+          <div class="item-controls" id="skill-create-or-option" >
+            <a class="item-control" title="{{ localize 'Mosh.CreateSkill' }}" data-type="skill"><i
+                class="fas fa-plus"></i> {{ localize 'Mosh.AddOr' }}</a>
           </div>
         </li>
+        
         {{#each system.base_adjustment.skills_granted_object as |skill id|}}
-        <li class="item flexrow dropitem" data-item-id="{{skill.uuid}}">
-          <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24" /></div>
-          <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
-          <div class="skill-stat">{{skill.system.rank}}</div>
-          <div class="skill-stat">{{skill.system.bonus}}</div>
-          <div class="item-controls">
-            <a class="item-control skills-granted-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i
-                class="fas fa-trash"></i></a>
-          </div>
-        </li>
+          {{#if skill.name}}
+            <li class="item flexrow" data-item-id="{{skill.uuid}}">
+              <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24" /></div>
+              <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
+              <div class="skill-stat">{{skill.system.rank}}</div>
+              <div class="skill-stat">{{skill.system.bonus}}</div>
+              <div class="item-controls">
+                <a class="item-control skills-granted-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i
+                    class="fas fa-trash"></i></a>
+              </div>
+            </li>
+          {{else}}
+          <li class="{{#if skill.[1]}}{{else}}item flexrow{{/if}}">
+            <div id = "skills.fixed.or" index="{{@index}}" >
+              <div class="resource-label" style="float: left;">OR</div>
+              <ol style="border-left: 1px solid #111;">
+              {{#each skill as |subskill subid|}}
+                  <li class="item flexrow" data-item-id="{{subskill.uuid}}">
+                    <div class="item-image"><img src="{{subskill.img}}" title="{{subskill.name}}" width="24" height="24" /></div>
+                    <div class="skill-name skill-roll list-roll">{{subskill.name}}</div>
+                    <div class="skill-stat">{{subskill.system.rank}}</div>
+                    <div class="skill-stat">{{subskill.system.bonus}}</div>
+                    <div class="item-controls">
+                      <a class="item-control skills-granted-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i
+                          class="fas fa-trash"></i></a>
+                    </div>
+                  </li>
+              {{/each}}
+              </ol>
+            </div>
+            {{#if skill.[1]}}{{else}}
+            <div class="item-controls">
+              <a class="item-control skills-granted-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i
+                  class="fas fa-trash"></i></a>
+            </div>
+            {{/if}}
+          </li>
+          {{/if}}
         {{/each}}
       </ol>
     </div>
@@ -463,7 +494,7 @@
           </div>
         </li>
         {{#each system.common_skills_object as |skill id|}}
-        <li class="item flexrow dropitem" data-item-id="{{skill.uuid}}">
+        <li class="item flexrow" data-item-id="{{skill.uuid}}">
           <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24" /></div>
           <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
           <div class="skill-stat">{{skill.system.rank}}</div>

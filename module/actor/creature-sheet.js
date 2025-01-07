@@ -65,7 +65,7 @@ export class MothershipCreatureSheet extends ActorSheet {
 
     /** @override */
     async getData() {
-        const data = super.getData();
+        const data = await super.getData();
         data.dtypes = ["String", "Number", "Boolean"];
         //   for (let attr of Object.values(data.data.attributes)) {
         //     attr.isCheckbox = attr.dtype === "Boolean";

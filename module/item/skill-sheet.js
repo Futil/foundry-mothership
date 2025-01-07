@@ -20,7 +20,7 @@ export class MothershipSkillSheet extends MothershipItemSheet {
 
   /** @override */
   async getData() {
-    const data = super.getData();
+    const data = await super.getData();
     if (typeof data.system.prerequisite_ids == 'undefined'){
       data.system.prerequisite_ids=[];
     }

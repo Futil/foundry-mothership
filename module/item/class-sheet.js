@@ -25,13 +25,21 @@ export class MothershipClassSheet extends MothershipItemSheet {
 
   /** @override */
   async getData() {
-    const data = super.getData();
+    const data = await super.getData();
     if (typeof data.system.base_adjustment.skills_granted == 'undefined'){
       data.system.base_adjustment.skills_granted=[];
     }
     data.system.base_adjustment.skills_granted_object = [];
     for (const skill of data.system.base_adjustment.skills_granted){ 
-      data.system.base_adjustment.skills_granted_object.push(await fromUuid(skill));
+      if(Array.isArray(skill)){
+        let option_skills = [];
+        for (const option of skill){
+          option_skills.push(await fromUuid(option));
+        }
+        data.system.base_adjustment.skills_granted_object.push(option_skills);
+      }else{
+        data.system.base_adjustment.skills_granted_object.push(await fromUuid(skill));
+      }
     };
 
     
@@ -56,17 +64,31 @@ export class MothershipClassSheet extends MothershipItemSheet {
     if (droppedUuid.type != "Item"){
        return;
     }
-    
+    console.log(event);
+    console.log(event.currentTarget);
+    console.log(event.target);
+    console.log(event.target.parentNode);
     const droppedObject = await fromUuid(droppedUuid.uuid);
     if (droppedObject.type == "skill"){
       //todo: add a check if the skill already exist in the list and dont add it, (by id or by name?)
-      if(event.target.id == "skills.fixed"){
-        let skills = this.object.system.base_adjustment.skills_granted;
-        skills.push(droppedObject.uuid);
-        this.object.update({"system.base_adjustment.skills_granted":skills});
-        return this.render(false);
+      if(event.currentTarget.id == "skills.fixed"){
+        let parent_fixed_or = event.target.closest('div[id="skills.fixed.or"]');
+
+        if(parent_fixed_or){
+          let array_index = parent_fixed_or.getAttribute("index");
+          let skills = this.object.system.base_adjustment.skills_granted;
+          skills[array_index].push(droppedObject.uuid);
+          this.object.update({"system.base_adjustment.skills_granted":skills});
+          return this.render(false);
+
+        }else{
+          let skills = this.object.system.base_adjustment.skills_granted;
+          skills.push(droppedObject.uuid);
+          this.object.update({"system.base_adjustment.skills_granted":skills});
+          return this.render(false);
+        }
       }
-      else if(event.target.id =="skills.common"){
+      else if(event.currentTarget.id =="skills.common"){
         let skills = this.object.system.common_skills;
         skills.push(droppedObject.uuid);
         this.object.update({"system.common_skills":skills});
@@ -85,7 +107,18 @@ export class MothershipClassSheet extends MothershipItemSheet {
       const li = $(ev.currentTarget).parents(".item");
       
       let skills = this.object.system.base_adjustment.skills_granted.filter(function( obj ) {
+        
+      if(Array.isArray(obj)){
+        let found = false;
+        for (const option of obj){
+            if (option === li.data("itemId")){
+                found = true;
+            }
+        }
+          return !found;
+      }else{
           return obj !== li.data("itemId");
+      }
       });
       this.object.update({"system.base_adjustment.skills_granted":skills});
       return this.render(false);
@@ -113,6 +146,13 @@ export class MothershipClassSheet extends MothershipItemSheet {
     });
 
     html.find('.stat-create').click(this._onStatCreate.bind(this));
+    html.find('div[id="skill-create-or-option"]').click(ev => {
+        let skills = this.object.system.base_adjustment.skills_granted;
+        //add new empty or option
+        skills.push([]);
+        this.object.update({"system.base_adjustment.skills_granted":skills});
+        return this.render(false);
+      });
 
   }
 

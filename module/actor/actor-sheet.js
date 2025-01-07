@@ -21,7 +21,7 @@ export class MothershipActorSheet extends ActorSheet {
 
   /** @override */
   async getData() {
-    const data = super.getData();
+    const data = await super.getData();
 
     data.dtypes = ["String", "Number", "Boolean"];
 

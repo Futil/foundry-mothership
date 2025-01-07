@@ -320,5 +320,6 @@
    "Mosh.IntellectSkillExample": "Recalling your training and experience under duress, thinking through difficult problems, inventing or fixing things.",
    "Mosh.CombatSkillExample": "Fighting for your life.",
    "Mosh.SelectYourRollType": "Select your roll type",
-   "Mosh.ChooseAStat": "Choose a Stat"
+   "Mosh.ChooseAStat": "Choose a Stat",
+   "Mosh.SwarmWoundShort":"W*"
 }

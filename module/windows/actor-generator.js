@@ -52,34 +52,51 @@ export class DLActorGenerator extends FormApplication {
    }
 
 
-   /* todo: remove this functions and set the values as configuration */
+   /* todo: remove pre-defined values and set the values as configuration /maybe part of class-item */
    async rollStrength(html) {
-      this.rollDices("2d10+25", html, `system.stats.strength.value`, `Rolling for Strength stat`)
+      this.rollDices("2d10+25", html, `system.stats.strength.value`, game.i18n.format("Mosh.RollingForGeneric",{
+         name:game.i18n.localize("Mosh.Strength")
+      }))
    }
-
    async rollSpeed(html) {
-      this.rollDices("2d10+25", html, `system.stats.speed.value`, `Rolling for Speed stat`)
+      this.rollDices("2d10+25", html, `system.stats.speed.value`,  game.i18n.format("Mosh.RollingForGeneric",{
+         name:game.i18n.localize("Mosh.Speed")
+      }))
    }
    async rollIntellect(html) {
-      this.rollDices("2d10+25", html, `system.stats.intellect.value`, `Rolling for Intellect stat`)
+      this.rollDices("2d10+25", html, `system.stats.intellect.value`, game.i18n.format("Mosh.RollingForGeneric",{
+         name:game.i18n.localize("Mosh.Intellect")
+      }))
    }
    async rollCombat(html) {
-      this.rollDices("2d10+25", html, `system.stats.combat.value`, `Rolling for Combat stat`)
+      this.rollDices("2d10+25", html, `system.stats.combat.value`,  game.i18n.format("Mosh.RollingForGeneric",{
+         name:game.i18n.localize("Mosh.Combat")
+      }))
    }
    async rollHealth(html) {
-      this.rollDices("1d10+10", html, `system.health.max`, `Rolling for Health`)
+      this.rollDices("1d10+10", html, `system.health.max`, game.i18n.format("Mosh.RollingForGeneric",{
+         name:game.i18n.localize("Mosh.Health")
+      }))
    }
    async rollSanity(html) {
-      this.rollDices("2d10+10", html, `system.stats.sanity.value`, `Rolling for Sanity save`)
+      this.rollDices("2d10+10", html, `system.stats.sanity.value`,  game.i18n.format("Mosh.RollingForGeneric",{
+         name:game.i18n.localize("Mosh.Sanity")
+      }))
    }
    async rollFear(html) {
-      this.rollDices("2d10+10", html, `system.stats.fear.value`, `Rolling for Fear save`)
+      this.rollDices("2d10+10", html, `system.stats.fear.value`,  game.i18n.format("Mosh.RollingForGeneric",{
+         name:game.i18n.localize("Mosh.Fear")
+      }))
    }
    async rollBody(html) {
-      this.rollDices("2d10+10", html, `system.stats.body.value`, `Rolling for Body save`)
+      this.rollDices("2d10+10", html, `system.stats.body.value`,  game.i18n.format("Mosh.RollingForGeneric",{
+         name:game.i18n.localize("Mosh.Body")
+      }))
    }
    async rollCredits(html) {
-      this.rollDices("2d10*10", html, `system.credits.value`, `Rolling for Credits`)
+      this.rollDices("2d10*10", html, `system.credits.value`,  game.i18n.format("Mosh.RollingForGeneric",{
+         name:game.i18n.localize("Mosh.Credits")
+      }))
    }
 
    async rollTable(html, id, tableId, type = "input") {
@@ -128,21 +145,21 @@ export class DLActorGenerator extends FormApplication {
 
    async rollPatch(html) {
       if (this.patchTable == null) {
-         ui.notifications.error("You need a class with defined patch table.");//TODO, localize
+         ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
       }
       await this.rollTable(html, "system.class.patch", this.patchTable);
 
    }
    async rollTrinket(html) {
       if (this.trinketTable == null) {
-         ui.notifications.error("You need a class with defined trinket table.");//TODO, localize
+         ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
       }
       await this.rollTable(html, "system.class.trinket", this.trinketTable);
 
    }
    async rollLoadout(html) {
       if (this.loadoutTable == null) {
-         ui.notifications.error("You need a class with defined loadout table.");//TODO, localize
+         ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
          return;
       }
       await this.rollTable(html, "system.class.loadout", this.loadoutTable, "ul");

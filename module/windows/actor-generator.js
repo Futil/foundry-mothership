@@ -144,21 +144,21 @@ export class DLActorGenerator extends FormApplication {
 
 
    async rollPatch(html) {
-      if (this.patchTable == null) {
+      if (!this.patchTable) {
          ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
       }
       await this.rollTable(html, "system.class.patch", this.patchTable);
 
    }
    async rollTrinket(html) {
-      if (this.trinketTable == null) {
+      if (!this.trinketTable) {
          ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
       }
       await this.rollTable(html, "system.class.trinket", this.trinketTable);
 
    }
    async rollLoadout(html) {
-      if (this.loadoutTable == null) {
+      if (!this.loadoutTable) {
          ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
          return;
       }

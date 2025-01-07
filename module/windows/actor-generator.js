@@ -164,16 +164,55 @@ export class DLActorGenerator extends FormApplication {
       await this.rollLoadout(html);
    }
 
+   async fixedSkillOptionPopup(html, skillPopupOptions) {
+      return new Promise((resolve) => {
+         let buttons_options = {};
+         for (let j = 0; j < skillPopupOptions.length; j++) {
+            buttons_options[j] = {
+               icon: '<i class="fas fa-check"></i>',
+               label: skillPopupOptions[j].name,
+               callback: () => resolve(skillPopupOptions[j].uuid),
+            };
+         }
+         let d = new Dialog({
+            title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle"),
+            content: `<p>${game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupText")}</p>`,
+            buttons: buttons_options,
+            default: "1",
+            //render: html => console.log("Register interactivity in the rendered dialog"),
+            //close: html => console.log("This always is logged no matter which option is chosen")
+         });
+         d.render(true);
+      });
+   }
+
    async updateSkillHtmlUl(html, skillsUuid) {
       //html.find(`ul[id="system.class.skils.text"]`).empty();
+      let new_skills =  await html.find(`input[id="system.class.skills.uuid"]`).prop("value").split(",").filter(Boolean);
       for (let i = 0; i < skillsUuid.length; i++) {
-         let skill = await fromUuid(skillsUuid[i]);
+         let skill = null;
+         if(Array.isArray(skillsUuid[i])){
+            //we have skill options, display popup to choose
+            let options = [];
+            for (let j = 0; j < skillsUuid[i].length; j++) {
+               let skill = await fromUuid(skillsUuid[i][j]);
+               options.push({"name":skill.name,"uuid":skill.uuid});
+            }
+            let skill_uuid = await this.fixedSkillOptionPopup(html,options);
+            skill = await fromUuid(skill_uuid);
+
+         }else{         
+            //fixed skill, just add it to the list
+            skill = await fromUuid(skillsUuid[i]);
+         }
+         new_skills.push(skill.uuid);
          /**we need to keep only the Uuid of the item, not the complete string (for now) */
          let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await TextEditor.enrichHTML(skill.name, { async: true })}</li>`;
          html.find(`ul[id="system.class.skils.text"]`).append(li_html);
+         
       }
-      let old_skills = await html.find(`input[id="system.class.skills.uuid"]`).prop("value").split(",").filter(Boolean);
-      html.find(`input[id="system.class.skills.uuid"]`).prop("value", old_skills.concat(skillsUuid).join(","));
+      html.find(`input[id="system.class.skills.uuid"]`).prop("value", new_skills.join(","));
+      return new_skills;
    }
 
    async popUpSkillOptions(skillPopupOptions) {
@@ -311,7 +350,7 @@ export class DLActorGenerator extends FormApplication {
       await html.find(`input[id="system.class.skills.uuid"]`).prop("value", "");
 
       this.skillsUuid = classObject.system.base_adjustment.skills_granted.slice();
-      await this.updateSkillHtmlUl(html, this.skillsUuid);
+      this.skillsUuid = await this.updateSkillHtmlUl(html, this.skillsUuid);
 
 
       let option_skills_1 = classObject.system.selected_adjustment.choose_skill_and;

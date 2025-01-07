@@ -90,6 +90,15 @@ export class DLCreatureSettings extends FormApplication {
                 "system.stats.sanity.enabled": ev.currentTarget.checked
             });
         });
+        html.find(`input[type=checkbox][id="system.swarm.enabled"]`).click(ev => {
+            if (ev.currentTarget.checked) {
+                const sanity = html.find(`input[type=checkbox][id="system.swarm.enabled"]`).prop('checked', true);
+            }
+
+            this.object.update({
+                "system.swarm.enabled": ev.currentTarget.checked
+            });
+        });
     }
 
     /**
@@ -118,6 +127,12 @@ export class DLCreatureSettings extends FormApplication {
         if (this.object.system.stats.stats.armor.enabled) {
             await this.object.update({
                 "data.stats.armor.enabled": true
+            });
+        }
+        // swarm
+        if (this.object.system.swarm.enabled) {
+            await this.object.update({
+                "data.swarm.enabled": true
             });
         }
 

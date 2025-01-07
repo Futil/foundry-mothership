@@ -14,18 +14,13 @@ export class MothershipActorSheet extends ActorSheet {
       height: 820,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
     }
-
-    if (game.release.generation >= 12) {
-      return foundry.utils.mergeObject(super.defaultOptions, options);
-    } else {
-      return mergeObject(super.defaultOptions, options);
-    }
+    return foundry.utils.mergeObject(super.defaultOptions, options);
   }
 
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
+  async getData() {
     const data = super.getData();
 
     data.dtypes = ["String", "Number", "Boolean"];
@@ -49,6 +44,10 @@ export class MothershipActorSheet extends ActorSheet {
     data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
     data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
     data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
+
+    data.data.enriched = [];
+    data.data.enriched.notes = await TextEditor.enrichHTML(superData.notes, {async: true});
+    data.data.enriched.biography = await TextEditor.enrichHTML(superData.biography, {async: true});
 
 
     //SKILL XP BUTTONS

@@ -16,11 +16,7 @@ export class MothershipCreatureSheet extends ActorSheet {
             tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
         };
 
-        if (game.release.generation >= 12) {
-            return foundry.utils.mergeObject(super.defaultOptions, options);
-        } else {
-            return mergeObject(super.defaultOptions, options);
-        }
+        return foundry.utils.mergeObject(super.defaultOptions, options);
     }
 
     /**
@@ -68,7 +64,7 @@ export class MothershipCreatureSheet extends ActorSheet {
     /* -------------------------------------------- */
 
     /** @override */
-    getData() {
+    async getData() {
         const data = super.getData();
         data.dtypes = ["String", "Number", "Boolean"];
         //   for (let attr of Object.values(data.data.attributes)) {
@@ -88,8 +84,20 @@ export class MothershipCreatureSheet extends ActorSheet {
         data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
         data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
 
+        data.data.enriched = [];
+        data.data.enriched.description = await TextEditor.enrichHTML(data.data.system.description, {async: true});
+        data.data.enriched.biography = await TextEditor.enrichHTML(data.data.system.biography, {async: true});
         return data.data;
     }
+
+    /**
+     * Get the remaining wounds of the creature
+     * @param {JQuery} html 
+     * @returns {int} hits.max - hits.value
+     */
+    getWoundsLeft(html){
+        return html.find(`input[name="system.hits.max"]`).prop('value') - html.find(`input[name="system.hits.value"]`).prop('value'); 
+      }
 
     /**
      * Organize and classify Items for Character sheets.
@@ -176,6 +184,11 @@ export class MothershipCreatureSheet extends ActorSheet {
             } else {
                 item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
             }
+            if (this.actor.system.swarm && this.actor.system.swarm.enabled){
+                //replace the roll damage for swarm actors
+                let new_dice_ammount = item.system.damage.match(/([0-9]+)d[0-9]+/i)[1]*this.getWoundsLeft(html);
+                item.system.damage = item.system.damage.replace(/([0-9]+)(d[0-9]+)/i,`${new_dice_ammount}$2`);
+            }
             this.actor.rollCheck(null, 'low', 'combat', null, null, item);
         });
 
@@ -187,6 +200,11 @@ export class MothershipCreatureSheet extends ActorSheet {
                 item = foundry.utils.duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
             } else {
                 item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
+            }
+            if (this.actor.system.swarm && this.actor.system.swarm.enabled){
+                //replace the roll damage for swarm actors
+                let new_dice_ammount = item.system.damage.match(/([0-9]+)d[0-9]+/i)[1]*this.getWoundsLeft(html);
+                item.system.damage = item.system.damage.replace(/([0-9]+)(d[0-9]+)/i,`${new_dice_ammount}$2`);
             }
             this.actor.rollCheck(null, null, 'damage', null, null, item);
         });
@@ -263,6 +281,26 @@ export class MothershipCreatureSheet extends ActorSheet {
                 li.addEventListener("dragstart", handler, false);
             });
         }
+
+        // update swarm combat
+        html.find(`input[name="system.swarm.combat.value"]`).change(ev => {
+            let new_combat_value =  $(ev.currentTarget).prop('value') * this.getWoundsLeft(html);
+            this.actor.update({"system.stats.combat.value":new_combat_value});
+        });
+        html.find(`input[name="system.hits.max"]`).change(ev => {
+            //Max wounds changed -> calculate new combat stat
+            if (this.actor.system.swarm &&  this.actor.system.swarm.enabled){
+                let new_combat_value =  html.find(`input[name="system.swarm.combat.value"]`).prop('value') * this.getWoundsLeft(html);
+                this.actor.update({"system.stats.combat.value":new_combat_value});
+            }
+        });
+        html.find(`input[name="system.hits.value"]`).change(ev => {
+            //Current wounds changed -> calculate new combat stat
+            if (this.actor.system.swarm && this.actor.system.swarm.enabled){
+                let new_combat_value =  html.find(`input[name="system.swarm.combat.value"]`).prop('value') * this.getWoundsLeft(html);
+                this.actor.update({"system.stats.combat.value":new_combat_value});
+            }
+        });
 
     }
 

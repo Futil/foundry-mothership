@@ -31,7 +31,7 @@ export class MothershipItemSheet extends ItemSheet {
 
   /** @override */
   async getData() {
-    const data = super.getData();
+    const data = await super.getData();
     const superData = data.system;
 
     if (data.type == "weapon") {

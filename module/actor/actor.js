@@ -3036,6 +3036,11 @@ export class MothershipActor extends Actor {
         await this.createEmbeddedDocuments('Item', [itemData]);
         //create message text
         flavorText = `You add this to your inventory.`;
+      } else if (itemData.type === 'skill' ) {
+        //add item to the players inventory
+        await this.createEmbeddedDocuments('Item', [itemData]);
+        //create message text
+        flavorText = `You learn this skill.`;
       }
     }
     //generate chat message

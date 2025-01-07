@@ -7,6 +7,9 @@ import { MothershipShipSheetSBT } from "./actor/ship-sheet-sbt.js";
 
 import { MothershipItem } from "./item/item.js";
 import { MothershipItemSheet } from "./item/item-sheet.js";
+import { MothershipClassSheet } from "./item/class-sheet.js";
+import { MothershipSkillSheet } from "./item/skill-sheet.js";
+
 import {
   registerSettings
 } from "./settings.js";
@@ -65,7 +68,19 @@ Hooks.once('init', async function () {
   });
 
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("mosh", MothershipItemSheet, { makeDefault: true });
+  Items.registerSheet("mosh", MothershipClassSheet, {types: ['class'], makeDefault: true });
+  Items.registerSheet("mosh", MothershipSkillSheet, {types: ['skill'], makeDefault: true });
+  Items.registerSheet("mosh", MothershipItemSheet, {
+    types: [
+      "item",
+      "weapon",
+      "armor",
+      "ability",
+      "module",
+      "condition",
+      "crew",
+      "repair",], 
+      makeDefault: true });
 
   // If you need to add Handlebars helpers, here are a few useful examples:
   Handlebars.registerHelper('concat', function () {

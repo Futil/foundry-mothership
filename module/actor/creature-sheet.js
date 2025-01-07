@@ -28,7 +28,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         const canConfigure = game.user.isGM || this.actor.isOwner;
         if (this.options.editable && canConfigure) {
             buttons = [{
-                label: 'Creature Settings',
+                label: game.i18n.localize("Mosh.CreatureSettings"),
                 class: 'configure-actor',
                 icon: 'fas fa-tasks',
                 onclick: (ev) => this._onConfigureCreature(ev),
@@ -65,7 +65,7 @@ export class MothershipCreatureSheet extends ActorSheet {
 
     /** @override */
     async getData() {
-        const data = super.getData();
+        const data = await super.getData();
         data.dtypes = ["String", "Number", "Boolean"];
         //   for (let attr of Object.values(data.data.attributes)) {
         //     attr.isCheckbox = attr.dtype === "Boolean";

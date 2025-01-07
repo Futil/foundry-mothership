@@ -1,0 +1,42 @@
+form.actor-generator{
+    div.fulllabel{
+        border-radius: 2em;
+    }
+    div.ulinputfield{
+        min-height: 150px;
+    }
+    .smalltext{
+        font-size: 0.7rem;
+    }
+    div#generator-header-grid-1col {
+        grid-column: span 1 / span 1;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    .element-group {
+        margin-top: 10px;
+    }
+    .credit-img{
+        height: 30px;
+        margin-top: 0%;
+    }
+    .checkbox-round {
+        appearance: none;
+    }
+    .checkbox-round:checked {
+        background-color: gray;
+    }
+    .clicable-item{
+        cursor: pointer;
+    }
+}
+.characterGeneratorSkillPopup{
+    margin-bottom: 10px;
+    .skillpopupDescription{
+        text-align: center;
+        font-weight: bold;
+        padding-bottom: 0.2em;
+    }
+    .center{
+        text-align: center;
+    }
+}

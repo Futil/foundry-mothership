@@ -13,11 +13,7 @@ export class MothershipItemSheet extends ItemSheet {
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     };
 
-    if (game.release.generation >= 12) {
-      return foundry.utils.mergeObject(super.defaultOptions, options);
-    } else {
-      return mergeObject(super.defaultOptions, options);
-    }
+    return foundry.utils.mergeObject(super.defaultOptions, options);
   }
 
   /** @override */
@@ -34,8 +30,8 @@ export class MothershipItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const data = super.getData();
+  async getData() {
+    const data = await super.getData();
     const superData = data.system;
 
     if (data.type == "weapon") {
@@ -52,6 +48,9 @@ export class MothershipItemSheet extends ItemSheet {
     data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
     data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
     data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
+
+    data.data.enriched = [];
+    data.data.enriched.description = await TextEditor.enrichHTML(data.data.system.description, {async: true});
 
     return data.data;
   }

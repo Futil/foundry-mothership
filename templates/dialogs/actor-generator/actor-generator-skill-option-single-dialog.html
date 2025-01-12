@@ -1,0 +1,24 @@
+<div class="mosh">
+    <form id="skillForm" class="{{cssClass}} characterGeneratorSkillPopup">
+        <div>
+            <p class="skillpopupDescription">{{description}}:</p>
+        </div>
+        <div class="grid grid-1col widegap center">
+
+            <div class="dropdownSkill">
+                <select id="dropdownSkill" name="dropdownSkill">
+                    <option selected id="dropdownSkillDefault" value="" data-uuid="" data-prerequisite_ids='[]'>---
+                    </option>
+
+                    {{#each skills as |skill id|}}
+                    <option value="{{skill.uuid}}" data-uuid="{{skill.uuid}}" {{skill.disabled}}
+                        data-prerequisite_ids='[{{#each skill.system.prerequisite_ids as |id|}}"{{id}}"{{#unless @last}},{{/unless}}{{/each}}]'>
+                        {{skill.name}}</option>
+                    {{/each}}
+
+                </select>
+            </div>
+        </div>
+    </form>
+
+</div>

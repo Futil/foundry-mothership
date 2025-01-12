@@ -1,3 +1,4 @@
+import { fromIdUuid } from "../mosh.js";
 export class DLShipMegaDamage extends FormApplication {
     static get defaultOptions() {
         const options = super.defaultOptions;
@@ -41,29 +42,8 @@ export class DLShipMegaDamage extends FormApplication {
 
         //A script to return the data from a table.
         let tableId = game.settings.get('mosh','table1eMegadamageEffects');
-        let currentLocation = '';
-        let tableLocation = '';
-        //find where this table is located
-        //get current compendium
-        let compendium = game.packs;
-        //loop through each compendium
-        compendium.forEach(function(pack){ 
-        //is this a pack of rolltables?
-        if (pack.metadata.type === 'RollTable') {
-            //log where we are
-            currentLocation = pack.metadata.id;
-            //loop through each pack to find the right table
-            pack.index.forEach(function(table) { 
-            //is this our table?
-            if (table._id === tableId) {
-                //grab the table location
-                tableLocation = currentLocation;
-            }
-            });
-        }
-        });
         //get table data
-        let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+        let tableData = await fromIdUuid(tableId,{type:"RollTable"});
 
         let entries = Array.from(tableData.results.entries());
 

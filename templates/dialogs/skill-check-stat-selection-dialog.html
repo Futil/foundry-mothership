@@ -1,0 +1,83 @@
+<style>
+    .macro_window{
+      background: rgb(230,230,230);
+      border-radius: 9px;
+    }
+    .macro_img{
+      display: flex;
+      justify-content: center; 
+    }
+    .macro_desc{
+      font-family: "Roboto", sans-serif;
+      font-size: 10.5pt;
+      font-weight: 400;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+    }
+    .grid-2col {
+      display: grid;
+      grid-column: span 2 / span 2;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px;
+      padding: 0;
+    }
+    </style>
+    <div class ="macro_window" style="margin-bottom : 7px; padding-left: 8px;">
+      <div class="macro_desc"><h3>{{ localize "Mosh.SelectAStat" }}</h3>
+        {{ localize "Mosh.ChooseTheStatForSkillCheck" }}<em>{{ localize "Mosh.GivingYouAHigherNumber"}}.</em>
+    
+      </div>
+    </div>
+    <label for="str">
+    <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+      <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+      <input type="radio" id="str" name="stat" value="strength" checked="checked">
+      <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/attributes/strength.png" style="border:none"/></div>
+      <div class="macro_desc" style="display: table;">
+        <span style="display: table-cell; vertical-align: middle;">
+          <strong>{{ localize "Mosh.Strength" }}:</strong> {{ localize "Mosh.StrengthSkillExample"}}
+        </span>
+      </div>    
+      </div>
+    </div>
+    </label>
+    <label for="spd">
+    <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+      <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+      <input type="radio" id="spd" name="stat" value="speed">
+      <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/attributes/speed.png" style="border:none"/></div>
+      <div class="macro_desc" style="display: table;">
+        <span style="display: table-cell; vertical-align: middle;">
+          <strong>{{ localize "Mosh.Speed"}}:</strong> {{ localize "Mosh.SpeedSkillExample"}}
+        </span>
+      </div>    
+      </div>
+    </div>
+    </label>
+    <label for="int">
+    <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+      <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+      <input type="radio" id="int" name="stat" value="intellect">
+      <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/attributes/intellect.png" style="border:none"/></div>
+      <div class="macro_desc" style="display: table;">
+        <span style="display: table-cell; vertical-align: middle;">
+          <strong>{{ localize "Mosh.Intellect"}}:</strong> {{ localize "Mosh.IntellectSkillExample"}}
+        </span>
+      </div>
+      </div>
+    </div>
+    </label>
+    <label for="com">
+    <div class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+      <div class="grid grid-3col" style="grid-template-columns: 20px 60px auto">
+      <input type="radio" id="com" name="stat" value="combat">
+      <div class="macro_img" style="padding-top: 5px; padding-left: 0px; padding-right: 0px; padding-bottom: 5px;"><img src="systems/mosh/images/icons/ui/attributes/combat.png" style="border:none"/></div>
+      <div class="macro_desc" style="display: table;">
+        <span style="display: table-cell; vertical-align: middle;">
+          <strong>{{ localize "Mosh.Combat"}}:</strong> {{ localize "Mosh.CombatSkillExample"}} 
+        </span>
+      </div>    
+      </div>
+    </div>
+    </label>

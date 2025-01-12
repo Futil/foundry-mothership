@@ -7,7 +7,7 @@
 
       <!-- NAME -->
       <div class="">
-        <div class="headerinputtext">Name</div>
+        <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
         <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
             placeholder="Name" /></div>
       </div>
@@ -47,7 +47,7 @@
 
         <!-- Armor Points -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-          <label for="system.armorPoints" class="resource-label minmaxtext">Armor Points</label>
+          <label for="system.armorPoints" class="resource-label minmaxtext">{{ localize 'Mosh.ArmorPoints' }}</label>
 
           <div class="valuewrapper" style="width: 120px; background: white;">
             <input class="maxhealth-input darkGreyText" type="text" name="system.armorPoints"
@@ -57,7 +57,7 @@
         {{#if system.settings.firstEdition}}
         <!-- DMG Reduction -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-          <label for="system.damageReduction" class="resource-label minmaxtext">DMG Reduction</label>
+          <label for="system.damageReduction" class="resource-label minmaxtext">{{ localize 'Mosh.DMGReduction' }}</label>
 
           <div class="valuewrapper" style="width: 120px; background: white;">
             <input class="maxhealth-input darkGreyText" type="text" name="system.damageReduction"
@@ -71,14 +71,14 @@
       <div class="circle-statwrapper-horizontal transparentBackground">
         <!-- Equipped -->
         <div class="resource healthspread blankstat flex-center" style="grid-template-rows: max-content;">
-          <label for="system.quantity" class="resource-label minmaxtext">Equipped</label>
+          <label for="system.quantity" class="resource-label minmaxtext">{{ localize 'Mosh.Equipped' }}</label>
           <input type="checkbox" name="system.equipped" data-dtype="Boolean" {{checked system.equipped}} />
         </div>
 
 
         <!-- Speed -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-          <label for="system.speed" class="resource-label minmaxtext">Speed</label>
+          <label for="system.speed" class="resource-label minmaxtext">{{ localize 'Mosh.Speed' }}</label>
 
           <div class="valuewrapper" style="width: 120px; background: white;">
             <input class="maxhealth-input darkGreyText" type="text" name="system.speed" value="{{system.speed}}"
@@ -94,7 +94,7 @@
 
       <!-- Max O2 -->
       <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-        <label for="system.oxygenMax" class="resource-label minmaxtext">Max O2</label>
+        <label for="system.oxygenMax" class="resource-label minmaxtext">{{ localize 'Mosh.Maximum' }} O<sup>2</sup></label>
 
         <div class="valuewrapper" style="width: 120px; background: white;">
           <input class="maxhealth-input darkGreyText" type="text" name="system.oxygenMax" value="{{system.oxygenMax}}"
@@ -103,7 +103,7 @@
       </div>
       <!-- Current O2 -->
       <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-        <label for="system.oxygenCurrent" class="resource-label minmaxtext">Current O2</label>
+        <label for="system.oxygenCurrent" class="resource-label minmaxtext">{{ localize 'Mosh.Current' }} O<sup>2</sup></label>
 
         <div class="valuewrapper" style="width: 120px; background: white;">
           <input class="maxhealth-input darkGreyText" type="text" name="system.oxygenCurrent"
@@ -118,7 +118,7 @@
 
   <!-- Features -->
   <div class="resource minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-    <label for="system.features" class="resource-label minmaxtext">Features</label>
+    <label for="system.features" class="resource-label minmaxtext">{{ localize 'Mosh.Features' }}</label>
 
     <div class="textvaluewrapper" style="width: 100%; background: white;">
       <input class="textvaluewrapper-input darkGreyText" type="text" name="system.features" value="{{system.features}}"
@@ -130,8 +130,8 @@
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
-    <a class="tab-select" data-tab="description">Description</a>
-    <a class="tab-select" data-tab="item">Item</a>
+    <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
+    <a class="tab-select" data-tab="item">{{ localize 'Mosh.Item' }}</a>
   </nav>
   
   <br/>
@@ -141,18 +141,18 @@
 
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" button=true owner=owner editable=true}}
+      {{editor enriched.description target="system.description" button=true owner=owner editable=true}}
     </div>
 
     {{!-- Item Tab --}}
     <div class="tab ranges" data-group="primary" data-tab="item">
       <div class="grid grid-3col">
         <div class="resource">
-          <label class="resource-label">Value</label>
+          <label class="resource-label">{{ localize 'Mosh.Value' }}</label>
           <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
         </div>
         <div class="resource">
-          <label class="resource-label">Weight</label>
+          <label class="resource-label">{{ localize 'Mosh.Weight' }}</label>
           <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
         </div>
       </div>

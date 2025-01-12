@@ -1,0 +1,79 @@
+<div class="mosh">
+
+    <div class="{{cssClass}} characterGeneratorSkillPopup">
+        <div>
+            <p class="skillpopupDescription">{{localize 'Mosh.CharacterGenerator.SkillOption.ChoiceText'}}</p>
+        </div>
+        <div class="grid grid-2col widegap">
+            <div style="border:3px solid #111;border-radius: 1em;padding: 0.5em;">
+
+                <p style="text-decoration: underline;">{{localize 'Mosh.CharacterGenerator.SkillOption.ChoiceWord'}}: 1
+                </p>
+
+                <ul>
+                    {{#if option_1.master}}
+                    <li>
+                        {{localize 'Mosh.SkillRankMaster'}} : {{option_1.master}}
+                    </li>
+                    {{/if}}
+                    {{#if option_1.expert}}
+                    <li>
+                        {{localize 'Mosh.SkillRankExpert'}} : {{option_1.expert}}
+                    </li>
+                    {{/if}}
+                    {{#if option_1.trained}}
+                    <li>
+                        {{localize 'Mosh.SkillRankTrained'}} : {{option_1.trained}}
+                    </li>
+                    {{/if}}
+                    {{#if option_1.master_full_set}}
+                    <li>
+                        {{localize 'Mosh.SkillRankMaster'}} & {{localize 'Mosh.SkillsPrerequisite'}} :
+                        {{option_1.master_full_set}}
+                    </li>
+                    {{/if}}
+                    {{#if option_1.expert_full_set}}
+                    <li>
+                        {{localize 'Mosh.SkillRankExpert'}} & {{localize 'Mosh.SkillsPrerequisite'}} :
+                        {{option_1.expert_full_set}}
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+            <div style="border:3px solid #111;border-radius: 1em;padding: 0.5em;">
+                <p style="text-decoration: underline;">{{localize 'Mosh.CharacterGenerator.SkillOption.ChoiceWord'}}: 2
+                </p>
+                <ul>
+                    {{#if option_2.master}}
+                    <li>
+                        {{localize 'Mosh.SkillRankMaster'}} : {{option_2.master}}
+                    </li>
+                    {{/if}}
+                    {{#if option_2.expert}}
+                    <li>
+                        {{localize 'Mosh.SkillRankExpert'}} : {{option_2.expert}}
+                    </li>
+                    {{/if}}
+                    {{#if option_2.trained}}
+                    <li>
+                        {{localize 'Mosh.SkillRankTrained'}} : {{option_2.trained}}
+                    </li>
+                    {{/if}}
+                    {{#if option_2.master_full_set}}
+                    <li>
+                        {{localize 'Mosh.SkillRankMaster'}} & {{localize 'Mosh.SkillsPrerequisite'}} :
+                        {{option_2.master_full_set}}
+                    </li>
+                    {{/if}}
+                    {{#if option_2.expert_full_set}}
+                    <li>
+                        {{localize 'Mosh.SkillRankExpert'}} & {{localize 'Mosh.SkillsPrerequisite'}} :
+                        {{option_2.expert_full_set}}
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>

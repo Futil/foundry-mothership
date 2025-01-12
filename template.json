@@ -484,10 +484,7 @@
         "skills_granted": []
       },
       "selected_adjustment": {
-        "choose_stat": {
-          "stats": [],
-          "modification":0
-        },
+        "choose_stat": [],
         "choose_skill_and": {
           "trained": 0,
           "expert": 0,
@@ -495,22 +492,7 @@
           "master": 0,
           "master_full_set": 0
         },
-        "choose_skill_or": {
-          "option_1": {
-            "trained": 0,
-            "expert": 0,
-            "expert_full_set": 0,
-            "master": 0,
-            "master_full_set": 0
-          },
-          "option_2": {
-            "trained": 0,
-            "expert": 0,
-            "expert_full_set": 0,
-            "master": 0,
-            "master_full_set": 0
-          }
-        }
+        "choose_skill_or": []
       },
       "roll_tables": {
         "loadout": "",

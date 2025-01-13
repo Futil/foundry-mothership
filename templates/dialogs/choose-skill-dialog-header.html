@@ -1,0 +1,41 @@
+<style>
+    .macro_window{
+      background: rgb(230,230,230);
+      border-radius: 9px;
+    }
+    .macro_img{
+      display: flex;
+      justify-content: center;
+    }
+    .macro_desc{
+      font-family: "Roboto", sans-serif;
+      font-size: 10.5pt;
+      font-weight: 400;
+      padding-left: 8px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+    }
+    .grid-2col {
+      display: grid;
+      grid-column: span 2 / span 2;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px;
+      padding: 0;
+    }
+  </style>
+  <div class ="macro_window" style="margin-bottom : 7px;">
+    <div class="macro_desc"><h3>{{ localize 'Mosh.AddASkill'}}</h3>{{ localize 'Mosh.IfYouHaveARelevantSkill'}} <em>{{ localize 'Mosh.GivingYouAHigherNumber' }}</em>.</div>    
+  </div>
+  <label for="">
+  <dMosh.Normaliv class ="macro_window" style="margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+    <div class="grid grid-2col" style="grid-template-columns: 20px auto">
+    <input type="radio" id="" name="skill" value=0 checked >
+    <div class="macro_desc" style="display: table;">
+      <span style="display: table-cell; vertical-align: middle;">
+      <p>{{ localize 'Mosh.DoNotAddASkillToThisRoll' }}<p>
+      </span>
+    </div>    
+    </div>
+  </div>
+  </label>

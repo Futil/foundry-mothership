@@ -159,7 +159,8 @@
     <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
     <a class="tab-select" data-tab="stats&saves">{{ localize 'Mosh.CharacterGenerator.StatOption' }}</a>
     <a class="tab-select" data-tab="skills.fixed">{{ localize 'Mosh.SkillsFixed' }}</a>
-    <a class="tab-select" data-tab="skills.optional">{{ localize 'Mosh.SkillsOptional' }}</a>
+    <a class="tab-select" data-tab="skills.selected.and">{{ localize 'Mosh.SkillsOptionalAnd' }}</a>
+    <a class="tab-select" data-tab="skills.selected.or">{{ localize 'Mosh.SkillsOptionalOr' }}</a>
     <a class="tab-select" data-tab="tables">{{ localize 'Mosh.CharacterGenerator.Tables' }}</a>
     <a class="tab-select" data-tab="skills.common">{{ localize 'Mosh.CharacterGenerator.CommonSkills' }}</a>
   </nav>
@@ -173,35 +174,28 @@
     </div>
     {{!-- stats&saves Tab --}}
     <div class="tab" data-group="primary" data-tab="stats&saves">
-      <div class="resource mainstat">
-        <div class="mainstatlabel">
-          <span class=" mainstattext" data-key="stat.modification" data-label="{{ localize 'Mosh.Value' }}">{{ localize
-            'Mosh.Value' }}</span>
+      
+      <ol class="items-list" style="margin-bottom : 10px;">
+        <li class="item flexrow item-header">
+          <div class="skill-stat">{{ localize 'Mosh.Value' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.StatsAndSaves' }}</div>
+          <div class="item-controls" id="skill-create-or-option" >
+            <a class="item-control stat-option-add" title="{{ localize 'Mosh.AddOption' }}" data-type="skill"><i
+                class="fas fa-plus"></i> {{ localize 'Mosh.AddOption' }}</a>
+          </div>
+        </li>
+      {{#each system.selected_adjustment.choose_stat as |group id|}}
+      <li class="item flexrow" data-item-id="{{@index}}">
+        <div class="skill-name skill-roll list-roll">{{group.modification}}</div>
+        <div class="skill-stat">{{#each group.stats as |stat id|}}{{stat}}{{#if @last}}{{else}}, {{/if}}{{/each}}
         </div>
-        <input id="system.selected_adjustment.choose_stat.modification" class="circle-input" type="text"
-          name="system.selected_adjustment.choose_stat.modification"
-          value="{{system.selected_adjustment.choose_stat.modification}}" data-dtype="Number" />
-      </div>
-      <div>
-        <ol class="items-list" style="margin-bottom : 10px;">
-          <li class="item flexrow item-header">
-            <div class="stat-stat">{{ localize 'Mosh.Name' }}</div>
-            <div class="item-controls">
-              <a class="item-control stat-create" title="{{ localize 'Mosh.CreateSkill' }}" data-type="stat"><i
-                  class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
-            </div>
-          </li>
-          {{#each system.selected_adjustment.choose_stat.stats as |stat id|}}
-          <li class="item flexrow dropitem" data-item-id="{{stat}}">
-            <div class="stat-name">{{stat}}</div>
-            <div class="item-controls">
-              <a class="item-control stat-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i
-                  class="fas fa-trash"></i></a>
-            </div>
-          </li>
-          {{/each}}
-        </ol>
-      </div>
+          <div class="item-controls">
+            <a class="item-control stat-option-delete" title="{{ localize 'Mosh.DeleteGroup' }}"><i
+                class="fas fa-trash"></i></a>
+          </div>
+        </li>
+      {{/each}}
+      </ol> 
     </div>
     {{!-- skills Tab --}}
     <div class="tab dropitem items" id="skills.fixed" data-group="primary" data-tab="skills.fixed">
@@ -213,13 +207,12 @@
           <div class="skill-stat">{{ localize 'Mosh.SkillRank' }}</div>
           <div class="skill-stat">{{ localize 'Mosh.SkillBonus' }}</div>
           <div class="item-controls" id="skill-create-or-option" >
-            <a class="item-control" title="{{ localize 'Mosh.CreateSkill' }}" data-type="skill"><i
-                class="fas fa-plus"></i> {{ localize 'Mosh.AddOr' }}</a>
+            <!--a class="item-control" title="{{ localize 'Mosh.CreateSkill' }}" data-type="skill"><i
+                class="fas fa-plus"></i> {{ localize 'Mosh.AddOr' }}</a-->
           </div>
         </li>
         
         {{#each system.base_adjustment.skills_granted_object as |skill id|}}
-          {{#if skill.name}}
             <li class="item flexrow" data-item-id="{{skill.uuid}}">
               <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24" /></div>
               <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
@@ -230,48 +223,16 @@
                     class="fas fa-trash"></i></a>
               </div>
             </li>
-          {{else}}
-          <li class="{{#if skill.[1]}}{{else}}item flexrow{{/if}}">
-            <div id = "skills.fixed.or" index="{{@index}}" >
-              <div class="resource-label" style="float: left;">OR</div>
-              <ol style="border-left: 1px solid #111;">
-              {{#each skill as |subskill subid|}}
-                  <li class="item flexrow" data-item-id="{{subskill.uuid}}">
-                    <div class="item-image"><img src="{{subskill.img}}" title="{{subskill.name}}" width="24" height="24" /></div>
-                    <div class="skill-name skill-roll list-roll">{{subskill.name}}</div>
-                    <div class="skill-stat">{{subskill.system.rank}}</div>
-                    <div class="skill-stat">{{subskill.system.bonus}}</div>
-                    <div class="item-controls">
-                      <a class="item-control skills-granted-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i
-                          class="fas fa-trash"></i></a>
-                    </div>
-                  </li>
-              {{/each}}
-              </ol>
-            </div>
-            {{#if skill.[1]}}{{else}}
-            <div class="item-controls">
-              <a class="item-control skills-granted-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i
-                  class="fas fa-trash"></i></a>
-            </div>
-            {{/if}}
-          </li>
-          {{/if}}
         {{/each}}
       </ol>
     </div>
 
-    <div class="tab grid" data-group="primary" data-tab="skills.optional">
+    {{!-- skills Tab --}}
+    <div class="tab grid"  id="skills.selected.and" data-group="primary" data-tab="skills.selected.and">
       <div class="grid grid-3col widegap">
-        <div>
           <div>
             <label for="system.selected_adjustment.choose_skill_and.trained"
-              class="resource-label minmaxtext">Skill options AND</label><br/>
-
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_and.trained"
-              class="resource-label minmaxtext">Trained</label>
+              class="resource-label minmaxtext">{{ localize 'Mosh.SkillRankTrained' }}</label>
 
             <div class="textvaluewrapper" style="background: white;">
               <input class="textvaluewrapper-input darkGreyText" type="text"
@@ -281,7 +242,7 @@
           </div>
           <div>
             <label for="system.selected_adjustment.choose_skill_and.expert"
-              class="resource-label minmaxtext">expert</label>
+              class="resource-label minmaxtext">{{ localize 'Mosh.SkillRankExpert' }}</label>
 
             <div class="textvaluewrapper" style="background: white;">
               <input class="textvaluewrapper-input darkGreyText" type="text"
@@ -291,7 +252,7 @@
           </div>
           <div>
             <label for="system.selected_adjustment.choose_skill_and.master"
-              class="resource-label minmaxtext">master</label>
+              class="resource-label minmaxtext">{{ localize 'Mosh.SkillRankMaster' }}</label>
 
             <div class="textvaluewrapper" style="background: white;">
               <input class="textvaluewrapper-input darkGreyText" type="text"
@@ -300,8 +261,8 @@
             </div>
           </div>
           <div>
-            <label for="system.selected_adjustment.choose_skill_and.master"
-              class="resource-label minmaxtext">expert_full_set</label>
+            <label for="system.selected_adjustment.choose_skill_and.expert_full_set"
+              class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.SkillOption.PopupFullExpertName' }}</label>
 
             <div class="textvaluewrapper" style="background: white;">
               <input class="textvaluewrapper-input darkGreyText" type="text"
@@ -311,7 +272,7 @@
           </div>
           <div>
             <label for="system.selected_adjustment.choose_skill_and.master_full_set"
-              class="resource-label minmaxtext">master_full_set</label>
+              class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.SkillOption.PopupFullMasterName' }}</label>
 
             <div class="textvaluewrapper" style="background: white;">
               <input class="textvaluewrapper-input darkGreyText" type="text"
@@ -320,123 +281,65 @@
             </div>
           </div>
         </div>
-        <div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_and.trained"
-              class="resource-label minmaxtext">Skill options OR 1</label><br/>
-
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_1.trained"
-              class="resource-label minmaxtext">Trained</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_1.trained"
-                value="{{system.selected_adjustment.choose_skill_or.option_1.trained}}" data-dtype="Number" />
-            </div>
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_1.expert"
-              class="resource-label minmaxtext">expert</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_1.expert"
-                value="{{system.selected_adjustment.choose_skill_or.option_1.expert}}" data-dtype="Number" />
-            </div>
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_1.master"
-              class="resource-label minmaxtext">master</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_1.master"
-                value="{{system.selected_adjustment.choose_skill_or.option_1.master}}" data-dtype="Number" />
-            </div>
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_1.master"
-              class="resource-label minmaxtext">expert_full_set</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_1.expert_full_set"
-                value="{{system.selected_adjustment.choose_skill_or.option_1.expert_full_set}}" data-dtype="Number" />
-            </div>
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_1.master_full_set"
-              class="resource-label minmaxtext">master_full_set</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_1.master_full_set"
-                value="{{system.selected_adjustment.choose_skill_or.option_1.master_full_set}}" data-dtype="Number" />
-            </div>
-          </div>
-        </div>
-        <div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_and.trained"
-              class="resource-label minmaxtext">Skill options OR 2</label><br/>
-
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_2.trained"
-              class="resource-label minmaxtext">Trained</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_2.trained"
-                value="{{system.selected_adjustment.choose_skill_or.option_2.trained}}" data-dtype="Number" />
-            </div>
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_2.expert"
-              class="resource-label minmaxtext">expert</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_2.expert"
-                value="{{system.selected_adjustment.choose_skill_or.option_2.expert}}" data-dtype="Number" />
-            </div>
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_2.master"
-              class="resource-label minmaxtext">master</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_2.master"
-                value="{{system.selected_adjustment.choose_skill_or.option_2.master}}" data-dtype="Number" />
-            </div>
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_2.master"
-              class="resource-label minmaxtext">expert_full_set</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_2.expert_full_set"
-                value="{{system.selected_adjustment.choose_skill_or.option_2.expert_full_set}}" data-dtype="Number" />
-            </div>
-          </div>
-          <div>
-            <label for="system.selected_adjustment.choose_skill_or.option_2.master_full_set"
-              class="resource-label minmaxtext">master_full_set</label>
-
-            <div class="textvaluewrapper" style="background: white;">
-              <input class="textvaluewrapper-input darkGreyText" type="text"
-                name="system.selected_adjustment.choose_skill_or.option_2.master_full_set"
-                value="{{system.selected_adjustment.choose_skill_or.option_2.master_full_set}}" data-dtype="Number" />
-            </div>
-          </div>
-
-        </div>
+    </div>
+        
+    {{!-- skills Tab --}}
+    <div class="tab grid"  id="skills.selected.or" data-group="primary" data-tab="skills.selected.or">
+      <div class="skill-name">
+        <a class="item-control skills-group-add" title="{{ localize 'Mosh.AddGroup' }}" data-type="skill"><i
+            class="fas fa-plus"></i> {{ localize 'Mosh.AddGroup' }}</a>
       </div>
+      {{#each system.selected_adjustment.choose_skill_or as |group id|}}
 
+        <ol class="items-list" style="margin-bottom : 10px;" data-item-id="{{@index}}">
+          <li class="item flexrow item-header">
+            <div>
+              <!--a class="item-control skills-group-option-add" title="{{ localize 'Mosh.AddOption' }}" data-type="skill"><i
+                  class="fas fa-plus"></i> {{ localize 'Mosh.AddOption' }}</a--></div>
+            <div class="skill-stat">{{ localize 'Mosh.SkillRankTrained' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.SkillRankExpert' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.SkillRankMaster' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.CharacterGenerator.SkillOption.PopupFullExpertName' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.CharacterGenerator.SkillOption.PopupFullMasterName' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.Skills' }}</div>
+            <div class="item-controls" id="skill-create-or-option" >
+              <a class="item-control skills-group-delete" title="{{ localize 'Mosh.DeleteGroup' }}" data-type="skill"><i
+                  class="fas fa-trash"></i></a>
+            </div>
+          </li>
+          {{#each group}}
+            <li id="choose_skill_or_li" class="item flexrow dropitem" data-item-id="{{@index}}">
+              <div class="skill-name">{{this.name}}</div>
+              <!-- IDEA TO HAVE A EDITABLE TABLE, but this is not working, the value is empty and when edited it gets saved in a object instead of array destroying the previous structure.-->
+              <!--div class="skill-stat"><input id="system.selected_adjustment.choose_skill_or.{{@../index}}.{{@index}}.trained" type="text"
+                name="system.selected_adjustment.choose_skill_or.{{@../index}}.{{@index}}.trained" value='{{lookup (lookup (lookup system.selected_adjustment.choose_skill_or @../index) @index) "trained"}}' data-dtype="Number" /></div-->
+              <div class="skill-stat">{{this.trained}}</div>
+              <div class="skill-stat">{{this.expert}}</div>
+              <div class="skill-stat">{{this.master}}</div>
+              <div class="skill-stat">{{this.expert_full_set}}</div>
+              <div class="skill-stat">{{this.master_full_set}}</div>
+              <div class="skill-stat">{{this.from_list.length}} <a title="{{#each this.from_list_names as |skill id|}}{{skill}}{{#if @last}}{{else}}&#013;&#010;{{/if}}{{/each}}"><i class="fas fa-info"></i></a></div>
+              <div class="item-controls">
+                <a class="item-control skills-group-option-delete" title="{{ localize 'Mosh.DeleteOption' }}"><i
+                    class="fas fa-trash"></i></a>
+              </div>
+            </li>
+          {{/each}}
+            <li hidden id="choose_skill_or_form" class="item flexrow" data-item-id="{{@index}}">
+              <div class="skill-name"><input name="choose_skill_or_name" value="" data-dtype="text" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_trained" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_expert" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_master" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_expert_full_set" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_master_full_set" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat">{{ localize 'Mosh.classNewSkillOptionSkillTip'}}</div>
+              <div class="item-controls">
+                <a class="item-control skills-group-option-createnew" title="SAVE"><i
+                    class="fas fa-save"></i></a>
+              </div>
+            </li>
+          </ol> 
+        {{/each}}
     </div>
 
     <!-- Tables -->
@@ -509,3 +412,12 @@
     </div>
   </section>
 </form>
+<script>
+  function handleInputChange(event) {
+  event.preventDefault(); // Prevent the form from submitting
+  const input = event.target;
+  const value = input.value;
+  // Handle the input change as needed
+  console.log('Input changed:', value);
+}
+</script>

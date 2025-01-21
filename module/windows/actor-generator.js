@@ -469,20 +469,9 @@ export class DLActorGenerator extends FormApplication {
             this._element.find(`input[name="system.stats.${key}.bonus"]`).prop("value", value);
          }
       });
-
-      /**
-       *  Skills
-       * */
-
-      await this.applyClassSkills(this._element);
-
-      /**
+       /**
        * Stats
        */
-      ///try{
-      //let statsandsaves = JSON.parse(droppedObject.system.statsandsaves.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
-    
-
       //stats options
       let list_option_stats_and_saves = droppedObject.system.selected_adjustment.choose_stat;
       for(let i =0;i<list_option_stats_and_saves.length;i++){
@@ -508,6 +497,14 @@ export class DLActorGenerator extends FormApplication {
             d.render(true);
          }
       }
+
+      /**
+       *  Skills
+       * */
+
+      await this.applyClassSkills(this._element);
+
+     
       return;
    }
 

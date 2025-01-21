@@ -1,0 +1,149 @@
+<style>
+    .macro_window{
+      background: rgb(230,230,230);
+      border-radius: 9px;
+    }
+    .macro_img{
+      display: flex;
+      justify-content: center;
+    }
+    .macro_desc{
+      font-family: "Roboto", sans-serif;
+      font-size: 10.5pt;
+      font-weight: 400;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+    }
+    .grid-2col {
+      display: grid;
+      grid-column: span 2 / span 2;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px;
+      padding: 0;
+    }
+    </style>
+    <!-- HEADER -->
+    <div class ="macro_window" style="margin-bottom : 7px;">
+    <div class="grid grid-2col" style="grid-template-columns: 150px auto">
+      <div class="macro_img"><img src="systems/mosh/images/icons/ui/attributes/armor.png" style="border:none"/></div>
+      <div class="macro_desc"><h3>{{ localize 'Mosh.Cover' }}</h3>
+        {{ localize 'Mosh.TheEnvironmentCanProvideProtectionCalled'}} <strong>{{ localize 'Mosh.Cover'}}</strong>. 
+        {{ localize 'Mosh.ItCanBeDestroyedLikeArmor' }}
+         <strong>{{ localize 'Mosh.IfYouShotWhileInCover'}}.</strong> {{ localize 'Mosh.YourCoverValuesAreDisplayedIn'}} <strong><span style="color: orangered">{{ localize 'Mosh.Orange' }}</span></strong>.</div>
+    </div>
+    </div>
+    <h4>{{ localize 'Mosh.SelectYourCurrentCoverSituation'}}:</h4>
+    <!-- NO COVER -->
+    <label for="none">
+      <div class ="macro_window" style="margin-top: 7px; margin-bottom: 7px; vertical-align: middle; padding-left: 3px;">
+        <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
+          <input type="radio" id="none" name="cover" value="none" {{none_checked}}>
+          <div class="macro_desc" style="display: table; padding-left: 5px;">
+            <span style="display: table-cell; vertical-align: middle;">
+              <strong>{{ localize 'Mosh.NoCover'}}</strong><br>{{ localize 'Mosh.UnprotectedOutInTheOpen'}}
+            </span>
+          </div>
+          <div class="macro_desc mosh health resource healthspread minmaxtopstat">
+            <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
+              <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{curAP}}</div>
+              <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
+              <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{curDR}}</div>
+            </div>
+            <div class="grid">
+              <div class="healthmaxtext mosh health resource">{{ localize 'Mosh.ArmorPoints'}}</div>
+              <div class="healthmaxtext mosh health resource">{{ localize 'Mosh.DMGReduction'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </label>
+    <!-- INSIGNIFICANT COVER -->
+    <label for="insignificant">
+      <div class ="macro_window" style="margin-top: 7px; margin-bottom: 7px; vertical-align: middle; padding-left: 3px;">
+        <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
+          <input type="radio" id="insignificant" name="cover" value="insignificant" {{insignificant_checked}}>
+          <div class="macro_desc" style="display: table; padding-left: 5px;">
+            <span style="display: table-cell; vertical-align: middle;">
+              <strong>{{ localize 'Mosh.InsignificantCover'}}</strong><br> {{ localize 'Mosh.WoodFurnitureDoorsShields'}}
+            </span>
+          </div>
+          <div class="macro_desc mosh health resource healthspread minmaxtopstat">
+            <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
+              <div class="maxhealth-input" style="display: flex;">
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{curAP}}</div>
+                <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;5</div>
+              </div>
+              <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
+              <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{curDR}}</div>
+            </div>
+            <div class="grid">
+              <div class="healthmaxtext mosh health resource">{{ localize 'Mosh.ArmorPoints'}}</div>
+              <div class="healthmaxtext mosh health resource">{{ localize 'Mosh.DMGReduction'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </label>
+    <!-- LIGHT COVER -->
+    <label for="light">
+      <div class ="macro_window" style="margin-top: 7px; margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+        <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
+          <input type="radio" id="light" name="cover" value="light" {{light_checked}}>
+          <div class="macro_desc" style="display: table; padding-left: 5px;">
+            <span style="display: table-cell; vertical-align: middle;">
+              <strong>{{ localize 'Mosh.LightCover'}}</strong><br> {{ localize 'Mosh.TreesBulkheadWallsMetalFurniture'}}
+            </span>
+          </div>
+          <div class="macro_desc mosh health resource healthspread minmaxtopstat">
+            <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
+              <div class="maxhealth-input" style="display: flex;">
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{curAP}}</div>
+                <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;10</div>
+              </div>
+              <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
+              <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{curDR}}</div>
+            </div>
+            <div class="grid">
+              <div class="healthmaxtext mosh health resource">{{ localize 'Mosh.ArmorPoints'}}</div>
+              <div class="healthmaxtext mosh health resource">{{ localize 'Mosh.DMGReduction'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </label>
+    <!-- HEAVY COVER -->
+    <label for="heavy">
+      <div class ="macro_window" style="margin-top: 7px; margin-bottom : 7px; vertical-align: middle; padding-left: 3px;">
+        <div class="grid grid-3col" style="grid-template-columns: 20px auto 250px">
+          <input type="radio" id="heavy" name="cover" value="heavy" {{heavy_checked}}>
+          <div class="macro_desc" style="display: table; padding-left: 5px;">
+            <span style="display: table-cell; vertical-align: middle;">
+              <strong>{{ localize 'Mosh.HeavyCover'}}</strong><br> {{ localize 'Mosh.AirlockDoorsCementBeamsShips'}}
+            </span>
+          </div>
+          <div class="macro_desc mosh health resource healthspread minmaxtopstat">
+            <div class="minmaxwrapper" style="width: 100%; background: black; border-radius: 0.3em;">
+              <div class="maxhealth-input" style="display: flex;">
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{curAP}}</div>
+                <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;20</div>
+              </div>
+              <div class="slant" style="border-right: 2px solid #ffffff; transform: skewX(0deg);"></div>
+              <div class="maxhealth-input" style="display: flex;">
+                <div class="maxhealth-input whiteText" type="text" data-dtype="Number">{{curDR}}</div>
+                <div class="highlightText" type="text" data-dtype="Number" style="font-size: 0.8rem;">&nbsp;5</div>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="healthmaxtext mosh health resource">{{ localize 'Mosh.ArmorPoints'}}</div>
+              <div class="healthmaxtext mosh health resource">{{ localize 'Mosh.DMGReduction'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </label>
+
+
+
+
+    

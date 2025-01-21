@@ -122,7 +122,10 @@
             <!-- Transponder -->
             <div class="transponder">
                 <div class="headerinputtext">{{ localize 'Mosh.Transponder' }}</div>
-                <div class=""><input class="checkbox" type="checkbox" name="system.transponder" data-dtype="Boolean" {{checked system.transponder}}/></div>
+                <div class=""><input class="checkbox" type="checkbox" name="system.transponder" data-dtype="Boolean" {{checked system.transponder}}/>
+                        <span> {{#if system.transponder }} {{ localize 'Mosh.Enabled'}}  {{ else }} {{ localize 'Mosh.Disabled' }} {{/if}} </span>
+
+                </div>
             </div>
 
             <!-- Macro Menu -->

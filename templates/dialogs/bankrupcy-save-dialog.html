@@ -1,0 +1,33 @@
+<style>
+    .macro_window{
+      background: rgb(230,230,230);
+      border-radius: 9px;
+    }
+    .macro_img{
+      display: flex;
+      justify-content: center;
+    }
+    .macro_desc{
+      font-family: "Roboto", sans-serif;
+      font-size: 10.5pt;
+      font-weight: 400;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+    }
+    .grid-2col {
+      display: grid;
+      grid-column: span 2 / span 2;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px;
+      padding: 0;
+    }
+  </style>
+  <div class ="macro_window" style="margin-bottom : 7px;">
+    <div class="grid grid-2col" style="grid-template-columns: 150px auto">
+      <div class="macro_img"><img src="systems/mosh/images/icons/ui/rolltables/bankruptcy_save.png" style="border:none"/></div>
+      <div class="macro_desc"><h3>{{ localize "Mosh.BankruptcySave"}}</h3>
+        {{ localize "Mosh.BankrupcyCheckExplanation"}} <em>({{ localize "Mosh.OrQuarterAsDetermineByWarden" }})</em>, {{localize 'Mosh.MakeA'}} <strong>{{ localize "Mosh.BankrupcySave " }}</strong> {{ localize "Mosh.BankrupcySaveExplanationEnd"}}.</div>    
+    </div>
+  </div>
+  <h4>{{ localize "Mosh.SelectYourRollType"}}:</h4>

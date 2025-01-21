@@ -52,7 +52,7 @@ export class DLActorGenerator extends FormApplication {
    }
 
 
-   /* todo: remove pre-defined values and set the values as configuration /maybe part of class-item */
+   /* todo: remove pre-defined values and set the values as configuration /maybe part of class-item¿? */
    async rollStrength(html) {
       this.rollDices("2d10+25", html, `system.stats.strength.value`, game.i18n.format("Mosh.RollingForGeneric",{
          name:game.i18n.localize("Mosh.Strength")
@@ -166,6 +166,10 @@ export class DLActorGenerator extends FormApplication {
 
    }
 
+   /**
+    * Trigger all the rolls
+    * @param {*} html 
+    */
    async rollEverything(html) {
       await this.rollStrength(html);
       await this.rollSpeed(html);
@@ -181,6 +185,12 @@ export class DLActorGenerator extends FormApplication {
       await this.rollLoadout(html);
    }
 
+   /**
+    * popup to selecct from a list of fixed skills
+    * @param {*} html 
+    * @param {*} skillPopupOptions 
+    * @returns 
+    */
    async fixedSkillOptionPopup(html, skillPopupOptions) {
       return new Promise((resolve) => {
          let buttons_options = {};
@@ -203,11 +213,19 @@ export class DLActorGenerator extends FormApplication {
       });
    }
 
+   /**
+    * Apply the skills to the form, 
+    * @param {*} html 
+    * @param {[uuid]} skillsUuid List of skill uuid,
+    * @returns 
+    */
    async updateSkillHtmlUl(html, skillsUuid) {
       //html.find(`ul[id="system.class.skils.text"]`).empty();
       let new_skills =  await html.find(`input[id="system.class.skills.uuid"]`).prop("value").split(",").filter(Boolean);
       for (let i = 0; i < skillsUuid.length; i++) {
          let skill = null;
+         //incase we have an array of arrays the second array is considered options
+         //this is legacy, whe should never have this case anymore
          if(Array.isArray(skillsUuid[i])){
             //we have skill options, display popup to choose
             let options = [];
@@ -232,6 +250,10 @@ export class DLActorGenerator extends FormApplication {
       return new_skills;
    }
 
+   /**
+    * Process the skill options and display all the necesary popups
+    * @param {*} skillPopupOptions 
+    */
    async popUpSkillOptions(skillPopupOptions) {
 
       for (let i = 0; i < skillPopupOptions.master_full_set; i++) {
@@ -258,6 +280,13 @@ export class DLActorGenerator extends FormApplication {
       //return skillsUuid;
    }
 
+   /**
+    * Dialog with dropdown to select the skills, it grey-out already owned skills and filters the dropdown based on the skilltree of the previously selected skills,
+    * the fill older is from master to trained.
+    * @param {*} template 
+    * @param {*} exclusive 
+    * @returns 
+    */
    async showSkillDialog(template, exclusive = false) {
 
       let skillsUuid = this.skillsUuid;
@@ -324,71 +353,88 @@ export class DLActorGenerator extends FormApplication {
       });
    }
 
-   async showOptionsDialog(option_1, option_2) {
-      let popupData = {
-         option_1: option_1,
-         option_2: option_2,
-      }
+   /**
+    * Popup to ask the user to select what skill option to use,
+    * @param {*} list_option_skills_or 
+    * @returns 
+    */
+   async showOptionsDialog(list_option_skills_or) {
+      let popupData = {options:list_option_skills_or};
+
       let popUpContent = await renderTemplate("systems/mosh/templates/dialogs/actor-generator/actor-generator-skill-option-choice-dialog.html", popupData);
       
       return new Promise((resolve) => {
+         
+         let buttonsData = {};
+         for (let i=0;i<list_option_skills_or.length;i++){
+            buttonsData[i]={
+               
+                  icon: '<i class="fas fa-check"></i>',
+                  label: list_option_skills_or[i].name,//game.i18n.localize("Mosh.CharacterGenerator.SkillOption.ChoiceWord") + ` ${i}`,
+                  callback: () => {
+                     resolve(list_option_skills_or[i]);
+                  }
+               
+            };
+         }
          let d = new Dialog({
             title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle"),
             content: popUpContent,
             window:{width: 500,},
-            buttons: {
-               "1": {
-                  icon: '<i class="fas fa-check"></i>',
-                  label: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.ChoiceWord") + " 1",
-                  callback: () => {
-                     resolve(option_1);
-                  }
-               },
-               "2": {
-                  icon: '<i class="fas fa-check"></i>',
-                  label: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.ChoiceWord") + " 2",
-                  callback: () => {
-                     resolve(option_2);
-                  }
-               },
-            },
+            buttons: buttonsData,
          });
          d.render(true);
       });
    }
 
+   /**
+    * Process all the skills for the selected class
+    * @param {*} html 
+    */
    async applyClassSkills(html) {
       let class_uuid = html.find(`input[id="system.class.uuid"]`).prop("value");
       if (class_uuid == "") {
          ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.SkillOption.Classerror"));
       }
       let classObject = await fromUuid(class_uuid);
+      //empty previously existing skills
       await html.find(`ul[id="system.class.skils.text"]`).empty();
       await html.find(`input[id="system.class.skills.uuid"]`).prop("value", "");
 
+      //apply fixed skils
       this.skillsUuid = classObject.system.base_adjustment.skills_granted.slice();
       this.skillsUuid = await this.updateSkillHtmlUl(html, this.skillsUuid);
 
+      //process optional skills
+      let option_skills_and = classObject.system.selected_adjustment.choose_skill_and;
+      await this.popUpSkillOptions(option_skills_and);
 
-      let option_skills_1 = classObject.system.selected_adjustment.choose_skill_and;
-      await this.popUpSkillOptions(option_skills_1);
-      let option_skills_2 = classObject.system.selected_adjustment.choose_skill_or;
-      const isEmptyOption1 = Object.values(option_skills_2.option_1).every(x => x === null || x === '' || x === 0);
-      const isEmptyOption2 = Object.values(option_skills_2.option_2).every(x => x === null || x === '' || x === 0);
-      let option_skills_2_choosed = {}
-      if (isEmptyOption1 == false && isEmptyOption2 == false) {
-         //we need to choose-> render popup with both options
-         option_skills_2_choosed = await this.showOptionsDialog(option_skills_2.option_1,option_skills_2.option_2);
-      } else if (isEmptyOption1 == false) {
-         //there is only option 1 (edge case) but we go with it.
-         option_skills_2_choosed = option_skills_2.option_1;
-      } else if (isEmptyOption2 == false) {
-         //there is only option 2 (edge case) but we go with it.
-         option_skills_2_choosed = option_skills_2.option_2;
+      let list_option_skills_or = classObject.system.selected_adjustment.choose_skill_or;
+      for (let i = 0; i<list_option_skills_or.length;i++){
+         let options_skill_or = list_option_skills_or[i];
+         if(options_skill_or.length == 0){
+            break;//empty list of options
+         }
+         let selected_option = options_skill_or[0];
+         if(options_skill_or.length > 1){
+            selected_option = await this.showOptionsDialog(options_skill_or);
+         }
+         //process fixed skills first, so we dont double select them
+         if(selected_option.from_list.length>0){
+            this.skillsUuid = await this.updateSkillHtmlUl(html, selected_option.from_list);
+         }
+
+         await this.popUpSkillOptions(selected_option);
+         
       }
-      await this.popUpSkillOptions(option_skills_2_choosed);
    }
 
+   /**
+    * Apply the changed or dropped class into the generator, stats, skills and table configuration.
+    * @param {uuid} classUuid 
+    * @param {Boolean} randomCharacter 
+    * @returns 
+    */
    async updateClass(classUuid, randomCharacter = false) {
 
       const droppedObject = await fromUuid(classUuid);
@@ -406,12 +452,23 @@ export class DLActorGenerator extends FormApplication {
 
          //posible-todo: un-do the rolls of patch, trinket and loadout?
       }
-
+      //update form
       this._element.find(`input[id="system.class.uuid"]`).prop("value", classUuid);
       this._element.find(`input[id="system.class.traumaresponse"]`).prop("value", droppedObject.system.trauma_response);
+
+      //get tables
       this.trinketTable = droppedObject.system.roll_tables.trinket;
       this.patchTable = droppedObject.system.roll_tables.patch;
       this.loadoutTable = droppedObject.system.roll_tables.loadout;
+
+      //Apply bonuses first, so if the popup are closed or crashed the bonuses are already applyed.
+      let fix_stats_and_saves = droppedObject.system.base_adjustment;
+      Object.entries(fix_stats_and_saves).forEach(([key, value]) => {
+         if (key != "skills_granted") {
+            //this sets all the bonuses of base_adjustment including max_wounds
+            this._element.find(`input[name="system.stats.${key}.bonus"]`).prop("value", value);
+         }
+      });
 
       /**
        *  Skills
@@ -424,36 +481,32 @@ export class DLActorGenerator extends FormApplication {
        */
       ///try{
       //let statsandsaves = JSON.parse(droppedObject.system.statsandsaves.replaceAll("<p>","").replaceAll("</p>","").replaceAll("<div>","").replaceAll("</div>","").replaceAll("&nbsp;",""));
-      let fix_stats_and_saves = droppedObject.system.base_adjustment;
-
-      Object.entries(fix_stats_and_saves).forEach(([key, value]) => {
-         if (key != "skills_granted") {
-            //this sets all the bonuses of base_adjustment including max_wounds
-            this._element.find(`input[name="system.stats.${key}.bonus"]`).prop("value", value);
-         }
-      });
+    
 
       //stats options
-      let option_stats_and_saves = droppedObject.system.selected_adjustment.choose_stat;
-      if (option_stats_and_saves.modification) {
-         let buttons_options = {};
-         for (let j = 0; j < option_stats_and_saves.stats.length; j++) {
-            let prev_bonus = this._element.find(`input[name="system.stats.${option_stats_and_saves.stats[j]}.bonus"]`).prop("value");
-            buttons_options[j] = {
-               icon: '<i class="fas fa-check"></i>',
-               label: option_stats_and_saves.stats[j],//.replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
-               callback: () => this._element.find(`input[name="system.stats.${option_stats_and_saves.stats[j]}.bonus"]`).prop("value", (parseInt(option_stats_and_saves.modification) + parseInt(prev_bonus)))
-            };
+      let list_option_stats_and_saves = droppedObject.system.selected_adjustment.choose_stat;
+      for(let i =0;i<list_option_stats_and_saves.length;i++){
+         let option_stats_and_saves = list_option_stats_and_saves[i];
+         if (option_stats_and_saves.modification) {
+            let buttons_options = {};
+            for (let j = 0; j < option_stats_and_saves.stats.length; j++) {
+               let prev_bonus = this._element.find(`input[name="system.stats.${option_stats_and_saves.stats[j]}.bonus"]`).prop("value");
+               buttons_options[j] = {
+                  icon: '<i class="fas fa-check"></i>',
+                  label: option_stats_and_saves.stats[j],//.replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
+                  callback: () => this._element.find(`input[name="system.stats.${option_stats_and_saves.stats[j]}.bonus"]`).prop("value", (parseInt(option_stats_and_saves.modification) + parseInt(prev_bonus)))
+               };
+            }
+            let d = new Dialog({
+               title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle"),
+               content: `<p>${game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupText")} (${option_stats_and_saves.modification})</p>`,
+               buttons: buttons_options,
+               default: "1",
+               //render: html => console.log("Register interactivity in the rendered dialog"),
+               //close: html => console.log("This always is logged no matter which option is chosen")
+            });
+            d.render(true);
          }
-         let d = new Dialog({
-            title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle"),
-            content: `<p>${game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupText")} (${option_stats_and_saves.modification})</p>`,
-            buttons: buttons_options,
-            default: "1",
-            //render: html => console.log("Register interactivity in the rendered dialog"),
-            //close: html => console.log("This always is logged no matter which option is chosen")
-         });
-         d.render(true);
       }
       return;
    }

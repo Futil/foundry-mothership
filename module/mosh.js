@@ -112,7 +112,16 @@ Hooks.once('init', async function () {
      }
     }
      });
-
+     //convert uuid list to names for display.
+     Handlebars.registerHelper('UUidListToNames',function(UuidList){
+      var names = []
+      for(let i=0;i<UuidList.length;i++){
+        let object = fromUuidSync(UuidList[i]);
+        names.push(object.name);
+      }
+      return names.join(", ");
+     });
+     
 });
 
 

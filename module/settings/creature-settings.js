@@ -94,13 +94,19 @@ export class DLCreatureSettings extends FormApplication {
             this.object.update({
                 "system.swarm.enabled": ev.currentTarget.checked
             });
+            
+            let new_combat = 0;
             if (ev.currentTarget.checked) {
-                const new_combat = this.object.system.swarm.combat.value * ( this.object.system.hits.max -  this.object.system.hits.value); 
-                
-                this.object.update({
-                    "system.stats.combat.value":new_combat
-                });
+                //calculate new combat stat based on wounds,
+                new_combat = this.object.system.swarm.combat.value * ( this.object.system.hits.max -  this.object.system.hits.value); 
             }
+            else{
+                //revert back combat if swarm is disabled
+                new_combat = this.object.system.swarm.combat.value;
+            }
+            this.object.update({
+                "system.stats.combat.value":new_combat
+            });
         });
     }
 

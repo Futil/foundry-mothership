@@ -184,12 +184,13 @@ export class MothershipCreatureSheet extends ActorSheet {
             } else {
                 item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
             }
+            let swarm_damage_roll_string =null;
             if (this.actor.system.swarm && this.actor.system.swarm.enabled){
                 //replace the roll damage for swarm actors
                 let new_dice_ammount = item.system.damage.match(/([0-9]+)d[0-9]+/i)[1]*this.getWoundsLeft(html);
-                item.system.damage = item.system.damage.replace(/([0-9]+)(d[0-9]+)/i,`${new_dice_ammount}$2`);
+                swarm_damage_roll_string = item.system.damage.replace(/([0-9]+)(d[0-9]+)/i,`${new_dice_ammount}$2`);
             }
-            this.actor.rollCheck(null, 'low', 'combat', null, null, item);
+            this.actor.rollCheck(null, 'low', 'combat', null, null, item,swarm_damage_roll_string);
         });
 
         // Rollable Damage
@@ -201,12 +202,13 @@ export class MothershipCreatureSheet extends ActorSheet {
             } else {
                 item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId));
             }
+            let swarm_damage_roll_string =null;
             if (this.actor.system.swarm && this.actor.system.swarm.enabled){
                 //replace the roll damage for swarm actors
                 let new_dice_ammount = item.system.damage.match(/([0-9]+)d[0-9]+/i)[1]*this.getWoundsLeft(html);
-                item.system.damage = item.system.damage.replace(/([0-9]+)(d[0-9]+)/i,`${new_dice_ammount}$2`);
+                swarm_damage_roll_string = item.system.damage.replace(/([0-9]+)(d[0-9]+)/i,`${new_dice_ammount}$2`);
             }
-            this.actor.rollCheck(null, null, 'damage', null, null, item);
+            this.actor.rollCheck(null, null, 'damage', null, null, item,swarm_damage_roll_string);
         });
 
         //increase ammo

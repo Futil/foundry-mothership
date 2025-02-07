@@ -2096,7 +2096,7 @@ export class MothershipActor extends Actor {
   }
 
   //central check rolling function | TAKES '1d10','low','combat','Geology',10,[weapon item] | RETURNS chat message showing check result
-  async rollCheck(rollString, aimFor, attribute, skill, skillValue, weapon) {
+  async rollCheck(rollString, aimFor, attribute, skill, skillValue, weapon,overrideDamagaRollString=null) {
     //init vars
     let specialRoll = ``;
     let checkCrit = true;
@@ -2135,7 +2135,11 @@ export class MothershipActor extends Actor {
         skill = 'none';
         skillValue = 0;
         //set rollstring
-        rollString = weapon.system.damage;
+        if(overrideDamagaRollString){
+          rollString=overrideDamagaRollString;
+        }else{
+          rollString = weapon.system.damage;
+        }
       }
       //rest save
       if (attribute === 'restSave') {
@@ -2249,7 +2253,11 @@ export class MothershipActor extends Actor {
     //if this is a damage roll
     if (specialRoll === 'damage') {  
       //parse the roll string
-      parsedDamageString = this.parseRollString(weapon.system.damage, 'high');
+      let damageRollString = weapon.system.damage
+      if(overrideDamagaRollString){
+        damageRollString = overrideDamagaRollString;
+      }
+      parsedDamageString = this.parseRollString(damageRollString, 'high');
       //override message header
       msgHeader = weapon.name;
       //override  header image
@@ -2357,7 +2365,11 @@ export class MothershipActor extends Actor {
     //prep damage dice in case its needed
     if (weapon && parsedRollResult.success) {
       //parse the roll string
-      parsedDamageString = this.parseRollString(weapon.system.damage, 'high');
+      let damageRollString = weapon.system.damage
+      if(overrideDamagaRollString){
+        damageRollString = overrideDamagaRollString;
+      }
+      parsedDamageString = this.parseRollString(damageRollString, 'high');
     }
     //set chat message text
       //set roll result as greater than or less than

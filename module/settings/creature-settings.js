@@ -91,13 +91,16 @@ export class DLCreatureSettings extends FormApplication {
             });
         });
         html.find(`input[type=checkbox][id="system.swarm.enabled"]`).click(ev => {
-            if (ev.currentTarget.checked) {
-                const sanity = html.find(`input[type=checkbox][id="system.swarm.enabled"]`).prop('checked', true);
-            }
-
             this.object.update({
                 "system.swarm.enabled": ev.currentTarget.checked
             });
+            if (ev.currentTarget.checked) {
+                const new_combat = this.object.system.swarm.combat.value * ( this.object.system.hits.max -  this.object.system.hits.value); 
+                
+                this.object.update({
+                    "system.stats.combat.value":new_combat
+                });
+            }
         });
     }
 

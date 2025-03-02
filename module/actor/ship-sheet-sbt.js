@@ -1,3 +1,4 @@
+import { fromIdUuid } from "../mosh.js";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -24,12 +25,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
             scrollY: [".sheet-body", "scroll-lock"]
         }
 
-
-        if (game.release.generation >= 12) {
-            return foundry.utils.mergeObject(super.defaultOptions, options);
-        } else {
-            return mergeObject(super.defaultOptions, options);
-        }
+        return foundry.utils.mergeObject(super.defaultOptions, options);
 
 
     }
@@ -69,8 +65,8 @@ export class MothershipShipSheetSBT extends ActorSheet {
     /* -------------------------------------------- */
 
     /** @override */
-    getData() {
-        const data = super.getData();
+    async getData() {
+        const data = await super.getData();
 
         data.dtypes = ["String", "Number", "Boolean"];
 
@@ -100,7 +96,10 @@ export class MothershipShipSheetSBT extends ActorSheet {
         let maxHull = superData.supplies.hull.max;
 
         superData.supplies.hull.percentage = " [ " + Math.round(maxHull * 0.25) + " | " + Math.round(maxHull * 0.5) + " | " + Math.round(maxHull * 0.75) + " ]";
-
+        
+        data.data.enriched = [];
+        data.data.enriched.biography = await TextEditor.enrichHTML(data.data.system.biography, {async: true});
+        
 
         //Run Setup
         // if(data.data.system.runSetup){
@@ -179,29 +178,8 @@ export class MothershipShipSheetSBT extends ActorSheet {
         const actorData = sheetData;
         //A script to return the data from a table.
         let tableId = game.settings.get('mosh', 'table1eMegadamageEffects');
-        let currentLocation = '';
-        let tableLocation = '';
-        //find where this table is located
-        //get current compendium
-        let compendium = game.packs;
-        //loop through each compendium
-        compendium.forEach(function (pack) {
-            //is this a pack of rolltables?
-            if (pack.metadata.type === 'RollTable') {
-                //log where we are
-                currentLocation = pack.metadata.id;
-                //loop through each pack to find the right table
-                pack.index.forEach(function (table) {
-                    //is this our table?
-                    if (table._id === tableId) {
-                        //grab the table location
-                        tableLocation = currentLocation;
-                    }
-                });
-            }
-        });
         //get table data
-        let tableData = await game.packs.get(tableLocation).getDocument(tableId);
+        let tableData = await fromIdUuid(tableId,{type:"RollTable"});
 
         let megadamageHTML = "";
 

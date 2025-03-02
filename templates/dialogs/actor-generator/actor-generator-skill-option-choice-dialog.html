@@ -1,0 +1,53 @@
+<div class="mosh">
+
+    <div class="{{cssClass}} characterGeneratorSkillPopup">
+        <div>
+            <p class="skillpopupDescription">{{localize 'Mosh.CharacterGenerator.SkillOption.ChoiceText'}}</p>
+        </div>
+        <div class="grid grid-2col widegap">
+            {{#each options}}
+            <div style="border:3px solid #111;border-radius: 1em;padding: 0.5em;">
+
+                <p style="text-decoration: underline;">{{this.name}}:
+                </p>
+
+                <ul>
+                    {{#if this.master}}
+                    <li>
+                        {{localize 'Mosh.SkillRankMaster'}} : {{this.master}}
+                    </li>
+                    {{/if}}
+                    {{#if this.expert}}
+                    <li>
+                        {{localize 'Mosh.SkillRankExpert'}} : {{this.expert}}
+                    </li>
+                    {{/if}}
+                    {{#if this.trained}}
+                    <li>
+                        {{localize 'Mosh.SkillRankTrained'}} : {{this.trained}}
+                    </li>
+                    {{/if}}
+                    {{#if this.master_full_set}}
+                    <li>
+                        {{localize 'Mosh.SkillRankMaster'}} & {{localize 'Mosh.SkillsPrerequisite'}} :
+                        {{this.master_full_set}}
+                    </li>
+                    {{/if}}
+                    {{#if this.expert_full_set}}
+                    <li>
+                        {{localize 'Mosh.SkillRankExpert'}} & {{localize 'Mosh.SkillsPrerequisite'}} :
+                        {{this.expert_full_set}}
+                    </li>
+                    {{/if}}
+                    {{#if this.from_list}}
+                    <li>
+                        {{UUidListToNames this.from_list}}
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+</div>

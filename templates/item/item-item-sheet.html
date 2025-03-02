@@ -6,9 +6,9 @@
 
             <!-- NAME -->
             <div class="">
-                <div class="headerinputtext">Name</div>
+                <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
                 <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
-                        placeholder="Name" /></div>
+                        placeholder="{{ localize 'Mosh.Name' }}" /></div>
             </div>
 
         </div>
@@ -17,7 +17,7 @@
     <div class="circle-statwrapper-horizontal">
         <!-- QUANTITY -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.quantity" class="resource-label minmaxtext">Quantity</label>
+            <label for="system.quantity" class="resource-label minmaxtext">{{ localize 'Mosh.Quantity' }}</label>
 
             <div class="valuewrapper" style="width: 120px; background: white;">
                 <input class="maxhealth-input darkGreyText" type="text" name="system.quantity"
@@ -26,7 +26,7 @@
         </div>
         <!-- WEIGHT -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.weight" class="resource-label minmaxtext">Weight</label>
+            <label for="system.weight" class="resource-label minmaxtext">{{ localize 'Mosh.Weight' }}</label>
 
             <div class="valuewrapper" style="width: 120px; background: white;">
                 <input class="maxhealth-input darkGreyText" type="text" name="system.weight" value="{{system.weight}}"
@@ -35,7 +35,7 @@
         </div>
         <!-- VALUE -->
         <div class="resource healthspread minmaxtopstat flex-center" style="grid-template-rows: max-content;">
-            <label for="system.cost" class="resource-label minmaxtext">Value</label>
+            <label for="system.cost" class="resource-label minmaxtext">{{ localize 'Mosh.Value' }}</label>
 
             <div class="valuewrapper" style="width: 120px; background: white;">
                 <input class="maxhealth-input darkGreyText" type="text" name="system.cost" value="{{system.cost}}"
@@ -46,7 +46,7 @@
     <br />
     {{!-- Sheet Tab Navigation --}}
     <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
-        <a class="tab-select" data-tab="description">Description</a>
+        <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
         <!-- <a class="tab-select" data-tab="attributes">Attributes</a> -->
     </nav>
 
@@ -55,7 +55,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor system.description target="system.description" button=true owner=owner editable=true}}
+            {{editor enriched.description target="system.description" button=true owner=owner editable=true}}
         </div>
     </section>
 </form>

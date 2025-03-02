@@ -1,0 +1,423 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+  <header class="sheet-header">
+    <div class="header" style="grid-template-columns: 0.15fr 1fr;">
+      <!-- Image -->
+      <img class="sbt-profile" style="height: auto;" src="{{img}}" data-edit="img" title="{{name}}" />
+
+      <!-- NAME -->
+      <div class="">
+        <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
+        <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
+            placeholder="Name" /></div>
+      </div>
+
+    </div>
+  </header>
+  <br />
+  <div class="header-fields grid">
+    {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
+    use both the "grid" and "grid-Ncol" class where "N" can be any number
+    from 1 to 12 and will create that number of columns. --}}
+
+    <div class="grid grid-1col widegap">
+      <!-- Strength -->
+      <div class="mainstatwrapper">
+        <div class="resource mainstat">
+          <div class="mainstatlabel">
+            <span class=" mainstattext" data-key="strength" data-label="{{ localize 'Mosh.Strength' }}">{{ localize
+              'Mosh.Strength' }}</span>
+          </div>
+          <input id="system.base_adjustment.strength" class="circle-input" type="text"
+            name="system.base_adjustment.strength" value="{{system.base_adjustment.strength}}" data-dtype="Number" />
+        </div>
+      </div>
+
+      <!-- Speed -->
+      <div class="mainstatwrapper">
+        <div class="resource mainstat">
+          <div class="mainstatlabel">
+            <span class=" mainstattext" data-key="speed" data-label="{{ localize 'Mosh.Speed' }}">{{ localize
+              'Mosh.Speed' }}</span>
+          </div>
+          <input class="circle-input" id="system.base_adjustment.speed" type="text" name="system.base_adjustment.speed"
+            value="{{system.base_adjustment.speed}}" data-dtype="Number" />
+        </div>
+      </div>
+
+      <!-- Intellect -->
+      <div class="mainstatwrapper">
+        <div class="resource mainstat">
+          <div class="mainstatlabel">
+            <span class=" mainstattext" data-key="intellect" data-label="{{ localize 'Mosh.Intellect' }}">{{ localize
+              'Mosh.Intellect' }}</span>
+          </div>
+          <input class="circle-input" id="system.base_adjustment.intellect" type="text"
+            name="system.base_adjustment.intellect" value="{{system.base_adjustment.intellect}}" data-dtype="Number" />
+        </div>
+      </div>
+
+      <!-- Combat -->
+      <div class="mainstatwrapper">
+        <div class="resource mainstat">
+          <div class="mainstatlabel">
+            <span class=" mainstattext" data-key="combat" data-label="{{ localize 'Mosh.Combat' }}">{{ localize
+              'Mosh.Combat' }}</span>
+          </div>
+          <input class="circle-input" id="system.base_adjustment.combat" type="text"
+            name="system.base_adjustment.combat" value="{{system.base_adjustment.combat}}" data-dtype="Number" />
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-1col widegap">
+      <!-- Health -->
+      <div class="mainstatwrapper">
+        <div class="resource mainstat">
+          <div class="mainstatlabel">
+            <span class=" mainstattext" data-key="health" data-label="{{#if system.settings.firstEdition}}
+                {{ localize 'Mosh.Wounds' }} 
+                 {{else}}
+                {{ localize 'Mosh.Hits' }} 
+                 {{/if}}">
+              {{#if system.settings.firstEdition}}
+              {{ localize 'Mosh.Wounds' }}
+              {{else}}
+              {{ localize 'Mosh.Hits' }}
+              {{/if}}
+            </span>
+          </div>
+          <input id="system.base_adjustment.max_wounds" class="circle-input" type="text"
+            name="system.base_adjustment.max_wounds" value="{{system.base_adjustment.max_wounds}}"
+            data-dtype="Number" />
+        </div>
+      </div>
+
+      <!-- Sanity -->
+      <div class="mainstatwrapper">
+        <div class="resource mainstat">
+          <div class="mainstatlabel">
+            <span class=" mainstattext" data-key="sanity" data-label="{{ localize 'Mosh.Sanity' }}">{{ localize
+              'Mosh.Sanity' }}</span>
+          </div>
+          <input id="system.base_adjustment.sanity" class="circle-input" type="text"
+            name="system.base_adjustment.sanity" value="{{system.base_adjustment.sanity}}" data-dtype="Number" />
+        </div>
+      </div>
+
+      <!-- Fear -->
+      <div class="mainstatwrapper">
+        <div class="resource mainstat">
+          <div class="mainstatlabel">
+            <span class="mainstattext" data-key="fear" data-label="{{ localize 'Mosh.Fear' }}">{{ localize 'Mosh.Fear'
+              }}</span>
+          </div>
+          <input id="system.base_adjustment.fear" class="circle-input" type="text" name="system.base_adjustment.fear"
+            value="{{system.base_adjustment.fear}}" data-dtype="Number" />
+        </div>
+      </div>
+
+      <!-- body -->
+      <div class="mainstatwrapper">
+        <div class="resource mainstat">
+          <div class="mainstatlabel">
+            <span class=" mainstattext" data-key="body" data-label="{{ localize 'Mosh.Body' }}">{{ localize 'Mosh.Body'
+              }}</span>
+          </div>
+          <input id="system.base_adjustment.body" class="circle-input" type="text" name="system.base_adjustment.body"
+            value="{{system.base_adjustment.body}}" data-dtype="Number" />
+        </div>
+      </div>
+
+      <!-- Robotic checkbox-->
+      <div class="mainstatwrapper">
+        <div class="resource mainstat">
+          <div class="mainstatlabel">
+            <span class="mainstattext" data-key="robotic" data-label="{{localize 'Mosh.Robotic'}}">{{localize
+              'Mosh.Robotic'}}</span>
+          </div>
+          <input class="circle-input" type="checkbox" name="system.robotic" id="system.robotic" {{checked
+            system.robotic}} data-dtype="Boolean" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="" style="margin-left: 6px; margin-right: 0px; flex: 0; grid-column-start: 1; grid-column-end: 3;">
+    {{#if system.settings.firstEdition}}
+    <div class="resource-label">{{ localize 'Mosh.TraumaResponse' }}</div>
+    {{else}}
+    <div class="resource-label">{{ localize 'Mosh.StressResponse' }}</div>
+    {{/if}}
+    <textarea name="system.trauma_response" rows="2" class="textarea-input" type="text"
+      data-target="system.trauma_response" placeholder="" style="height: 50px;">{{system.trauma_response}}</textarea>
+
+  </div>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="mosh sheet-tabs tabs" style="height: auto;" data-group="primary">
+    <a class="tab-select" data-tab="description">{{ localize 'Mosh.Description' }}</a>
+    <a class="tab-select" data-tab="stats&saves">{{ localize 'Mosh.CharacterGenerator.StatOption' }}</a>
+    <a class="tab-select" data-tab="skills.fixed">{{ localize 'Mosh.SkillsFixed' }}</a>
+    <a class="tab-select" data-tab="skills.selected.and">{{ localize 'Mosh.SkillsOptionalAnd' }}</a>
+    <a class="tab-select" data-tab="skills.selected.or">{{ localize 'Mosh.SkillsOptionalOr' }}</a>
+    <a class="tab-select" data-tab="tables">{{ localize 'Mosh.CharacterGenerator.Tables' }}</a>
+    <a class="tab-select" data-tab="skills.common">{{ localize 'Mosh.CharacterGenerator.CommonSkills' }}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{editor enriched.description target="system.description" button=true owner=owner editable=true}}
+    </div>
+    {{!-- stats&saves Tab --}}
+    <div class="tab" data-group="primary" data-tab="stats&saves">
+      
+      <ol class="items-list" style="margin-bottom : 10px;">
+        <li class="item flexrow item-header">
+          <div class="skill-stat">{{ localize 'Mosh.Value' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.StatsAndSaves' }}</div>
+          <div class="item-controls" id="skill-create-or-option" >
+            <a class="item-control stat-option-add" title="{{ localize 'Mosh.AddOption' }}" data-type="skill"><i
+                class="fas fa-plus"></i> {{ localize 'Mosh.AddOption' }}</a>
+          </div>
+        </li>
+      {{#each system.selected_adjustment.choose_stat as |group id|}}
+      <li class="item flexrow" data-item-id="{{@index}}">
+        <div class="skill-name skill-roll list-roll">{{group.modification}}</div>
+        <div class="skill-stat">{{#each group.stats as |stat id|}}{{stat}}{{#if @last}}{{else}}, {{/if}}{{/each}}
+        </div>
+          <div class="item-controls">
+            <a class="item-control stat-option-delete" title="{{ localize 'Mosh.DeleteGroup' }}"><i
+                class="fas fa-trash"></i></a>
+          </div>
+        </li>
+      {{/each}}
+      </ol> 
+    </div>
+    {{!-- skills Tab --}}
+    <div class="tab dropitem items" id="skills.fixed" data-group="primary" data-tab="skills.fixed">
+      <!-- SKILLS -->
+      <ol class="items-list" style="margin-bottom : 10px;">
+        <li class="item flexrow item-header">
+          <div class="item-image"></div>
+          <div class="skill-stat">{{ localize 'Mosh.SkillName' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.SkillRank' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.SkillBonus' }}</div>
+          <div class="item-controls" id="skill-create-or-option" >
+            <!--a class="item-control" title="{{ localize 'Mosh.CreateSkill' }}" data-type="skill"><i
+                class="fas fa-plus"></i> {{ localize 'Mosh.AddOr' }}</a-->
+          </div>
+        </li>
+        
+        {{#each system.base_adjustment.skills_granted_object as |skill id|}}
+            <li class="item flexrow" data-item-id="{{skill.uuid}}">
+              <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24" /></div>
+              <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
+              <div class="skill-stat">{{skill.system.rank}}</div>
+              <div class="skill-stat">{{skill.system.bonus}}</div>
+              <div class="item-controls">
+                <a class="item-control skills-granted-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i
+                    class="fas fa-trash"></i></a>
+              </div>
+            </li>
+        {{/each}}
+      </ol>
+    </div>
+
+    {{!-- skills Tab --}}
+    <div class="tab grid"  id="skills.selected.and" data-group="primary" data-tab="skills.selected.and">
+      <div class="grid grid-3col widegap">
+          <div>
+            <label for="system.selected_adjustment.choose_skill_and.trained"
+              class="resource-label minmaxtext">{{ localize 'Mosh.SkillRankTrained' }}</label>
+
+            <div class="textvaluewrapper" style="background: white;">
+              <input class="textvaluewrapper-input darkGreyText" type="text"
+                name="system.selected_adjustment.choose_skill_and.trained"
+                value="{{system.selected_adjustment.choose_skill_and.trained}}" data-dtype="Number" />
+            </div>
+          </div>
+          <div>
+            <label for="system.selected_adjustment.choose_skill_and.expert"
+              class="resource-label minmaxtext">{{ localize 'Mosh.SkillRankExpert' }}</label>
+
+            <div class="textvaluewrapper" style="background: white;">
+              <input class="textvaluewrapper-input darkGreyText" type="text"
+                name="system.selected_adjustment.choose_skill_and.expert"
+                value="{{system.selected_adjustment.choose_skill_and.expert}}" data-dtype="Number" />
+            </div>
+          </div>
+          <div>
+            <label for="system.selected_adjustment.choose_skill_and.master"
+              class="resource-label minmaxtext">{{ localize 'Mosh.SkillRankMaster' }}</label>
+
+            <div class="textvaluewrapper" style="background: white;">
+              <input class="textvaluewrapper-input darkGreyText" type="text"
+                name="system.selected_adjustment.choose_skill_and.master"
+                value="{{system.selected_adjustment.choose_skill_and.master}}" data-dtype="Number" />
+            </div>
+          </div>
+          <div>
+            <label for="system.selected_adjustment.choose_skill_and.expert_full_set"
+              class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.SkillOption.PopupFullExpertName' }}</label>
+
+            <div class="textvaluewrapper" style="background: white;">
+              <input class="textvaluewrapper-input darkGreyText" type="text"
+                name="system.selected_adjustment.choose_skill_and.expert_full_set"
+                value="{{system.selected_adjustment.choose_skill_and.expert_full_set}}" data-dtype="Number" />
+            </div>
+          </div>
+          <div>
+            <label for="system.selected_adjustment.choose_skill_and.master_full_set"
+              class="resource-label minmaxtext">{{ localize 'Mosh.CharacterGenerator.SkillOption.PopupFullMasterName' }}</label>
+
+            <div class="textvaluewrapper" style="background: white;">
+              <input class="textvaluewrapper-input darkGreyText" type="text"
+                name="system.selected_adjustment.choose_skill_and.master_full_set"
+                value="{{system.selected_adjustment.choose_skill_and.master_full_set}}" data-dtype="Number" />
+            </div>
+          </div>
+        </div>
+    </div>
+        
+    {{!-- skills Tab --}}
+    <div class="tab grid"  id="skills.selected.or" data-group="primary" data-tab="skills.selected.or">
+      <div class="skill-name">
+        <a class="item-control skills-group-add" title="{{ localize 'Mosh.AddGroup' }}" data-type="skill"><i
+            class="fas fa-plus"></i> {{ localize 'Mosh.AddGroup' }}</a>
+      </div>
+      {{#each system.selected_adjustment.choose_skill_or as |group id|}}
+
+        <ol class="items-list" style="margin-bottom : 10px;" data-item-id="{{@index}}">
+          <li class="item flexrow item-header">
+            <div>
+              <!--a class="item-control skills-group-option-add" title="{{ localize 'Mosh.AddOption' }}" data-type="skill"><i
+                  class="fas fa-plus"></i> {{ localize 'Mosh.AddOption' }}</a--></div>
+            <div class="skill-stat">{{ localize 'Mosh.SkillRankTrained' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.SkillRankExpert' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.SkillRankMaster' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.CharacterGenerator.SkillOption.PopupFullExpertName' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.CharacterGenerator.SkillOption.PopupFullMasterName' }}</div>
+            <div class="skill-stat">{{ localize 'Mosh.Skills' }}</div>
+            <div class="item-controls" id="skill-create-or-option" >
+              <a class="item-control skills-group-delete" title="{{ localize 'Mosh.DeleteGroup' }}" data-type="skill"><i
+                  class="fas fa-trash"></i></a>
+            </div>
+          </li>
+          {{#each group}}
+            <li id="choose_skill_or_li" class="item flexrow dropitem" data-item-id="{{@index}}">
+              <div class="skill-name">{{this.name}}</div>
+              <!-- IDEA TO HAVE A EDITABLE TABLE, but this is not working, the value is empty and when edited it gets saved in a object instead of array destroying the previous structure.-->
+              <!--div class="skill-stat"><input id="system.selected_adjustment.choose_skill_or.{{@../index}}.{{@index}}.trained" type="text"
+                name="system.selected_adjustment.choose_skill_or.{{@../index}}.{{@index}}.trained" value='{{lookup (lookup (lookup system.selected_adjustment.choose_skill_or @../index) @index) "trained"}}' data-dtype="Number" /></div-->
+              <div class="skill-stat">{{this.trained}}</div>
+              <div class="skill-stat">{{this.expert}}</div>
+              <div class="skill-stat">{{this.master}}</div>
+              <div class="skill-stat">{{this.expert_full_set}}</div>
+              <div class="skill-stat">{{this.master_full_set}}</div>
+              <div class="skill-stat">{{this.from_list.length}} <a title="{{#each this.from_list_names as |skill id|}}{{skill}}{{#if @last}}{{else}}&#013;&#010;{{/if}}{{/each}}"><i class="fas fa-info"></i></a></div>
+              <div class="item-controls">
+                <a class="item-control skills-group-option-delete" title="{{ localize 'Mosh.DeleteOption' }}"><i
+                    class="fas fa-trash"></i></a>
+              </div>
+            </li>
+          {{/each}}
+            <li hidden id="choose_skill_or_form" class="item flexrow" data-item-id="{{@index}}">
+              <div class="skill-name"><input name="choose_skill_or_name" value="" data-dtype="text" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_trained" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_expert" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_master" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_expert_full_set" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat"><input type="text" name="choose_skill_or_master_full_set" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
+              <div class="skill-stat">{{ localize 'Mosh.classNewSkillOptionSkillTip'}}</div>
+              <div class="item-controls">
+                <a class="item-control skills-group-option-createnew" title="SAVE"><i
+                    class="fas fa-save"></i></a>
+              </div>
+            </li>
+          </ol> 
+        {{/each}}
+    </div>
+
+    <!-- Tables -->
+    <div class="tab" data-group="primary" data-tab="tables">
+      </divclass>
+      <br />
+      <!-- PatchTable -->
+      <div class="resource healthspread  flex-center" style="grid-template-rows: max-content;">
+        <label for="system.roll_tables.patch" class="resource-label minmaxtext">{{ localize
+          'Mosh.CharacterGenerator.Table.Patch' }}</label>
+
+        <div class="textvaluewrapper" style="background: white;">
+          <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.patch"
+            value="{{system.roll_tables.patch}}" data-dtype="String" />
+        </div>
+      </div>
+      <br />
+      <!-- TrinketTable -->
+      <div class="resource healthspread  flex-center" style="grid-template-rows: max-content;">
+        <label for="system.roll_tables.trinket" class="resource-label minmaxtext">{{ localize
+          'Mosh.CharacterGenerator.Table.Trinket' }}</label>
+
+        <div class="textvaluewrapper" style="background: white;">
+          <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.trinket"
+            value="{{system.roll_tables.trinket}}" data-dtype="String" />
+        </div>
+      </div>
+      <br />
+      <!-- LoadoutTable -->
+      <div class="resource healthspread  flex-center" style="grid-template-rows: max-content;">
+        <label for="system.roll_tables.loadout" class="resource-label minmaxtext">{{ localize
+          'Mosh.CharacterGenerator.Table.Loadout' }}</label>
+
+        <div class="textvaluewrapper" style="background: white;">
+          <input class="textvaluewrapper-input darkGreyText" type="text" name="system.roll_tables.loadout"
+            value="{{system.roll_tables.loadout}}" data-dtype="String" />
+        </div>
+      </div>
+    </div>
+
+
+    {{!-- Common skills Tab --}}
+    <div class="tab dropitem items" id="skills.common" data-group="primary" data-tab="skills.common">
+      <div>
+        {{ localize 'Mosh.CharacterGenerator.CommonSkillExplanation' }}
+      </div>
+      <!-- Common SKILLS -->
+      <ol class="items-list" style="margin-bottom : 10px;">
+        <li class="item flexrow item-header">
+          <div class="item-image"></div>
+          <div class="skill-stat">{{ localize 'Mosh.SkillName' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.SkillRank' }}</div>
+          <div class="skill-stat">{{ localize 'Mosh.SkillBonus' }}</div>
+          <div class="item-controls">
+          </div>
+        </li>
+        {{#each system.common_skills_object as |skill id|}}
+        <li class="item flexrow" data-item-id="{{skill.uuid}}">
+          <div class="item-image"><img src="{{skill.img}}" title="{{skill.name}}" width="24" height="24" /></div>
+          <div class="skill-name skill-roll list-roll">{{skill.name}}</div>
+          <div class="skill-stat">{{skill.system.rank}}</div>
+          <div class="skill-stat">{{skill.system.bonus}}</div>
+          <div class="item-controls">
+            <a class="item-control skills-common-delete" title="{{ localize 'Mosh.DeleteSkill' }}"><i
+                class="fas fa-trash"></i></a>
+          </div>
+        </li>
+        {{/each}}
+      </ol>
+    </div>
+  </section>
+</form>
+<script>
+  function handleInputChange(event) {
+  event.preventDefault(); // Prevent the form from submitting
+  const input = event.target;
+  const value = input.value;
+  // Handle the input change as needed
+  console.log('Input changed:', value);
+}
+</script>

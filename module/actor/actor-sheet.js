@@ -1,3 +1,4 @@
+import { DLActorGenerator } from "../windows/actor-generator.js";
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -13,19 +14,14 @@ export class MothershipActorSheet extends ActorSheet {
       height: 820,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
     }
-
-    if (game.release.generation >= 12) {
-      return foundry.utils.mergeObject(super.defaultOptions, options);
-    } else {
-      return mergeObject(super.defaultOptions, options);
-    }
+    return foundry.utils.mergeObject(super.defaultOptions, options);
   }
 
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const data = super.getData();
+  async getData() {
+    const data = await super.getData();
 
     data.dtypes = ["String", "Number", "Boolean"];
 
@@ -48,6 +44,10 @@ export class MothershipActorSheet extends ActorSheet {
     data.data.system.settings.hideWeight = game.settings.get("mosh", "hideWeight");
     data.data.system.settings.firstEdition = game.settings.get("mosh", "firstEdition");
     data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
+
+    data.data.enriched = [];
+    data.data.enriched.notes = await TextEditor.enrichHTML(superData.notes, {async: true});
+    data.data.enriched.biography = await TextEditor.enrichHTML(superData.biography, {async: true});
 
 
     //SKILL XP BUTTONS
@@ -633,6 +633,28 @@ export class MothershipActorSheet extends ActorSheet {
     });
   }
 
-
-
+  /**
+     * Extend and override the sheet header buttons
+     * @override
+     */
+  _getHeaderButtons() {
+    let buttons = super._getHeaderButtons();
+    const canConfigure = game.user.isGM || this.actor.isOwner;
+    if (this.options.editable && canConfigure) {
+        buttons = [{
+            label: game.i18n.localize("Mosh.CharacterGenerator.name"),
+            class: 'configure-actor',
+            icon: 'fas fa-cogs',
+            onclick: (ev) => this._onConfigureCreature(ev),
+        },].concat(buttons);
+    }
+    return buttons;
+  }
+  _onConfigureCreature(event) {
+    event.preventDefault();
+    new DLActorGenerator(this.actor, {
+        top: this.position.top + 40,
+        left: this.position.left + (this.position.width - 400) / 2
+    }).render(true);
+  }
 }

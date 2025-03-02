@@ -33,7 +33,7 @@
         {{/if}}
 		{{#if item.system.severity}}
 		<div class="description">
-			<div class="body"><strong>Severity: </strong>{{item.system.severity}}</div>
+			<div class="body"><strong>{{ localize 'Mosh.Severity' }}: </strong>{{item.system.severity}}</div>
 		</div>
 		<div style="margin-bottom : 5px;"></div>
 		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
@@ -41,7 +41,7 @@
         {{/if}}
 		{{#if item.system.armorPoints}}
 		<div class="description">
-			<div class="body"><strong>Armor Points: </strong>{{item.system.armorPoints}}</div>
+			<div class="body"><strong>{{ localize 'Mosh.ArmorPoints' }}: </strong>{{item.system.armorPoints}}</div>
 		</div>
 		<div style="margin-bottom : 5px;"></div>
 		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
@@ -49,7 +49,7 @@
 		{{/if}}
 		{{#if item.system.damageReduction}}
 		<div class="description">
-			<div class="body"><strong>Damage Reduction: </strong>{{item.system.damageReduction}}</div>
+			<div class="body"><strong>{{ localize 'Mosh.DamageReduction' }}: </strong>{{item.system.damageReduction}}</div>
 		</div>
 		<div style="margin-bottom : 5px;"></div>
 		<div style="border-bottom: 1px solid #999; height: 0; width: 100%;"></div>
@@ -63,9 +63,9 @@
 		{{else if (compare 'str' item.system.type '===' 'repair')}}
 			<div class="description">
 			{{#if item.system.major}}
-				<div class="body"><strong>Major Repair</strong></div>
+				<div class="body"><strong>{{ localize 'Mosh.MajorRepair' }}</strong></div>
 			{{else}}
-				<div class="body"><strong>Minor Repair</strong></div>
+				<div class="body"><strong>{{ localize 'Mosh.MinorRepair' }}</strong></div>
 			{{/if}}
 			</div>
 			<div style="margin-bottom : 5px;"></div>

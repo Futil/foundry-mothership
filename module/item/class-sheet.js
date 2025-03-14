@@ -187,17 +187,17 @@ export class MothershipClassSheet extends MothershipItemSheet {
     });
 
     html.find('.skills-group-option-createnew').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
-    
+	    const index = li[0].attributes["data-item-id"].value;
+	  
       let new_data = {
-        "name":li.find('input[name="choose_skill_or_name"]').prop("value"),
-        "trained": li.find('input[name="choose_skill_or_trained"]').prop("value"),
-        "expert": li.find('input[name="choose_skill_or_expert"]').prop("value"),
-        "expert_full_set": li.find('input[name="choose_skill_or_expert_full_set"]').prop("value"),
-        "master": li.find('input[name="choose_skill_or_master"]').prop("value"),
-        "master_full_set": li.find('input[name="choose_skill_or_master_full_set"]').prop("value"),
+        "name":li.find('input[name="choose_skill_or_name"]')[index].value,
+        "trained": li.find('input[name="choose_skill_or_trained"]')[index].value,
+        "expert": li.find('input[name="choose_skill_or_expert"]')[index].value,
+        "expert_full_set": li.find('input[name="choose_skill_or_expert_full_set"]')[index].value,
+        "master": li.find('input[name="choose_skill_or_master"]')[index].value,
+        "master_full_set": li.find('input[name="choose_skill_or_master_full_set"]')[index].value,
         "from_list": [],
-    }
+      }
       if(new_data.name ==""){
         new_data.name = `Option: ${(this.object.system.selected_adjustment.choose_skill_or[li.data("itemId")].length)+1}`
       }
@@ -224,12 +224,12 @@ export class MothershipClassSheet extends MothershipItemSheet {
       this.object.update({"system.selected_adjustment.choose_skill_or":options});
 
       //clear form and hide it
-      li.find('input[name="choose_skill_or_name"]').prop("value","");
-      li.find('input[name="choose_skill_or_trained"]').prop("value","");
-      li.find('input[name="choose_skill_or_expert"]').prop("value","");
-      li.find('input[name="choose_skill_or_expert_full_set"]').prop("value","");
-      li.find('input[name="choose_skill_or_master"]').prop("value","");
-      li.find('input[name="choose_skill_or_master_full_set"]').prop("value","");
+      li.find('input[name="choose_skill_or_name"]')[index].value = "";
+      li.find('input[name="choose_skill_or_trained"]')[index].value = "";
+      li.find('input[name="choose_skill_or_expert"]')[index].value = "";
+      li.find('input[name="choose_skill_or_expert_full_set"]')[index].value = "";
+      li.find('input[name="choose_skill_or_master"]')[index].value = "";
+      li.find('input[name="choose_skill_or_master_full_set"]')[index].value = "";
 
       return this.render(false);
     });

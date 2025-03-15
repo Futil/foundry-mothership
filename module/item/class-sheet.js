@@ -187,7 +187,8 @@ export class MothershipClassSheet extends MothershipItemSheet {
     });
 
     html.find('.skills-group-option-createnew').click(ev => {
-	    const index = li[0].attributes["data-item-id"].value;
+      const li = $(ev.currentTarget).parents(".item");
+      const index = li[0].attributes["data-item-id"].value;
 	  
       let new_data = {
         "name":li.find('input[name="choose_skill_or_name"]')[index].value,

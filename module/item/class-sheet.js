@@ -101,9 +101,9 @@ export class MothershipClassSheet extends MothershipItemSheet {
         return this.render(false);
       }
       else if(event.currentTarget.id =="choose_skill_or_li"){
-        const li = $(ev.currentTarget);
+        const li = $(event.currentTarget);
         let index = li.data("itemId");
-        const parent = $(ev.currentTarget).parents(".items-list");
+        const parent = $(event.currentTarget).parents(".items-list");
         let parent_index = parent.data("itemId");
 
         let options = this.object.system.selected_adjustment.choose_skill_or;

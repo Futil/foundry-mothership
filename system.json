@@ -2,7 +2,7 @@
   "id": "mosh",
   "title": "MoSh - Unofficial Mothership",
   "description": "The unofficial Mothership system for FoundryVTT.",
-  "version": "0.5.25",
+  "version": "0.5.25.1",
   "esmodules": [
     "module/mosh.js"
   ],

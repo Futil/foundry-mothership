@@ -210,7 +210,8 @@
           "pastFloor": {
             "android": "Seus receptores de dor indicam danos no núcleo.",
             "human": "Seus receptores de dor indicam danos no núcleo."
-          },
+          }
+        },
           "hits": {
             "increase": {
               "android": "@UUID[Compendium.mosh.macros_hotbar_1e.ZzKgfEmRdvDfyBMS]{Faça um Teste de Ferimento}",
@@ -1129,5 +1130,4 @@
           "RestSave": "Salvaguarda de Descanso",
           "Job": "Ocupação"
     }
-}
 }

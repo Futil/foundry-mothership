@@ -61,8 +61,9 @@ export class MothershipActor extends Actor {
       context = 'calm';
     }
     let systemclass = "human";
-    if (this.type === 'character') {
-      systemclass = this.system.class.value.toLowerCase();
+    if (this.type === 'character' && this.system.class && this.system.class.value.toLowerCase() === "android") {
+      systemclass = "android";
+      //todo: get the class item for the character to check the "is robotic" flag
     }
     let locString = `Mosh.${type}.${context}.${action}.${systemclass}`;
     //check to see if this address exists in the library, return the action parameter if not
@@ -73,7 +74,9 @@ export class MothershipActor extends Actor {
         return game.i18n.localize(locString);
     } else {
       //log what was done
+      console.log(`Using language: ${game.i18n.language}`);
       console.log(`Retrieved flavor text for ${locString}, which did not have an entry`);
+      console.log(`Using language: ${game.i18n.lang}`);
       //return what we were asked
       return action;
     }

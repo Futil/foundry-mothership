@@ -60,21 +60,23 @@ export class MothershipActor extends Actor {
     if (game.settings.get("mosh", "useCalm") && context === 'stress') {
       context = 'calm';
     }
-
-    let systemclass = this.system.class.value.toLowerCase();
-    if (systemclass != "android"){
-      systemclass = "human";
+    let systemclass = "human";
+    if (this.type === 'character' && this.system.class && this.system.class.value.toLowerCase() === "android") {
+      systemclass = "android";
+      //todo: get the class item for the character to check the "is robotic" flag
     }
     let locString = `Mosh.${type}.${context}.${action}.${systemclass}`;
     //check to see if this address exists in the library, return the action parameter if not
     if(game.i18n.has(locString, true)){ // You can pass false as the second argument to ignore english-language fallback.
         //log what was done
-        console.log(`Retrieved flavor text for ${type}:${context}:${action}`);
+        console.log(`Retrieved flavor text for ${locString}`);
         //return class appropriate text
         return game.i18n.localize(locString);
     } else {
       //log what was done
-      console.log(`Retrieved flavor text for ${type}:${context}:${action}, which did not have an entry`);
+      console.log(`Using language: ${game.i18n.language}`);
+      console.log(`Retrieved flavor text for ${locString}, which did not have an entry`);
+      console.log(`Using language: ${game.i18n.lang}`);
       //return what we were asked
       return action;
     }

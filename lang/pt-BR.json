@@ -1128,6 +1128,7 @@
           "Bankrupcy": "Falência",
           "BankrupcySave": "Salvaguarda de Falência",
           "RestSave": "Salvaguarda de Descanso",
-          "Job": "Ocupação"
+          "Job": "Ocupação",
+          "AntyArmorAcronym": "AA",
     }
 }

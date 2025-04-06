@@ -1128,6 +1128,7 @@
     "Bankrupcy": "Bankrupcy",
     "BankrupcySave": "Bankrupcy Save",
     "RestSave": "Rest Save",
-    "Job": "Occupation"
+    "Job": "Occupation",
+    "AntyArmorAcronym": "AA",
   }
 }

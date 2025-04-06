@@ -150,8 +150,8 @@
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "other.stress",
   "url": "https://github.com/Futil/foundry-mothership",
-  "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/0.5.26/system.json",
-  "download": "https://github.com/Futil/foundry-mothership/releases/download/0.5.26/foundry-mothership.zip",
+  "manifest": "https://raw.githubusercontent.com/Futil/foundry-mothership/0.5.27/system.json",
+  "download": "https://github.com/Futil/foundry-mothership/releases/download/0.5.27/foundry-mothership.zip",
   "license": "LICENSE.txt",
   "authors": [
     {

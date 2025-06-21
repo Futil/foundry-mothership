@@ -46,8 +46,8 @@ export class MothershipActorSheet extends ActorSheet {
     data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
 
     data.data.enriched = [];
-    data.data.enriched.notes = await TextEditor.enrichHTML(superData.notes, {async: true});
-    data.data.enriched.biography = await TextEditor.enrichHTML(superData.biography, {async: true});
+    data.data.enriched.notes = await foundry.applications.ux.TextEditor.implementation.enrichHTML(superData.notes, {async: true});
+    data.data.enriched.biography = await foundry.applications.ux.TextEditor.implementation.enrichHTML(superData.biography, {async: true});
 
 
     //SKILL XP BUTTONS

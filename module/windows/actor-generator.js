@@ -121,7 +121,7 @@ export class DLActorGenerator extends FormApplication {
             } else if (tableResult.results[i].type == "text") {
                let tableTextmatch = tableResult.results[i].text.match(/(.*)(@UUID.*)/i);
                if (type == "ul") {
-                  this._element.find(`ul[id="${id}.text"]`).append(`<li>${await TextEditor.enrichHTML(tableTextmatch[2].replace(/(\<br\s\/>)+/i, ""), { async: true })}</li>`);
+                  this._element.find(`ul[id="${id}.text"]`).append(`<li>${await foundry.applications.ux.TextEditor.implementation.enrichHTML(tableTextmatch[2].replace(/(\<br\s\/>)+/i, ""), { async: true })}</li>`);
                }
                else {
                   resultText += tableTextmatch[1].replace(/(\<br\s\/>)+/i, "");
@@ -242,7 +242,7 @@ export class DLActorGenerator extends FormApplication {
          }
          new_skills.push(skill.uuid);
          /**we need to keep only the Uuid of the item, not the complete string (for now) */
-         let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await TextEditor.enrichHTML(skill.name, { async: true })}</li>`;
+         let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await foundry.applications.ux.TextEditor.implementation.enrichHTML(skill.name, { async: true })}</li>`;
          html.find(`ul[id="system.class.skils.text"]`).append(li_html);
          
       }
@@ -510,7 +510,7 @@ export class DLActorGenerator extends FormApplication {
 
    async _onDrop(event) {
       await super._onDrop(event);
-      const droppedUuid = TextEditor.getDragEventData(event);
+      const droppedUuid = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
       if (droppedUuid.type != "Item") {
          return;
       }

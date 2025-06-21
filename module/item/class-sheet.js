@@ -61,14 +61,14 @@ export class MothershipClassSheet extends MothershipItemSheet {
     }*/
 
     data.enriched=[];
-    data.enriched.description = await TextEditor.enrichHTML(data.system.description, {async: true});
+    data.enriched.description = await foundry.applications.ux.TextEditor.implementation.enrichHTML(data.system.description, {async: true});
 
     return data;
   }
 
   async _onDrop(event){
     await super._onDrop(event);
-    const droppedUuid = TextEditor.getDragEventData(event);
+    const droppedUuid = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     if (droppedUuid.type != "Item"){
        return;
     }

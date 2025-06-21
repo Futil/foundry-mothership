@@ -35,7 +35,7 @@ export class MothershipSkillSheet extends MothershipItemSheet {
 
   async _onDrop(event){
     await super._onDrop(event);
-    const droppedUuid = TextEditor.getDragEventData(event);
+    const droppedUuid = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     if (droppedUuid.type != "Item"){
        return;
     }

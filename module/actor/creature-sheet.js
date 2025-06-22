@@ -4,7 +4,7 @@
  */
 import { DLCreatureSettings } from "../settings/creature-settings.js";
 
-export class MothershipCreatureSheet extends ActorSheet {
+export class MothershipCreatureSheet extends foundry.appv1.sheets.ActorSheet {
 
     /** @override */
     static get defaultOptions() {

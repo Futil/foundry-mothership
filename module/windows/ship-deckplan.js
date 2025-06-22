@@ -1,4 +1,4 @@
-export class DLShipDeckplan extends ActorSheet {
+export class DLShipDeckplan extends foundry.appv1.sheets.ActorSheet {
     static get defaultOptions() {
         const options = super.defaultOptions;
         options.id = 'sheet-modifiers';

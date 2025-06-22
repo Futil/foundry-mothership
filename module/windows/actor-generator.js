@@ -324,15 +324,16 @@ export class DLActorGenerator extends FormApplication {
       let popUpContent = await renderTemplate(template, skillPopupData);
 
       return new Promise((resolve) => {
-         let d = new Dialog({
-            title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle"),
+         let d = new foundry.applications.api.DialogV2({
+            window: {title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle")},
             content: popUpContent,
-            buttons: {
-               "1": {
+            buttons: [
+               {
                   icon: '<i class="fas fa-check"></i>',
+                  action: "submit",
                   label: "Save",
-                  callback: (html) => {
-                     let form = html.find('form')[0];
+                  callback: (event, button, dialog) => {
+                     let form = button.form.querySelector('form');
                      let formData = new FormData(form);
                      let new_skills = [];
                      formData.forEach((value, key) => {
@@ -346,9 +347,9 @@ export class DLActorGenerator extends FormApplication {
                      resolve();
                   }
                },
-            },
+            ],
             default: "1",
-         });
+      });
          d.render(true);
       });
    }

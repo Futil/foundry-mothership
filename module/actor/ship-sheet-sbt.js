@@ -9,7 +9,7 @@ import { DLShipMacros } from "../windows/ship-macros.js";
 import { DLShipMegaDamage } from "../windows/ship-megadamage.js";
 import { DLShipSetup } from "../windows/ship-setup.js";
 
-export class MothershipShipSheetSBT extends ActorSheet {
+export class MothershipShipSheetSBT extends foundry.appv1.sheets.ActorSheet {
 
     /** @override */
     static get defaultOptions() {

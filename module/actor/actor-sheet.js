@@ -3,7 +3,7 @@ import { DLActorGenerator } from "../windows/actor-generator.js";
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class MothershipActorSheet extends ActorSheet {
+export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
 
   /** @override */
   static get defaultOptions() {
@@ -551,10 +551,10 @@ export class MothershipActorSheet extends ActorSheet {
     const itemData = {
       name: name,
       type: type,
-      data: data
+      system: data
     };
-    // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data["type"];
+    
+    
 
     let d = new foundry.applications.api.DialogV2({
       window: {title: "New Skill"},
@@ -571,22 +571,18 @@ export class MothershipActorSheet extends ActorSheet {
           label: "Create",
           callback: (event, button, dialog) => {
             var rank = button.form.querySelector('[id=\"rank\"]')?.value;
-            console.log(itemData);
-            console.log("Rank: " + rank);
-            console.log(rank);
             if (rank == "Trained")
-              itemData.data.bonus = 10;
+              itemData.system.bonus = 10;
             if (rank == "Expert")
-              itemData.data.bonus = 15;
+              itemData.system.bonus = 15;
             if (rank == "Master")
-              itemData.data.bonus = 20;
+              itemData.system.bonus = 20;
 
-            itemData.data.rank = rank;
+            itemData.system.rank = rank;
             
             
             itemData.name = button.form.querySelector('[id=\"name\"]')?.value
 
-            // TODO: here's an error, the bonus & rank doesn't get set properly.
             this.actor.createEmbeddedDocuments("Item", [itemData]);
           }
         },

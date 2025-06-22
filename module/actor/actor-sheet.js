@@ -3,7 +3,7 @@ import { DLActorGenerator } from "../windows/actor-generator.js";
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class MothershipActorSheet extends ActorSheet {
+export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
 
   /** @override */
   static get defaultOptions() {
@@ -46,8 +46,8 @@ export class MothershipActorSheet extends ActorSheet {
     data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
 
     data.data.enriched = [];
-    data.data.enriched.notes = await TextEditor.enrichHTML(superData.notes, {async: true});
-    data.data.enriched.biography = await TextEditor.enrichHTML(superData.biography, {async: true});
+    data.data.enriched.notes = await foundry.applications.ux.TextEditor.implementation.enrichHTML(superData.notes, {async: true});
+    data.data.enriched.biography = await foundry.applications.ux.TextEditor.implementation.enrichHTML(superData.biography, {async: true});
 
 
     //SKILL XP BUTTONS
@@ -551,43 +551,48 @@ export class MothershipActorSheet extends ActorSheet {
     const itemData = {
       name: name,
       type: type,
-      data: data
+      system: data
     };
-    // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data["type"];
+    
+    
 
-    let d = new Dialog({
-      title: "New Skill",
+    let d = new foundry.applications.api.DialogV2({
+      window: {title: "New Skill"},
       content: "<h2> Name </h2>\
                 <input type='text' id='name' name='name' value='New Skill'>\
                 <h2> Rank </h2> <select style='margin-bottom:10px;'name='rank' id='rank'>\
                 <option value='Trained'>Trained</option>\
                 <option value='Expert'>Expert</option>\
                 <option value='Master'>Master</option></select> <br/>",
-      buttons: {
-        roll: {
+      buttons: [
+        {
           icon: '<i class="fas fa-check"></i>',
+          action: "create",
           label: "Create",
-          callback: (html) => {
-            var rank = html.find('[id=\"rank\"]')[0].value;
+          callback: (event, button, dialog) => {
+            var rank = button.form.querySelector('[id=\"rank\"]')?.value;
             if (rank == "Trained")
-              itemData.data.bonus = 10;
+              itemData.system.bonus = 10;
             if (rank == "Expert")
-              itemData.data.bonus = 15;
+              itemData.system.bonus = 15;
             if (rank == "Master")
-              itemData.data.bonus = 20;
+              itemData.system.bonus = 20;
 
-            itemData.data.rank = rank;
-            itemData.name = html.find('[id=\"name\"]')[0].value
+            itemData.system.rank = rank;
+            
+            
+            itemData.name = button.form.querySelector('[id=\"name\"]')?.value
+
             this.actor.createEmbeddedDocuments("Item", [itemData]);
           }
         },
-        cancel: {
+        {
           icon: '<i class="fas fa-times"></i>',
+          action: "cancel",
           label: "Cancel",
           callback: () => { }
         }
-      },
+      ],
       default: "roll",
       close: () => { }
     });

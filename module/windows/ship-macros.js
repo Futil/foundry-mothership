@@ -1,7 +1,7 @@
 import { DLShipDeckplan } from "../windows/ship-deckplan.js";
 
 
-export class DLShipMacros extends BaseSheet {
+export class DLShipMacros extends foundry.applications.sheets.BaseSheet {
     static get defaultOptions() {
         const options = super.defaultOptions;
         options.id = 'sheet-modifiers';

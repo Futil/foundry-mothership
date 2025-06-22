@@ -4,7 +4,7 @@
  */
 import { DLCreatureSettings } from "../settings/creature-settings.js";
 
-export class MothershipCreatureSheet extends ActorSheet {
+export class MothershipCreatureSheet extends foundry.appv1.sheets.ActorSheet {
 
     /** @override */
     static get defaultOptions() {
@@ -85,8 +85,8 @@ export class MothershipCreatureSheet extends ActorSheet {
         data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
 
         data.data.enriched = [];
-        data.data.enriched.description = await TextEditor.enrichHTML(data.data.system.description, {async: true});
-        data.data.enriched.biography = await TextEditor.enrichHTML(data.data.system.biography, {async: true});
+        data.data.enriched.description = await foundry.applications.ux.TextEditor.implementation.enrichHTML(data.data.system.description, {async: true});
+        data.data.enriched.biography = await foundry.applications.ux.TextEditor.implementation.enrichHTML(data.data.system.biography, {async: true});
         return data.data;
     }
 

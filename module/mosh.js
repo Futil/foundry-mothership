@@ -46,31 +46,31 @@ Hooks.once('init', async function () {
 
 
   // Register sheet application classes
-  Actors.unregisterSheet("core", ActorSheet);
+  foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
 
-  Actors.registerSheet("mosh", MothershipActorSheet, {
+  foundry.documents.collections.Actors.registerSheet("mosh", MothershipActorSheet, {
     types: ['character'],
     makeDefault: true
   });
-  Actors.registerSheet("mosh", MothershipCreatureSheet, {
+  foundry.documents.collections.Actors.registerSheet("mosh", MothershipCreatureSheet, {
     types: ['creature'],
     makeDefault: false
   });
 
-  Actors.registerSheet("mosh", MothershipShipSheetSBT, {
+  foundry.documents.collections.Actors.registerSheet("mosh", MothershipShipSheetSBT, {
     types: ['ship'],
     makeDefault: true
   });
 
-  Actors.registerSheet("mosh", MothershipShipSheet, {
+  foundry.documents.collections.Actors.registerSheet("mosh", MothershipShipSheet, {
     types: ['ship'],
     makeDefault: false
   });
 
-  Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("mosh", MothershipClassSheet, {types: ['class'], makeDefault: true });
-  Items.registerSheet("mosh", MothershipSkillSheet, {types: ['skill'], makeDefault: true });
-  Items.registerSheet("mosh", MothershipItemSheet, {
+  foundry.documents.collections.Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
+  foundry.documents.collections.Items.registerSheet("mosh", MothershipClassSheet, {types: ['class'], makeDefault: true });
+  foundry.documents.collections.Items.registerSheet("mosh", MothershipSkillSheet, {types: ['skill'], makeDefault: true });
+  foundry.documents.collections.Items.registerSheet("mosh", MothershipItemSheet, {
     types: [
       "item",
       "weapon",
@@ -650,8 +650,11 @@ async function createActorFromJson(jsonData) {
   }
 }
 
-let d = new Dialog({
-  title: "Mothership Companion JSON Import",
+/*
+TODO: I think this is unfinished?
+
+let d = new foundry.applications.api.DialogV2({
+  window: {title: 'Mothership Companion JSON Import'},
   content: `
   <form>
     <div class="form-group">
@@ -660,11 +663,12 @@ let d = new Dialog({
     </div>
   </form>
   `,
-  buttons: {
-      upload: {
+  buttons: [
+      {
           label: "Upload",
-          callback: (html) => {
-              let fileInput = html.find('#json-upload')[0];
+          action: 'upload',
+          callback: (event, button, dialog) => {
+              let fileInput = button.form.querySelector('#json-upload');
               let file = fileInput.files[0];
               let reader = new FileReader();
 
@@ -680,10 +684,10 @@ let d = new Dialog({
               reader.readAsText(file);
           }
       }
-  },
+    ],
   default: "upload"
 })
-d.render(true);
+d.render(true);*/
 
 
 /**
@@ -909,19 +913,17 @@ async function noCharSelected() {
     }
     //create final dialog data
     const dialogData = {
-      title: `Macro Issue`,
+      window: {title: `Macro Issue`},
       content: errorMessage,
-      buttons: {}
-    };
-    //add buttons
-      //Ok
-      dialogData.buttons.cancel = {
+      buttons: [{
         label: `Ok`,
+        action: 'action_ok',
         callback: () => { },
         icon: '<i class="fas fa-check"></i>'
-      };
+      }]
+    };
     //render dialog
-    const dialog = new Dialog(dialogData).render(true);
+    const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     //log what was done
     console.log(`Told the user that no character was selected.`);
   });
@@ -941,19 +943,20 @@ async function noShipSelected() {
     }
     //create final dialog data
     const dialogData = {
-      title: `Macro Issue`,
+      window: {title: `Macro Issue`},
       content: errorMessage,
       buttons: {}
     };
     //add buttons
       //Ok
-      dialogData.buttons.cancel = {
+      dialogData.buttons = [{
         label: `Ok`,
+        action: 'action_ok',
         callback: () => { },
         icon: '<i class="fas fa-check"></i>'
-      };
+      }]
     //render dialog
-    const dialog = new Dialog(dialogData).render(true);
+    const dialog = new foundry.applications.api.DialogV2(dialogData).render(true);
     //log what was done
     console.log(`Told the user that no character was selected.`);
   });

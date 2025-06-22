@@ -909,19 +909,17 @@ async function noCharSelected() {
     }
     //create final dialog data
     const dialogData = {
-      title: `Macro Issue`,
+      window: {title: `Macro Issue`},
       content: errorMessage,
-      buttons: {}
-    };
-    //add buttons
-      //Ok
-      dialogData.buttons.cancel = {
+      buttons: [{
         label: `Ok`,
+        action: 'action_ok',
         callback: () => { },
         icon: '<i class="fas fa-check"></i>'
-      };
+      }]
+    };
     //render dialog
-    const dialog = new Dialog(dialogData).render(true);
+    const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     //log what was done
     console.log(`Told the user that no character was selected.`);
   });
@@ -941,19 +939,20 @@ async function noShipSelected() {
     }
     //create final dialog data
     const dialogData = {
-      title: `Macro Issue`,
+      window: {title: `Macro Issue`},
       content: errorMessage,
       buttons: {}
     };
     //add buttons
       //Ok
-      dialogData.buttons.cancel = {
+      dialogData.buttons = [{
         label: `Ok`,
+        action: 'action_ok',
         callback: () => { },
         icon: '<i class="fas fa-check"></i>'
-      };
+      }]
     //render dialog
-    const dialog = new Dialog(dialogData).render(true);
+    const dialog = new foundry.applications.api.DialogV2(dialogData).render(true);
     //log what was done
     console.log(`Told the user that no character was selected.`);
   });

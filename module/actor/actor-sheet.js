@@ -556,20 +556,24 @@ export class MothershipActorSheet extends ActorSheet {
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.data["type"];
 
-    let d = new Dialog({
-      title: "New Skill",
+    let d = new foundry.applications.api.DialogV2({
+      window: {title: "New Skill"},
       content: "<h2> Name </h2>\
                 <input type='text' id='name' name='name' value='New Skill'>\
                 <h2> Rank </h2> <select style='margin-bottom:10px;'name='rank' id='rank'>\
                 <option value='Trained'>Trained</option>\
                 <option value='Expert'>Expert</option>\
                 <option value='Master'>Master</option></select> <br/>",
-      buttons: {
-        roll: {
+      buttons: [
+        {
           icon: '<i class="fas fa-check"></i>',
+          action: "create",
           label: "Create",
-          callback: (html) => {
-            var rank = html.find('[id=\"rank\"]')[0].value;
+          callback: (event, button, dialog) => {
+            var rank = button.form.querySelector('[id=\"rank\"]')?.value;
+            console.log(itemData);
+            console.log("Rank: " + rank);
+            console.log(rank);
             if (rank == "Trained")
               itemData.data.bonus = 10;
             if (rank == "Expert")
@@ -578,16 +582,21 @@ export class MothershipActorSheet extends ActorSheet {
               itemData.data.bonus = 20;
 
             itemData.data.rank = rank;
-            itemData.name = html.find('[id=\"name\"]')[0].value
+            
+            
+            itemData.name = button.form.querySelector('[id=\"name\"]')?.value
+
+            // TODO: here's an error, the bonus & rank doesn't get set properly.
             this.actor.createEmbeddedDocuments("Item", [itemData]);
           }
         },
-        cancel: {
+        {
           icon: '<i class="fas fa-times"></i>',
+          action: "cancel",
           label: "Cancel",
           callback: () => { }
         }
-      },
+      ],
       default: "roll",
       close: () => { }
     });

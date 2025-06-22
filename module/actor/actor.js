@@ -900,6 +900,7 @@ export class MothershipActor extends Actor {
       //create final dialog data
       const dialogData = {
         window: {title: game.i18n.localize("Mosh.ChooseAStat")},
+        position: {width: 600 },
         content: dialogDesc + buttonDesc,
         buttons: []
       };
@@ -961,10 +962,7 @@ export class MothershipActor extends Actor {
         }]
       }
       //render dialog
-      const dialog = new foundry.applications.api.DialogV2(dialogData, {
-        width: 600,
-        height: 500
-      }).render({force: true});
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     });
   }
 
@@ -1049,8 +1047,9 @@ export class MothershipActor extends Actor {
         }
       //create final dialog data
       const dialogData = {
-        title: dlgTitle,
+        window: {title: dlgTitle},
         content: skillHeader + skillList + buttonDesc,
+        position: {width: 600},
         buttons: []
       };
       //add adv/normal/dis buttons if we need a rollString
@@ -1111,10 +1110,7 @@ export class MothershipActor extends Actor {
         };
       }
       //render dialog
-      const dialog = new foundry.applications.api.DialogV2(dialogData, {
-        width: 600,
-        height: dialogHeight
-      }).render({force: true});
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     });
   }
 
@@ -1130,6 +1126,7 @@ export class MothershipActor extends Actor {
       //create final dialog data
       const dialogData = {
         window: { title: dlgTitle},
+        position:  { width: 600},
         content: `<h4>` + game.i18n.localize("Mosh.SelectYourRollType") + `:</h4>`,
         buttons: [
           //Advantage
@@ -1170,10 +1167,7 @@ export class MothershipActor extends Actor {
         
         
       //render dialog
-      const dialog = new foundry.applications.api.DialogV2(dialogData, {
-        width: 600,
-        height: 105
-      }).render({force: true});
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     });
   }
 
@@ -1387,7 +1381,6 @@ export class MothershipActor extends Actor {
         woundEffect = woundArray.join(' ');
       }
 
-      console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
       //generate chat message
         //prepare data
         let messageData = {
@@ -2279,25 +2272,27 @@ export class MothershipActor extends Actor {
     return new Promise(async (resolve) => {
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.WeaponIssue"),
+        window: {title: game.i18n.localize("Mosh.WeaponIssue")},
         content: `<h4>` + game.i18n.localize("Mosh.OutOfAmmoNeedReload") + `</h4><br/>`,
         buttons: {}
       };
       //add buttons
         //reload
-        dialogData.buttons.roll = {
+        dialogData.buttons = [{
           label: game.i18n.localize("Mosh.Reload"),
+          action: 'action_reload',
           callback: () => this.reloadWeapon(itemId),
           icon: `<i class="fas fa-check"></i>`
-        };
+        }
         //cancel
-        dialogData.buttons.cancel = {
+        ,{
           label: `Cancel`,
+          action: 'action_cancel',
         callback: () => {},
           icon: `<i class="fas fa-times"></i>`
-        };
+        }]
       //render dialog
-      const dialog = new Dialog(dialogData).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render(true);
     });
     //log what was done
     console.log(`Asked for reload.`);
@@ -2309,19 +2304,20 @@ export class MothershipActor extends Actor {
     return new Promise(async (resolve) => {
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.WeaponIssue"),
+        window: {title: game.i18n.localize("Mosh.WeaponIssue")},
         content: `<h4>` + game.i18n.localize("Mosh.OutOfAmmo") + `</h4><br/>`,
         buttons: {}
       };
       //add buttons
         //Ok
-        dialogData.buttons.cancel = {
+        dialogData.buttons = [{
           label: game.i18n.localize("Mosh.OK"),
+          action: 'action_ok',
         callback: () => {},
           icon: '<i class="fas fa-check"></i>'
-        };
+        }]
       //render dialog
-      const dialog = new Dialog(dialogData).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render(true);
     });
     //log what was done
     console.log(`Told user they are out of ammo.`);
@@ -2608,27 +2604,24 @@ export class MothershipActor extends Actor {
       
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.Cover"),
+        window: {title: game.i18n.localize("Mosh.Cover")},
+        position: {width: 600 },
         content: msgContent,
-        buttons: {}
-      };
-      //add buttons
-        //Ok
-        dialogData.buttons.cancel = {
+        buttons: [{
           label: game.i18n.localize("Mosh.OK"),
-          callback: (html) => {
+          action: 'action_ok',
+          callback: (event, button, dialog) => {
           this.update({
-            'system.stats.armor.cover': html.find("input[name='cover']:checked").attr("value")
+            'system.stats.armor.cover': button.form.querySelector("input[name='cover']:checked")?.getAttribute("value")
           });
-            console.log(`User's cover is now:${html.find("input[name='cover']:checked").attr("value")}`);
+            console.log(`User's cover is now:${button.form.querySelector("input[name='cover']:checked")?.getAttribute("value")}`);
           },
           icon: '<i class="fas fa-check"></i>'
-        };
+        }]
+      };
+
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 580
-      }).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
       });
     
   }
@@ -2642,31 +2635,32 @@ export class MothershipActor extends Actor {
       
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.DistressSignal"),
+        window: {title: game.i18n.localize("Mosh.DistressSignal")},
+        position: {width: 600 },
         content: msgContent,
-        buttons: {
-          button1: {
+        buttons: [
+          {
             label: game.i18n.localize("Mosh.Advantage"),
+            action: 'action_advantage',
             callback: () => this.rollTable(game.settings.get('mosh', 'table1eDistressSignal'), `1d10 [+]`, `low`, true, false, null, null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
-          button2: {
+          {
             label: game.i18n.localize("Mosh.Normal"),
+            action: 'action_normal',
             callback: () => this.rollTable(game.settings.get('mosh', 'table1eDistressSignal'), `1d10`, `low`, true, false, null, null),
             icon: `<i class="fas fa-minus"></i>`
           },
-          button3: {
+          {
             label: game.i18n.localize("Mosh.Disadvantage"),
+            action: 'action_disadvantage',
             callback: () => this.rollTable(game.settings.get('mosh', 'table1eDistressSignal'), `1d10 [-]`, `low`, true, false, null, null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
-        }
+        ]
       };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 265
-      }).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render(true);
       });
     
   }
@@ -2681,31 +2675,32 @@ export class MothershipActor extends Actor {
       `;
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.MaintenanceCheck"),
+        window: {title: game.i18n.localize("Mosh.MaintenanceCheck")},
+        position: {width: 600  },
         content: msgContent,
-        buttons: {
-          button1: {
+        buttons: [
+          {
             label: game.i18n.localize("Mosh.Advantage"),
+            action: 'action_advantage',
             callback: () => this.rollTable(`maintenanceCheck`, `1d100 [+]`, `low`, null, null, null, null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
-          button2: {
+          {
             label: game.i18n.localize("Mosh.Normal"),
+            action: 'action_normal',
             callback: () => this.rollTable(`maintenanceCheck`, `1d100`, `low`, null, null, null, null),
             icon: `<i class="fas fa-minus"></i>`
           },
-          button3: {
+          {
             label: game.i18n.localize("Mosh.Disadvantage"),
+            action: 'action_disadvantage',
             callback: () => this.rollTable(`maintenanceCheck`, `1d100 [-]`, `low`, null, null, null, null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
-        }
+        ]
       };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 265
-      }).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render(true);
       });
     
   }
@@ -2720,31 +2715,32 @@ export class MothershipActor extends Actor {
       `;
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.BankrupcySave"),
+        window: {title: game.i18n.localize("Mosh.BankrupcySave")},
+        position: { width: 600  },
         content: msgContent,
-        buttons: {
-          button1: {
+        buttons: [
+          {
             label: game.i18n.localize("Mosh.Advantage"),
+            action: 'action_advantage',
             callback: () => this.rollCheck(`1d100 [+]`, `low`, `bankruptcySave`, null, null, null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
-          button2: {
+          {
             label: game.i18n.localize("Mosh.Normal"),
+            action: 'action_normal',
             callback: () => this.rollCheck(`1d100`, `low`, `bankruptcySave`, null, null, null),
             icon: `<i class="fas fa-minus"></i>`
           },
-          button3: {
+          {
             label: game.i18n.localize("Mosh.Disadvantage"),
+            action: 'action_disadvantage',
             callback: () => this.rollCheck(`1d100 [-]`, `low`, `bankruptcySave`, null, null, null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
-        }
+        ]
       };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 265
-      }).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render(true);
       });
     
   }
@@ -2794,31 +2790,32 @@ export class MothershipActor extends Actor {
       `;
       //create final dialog data
       const dialogData = {
-        title: `Morale Check`,
+        window: {title: `Morale Check`},
+        position: { width: 600 },
         content: msgContent,
-        buttons: {
-          button1: {
+        buttons: [
+          {
             label: game.i18n.localize("Mosh.Advantage"),
+            action: 'action_advantage',
             callback: () => this.rollCheck(`1d10 [+]`, `high-equal`, `moraleCheck`, null, null, null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
-          button2: {
+          {
             label: game.i18n.localize("Mosh.Normal"),
+            action: 'action_normal',
             callback: () => this.rollCheck(`1d10`, `high-equal`, `moraleCheck`, null, null, null),
             icon: `<i class="fas fa-minus"></i>`
           },
-          button3: {
+          {
             label: game.i18n.localize("Mosh.Disadvantage"),
+            action: 'action_disadvantage',
             callback: () => this.rollCheck(`1d10 [-]`, `high-equal`, `moraleCheck`, null, null, null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
-        }
+        ]
       };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 265
-      }).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render(true);
       });
     
   }

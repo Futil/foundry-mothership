@@ -9,7 +9,7 @@ import { DLShipMacros } from "../windows/ship-macros.js";
 import { DLShipMegaDamage } from "../windows/ship-megadamage.js";
 import { DLShipSetup } from "../windows/ship-setup.js";
 
-export class MothershipShipSheetSBT extends ActorSheet {
+export class MothershipShipSheetSBT extends  foundry.appv1.sheets.ActorSheet {
 
     /** @override */
     static get defaultOptions() {
@@ -35,7 +35,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         new DLShipDeckplan(this.actor, {
             top: this.position.top + 40,
             left: this.position.left + (this.position.width - 400) / 2
-        }).render(true);
+        }).render({force: true});
     }
 
     _onOpenMacros(event) {
@@ -43,7 +43,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         new DLShipMacros(this.actor, {
             top: this.position.top + 40,
             left: this.position.left + (this.position.width - 400) / 2
-        }).render(true);
+        }).render({force: true});
     }
 
     _onOpenSetup(event) {
@@ -51,7 +51,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         new DLShipSetup(this.actor, {
             top: this.position.top + 40,
             left: this.position.left + (this.position.width - 400) / 2
-        }).render(true);
+        }).render({force: true});
     }
 
     _onOpenMegadamage(event) {
@@ -59,7 +59,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         new DLShipMegaDamage(this.actor, {
             top: this.position.top + 40,
             left: this.position.left + (this.position.width - 400) / 2
-        }).render(true);
+        }).render({force: true});
     }
 
     /* -------------------------------------------- */
@@ -98,7 +98,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         superData.supplies.hull.percentage = " [ " + Math.round(maxHull * 0.25) + " | " + Math.round(maxHull * 0.5) + " | " + Math.round(maxHull * 0.75) + " ]";
         
         data.data.enriched = [];
-        data.data.enriched.biography = await TextEditor.enrichHTML(data.data.system.biography, {async: true});
+        data.data.enriched.biography = await foundry.applications.ux.TextEditor.implementation.enrichHTML(data.data.system.biography, {async: true});
         
 
         //Run Setup
@@ -270,7 +270,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         html.find('.item-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
             const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
-            item.sheet.render(true);
+            item.sheet.render({force: true});
 
             let amount = item.system.quantity;
 
@@ -318,7 +318,7 @@ export class MothershipShipSheetSBT extends ActorSheet {
         html.find('.weapon-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
             const weapon = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
-            weapon.sheet.render(true);
+            weapon.sheet.render({force: true});
         });
 
         // Rollable Weapon - not needed since individual ship weapons are not fired

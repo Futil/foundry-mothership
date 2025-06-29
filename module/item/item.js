@@ -2,7 +2,7 @@
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
-export class MothershipItem extends Item {
+export class MothershipItem extends foundry.appv1.Item {
   /**
    * Augment the basic Item data model with additional dynamic data.
    */

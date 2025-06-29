@@ -7,8 +7,9 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
 //else pop up the dialog
 } else {
   //pop up the wound roll dialog box
-  new Dialog({
-    title: `Wound Roll`,
+  new foundry.applications.api.DialogV2({
+    window: {title: `Wound Roll`},
+    position: {width: 600,height: 650},
     content: `
       <style>
         .macro_window{
@@ -109,22 +110,25 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
       </label>
       <h4>Select your roll type:</h4>
     `,
-    buttons: {
-      button1: {
+    buttons: [
+      {
         label: `Advantage`,
-        callback: (html) => game.mosh.initRollTable(html.find("input[name='wound_table']:checked").val(),`1d10 [+]`,`low`,true,false,null,null),
+        action: 'action_advantage',
+        callback: (event, button, dialog) => game.mosh.initRollTable(button.form.querySelector("input[name='wound_table']:checked").value,`1d10 [+]`,`low`,true,false,null,null),
         icon: `<i class="fas fa-angle-double-up"></i>`
       },
-      button2: {
+      {
         label: `Normal`,
-        callback: (html) => game.mosh.initRollTable(html.find("input[name='wound_table']:checked").val(),`1d10`,`low`,true,false,null,null),
+        action: 'action_normal',
+        callback: (event, button, dialog) => game.mosh.initRollTable(button.form.querySelector("input[name='wound_table']:checked").value,`1d10`,`low`,true,false,null,null),
         icon: `<i class="fas fa-minus"></i>`
       },
-      button3: {
+      {
         label: `Disadvantage`,
-        callback: (html) => game.mosh.initRollTable(html.find("input[name='wound_table']:checked").val(),`1d10 [-]`,`low`,true,false,null,null),
+        action: 'action_disadvantage',
+        callback: (event, button, dialog) => game.mosh.initRollTable(button.form.querySelector("input[name='wound_table']:checked").value,`1d10 [-]`,`low`,true,false,null,null),
         icon: `<i class="fas fa-angle-double-down"></i>`
       }
-    }
-  },{width: 600,height: 650}).render(true);
+    ]
+  }).render({force: true});
 }

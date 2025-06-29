@@ -1,4 +1,4 @@
-export class DLActorGenerator extends FormApplication {
+export class DLActorGenerator extends foundry.appv1.FormApplication {
    static get defaultOptions() {
       const options = super.defaultOptions;
       options.id = 'sheet-modifiers';
@@ -121,7 +121,7 @@ export class DLActorGenerator extends FormApplication {
             } else if (tableResult.results[i].type == "text") {
                let tableTextmatch = tableResult.results[i].text.match(/(.*)(@UUID.*)/i);
                if (type == "ul") {
-                  this._element.find(`ul[id="${id}.text"]`).append(`<li>${await TextEditor.enrichHTML(tableTextmatch[2].replace(/(\<br\s\/>)+/i, ""), { async: true })}</li>`);
+                  this._element.find(`ul[id="${id}.text"]`).append(`<li>${await foundry.applications.ux.TextEditor.implementation.enrichHTML(tableTextmatch[2].replace(/(\<br\s\/>)+/i, ""), { async: true })}</li>`);
                }
                else {
                   resultText += tableTextmatch[1].replace(/(\<br\s\/>)+/i, "");
@@ -193,23 +193,23 @@ export class DLActorGenerator extends FormApplication {
     */
    async fixedSkillOptionPopup(html, skillPopupOptions) {
       return new Promise((resolve) => {
-         let buttons_options = {};
+         let buttons_options = [];
          for (let j = 0; j < skillPopupOptions.length; j++) {
-            buttons_options[j] = {
+            buttons_options.push({
                icon: '<i class="fas fa-check"></i>',
                label: skillPopupOptions[j].name,
                callback: () => resolve(skillPopupOptions[j].uuid),
-            };
+            });
          }
-         let d = new Dialog({
-            title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle"),
+         let d = new foundry.applications.api.DialogV2({
+		      window: {title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle")},
             content: `<p>${game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupText")}</p>`,
             buttons: buttons_options,
             default: "1",
             //render: html => console.log("Register interactivity in the rendered dialog"),
             //close: html => console.log("This always is logged no matter which option is chosen")
          });
-         d.render(true);
+         d.render({force: true});
       });
    }
 
@@ -242,7 +242,7 @@ export class DLActorGenerator extends FormApplication {
          }
          new_skills.push(skill.uuid);
          /**we need to keep only the Uuid of the item, not the complete string (for now) */
-         let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await TextEditor.enrichHTML(skill.name, { async: true })}</li>`;
+         let li_html = `<li><img src="${skill.img}" title="${skill.name}" width="24" height="24"/> ${await foundry.applications.ux.TextEditor.implementation.enrichHTML(skill.name, { async: true })}</li>`;
          html.find(`ul[id="system.class.skils.text"]`).append(li_html);
          
       }
@@ -324,15 +324,15 @@ export class DLActorGenerator extends FormApplication {
       let popUpContent = await renderTemplate(template, skillPopupData);
 
       return new Promise((resolve) => {
-         let d = new Dialog({
-            title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle"),
+         let d = new foundry.applications.api.DialogV2({
+		      window: {title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle")},
             content: popUpContent,
-            buttons: {
-               "1": {
+            buttons: [
+               {
                   icon: '<i class="fas fa-check"></i>',
                   label: "Save",
-                  callback: (html) => {
-                     let form = html.find('form')[0];
+                  callback: (event, button, dialog) => {
+                     let form = button.form.querySelector('form');
                      let formData = new FormData(form);
                      let new_skills = [];
                      formData.forEach((value, key) => {
@@ -345,11 +345,11 @@ export class DLActorGenerator extends FormApplication {
                      this.updateSkillHtmlUl(this._element, new_skills);
                      resolve();
                   }
-               },
-            },
+               }
+            ],
             default: "1",
          });
-         d.render(true);
+         d.render({force: true});
       });
    }
 
@@ -365,25 +365,23 @@ export class DLActorGenerator extends FormApplication {
       
       return new Promise((resolve) => {
          
-         let buttonsData = {};
+         let buttonsData = [];
          for (let i=0;i<list_option_skills_or.length;i++){
-            buttonsData[i]={
-               
-                  icon: '<i class="fas fa-check"></i>',
-                  label: list_option_skills_or[i].name,//game.i18n.localize("Mosh.CharacterGenerator.SkillOption.ChoiceWord") + ` ${i}`,
-                  callback: () => {
-                     resolve(list_option_skills_or[i]);
-                  }
-               
-            };
+            buttonsData.push({
+               icon: '<i class="fas fa-check"></i>',
+               label: list_option_skills_or[i].name,//game.i18n.localize("Mosh.CharacterGenerator.SkillOption.ChoiceWord") + ` ${i}`,
+               callback: () => {
+                  resolve(list_option_skills_or[i]);
+               }
+            });
          }
-         let d = new Dialog({
-            title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle"),
+         let d = new foundry.applications.api.DialogV2({
+		      window: {title: game.i18n.localize("Mosh.CharacterGenerator.SkillOption.PopupTitle")},
             content: popUpContent,
-            window:{width: 500,},
+            window:{width: 500},
             buttons: buttonsData,
          });
-         d.render(true);
+         d.render({force: true});
       });
    }
 
@@ -477,24 +475,24 @@ export class DLActorGenerator extends FormApplication {
       for(let i =0;i<list_option_stats_and_saves.length;i++){
          let option_stats_and_saves = list_option_stats_and_saves[i];
          if (option_stats_and_saves.modification) {
-            let buttons_options = {};
+            let buttons_options = [];
             for (let j = 0; j < option_stats_and_saves.stats.length; j++) {
                let prev_bonus = this._element.find(`input[name="system.stats.${option_stats_and_saves.stats[j]}.bonus"]`).prop("value");
-               buttons_options[j] = {
+               buttons_options.push({
                   icon: '<i class="fas fa-check"></i>',
                   label: option_stats_and_saves.stats[j],//.replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
                   callback: () => this._element.find(`input[name="system.stats.${option_stats_and_saves.stats[j]}.bonus"]`).prop("value", (parseInt(option_stats_and_saves.modification) + parseInt(prev_bonus)))
-               };
+               });
             }
-            let d = new Dialog({
-               title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle"),
+            let d = new foundry.applications.api.DialogV2({
+		         window: {title: game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupTitle")},
                content: `<p>${game.i18n.localize("Mosh.CharacterGenerator.StatOptionPopupText")} (${option_stats_and_saves.modification})</p>`,
                buttons: buttons_options,
                default: "1",
                //render: html => console.log("Register interactivity in the rendered dialog"),
                //close: html => console.log("This always is logged no matter which option is chosen")
             });
-            d.render(true);
+            d.render({force: true});
          }
       }
 
@@ -510,7 +508,7 @@ export class DLActorGenerator extends FormApplication {
 
    async _onDrop(event) {
       await super._onDrop(event);
-      const droppedUuid = TextEditor.getDragEventData(event);
+      const droppedUuid = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
       if (droppedUuid.type != "Item") {
          return;
       }

@@ -4,7 +4,7 @@
  */
 import { DLCreatureSettings } from "../settings/creature-settings.js";
 
-export class MothershipCreatureSheet extends ActorSheet {
+export class MothershipCreatureSheet extends foundry.appv1.sheets.ActorSheet {
 
     /** @override */
     static get defaultOptions() {
@@ -43,7 +43,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         new DLCreatureSettings(this.actor, {
             top: this.position.top + 40,
             left: this.position.left + (this.position.width - 400) / 2
-        }).render(true);
+        }).render({force: true});
     }
 
     async _updateObject(event, formData) {
@@ -85,8 +85,8 @@ export class MothershipCreatureSheet extends ActorSheet {
         data.data.system.settings.androidPanic = game.settings.get("mosh", "androidPanic");
 
         data.data.enriched = [];
-        data.data.enriched.description = await TextEditor.enrichHTML(data.data.system.description, {async: true});
-        data.data.enriched.biography = await TextEditor.enrichHTML(data.data.system.biography, {async: true});
+        data.data.enriched.description = await foundry.applications.ux.TextEditor.implementation.enrichHTML(data.data.system.description, {async: true});
+        data.data.enriched.biography = await foundry.applications.ux.TextEditor.implementation.enrichHTML(data.data.system.biography, {async: true});
         return data.data;
     }
 
@@ -154,7 +154,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         html.find('.item-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
             const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
-            item.sheet.render(true);
+            item.sheet.render({force: true});
         });
 
         // Rollable Attribute
@@ -172,7 +172,7 @@ export class MothershipCreatureSheet extends ActorSheet {
         html.find('.weapon-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
             const weapon = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
-            weapon.sheet.render(true);
+            weapon.sheet.render({force: true});
         });
 
         // Rollable Weapon

@@ -4,7 +4,7 @@ import { fromIdUuid } from "../mosh.js";
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-export class MothershipActor extends Actor {
+export class MothershipActor extends foundry.appv1.Actor {
 
   //Augment the basic actor data with additional dynamic data.
   prepareData() {
@@ -899,67 +899,70 @@ export class MothershipActor extends Actor {
         }
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.ChooseAStat"),
+        window: {title: game.i18n.localize("Mosh.ChooseAStat")},
+        position: {width: 600,height: 500},
         content: dialogDesc + buttonDesc,
-        buttons: {}
+        buttons: []
       };
       //add adv/normal/dis buttons if we need a rollString
       if (!rollString) {
         //we need to generate a roll string
-          //Advantage
-          dialogData.buttons.button1 = {
-          label: game.i18n.localize("Mosh.Advantage"),
-            callback: (html) => {
+        dialogData.buttons = [
+          {
+            label: game.i18n.localize("Mosh.Advantage"),
+            action: `action_advantage`,
+            callback: (event, button, dialog) => {
               rollString = `1d100 [+]`;
               aimFor = `low`;
-              attribute = html.find("input[name='stat']:checked").attr("value");
+              attribute = button.form.querySelector("input[name='stat']:checked")?.getAttribute("value");
               resolve([rollString, aimFor, attribute]);
               console.log(`User left the chooseAttribute dialog with: rollString:${rollString}, aimFor:${aimFor}, attribute:${attribute}`);
             },
             icon: `<i class="fas fa-angle-double-up"></i>`
-          };
-          //Normal
-          dialogData.buttons.button2 = {
-          label: game.i18n.localize("Mosh.Normal"),
-            callback: (html) => {
+          },
+          {
+            label: game.i18n.localize("Mosh.Normal"),
+			      action: `action_normal`,
+            callback: (event, button, dialog) => {
               rollString = `1d100`;
               aimFor = `low`;
-              attribute = html.find("input[name='stat']:checked").attr("value");
+              attribute = button.form.querySelector("input[name='stat']:checked")?.getAttribute("value");
               resolve([rollString, aimFor, attribute]);
               console.log(`User left the chooseAttribute dialog with: rollString:${rollString}, aimFor:${aimFor}, attribute:${attribute}`);
             },
             icon: `<i class="fas fa-minus"></i>`
-          };
-          //Disadvantage
-          dialogData.buttons.button3 = {
-          label: game.i18n.localize("Mosh.Disadvantage"),
-            callback: (html) => {
+          },
+          {
+            label: game.i18n.localize("Mosh.Disadvantage"),
+			      action: `action_disadvantage`,
+            callback: (event, button, dialog) => {
               rollString = `1d100 [-]`;
               aimFor = `low`;
-              attribute = html.find("input[name='stat']:checked").attr("value");
+              attribute = button.form.querySelector("input[name='stat']:checked")?.getAttribute("value");
               resolve([rollString, aimFor, attribute]);
               console.log(`User left the chooseAttribute dialog with: rollString:${rollString}, aimFor:${aimFor}, attribute:${attribute}`);
             },
             icon: `<i class="fas fa-angle-double-down"></i>`
-          };
+          }
+        ]
       //add a next button if we dont need a rollString
       } else {
-        dialogData.buttons.button1 = {
-          label: game.i18n.localize("Mosh.Next"),
-          callback: (html) => {
-            aimFor = `low`;
-            attribute = html.find("input[name='stat']:checked").attr("value");
-            resolve([rollString, aimFor, attribute]);
-            console.log(`User left the chooseAttribute dialog with: rollString:${rollString}, aimFor:${aimFor}, attribute:${attribute}`);
-          },
-          icon: `<i class="fas fa-chevron-circle-right"></i>`
-        };
+        dialogData.buttons = [
+          {
+            label: game.i18n.localize("Mosh.Next"),
+			      action: `action_next`,
+            callback: (event, button, dialog) => {
+              aimFor = `low`;
+              attribute = button.form.querySelector("input[name='stat']:checked")?.getAttribute("value");
+              resolve([rollString, aimFor, attribute]);
+              console.log(`User left the chooseAttribute dialog with: rollString:${rollString}, aimFor:${aimFor}, attribute:${attribute}`);
+            },
+            icon: `<i class="fas fa-chevron-circle-right"></i>`
+          }
+        ]
       }
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 500
-      }).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     });
   }
 
@@ -975,7 +978,6 @@ export class MothershipActor extends Actor {
       //create HTML for this window
         //header
         let skillHeader = await renderTemplate('systems/mosh/templates/dialogs/choose-skill-dialog-header.html');
-       
         //skill template
         let skillRow = `
         <label for="[RADIO_ID]">
@@ -1010,17 +1012,17 @@ export class MothershipActor extends Actor {
               //set temprow as template
               let tempRow = skillRow;
               //replace ID
-          tempRow = tempRow.replaceAll("[RADIO_ID]", item.name);
+              tempRow = tempRow.replaceAll("[RADIO_ID]", item.name);
               //replace value
-          tempRow = tempRow.replace("[RADIO_VALUE]", item.system.bonus);
+              tempRow = tempRow.replace("[RADIO_VALUE]", item.system.bonus);
               //replace img
-          tempRow = tempRow.replace("[RADIO_IMG]", item.img);
+              tempRow = tempRow.replace("[RADIO_IMG]", item.img);
               //replace name
-          tempRow = tempRow.replace("[RADIO_BONUS]", item.system.bonus);
+              tempRow = tempRow.replace("[RADIO_BONUS]", item.system.bonus);
               //replace name
-          tempRow = tempRow.replace("[RADIO_NAME]", item.name);
+              tempRow = tempRow.replace("[RADIO_NAME]", item.name);
               //replace desc
-          tempRow = tempRow.replace("[RADIO_DESC]", item.system.description.replace("<p>", "<strong>:</strong> "));
+              tempRow = tempRow.replace("[RADIO_DESC]", item.system.description.replace("<p>", "<strong>:</strong> "));
               //add to skillList
               skillList = skillList + tempRow;
               //increment skill count
@@ -1038,73 +1040,76 @@ export class MothershipActor extends Actor {
           }
         //create button header if needed
         if (!rollString) {
-        buttonDesc = `<h4>` + game.i18n.localize("Mosh.SelectYourRollType") + `:</h4>`;
+          buttonDesc = `<h4>` + game.i18n.localize("Mosh.SelectYourRollType") + `:</h4>`;
         } else {
           buttonDesc = ``;
         }
       //create final dialog data
       const dialogData = {
-        title: dlgTitle,
+        window: {title: dlgTitle},
+        position: {width: 600,height: dialogHeight},
         content: skillHeader + skillList + buttonDesc,
-        buttons: {}
+        buttons: []
       };
       //add adv/normal/dis buttons if we need a rollString
       if (!rollString) {
         //we need to generate a roll string
-          //Advantage
-          dialogData.buttons.button1 = {
-          label: game.i18n.localize("Mosh.Advantage"),
-            callback: (html) => {
+        dialogData.buttons = [
+          {
+            label: game.i18n.localize("Mosh.Advantage"),
+            action: `action_advantage`,
+            callback: (event, button, dialog) => {
               rollString = `1d100 [+]`;
-              skill = html.find("input[name='skill']:checked").attr("id");
-              skillValue = html.find("input[name='skill']:checked").attr("value");
+              skill = button.form.querySelector("input[name='skill']:checked")?.getAttribute("id");
+              skillValue = button.form.querySelector("input[name='skill']:checked")?.getAttribute("value");
               resolve([rollString, skill, skillValue]);
               console.log(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
             },
             icon: `<i class="fas fa-angle-double-up"></i>`
-          };
-          //Normal
-          dialogData.buttons.button2 = {
-          label: game.i18n.localize("Mosh.Normal"),
-            callback: (html) => {
+          },
+          {
+            label: game.i18n.localize("Mosh.Normal"),
+            action: `action_normal`,
+            callback: (event, button, dialog) => {
               rollString = `1d100`;
-              skill = html.find("input[name='skill']:checked").attr("id");
-              skillValue = html.find("input[name='skill']:checked").attr("value");
+              skill = button.form.querySelector("input[name='skill']:checked")?.getAttribute("id");
+              skillValue = button.form.querySelector("input[name='skill']:checked")?.getAttribute("value");
               resolve([rollString, skill, skillValue]);
               console.log(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
             },
             icon: `<i class="fas fa-minus"></i>`
-          };
-          //Disadvantage
-          dialogData.buttons.button3 = {
-          label: game.i18n.localize("Mosh.Disadvantage"),
-            callback: (html) => {
+          },
+          {
+            label: game.i18n.localize("Mosh.Disadvantage"),
+            action: `action_disadvantage`,
+            callback: (event, button, dialog) => {
               rollString = `1d100 [-]`;
-              skill = html.find("input[name='skill']:checked").attr("id");
-              skillValue = html.find("input[name='skill']:checked").attr("value");
+              skill = button.form.querySelector("input[name='skill']:checked")?.getAttribute("id");
+              skillValue = button.form.querySelector("input[name='skill']:checked")?.getAttribute("value");
               resolve([rollString, skill, skillValue]);
               console.log(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
             },
             icon: `<i class="fas fa-angle-double-down"></i>`
-          };
+          }
+        ]
       //add a next button if we dont need a rollString
       } else {
-        dialogData.buttons.button1 = {
-          label: game.i18n.localize("Mosh.Next"),
-          callback: (html) => {
-            skill = html.find("input[name='skill']:checked").attr("id");
-            skillValue = html.find("input[name='skill']:checked").attr("value");
-            resolve([rollString, skill, skillValue]);
-            console.log(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
-          },
-          icon: `<i class="fas fa-chevron-circle-right"></i>`
-        };
+        dialogData.buttons = [
+          {
+            label: game.i18n.localize("Mosh.Next"),
+			      action: `action_next`,
+            callback: (event, button, dialog) => {
+              skill = button.form.querySelector("input[name='skill']:checked")?.getAttribute("id");
+              skillValue = button.form.querySelector("input[name='skill']:checked")?.getAttribute("value");
+              resolve([rollString, skill, skillValue]);
+              console.log(`User left the chooseSkill dialog with: rollString:${rollString}, skill:${skill}, skillValue:${skillValue}`);
+            },
+            icon: `<i class="fas fa-chevron-circle-right"></i>`
+          }
+        ]
       }
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: dialogHeight
-      }).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     });
   }
 
@@ -1119,47 +1124,44 @@ export class MothershipActor extends Actor {
         let dieDis = die + ` [-]`;
       //create final dialog data
       const dialogData = {
-        title: dlgTitle,
-        buttonDesc: `<h4>` + game.i18n.localize("Mosh.SelectYourRollType") + `:</h4>`,
-        buttons: {}
+        window: {title: dlgTitle},
+        position: {width: 600,height: 105},
+        content: `<h4>` + game.i18n.localize("Mosh.SelectYourRollType") + `:</h4>`,
+        buttons: [
+          {
+            label: game.i18n.localize("Mosh.Advantage"),
+			      action: `action_advantage`,
+            callback: (event, button, dialog) => {
+              rollString = dieAdv;
+              resolve([rollString]);
+              console.log(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
+            },
+            icon: `<i class="fas fa-angle-double-up"></i>`
+          },
+          {
+            label: game.i18n.localize("Mosh.Normal"),
+			      action: `action_normal`,
+            callback: (event, button, dialog) => {
+              rollString = die;
+              resolve([rollString]);
+              console.log(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
+            },
+            icon: `<i class="fas fa-minus"></i>`
+          },
+          {
+            label: game.i18n.localize("Mosh.Disadvantage"),
+			      action: `action_disadvantage`,
+            callback: (event, button, dialog) => { 
+              rollString = dieDis;
+              resolve([rollString]);
+              console.log(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
+            },
+            icon: `<i class="fas fa-angle-double-down"></i>`
+          }
+        ]
       };
-      //add buttons
-        //Advantage
-        dialogData.buttons.button1 = {
-        label: game.i18n.localize("Mosh.Advantage"),
-          callback: (html) => {
-            rollString = dieAdv;
-            resolve([rollString]);
-            console.log(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
-          },
-          icon: `<i class="fas fa-angle-double-up"></i>`
-        };
-        //Normal
-        dialogData.buttons.button2 = {
-        label: game.i18n.localize("Mosh.Normal"),
-          callback: (html) => {
-            rollString = die;
-            resolve([rollString]);
-            console.log(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
-          },
-          icon: `<i class="fas fa-minus"></i>`
-        };
-        //Disadvantage
-        dialogData.buttons.button3 = {
-        label: game.i18n.localize("Mosh.Normal"),
-          label: game.i18n.localize("Mosh.Disadvantage"),
-          callback: (html) => { 
-            rollString = dieDis;
-            resolve([rollString]);
-            console.log(`User left the chooseAdvantage dialog with: rollString:${rollString}`);
-          },
-          icon: `<i class="fas fa-angle-double-down"></i>`
-        };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 105
-      }).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     });
   }
 
@@ -2261,23 +2263,23 @@ export class MothershipActor extends Actor {
       const dialogData = {
         title: game.i18n.localize("Mosh.WeaponIssue"),
         content: `<h4>` + game.i18n.localize("Mosh.OutOfAmmoNeedReload") + `</h4><br/>`,
-        buttons: {}
+        buttons: [
+          {
+            label: game.i18n.localize("Mosh.Reload"),
+			      action: `action_reload`,
+            callback: () => this.reloadWeapon(itemId),
+            icon: `<i class="fas fa-check"></i>`
+          },
+          {
+            label: `Cancel`,
+			      action: `action_cancel`,
+            callback: () => {},
+            icon: `<i class="fas fa-times"></i>`
+          }
+        ]
       };
-      //add buttons
-        //reload
-        dialogData.buttons.roll = {
-          label: game.i18n.localize("Mosh.Reload"),
-          callback: () => this.reloadWeapon(itemId),
-          icon: `<i class="fas fa-check"></i>`
-        };
-        //cancel
-        dialogData.buttons.cancel = {
-          label: `Cancel`,
-        callback: () => {},
-          icon: `<i class="fas fa-times"></i>`
-        };
       //render dialog
-      const dialog = new Dialog(dialogData).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     });
     //log what was done
     console.log(`Asked for reload.`);
@@ -2291,17 +2293,17 @@ export class MothershipActor extends Actor {
       const dialogData = {
         title: game.i18n.localize("Mosh.WeaponIssue"),
         content: `<h4>` + game.i18n.localize("Mosh.OutOfAmmo") + `</h4><br/>`,
-        buttons: {}
+        buttons: [
+          {
+            label: game.i18n.localize("Mosh.OK"),
+			      action: `action_okay`,
+            callback: () => {},
+            icon: '<i class="fas fa-check"></i>'
+          }
+        ]
       };
-      //add buttons
-        //Ok
-        dialogData.buttons.cancel = {
-          label: game.i18n.localize("Mosh.OK"),
-        callback: () => {},
-          icon: '<i class="fas fa-check"></i>'
-        };
       //render dialog
-      const dialog = new Dialog(dialogData).render(true);
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
     });
     //log what was done
     console.log(`Told user they are out of ammo.`);
@@ -2376,11 +2378,11 @@ export class MothershipActor extends Actor {
       ChatMessage.create({
         id: chatId,
         user: game.user.id,
-      speaker: {
-        actor: this.id,
-        token: this.token,
-        alias: this.name
-      },
+        speaker: {
+          actor: this.id,
+          token: this.token,
+          alias: this.name
+        },
         content: messageContent
     }, {
       keepId: true
@@ -2588,28 +2590,27 @@ export class MothershipActor extends Actor {
       
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.Cover"),
+        window: {title: game.i18n.localize("Mosh.Cover")},
+        position: {width: 600,height: 580},
         content: msgContent,
-        buttons: {}
+        buttons: [
+          {
+            label: game.i18n.localize("Mosh.OK"),
+			      action: `action_okay`,
+            callback: (event, button, dialog) => {
+              this.update({
+                'system.stats.armor.cover': button.form.querySelector("input[name='cover']:checked")?.getAttribute("value")
+              });
+              console.log(`User's cover is now:${button.form.querySelector("input[name='cover']:checked")?.getAttribute("value")}`);
+            },
+            icon: '<i class="fas fa-check"></i>'
+          }
+        ]
       };
-      //add buttons
-        //Ok
-        dialogData.buttons.cancel = {
-          label: game.i18n.localize("Mosh.OK"),
-          callback: (html) => {
-          this.update({
-            'system.stats.armor.cover': html.find("input[name='cover']:checked").attr("value")
-          });
-            console.log(`User's cover is now:${html.find("input[name='cover']:checked").attr("value")}`);
-          },
-          icon: '<i class="fas fa-check"></i>'
-        };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 580
-      }).render(true);
-      });
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
+    
+    });
     
   }
 
@@ -2622,32 +2623,34 @@ export class MothershipActor extends Actor {
       
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.DistressSignal"),
+        window: {title: game.i18n.localize("Mosh.DistressSignal")},
+        position: {width: 600,height: 265},
         content: msgContent,
-        buttons: {
-          button1: {
+        buttons: [
+          {
             label: game.i18n.localize("Mosh.Advantage"),
+			      action: `action_advantage`,
             callback: () => this.rollTable(game.settings.get('mosh', 'table1eDistressSignal'), `1d10 [+]`, `low`, true, false, null, null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
-          button2: {
+          {
             label: game.i18n.localize("Mosh.Normal"),
+			      action: `action_normal`,
             callback: () => this.rollTable(game.settings.get('mosh', 'table1eDistressSignal'), `1d10`, `low`, true, false, null, null),
             icon: `<i class="fas fa-minus"></i>`
           },
-          button3: {
+          {
             label: game.i18n.localize("Mosh.Disadvantage"),
+			      action: `action_disadvantage`,
             callback: () => this.rollTable(game.settings.get('mosh', 'table1eDistressSignal'), `1d10 [-]`, `low`, true, false, null, null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
-        }
+        ]
       };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 265
-      }).render(true);
-      });
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
+    
+    });
     
   }
 
@@ -2661,32 +2664,34 @@ export class MothershipActor extends Actor {
       `;
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.MaintenanceCheck"),
+        window: {title: game.i18n.localize("Mosh.MaintenanceCheck")},
+        position: {width: 600,height: 265},
         content: msgContent,
-        buttons: {
-          button1: {
+        buttons: [
+          {
             label: game.i18n.localize("Mosh.Advantage"),
+			      action: `action_advantage`,
             callback: () => this.rollTable(`maintenanceCheck`, `1d100 [+]`, `low`, null, null, null, null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
-          button2: {
+          {
             label: game.i18n.localize("Mosh.Normal"),
+			      action: `action_normal`,
             callback: () => this.rollTable(`maintenanceCheck`, `1d100`, `low`, null, null, null, null),
             icon: `<i class="fas fa-minus"></i>`
           },
-          button3: {
+          {
             label: game.i18n.localize("Mosh.Disadvantage"),
+			      action: `action_disadvantage`,
             callback: () => this.rollTable(`maintenanceCheck`, `1d100 [-]`, `low`, null, null, null, null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
-        }
+        ]
       };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 265
-      }).render(true);
-      });
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
+    
+    });
     
   }
 
@@ -2700,32 +2705,34 @@ export class MothershipActor extends Actor {
       `;
       //create final dialog data
       const dialogData = {
-        title: game.i18n.localize("Mosh.BankrupcySave"),
+        window: {title: game.i18n.localize("Mosh.BankrupcySave")},
+        position: {width: 600,height: 265},
         content: msgContent,
-        buttons: {
-          button1: {
+        buttons: [
+          {
             label: game.i18n.localize("Mosh.Advantage"),
+			      action: `action_advantage`,
             callback: () => this.rollCheck(`1d100 [+]`, `low`, `bankruptcySave`, null, null, null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
-          button2: {
+          {
             label: game.i18n.localize("Mosh.Normal"),
+			      action: `action_normal`,
             callback: () => this.rollCheck(`1d100`, `low`, `bankruptcySave`, null, null, null),
             icon: `<i class="fas fa-minus"></i>`
           },
-          button3: {
+          {
             label: game.i18n.localize("Mosh.Disadvantage"),
+			      action: `action_disadvantage`,
             callback: () => this.rollCheck(`1d100 [-]`, `low`, `bankruptcySave`, null, null, null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
-        }
+        ]
       };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 265
-      }).render(true);
-      });
+      new foundry.applications.api.DialogV2(dialogData).render({force: true});
+
+    });
     
   }
 
@@ -2774,32 +2781,34 @@ export class MothershipActor extends Actor {
       `;
       //create final dialog data
       const dialogData = {
-        title: `Morale Check`,
+        window: {title: `Morale Check`},
+        position: {width: 600,height: 265},
         content: msgContent,
-        buttons: {
-          button1: {
+        buttons: [
+          {
             label: game.i18n.localize("Mosh.Advantage"),
+			      action: `action_advantage`,
             callback: () => this.rollCheck(`1d10 [+]`, `high-equal`, `moraleCheck`, null, null, null),
             icon: `<i class="fas fa-angle-double-up"></i>`
           },
-          button2: {
+          {
             label: game.i18n.localize("Mosh.Normal"),
+			      action: `action_normal`,
             callback: () => this.rollCheck(`1d10`, `high-equal`, `moraleCheck`, null, null, null),
             icon: `<i class="fas fa-minus"></i>`
           },
-          button3: {
+          {
             label: game.i18n.localize("Mosh.Disadvantage"),
+			      action: `action_disadvantage`,
             callback: () => this.rollCheck(`1d10 [-]`, `high-equal`, `moraleCheck`, null, null, null),
             icon: `<i class="fas fa-angle-double-down"></i>`
           }
-        }
+        ]
       };
       //render dialog
-      const dialog = new Dialog(dialogData, {
-        width: 600,
-        height: 265
-      }).render(true);
-      });
+      const dialog = new foundry.applications.api.DialogV2(dialogData).render({force: true});
+
+    });
     
   }
 

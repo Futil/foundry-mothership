@@ -6,8 +6,9 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
   game.mosh.noCharSelected();
 //else pop up the dialog
 } else {
-  new Dialog({
-    title: `Save`,
+  new foundry.applications.api.DialogV2({
+    window: {title: `Save`},
+    position: {width: 600,height: 470},
     content: `
     <style>
       .macro_window{
@@ -80,12 +81,13 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
       </div>
     </label>
     `,
-    buttons: {
-      button1: {
+    buttons: [
+      {
         label: `Next`,
-        callback: (html) => game.mosh.initRollCheck(null,'low',html.find("input[name='save']:checked").val(),null,null,null),
+        action: 'button_1',
+        callback: (event, button, dialog) => game.mosh.initRollCheck(null,'low',button.form.querySelector("input[name='save']:checked").value,null,null,null),
         icon: `<i class="fas fa-chevron-circle-right"></i>`
       }
-    }
-  },{width: 600,height: 470}).render(true);
+    ]
+  }).render({force: true});
 }

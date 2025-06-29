@@ -6,8 +6,9 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
   game.mosh.noCharSelected();
 //else pop up the dialog
 } else {
-  new Dialog({
-    title: `Lose Calm`,
+  new foundry.applications.api.DialogV2({
+    window: {title: `Lose Calm`},
+    position: {width: 600,height: 265},
     content: `
     <style>
     .macro_window{
@@ -44,22 +45,25 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
     
     <h4>Select your modification:</h4>
     `,
-    buttons: {
-      button1: {
+    buttons: [
+      {
       label: `Lose 5 Calm`,
+      action: `lose_5`,
       callback: () => game.mosh.initModifyActor('system.other.stress.value',-5,null,true),
       icon: `<i class="fas fa-angle-down"></i>`
       },
-      button2: {
+      {
       label: `Lose 10 Calm`,
+      action: `lose_10`,
       callback: () => game.mosh.initModifyActor('system.other.stress.value',-10,null,true),
       icon: `<i class="fas fa-angle-double-down"></i>`
       },
-      button3: {
+      {
       label: `Lose 1d20 Calm`,
+      action: `lose_1d20`,
       callback: () => game.mosh.initModifyActor('system.other.stress.value',null,`-1d20`,true),
       icon: `<i class="fas fa-arrow-circle-down"></i>`
       }
-    }
-  },{width: 600,height: 265}).render(true);
+    ]
+  }).render({force: true});
 }

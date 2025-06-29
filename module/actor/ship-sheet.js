@@ -2,7 +2,7 @@
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class MothershipShipSheet extends ActorSheet {
+export class MothershipShipSheet extends foundry.appv1.sheets.ActorSheet {
 
     /** @override */
     static get defaultOptions() {
@@ -48,7 +48,7 @@ export class MothershipShipSheet extends ActorSheet {
         superData.supplies.hull.percentage = " [ " + Math.round(maxHull * 0.25) + " | " + Math.round(maxHull * 0.5) + " | " + Math.round(maxHull * 0.75) + " ]";
         
         data.data.enriched = [];
-        data.data.enriched.biography = await TextEditor.enrichHTML(data.data.system.biography, {async: true});
+        data.data.enriched.biography = await foundry.applications.ux.TextEditor.implementation.enrichHTML(data.data.system.biography, {async: true});
         
         return data.data;
     }
@@ -114,7 +114,7 @@ export class MothershipShipSheet extends ActorSheet {
         html.find('.item-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
             const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
-            item.sheet.render(true);
+            item.sheet.render({force: true});
 
             let amount = item.system.quantity;
 
@@ -161,7 +161,7 @@ export class MothershipShipSheet extends ActorSheet {
         html.find('.weapon-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
             const weapon = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
-            weapon.sheet.render(true);
+            weapon.sheet.render({force: true});
         });
         // Rollable Weapon
         html.find('.weapon-roll').click(ev => {

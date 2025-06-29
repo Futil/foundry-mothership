@@ -6,8 +6,9 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
   game.mosh.noCharSelected();
 //else pop up the dialog
 } else {
-  new Dialog({
-    title: `Gain Stress`,
+  new foundry.applications.api.DialogV2({
+    window: {title: `Gain Stress`},
+    position: {width: 600,height: 265},
     content: `
     <style>
     .macro_window{
@@ -44,22 +45,25 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
     
     <h4>Select your modification:</h4>
     `,
-    buttons: {
-      button1: {
+    buttons: [
+      {
       label: `Gain 1 Stress`,
+      action: `gain_1`,
       callback: () => game.mosh.initModifyActor('system.other.stress.value',1,null,true),
       icon: `<i class="fas fa-angle-up"></i>`
       },
-      button2: {
+      {
       label: `Gain 2 Stress`,
+      action: `gain_2`,
       callback: () => game.mosh.initModifyActor('system.other.stress.value',2,null,true),
       icon: `<i class="fas fa-angle-double-up"></i>`
       },
-      button3: {
+      {
       label: `Gain 1d5 Stress`,
+      action: `gain_1d5`,
       callback: () => game.mosh.initModifyActor('system.other.stress.value',null,`1d5`,true),
       icon: `<i class="fas fa-arrow-circle-up"></i>`
       }
-    }
-  },{width: 600,height: 265}).render(true);
+    ]
+  }).render({force: true});
 }

@@ -1,4 +1,4 @@
-export class DLCreatureSettings extends FormApplication {
+export class DLCreatureSettings extends foundry.appv1.FormApplication {
     static get defaultOptions() {
         const options = super.defaultOptions;
         options.id = 'sheet-modifiers';
@@ -150,6 +150,6 @@ export class DLCreatureSettings extends FormApplication {
         this.object.update({
             formData
         });
-        this.object.sheet.render(true);
+        this.object.sheet.render({force: true});
     }
 }

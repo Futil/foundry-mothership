@@ -7,8 +7,9 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
 //else pop up the dialog
 } else {
   //pop up the death save dialog box
-  new Dialog({
-    title: `Death Save`,
+  new new foundry.applications.api.DialogV2({
+    window: {title: `Death Save`},
+    position: {width: 600,height: 265},
     content: `
       <style>
         .macro_window{
@@ -43,22 +44,25 @@ if ((macroTarget === 'character' && !game.user.character) || (macroTarget === 't
       </div>
       <h4>Select your roll type:</h4>
     `,
-    buttons: {
-      button1: {
+    buttons: [
+      {
         label: `Advantage`,
+        action: `action_advantage`,
         callback: () => game.mosh.initRollTable(game.settings.get('mosh','table0eDeath'),`1d10 [+]`,`high`,false,false,null,null),
         icon: `<i class="fas fa-angle-double-up"></i>`
       },
-      button2: {
+      {
         label: `Normal`,
+        action: `action_normal`,
         callback: () => game.mosh.initRollTable(game.settings.get('mosh','table0eDeath'),`1d10`,`high`,false,false,null,null),
         icon: `<i class="fas fa-minus"></i>`
       },
-      button3: {
+      {
         label: `Disadvantage`,
+        action: `action_disadvantage`,
         callback: () => game.mosh.initRollTable(game.settings.get('mosh','table0eDeath'),`1d10 [-]`,`high`,false,false,null,null),
         icon: `<i class="fas fa-angle-double-down"></i>`
       }
-    }
-  },{width: 600,height: 265}).render(true);
+    ]
+  }).render({force: true});
 }

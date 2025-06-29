@@ -197,6 +197,7 @@ export class DLActorGenerator extends FormApplication {
          for (let j = 0; j < skillPopupOptions.length; j++) {
             buttons_options.push({
                icon: '<i class="fas fa-check"></i>',
+			      action: skillPopupOptions[j].name,
                label: skillPopupOptions[j].name,
                callback: () => resolve(skillPopupOptions[j].uuid),
             });
@@ -369,6 +370,7 @@ export class DLActorGenerator extends FormApplication {
          for (let i=0;i<list_option_skills_or.length;i++){
             buttonsData.push({
                icon: '<i class="fas fa-check"></i>',
+			      action: list_option_skills_or[i].name,
                label: list_option_skills_or[i].name,//game.i18n.localize("Mosh.CharacterGenerator.SkillOption.ChoiceWord") + ` ${i}`,
                callback: () => {
                   resolve(list_option_skills_or[i]);
@@ -480,6 +482,7 @@ export class DLActorGenerator extends FormApplication {
                let prev_bonus = this._element.find(`input[name="system.stats.${option_stats_and_saves.stats[j]}.bonus"]`).prop("value");
                buttons_options.push({
                   icon: '<i class="fas fa-check"></i>',
+			         action: option_stats_and_saves.stats[j],
                   label: option_stats_and_saves.stats[j],//.replace(/\.bonus/i,"").replace(/(.*)\.+/i,""),
                   callback: () => this._element.find(`input[name="system.stats.${option_stats_and_saves.stats[j]}.bonus"]`).prop("value", (parseInt(option_stats_and_saves.modification) + parseInt(prev_bonus)))
                });

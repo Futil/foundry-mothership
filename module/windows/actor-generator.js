@@ -331,6 +331,7 @@ export class DLActorGenerator extends FormApplication {
             buttons: [
                {
                   icon: '<i class="fas fa-check"></i>',
+			         action: `action_save`,
                   label: "Save",
                   callback: (event, button, dialog) => {
                      let form = button.form.querySelector('form');

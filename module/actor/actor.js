@@ -4,7 +4,7 @@ import { fromIdUuid } from "../mosh.js";
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-export class MothershipActor extends foundry.appv1.Actor {
+export class MothershipActor extends Actor {
 
   //Augment the basic actor data with additional dynamic data.
   prepareData() {

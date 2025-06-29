@@ -1,4 +1,4 @@
-export class rolltableConfig extends foundry.appv1.FormApplication {
+export class rolltableConfig extends FormApplication {
     static get defaultOptions() {
         const options = super.defaultOptions;
         console.log(options);

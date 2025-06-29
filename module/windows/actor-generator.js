@@ -1,4 +1,4 @@
-export class DLActorGenerator extends foundry.appv1.FormApplication {
+export class DLActorGenerator extends FormApplication {
    static get defaultOptions() {
       const options = super.defaultOptions;
       options.id = 'sheet-modifiers';

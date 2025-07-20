@@ -15,3 +15,7 @@ An unofficial implementation of Tuesday Knight's Mothership role playing system.
 #### Screenshots
 ![Alt text](https://github.com/Futil/foundry-mothership/assets/982251/9d929554-8fcf-4fa1-b198-44c99b60434c "Screenshot") 
 
+#### Community Module Policy
+- This Foundry VTT system for Mothership is an unofficial community project, released under the MIT License. Third-party modules (free or paid) are welcome, but are not supported, and may break with future updates to the system.
+- This system is not affiliated with Tuesday Knight Games and is released for non-commercial purposes.
+- Mothership is copyright Tuesday Knight Games. All relevant trademarks and IP are the property of their respective owners.

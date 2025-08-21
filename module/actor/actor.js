@@ -1287,14 +1287,18 @@ export class MothershipActor extends Actor {
         rollString = chosenSkills[0];
         skill = chosenSkills[1];
         skillValue = chosenSkills[2];
+        console.log(chosenSkills)
       }
+      
       //if rollString is STILL blank, redirect player to choose the roll
       if (!rollString) {
         //run the choose attribute function
+        
       let chosenRollType = await this.chooseAdvantage(this.system.stats[attribute].rollLabel, '1d100');
         //set variables
         rollString = chosenRollType[0];
       }
+
     //if this is a weapon roll
     if (weapon) {
       //check to see if this weapon uses ammo
@@ -1373,6 +1377,7 @@ export class MothershipActor extends Actor {
         //combine back into string
         woundEffect = woundArray.join(' ');
       }
+
       //generate chat message
         //prepare data
         let messageData = {

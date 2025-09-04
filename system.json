@@ -141,7 +141,14 @@
     },
     {
       "lang": "pt-BR",
+      "name": "Português (Brasil)",
       "path": "lang/pt-BR.json",
+      "flags": {}
+    },
+    {
+      "lang": "es",
+      "name": "Español",
+      "path": "lang/es.json",
       "flags": {}
     }
   ],

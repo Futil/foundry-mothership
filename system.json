@@ -145,8 +145,10 @@
       "flags": {}
     }
   ],
-  "grid.distance": 1,
-  "grid.units": "meter",
+  "grid": {
+    "distance": 1,
+    "units": "meter"
+  },
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "other.stress",
   "url": "https://github.com/Futil/foundry-mothership",

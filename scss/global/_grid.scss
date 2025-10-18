@@ -3,9 +3,17 @@
   display: grid;
   grid-column: span 2 / span 2;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 10px 0;
+  gap: 2px;
   padding: 0;
+}
+
+.grid-1col {
+  grid-column: span 1 / span 1;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.widegap {
+  gap: 16px;
 }
 
 .grid-3col {
@@ -64,8 +72,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 5px;
-  border: 1px solid #999;
+  padding: 3px;
 }
 
 .flex-group-left {

@@ -7,3 +7,10 @@
 .flex-between {
   justify-content: space-between;
 }
+
+.flex {
+  display: flex;
+  justify-content:space-evenly;
+  align-items: center;
+  flex: auto;
+}

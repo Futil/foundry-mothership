@@ -1,0 +1,32 @@
+/* Branding */
+#logo {
+  content: url("/systems/mosh/images/icons/ui/system/logo.webp");
+  width: 100px;
+  height: 50px;
+}
+
+#pause>img {
+  background: none;
+  content: url("/systems/mosh/images/icons/ui/system/pause.webp");
+  width: 200px;
+  height: 200px;
+  top: -95px;
+  left: calc(50% - 100px);
+  opacity: .3;
+}
+
+#pause {
+  background: none;
+}
+
+#pause figcaption {
+  font-family: "Roboto", sans-serif;
+  color: #ffffff;
+  opacity: .3;
+  padding-left: 6px;
+}
+
+/* Paragraph */
+p {
+  margin: 0em 0;
+}

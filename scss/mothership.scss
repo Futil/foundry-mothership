@@ -1,20 +1,16 @@
-// Import utilities.
-@use "sass:meta";
-@use 'utils/typography';
-@use 'utils/colors';
-@use 'utils/mixins';
-@use 'utils/variables';
+// Import utilities
+@use 'utils' as *;
 
 /* Global styles */
+@use 'global/branding';
 @use 'global/window';
 @use 'global/grid';
 @use 'global/flex';
 
-/* Styles limited to mosh sheets */
-.mosh {
-  @include meta.load-css('components/forms');
-  @include meta.load-css('components/resource');
-  @include meta.load-css('components/tabs');
-  @include meta.load-css('components/items');
-  @include meta.load-css('components/actor_generator');
-}
+/* Component styles */
+@use 'components/forms';
+@use 'components/resource';
+@use 'components/tabs';
+@use 'components/items';
+@use 'components/actor_generator';
+@use 'components/extended';

@@ -1,7 +1,8 @@
 const gulp = require('gulp');
 const autoprefixer = require('gulp-autoprefixer').default;
 const sass = require('gulp-sass')(require('sass'));
-
+const rename = require('gulp-rename');
+const { deleteAsync } = require('del');
 /* ----------------------------------------- */
 /*  Compile Sass
 /* ----------------------------------------- */
@@ -16,7 +17,7 @@ const SYSTEM_SCSS = ["scss/**/*.scss"];
 function compileScss() {
   // Configure options for sass output. For example, 'expanded' or 'nested'
   let options = {
-    outputStyle: 'expanded'
+    style: 'expanded'
   };
   return gulp.src(SYSTEM_SCSS)
     .pipe(
@@ -26,9 +27,18 @@ function compileScss() {
     .pipe(autoprefixer({
       cascade: false
     }))
+    .pipe(rename('mosh.css'))
     .pipe(gulp.dest("./css"))
 }
 const css = gulp.series(compileScss);
+
+/* ----------------------------------------- */
+/*  Clean Dist Folder
+/* ----------------------------------------- */
+
+async function cleanDist() {
+  await deleteAsync(['./dist/**/*']);
+}
 
 /* ----------------------------------------- */
 /*  Copy System Files to Dist
@@ -54,7 +64,7 @@ function copySystemFiles() {
     .pipe(gulp.dest('./dist'));
 }
 
-const build = gulp.series(compileScss, copySystemFiles);
+const build = gulp.series(cleanDist, compileScss, copySystemFiles);
 
 /* ----------------------------------------- */
 /*  Watch Updates
@@ -90,6 +100,7 @@ exports.default = gulp.series(
 exports.css = css;
 exports.build = build;
 exports['build:watch'] = gulp.series(
+  cleanDist,
   compileScss,
   copySystemFiles,
   watchUpdatesWithBuild

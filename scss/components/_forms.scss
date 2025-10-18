@@ -1,5 +1,8 @@
+@use "../utils/colors";
+@use "../utils/typography";
+
 .item-form {
-  font-family: $font-primary;
+  font-family: typography.$font-primary;
 }
 
 .sheet-header {
@@ -46,7 +49,7 @@
 
 .tox {
   .tox-editor-container {
-    background: $c-white;
+    background: colors.$c-white;
   }
 
   .tox-edit-area {

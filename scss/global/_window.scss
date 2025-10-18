@@ -1,5 +1,7 @@
+@use "../utils/typography";
+
 .window-app {
-  font-family: $font-primary;
+  font-family: typography.$font-primary;
 }
 
 .rollable {

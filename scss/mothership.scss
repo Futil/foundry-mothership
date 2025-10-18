@@ -1,19 +1,20 @@
 // Import utilities.
-@import 'utils/typography';
-@import 'utils/colors';
-@import 'utils/mixins';
-@import 'utils/variables';
+@use "sass:meta";
+@use 'utils/typography';
+@use 'utils/colors';
+@use 'utils/mixins';
+@use 'utils/variables';
 
 /* Global styles */
-@import 'global/window';
-@import 'global/grid';
-@import 'global/flex';
+@use 'global/window';
+@use 'global/grid';
+@use 'global/flex';
 
 /* Styles limited to mosh sheets */
 .mosh {
-  @import 'components/forms';
-  @import 'components/resource';
-  @import 'components/tabs';
-  @import 'components/items';
-  @import 'components/actor_generator';
+  @include meta.load-css('components/forms');
+  @include meta.load-css('components/resource');
+  @include meta.load-css('components/tabs');
+  @include meta.load-css('components/items');
+  @include meta.load-css('components/actor_generator');
 }

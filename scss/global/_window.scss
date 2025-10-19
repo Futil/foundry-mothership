@@ -1,12 +1,48 @@
+@use '../utils' as *;
+
 .window-app {
   font-family: $font-primary;
+
+  .window-content {
+    background: #fff;
+  }
 }
 
-.rollable {
-  &:hover,
-  &:focus {
-    color: #000;
-    text-shadow: 0 0 10px red;
-    cursor: pointer;
-  }
+.mosh ::-webkit-scrollbar-thumb {
+  outline: none;
+  border-radius: 3px;
+  background: black;
+  border: 1px solid white;
+}
+
+.mosh .window-content{
+  scrollbar-width: thin;
+  scrollbar-color: black #fff;
+}
+
+.mosh .white{
+  color:white;
+}
+
+.mosh .darkgrey{
+  color:rgb(92, 92, 92);
+}
+
+.dice-tooltip .dice-rolls .roll.max {
+  color: #18520b;
+  filter: sepia(0.5) hue-rotate(60deg);
+}
+
+.dice-tooltip .dice-rolls .roll.min {
+  color: #aa0200;
+  filter: sepia(0.5) hue-rotate(340deg);
+}
+
+.list-roll:hover,
+.list-roll:focus,
+.rollable:hover,
+.rollable:focus {
+  color: #000;
+  text-shadow: 0 0 10px rgb(112, 112, 112);
+  cursor: pointer;
 }

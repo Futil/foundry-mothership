@@ -1,4 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap');
+
+/* =========== */
+
+/* pt-serif-regular - latin */
+@font-face {
+  font-family: 'Futura PT Book';
+  font-style: normal;
+  font-weight: normal;
+	src: local('Futura PT Book');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* pt-serif-700 - latin */
+@font-face {
+  font-family: 'Futura PT Bold';
+  font-style: normal;
+  font-weight: bold;
+	src: local('Futura PT Bold');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* pt-serif-700 - latin */
+@font-face {
+  font-family: 'Futura PT Cond Medium';
+  font-style: normal;
+  font-weight: normal;
+	src: local('Futura PT Cond Medium');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* pt-serif-700 - latin */
+@font-face {
+  font-family: 'Futura PT Cond Bold';
+  font-style: normal;
+  font-weight: bold;
+	src: local('Futura PT Cond Bold');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 $font-primary: 'Roboto', sans-serif;
 $font-secondary: 'Roboto', sans-serif;

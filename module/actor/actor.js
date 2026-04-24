@@ -1897,8 +1897,8 @@ export class MothershipActor extends Actor {
         content: messageContent,
         flags: {
           mosh: {
-            success: parsedRollResult.isSuccess,
-            critical: parsedRollResult.isCritical
+            isSuccess: parsedRollResult.success,
+            isCritical: parsedRollResult.critical
           }
         }
     }, {

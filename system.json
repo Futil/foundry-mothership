@@ -2,7 +2,7 @@
   "id": "mosh",
   "title": "MoSh - Unofficial Mothership",
   "description": "The unofficial Mothership system for FoundryVTT.",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "esmodules": [
     "module/mosh.js"
   ],
@@ -165,9 +165,27 @@
       "flags": {}
     }
   ],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "creature": {},
+      "ship": {}
+    },
+    "Item": {
+      "item": {},
+      "skill": {},
+      "weapon": {},
+      "armor": {},
+      "ability": {},
+      "module": {},
+      "condition": {},
+      "crew": {},
+      "repair": {},
+      "class": {}
+    }
+  },
   "compatibility": {
     "minimum": "13",
-    "maximum": "13",
-    "verified": "13"
+    "verified": "14"
   }
 }

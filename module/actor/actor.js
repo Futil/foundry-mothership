@@ -1894,7 +1894,13 @@ export class MothershipActor extends Actor {
         token: this.token,
         alias: this.name
       },
-        content: messageContent
+        content: messageContent,
+        flags: {
+          mosh: {
+            isSuccess: parsedRollResult.success,
+            isCritical: parsedRollResult.critical
+          }
+        }
     }, {
       keepId: true
     });

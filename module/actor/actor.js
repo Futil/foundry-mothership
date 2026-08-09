@@ -1023,12 +1023,32 @@ export class MothershipActor extends Actor {
     });
   }
 
+  //gathers every crew member's skill items, deduplicated by name (keeping the highest bonus)
+  async getCrewSkills() {
+    let crewSkills = new Map();
+    
+    for (const crewItem of this.items.filter(i => i.type === 'crew')) {
+      if (!crewItem.system.actorUuid) continue;
+      let crewActor = await fromUuid(crewItem.system.actorUuid);
+      if (!crewActor) continue;
+
+      for (let skill of crewActor.items.filter(i => i.type === 'skill')) {
+        let existing = crewSkills.get(skill.name);
+        if (!existing || Number(skill.system.bonus) > Number(existing.system.bonus)) {
+          crewSkills.set(skill.name, skill);
+        }
+      }
+    }
+
+    return Array.from(crewSkills.values());
+  }
+
   //central adding skill function | TAKES '1d10','low' | RETURNS player selected skill + value. If parameters are null, it asks the player.
-  async chooseSkill(dlgTitle, rollString) {
+  async chooseSkill(dlgTitle, rollString, skillItems = this.items) {
     //wrap the whole thing in a promise, so that it waits for the form to be interacted with
     return new Promise(async (resolve) => {
       //init vars
-      let playerItems = this.items;
+      let playerItems = skillItems;
       let skill = ``;
       let skillValue = 0;
       let buttonDesc = ``;
@@ -1335,14 +1355,24 @@ export class MothershipActor extends Actor {
         attribute = chosenAttributes[2];
         //if null, zero them out
       }
-      //if skill is blank and actor is a character, redirect player to choose a skill
-      if (!skill && this.type === 'character') {
-      //run the choose attribute function
-      let chosenSkills = await this.chooseSkill(this.system.stats[attribute].rollLabel, rollString);
+      //if skill is blank redirect player to choose a skill
+      if (!skill) {
+        let chosenSkills;
+        //if actor is character choose actor skills
+        if (this.type === 'character') {
+          //run the choose attribute function
+          chosenSkills = await this.chooseSkill(this.system.stats[attribute].rollLabel, rollString);
+        //if actor is ship choose skill of crew members
+        } else if (this.type === 'ship') {
+          let crewSkills = await this.getCrewSkills();
+          chosenSkills = await this.chooseSkill(this.system.stats[attribute].rollLabel, rollString, crewSkills);
+        }
         //set variables
-        rollString = chosenSkills[0];
-        skill = chosenSkills[1];
-        skillValue = chosenSkills[2];
+        if (chosenSkills) {
+          rollString = chosenSkills[0];
+          skill = chosenSkills[1];
+          skillValue = chosenSkills[2];
+        }
       }
       //if rollString is STILL blank, redirect player to choose the roll
       if (!rollString) {

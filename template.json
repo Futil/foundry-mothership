@@ -450,7 +450,8 @@
         "base"
       ],
       "text": "",
-      "job" : ""
+      "job" : "",
+      "actorUuid" : ""
     },
     "repair": {
       "templates": [

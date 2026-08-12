@@ -418,6 +418,17 @@ export class MothershipShipSheetSBT extends  foundry.appv1.sheets.ActorSheet {
             });
         });
 
+        //Crew List
+        html.find('.sbt-crew-name').click(async ev => {
+            if (ev.target.closest(".item-control")) return;
+
+            const li = ev.currentTarget.closest(".item");
+            const item = this.actor.getEmbeddedDocument("Item", li.dataset.itemId);
+            const crewActor = await fromUuid(item.system.actorUuid);
+
+            crewActor.sheet.render({force: true});
+        })
+
 
 
         // Drag events for macros.
@@ -493,6 +504,28 @@ export class MothershipShipSheetSBT extends  foundry.appv1.sheets.ActorSheet {
                 flavor: label
             });
         }
+    }
+
+    async _onDropActor( event, actor ){
+        const droppedActor = await fromUuid(actor.uuid)
+
+        if (!['character', 'creature'].includes(droppedActor.type)) {
+            return false;
+        }
+
+        const itemData = { 
+            name: droppedActor.name,
+            type: "crew",
+            img: droppedActor.img,
+            system: {
+                actorUuid: droppedActor.uuid   
+            }
+        }
+        if (droppedActor.system.class){
+            itemData.system.job = droppedActor.system.class.value
+        }
+
+        return this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
 
 }

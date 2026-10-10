@@ -177,10 +177,10 @@
                 },
                 "decrease": {
                     "human": "Te estremeces de dolor.",
-                    "android": "Sus receptores de dolor indican el daño del núcleo."
+                    "android": "Tus receptores de dolor indican daño en el núcleo."
                 },
                 "increase": {
-                    "android": "Los recursos del sistema se liberan y se siente energizado.",
+                    "android": "Los recursos del sistema se liberan y te sientes energizado.",
                     "human": "Siente una explosión de energía."
                 },
                 "increaseImg": {
@@ -205,11 +205,11 @@
                 },
                 "hitFloor": {
                     "android": "Tus receptores de dolor indican daño en el núcleo.",
-                    "human": "Sus receptores de dolor indican el daño del núcleo."
+                    "human": "Tus receptores de dolor indican daño en el núcleo."
                 },
                 "pastFloor": {
-                    "android": "Sus receptores de dolor indican el daño del núcleo.",
-                    "human": "Sus receptores de dolor indican el daño del núcleo."
+                    "android": "Tus receptores de dolor indican daño en el núcleo.",
+                    "human": "Tus receptores de dolor indican daño en el núcleo."
                 }
             },
             "hits": {
@@ -896,7 +896,7 @@
             "SkillOption.PopupTitle": "Elige tus habilidades",
             "SkillOption.PopupTrainedDescription": "Elige 1 habilidad entrenada",
             "SkillOption.PopupExpertDescription": "Elige 1 habilidad experta",
-            "SkillOption.PopupMasterDescription": "Elige 1 habilidad experta",
+            "SkillOption.PopupMasterDescription": "Elige 1 habilidad maestra",
             "SkillOption.PopupFullMasterName": "Conjunto maestro",
             "SkillOption.PopupFullMasterDescription": "Elige 1 habilidad maestra y un requisito de habilidad experta y entrenada.",
             "SkillOption.PopupFullExpertName": "Conjunto experto",
@@ -921,7 +921,7 @@
         "AntiArmorAcronym": "AA",
         "AntiArmor": "Anti Armadura",
         "AP": "AP",
-        "Armor": "Blindaje",
+        "Armor": "Armadura",
         "ArmorName": "Nombre de la armadura",
         "ArmorPoints": "Puntos de armadura",
         "Background": "Trasfondo",

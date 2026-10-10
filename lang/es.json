@@ -1066,6 +1066,8 @@
         "Weight": "Peso",
         "XP": "XP",
         "CombatSkillExample": "Luchando por tu vida.",
-        "HeavyCover": "Cubierta pesada"
+        "HeavyCover": "Cubierta pesada",
+        "NoCover": "Sin cobertura",
+        "InsignificantCover": "Cubierta insignificante"
     }
 }

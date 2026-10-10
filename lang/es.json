@@ -1114,7 +1114,7 @@
         "OutOfAmmo": "Sin munición",
         "OutOfAmmoNeedReload": "Sin munición, necesitas recargar",
         "WeaponIssue": "Problema con el arma",
-        "AddOr": "Añadir o",
+        "AddOr": "Añadir",
         "YouAddThisToYourInventory": "Añades esto a tu inventario.",
         "YouAddAnotherOfThisToYourInventory": "Añades otro de estos a tu inventario.",
         "HealthZeroMessage": "Tu salud ha llegado a cero y debes sufrir una herida.",

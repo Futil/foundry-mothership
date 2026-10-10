@@ -205,11 +205,11 @@
                 },
                 "hitFloor": {
                     "android": "Tus receptores de dolor indican daño en el núcleo.",
-                    "human": "Tus receptores de dolor indican daño en el núcleo."
+                    "human": "Te estremeces por el dolor.."
                 },
                 "pastFloor": {
                     "android": "Tus receptores de dolor indican daño en el núcleo.",
-                    "human": "Tus receptores de dolor indican daño en el núcleo."
+                    "human": "No te queda salud."
                 }
             },
             "hits": {

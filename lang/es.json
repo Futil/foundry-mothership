@@ -1057,6 +1057,15 @@
         "SkillsOptionalAnd": "Habilidades seleccionadas",
         "SkillsOptionalOr": "Habilidades opcionales",
         "Strength": "Fuerza",
-        "Systems": "Sistemas"
+        "Systems": "Sistemas",
+        "Total": "Total",
+        "Treatment": "Tratamiento",
+        "Value": "Valor",
+        "WeaponName": "Nombre del arma",
+        "Weapons": "Armas",
+        "Weight": "Peso",
+        "XP": "XP",
+        "CombatSkillExample": "Luchando por tu vida.",
+        "HeavyCover": "Cubierta pesada"
     }
 }

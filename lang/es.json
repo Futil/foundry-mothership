@@ -1127,7 +1127,19 @@
         "Hull": "Casco",
         "Stock": "Inventario",
         "Errors": {
-            "NoDropTarget": "Algo ha ido mal con el lanzamiento, por favor inténtalo de nuevo."
-        }
+            "NoDropTarget": "Algo ha ido mal con el lanzamiento, por favor inténtalo de nuevo.",
+            "SkillAlreadyInList": "Esta habilidad ya está en la lista."
+        },
+        "Orange": "naranja",
+        "MinorRepairs": "Reparaciones menores",
+        "BankrupcySaveExplanationEnd": "para determinar la salud financiera de la empresa",
+        "WeaponReloaded": "Recarga de armas",
+        "Reload": "Recarga",
+        "YouLearnThisSkill": "Aprendes esta habilidad",
+        "Job": "Ocupación",
+        "Class": "Clase",
+        "Type": "Tipo",
+        "Modules": "Módulos",
+        "DeckPlan": "Plan de cubierta"
     }
 }

@@ -9,7 +9,7 @@
       <div class="">
         <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
         <div class="headerinputfield charname"><input name="name" class="noborder" type="text" value="{{name}}"
-            placeholder="Name" /></div>
+            placeholder="{{ localize 'Mosh.Name' }}" /></div>
       </div>
 
     </div>
@@ -334,7 +334,7 @@
               <div class="skill-stat"><input type="text" name="choose_skill_or_master_full_set" value="" data-dtype="Number" oninput="handleInputChange(event)" /> </div>
               <div class="skill-stat">{{ localize 'Mosh.classNewSkillOptionSkillTip'}}</div>
               <div class="item-controls">
-                <a class="item-control skills-group-option-createnew" title="SAVE"><i
+                <a class="item-control skills-group-option-createnew" title="{{ localize 'Mosh.SAVE' }}"><i
                     class="fas fa-save"></i></a>
               </div>
             </li>

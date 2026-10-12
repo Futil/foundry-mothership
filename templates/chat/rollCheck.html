@@ -17,9 +17,9 @@
 						  <span class="high-failure">{{ localize 'Mosh.YouRolled90OrHigher' }}</span>
                     {{else}}
                         {{#if (compare 'int' skillValue '>' 0)}}
-                        You {{{outcomeVerb}}} {{{comparisonText}}} your <strong>{{{attribute}}}</strong> plus <strong>{{{skill}}}</strong> skill bonus.
+                        {{{localize 'Mosh.RollCheckOutcomeSkill' verb=outcomeVerb comparison=comparisonText attribute=attribute skill=skill}}}
                         {{else}}
-                        You {{{outcomeVerb}}} {{{comparisonText}}} your <strong>{{{attribute}}}</strong>.
+                        {{{localize 'Mosh.RollCheckOutcome' verb=outcomeVerb comparison=comparisonText attribute=attribute}}}
                         {{/if}}
                     {{/if}}
                 </div>
@@ -33,7 +33,7 @@
             <div style="margin-bottom : 10px;"></div>
             <div class="grid grid-2col" style="grid-template-columns: 10px 75px auto">
                 <div style="border-bottom:1px solid #999; height: 50%;"></div>
-                <div style= "font-size:0.65rem; text-align:center;">DESCRIPTION</div>  
+                <div style= "font-size:0.65rem; text-align:center;">{{ localize 'Mosh.DESCRIPTION' }}</div>  
                 <div style="border-bottom:1px solid #999; height: 50%;"></div>
             </div>
             <div style="margin-bottom : 10px;"></div>
@@ -79,7 +79,7 @@
             {{else}}
                 {{{flavorText}}}
                 {{#if critFail}}
-                <br><br>@UUID[Compendium.mosh.macros_hotbar_1e.IgWvaabVqzKDzLL4]{Make a Panic Check}
+                <br><br>@UUID[Compendium.mosh.macros_hotbar_1e.IgWvaabVqzKDzLL4]{{{concat '{' (localize 'Mosh.MakeAPanicCheck') '}'}}}
                 {{/if}}
             {{/if}}
         {{/if}}

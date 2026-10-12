@@ -16,7 +16,7 @@ export class DLShipMegaDamage extends FormApplication {
      * @type {String}
      */
     get title() {
-        return `${this.object.name}: Megadamage Effects`;
+        return `${this.object.name}: ${game.i18n.localize("Mosh.MegadamageEffects")}`;
     }
     /* -------------------------------------------- */
     /**

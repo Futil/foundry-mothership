@@ -18,7 +18,7 @@ export class DLShipMacros extends foundry.applications.sheets.BaseSheet {
      * @type {String}
      */
     get title() {
-        return `${this.object.name}: Ship Macros`;
+        return `${this.object.name}: ${game.i18n.localize("Mosh.ShipMacros")}`;
     }
     /* -------------------------------------------- */
 

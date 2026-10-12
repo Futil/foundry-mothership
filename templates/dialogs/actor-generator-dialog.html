@@ -8,7 +8,7 @@
       <div class="">
         <div class="headerinputtext">{{ localize 'Mosh.Name' }}</div>
         <div class="headerinputfield charname">
-          <input name="name" class="noborder" type="text" value="{{name}}" placeholder="Name" />
+          <input name="name" class="noborder" type="text" value="{{name}}" placeholder="{{ localize 'Mosh.Name' }}" />
         </div>
       </div>
       <!-- CLASS -->
@@ -132,7 +132,7 @@
         <div class="mainstatwrapper">
           <div class="resource mainstat">
             <div class="mainstatlabel">
-              <span class=" mainstattext" data-key="health" data-label="health">HEALTH</span>
+              <span class=" mainstattext" data-key="health" data-label="health">{{ localize 'Mosh.Health' }}</span>
             </div>
             <img class="clicable-item circle-input" id="system.health.max" src="icons/svg/d20-black.svg" alt="roll">
             <input readonly hidden id="system.health.max" class="circle-input" type="text" name="system.health.max"
@@ -202,7 +202,7 @@
     <div class="grid grid-1col">
       <div class="resource mainstat">
         <div class="mainstatlabel">
-          <span class=" mainstattext" data-key="patch" data-label="patch">PATCH</span>
+          <span class=" mainstattext" data-key="patch" data-label="patch">{{ localize 'Mosh.Patch' }}</span>
         </div>
         <img class="clicable-item circle-input" id="system.class.patch.value" src="icons/svg/d20-black.svg" alt="roll">
         <input readonly hidden id="system.class.patch.value" class="circle-input" type="text"
@@ -219,7 +219,7 @@
     <div class="grid grid-1col">
       <div class="resource mainstat">
         <div class="mainstatlabel">
-          <span class=" mainstattext" data-key="trinket" data-label="trinket">TRINKET</span>
+          <span class=" mainstattext" data-key="trinket" data-label="trinket">{{ localize 'Mosh.Trinket' }}</span>
         </div>
         <img class="clicable-item circle-input" id="system.class.trinket.value" src="icons/svg/d20-black.svg"
           alt="roll">
@@ -259,7 +259,7 @@
     <div class="grid grid-1col">
       <div class="resource mainstat">
         <div class="mainstatlabel">
-          <span class=" mainstattext" data-key="loadout" data-label="loadout">loadout</span>
+          <span class=" mainstattext" data-key="loadout" data-label="loadout">{{ localize 'Mosh.Loadout' }}</span>
         </div>
         <img class="clicable-item circle-input" id="system.class.loadout.value" src="icons/svg/d20-black.svg"
           alt="roll">
@@ -280,7 +280,7 @@
       <div id="roll.everything" class="resource mainstat">
         <div class="mainstatlabel">
           <span class="smalltext mainstattext" class=" mainstattext" data-label="all">
-            Roll everything</span>
+            {{ localize 'Mosh.RollEverything' }}</span>
         </div>
         <img class="clicable-item circle-input" src="icons/svg/d20-black.svg" alt="roll">
       </div>
@@ -289,7 +289,7 @@
     <div class="resource mainstat">
       <div class="fulllabel mainstatlabel">
         <span class="smalltext mainstattext" class=" mainstattext" data-key="removepreviousitems"
-          data-label="removepreviousitems">Remove previous items</span>
+          data-label="removepreviousitems">{{ localize 'Mosh.RemovePreviousItems' }}</span>
       </div>
       <input checked class="clicable-item checkbox-round circle-input" type="checkbox" name="system.removepreviousitems"
         id="system.removepreviousitems" value="{{system.removepreviousitems}}" data-dtype="Boolean" />
@@ -298,7 +298,7 @@
     <div id="submit" class="resource mainstat">
       <div class="mainstatlabel">
         <span class="smalltext mainstattext" data-label="save">
-          Save character</span>
+          {{ localize 'Mosh.SaveCharacter' }}</span>
       </div>
       <img class="clicable-item circle-input" src="icons/svg/wall-direction.svg" alt="save">
     </div>

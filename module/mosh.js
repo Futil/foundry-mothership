@@ -43,6 +43,8 @@ Hooks.once('init', async function () {
   // Define custom Entity classes
   CONFIG.Actor.documentClass = MothershipActor;
   CONFIG.Item.documentClass = MothershipItem;
+  //index the robotic flag of compendium classes, read synchronously by MothershipActor#isAndroid()
+  CONFIG.Item.compendiumIndexFields.push('system.robotic');
 
 
   // Register sheet application classes
@@ -121,6 +123,10 @@ Hooks.once("ready", async function () {
     }
   });
   
+  //load the index fields added in init (e.g. system.robotic) for Item compendiums
+  for (const pack of game.packs.filter(p => p.documentName === 'Item')) {
+    pack.getIndex();
+  }
 });
 
 //add custom damage dice for MOSH
@@ -128,7 +134,7 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
   dice3d.addColorset(
     {
       name: 'roll',
-      description: 'Roll Dice',
+      description: game.i18n.localize("Mosh.RollDice"),
       category: 'Mothership',
       foreground: '#FFFFFF',
       background: '#262626',
@@ -145,7 +151,7 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
   dice3d.addColorset(
     {
       name: 'damage',
-      description: 'Damage Dice',
+      description: game.i18n.localize("Mosh.DamageDice"),
       category: 'Mothership',
       foreground: '#FFFFFF',
       background: '#cc2828',
@@ -162,7 +168,7 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
   dice3d.addColorset(
     {
       name: 'panic',
-      description: 'Panic Die',
+      description: game.i18n.localize("Mosh.PanicDie"),
       category: 'Mothership',
       foreground: '#000000',
       background: '#FFF200',
@@ -237,7 +243,7 @@ async function createMothershipMacro(data, slot) {
 
   console.log(item);
 
-  if (!item) return ui.notifications.warn("You can only create macro buttons for owned Items");
+  if (!item) return ui.notifications.warn(game.i18n.localize("Mosh.OnlyOwnedItemsMacro"));
 
   // Create the macro command
   let command = `game.mosh.rollItemMacro("${item.name}");`;
@@ -280,7 +286,7 @@ function rollItemMacro(itemName) {
         //get item
         item = foundry.utils.duplicate(game.user.character.getEmbeddedDocument("Item", itemId));
         //warn if no item
-        if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+        if (!item) return ui.notifications.warn(game.i18n.format("Mosh.NoItemNamed", {name: itemName}));
         //roll action
         if (item.type == "weapon") {
           return game.user.character.rollCheck(null, 'low', 'combat', null, null, item);
@@ -303,7 +309,7 @@ function rollItemMacro(itemName) {
         //get item
         item = foundry.utils.duplicate(token.actor.getEmbeddedDocument("Item", itemId));
         //warn if no item
-        if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+        if (!item) return ui.notifications.warn(game.i18n.format("Mosh.NoItemNamed", {name: itemName}));
         //roll action
         if (item.type == "weapon") {
           return token.actor.rollCheck(null, 'low', 'combat', null, null, item);
@@ -467,18 +473,18 @@ async function noCharSelected() {
     let errorMessage = ``;
     //create error text based on current settings
     if (game.settings.get('mosh','macroTarget') === 'character') {
-      errorMessage = `<h3>No Character Selected</h3>Macro Target is set to the currently selected character. To select a character, modify your User Configuration in the Players menu located in the lower-left of the interface.<br><br>If you prefer Macros to be run on the currently selected token(s) in the scene, you should change your settings accordingly.<br><br>`;
+      errorMessage = game.i18n.localize("Mosh.NoCharacterSelectedCharacterTarget");
     } else if (game.settings.get('mosh','macroTarget') === 'token') {
-      errorMessage = `<h3>No Character Selected</h3>Macro Target is set to the currently selected token(s) in the scene. To select token(s), click or draw a box around token(s) in the current scene.<br><br>If you prefer Macros to be run on the currently selected character for your user, you should change your settings accordingly.<br><br>`;
+      errorMessage = game.i18n.localize("Mosh.NoCharacterSelectedTokenTarget");
     }
     //create final dialog data
     const dialogData = {
-      window: {title: `Macro Issue`},
+      window: {title: game.i18n.localize("Mosh.MacroIssue")},
       classes: ["macro-popup-dialog"],
       content: errorMessage,
       buttons: [
         {
-          label: `Ok`,
+          label: game.i18n.localize("Mosh.OK"),
           action: 'action_ok',
           callback: () => { },
           icon: 'fas fa-check'
@@ -500,18 +506,18 @@ async function noShipSelected() {
     let errorMessage = ``;
     //create error text based on current settings
     if (game.settings.get('mosh','macroTarget') === 'character') {
-      errorMessage = `<h3>No Ship Selected</h3>Macro Target is set to the currently selected character. To select a ship, modify your User Configuration in the Players menu located in the lower-left of the interface.<br><br>If you prefer Macros to be run on the currently selected token(s) in the scene, you should change your settings accordingly.<br><br>`;
+      errorMessage = game.i18n.localize("Mosh.NoShipSelectedCharacterTarget");
     } else if (game.settings.get('mosh','macroTarget') === 'token') {
-      errorMessage = `<h3>No Ship Selected</h3>Macro Target is set to the currently selected token(s) in the scene. To select token(s), click or draw a box around token(s) in the current scene.<br><br>If you prefer Macros to be run on the currently selected character for your user, you should change your settings accordingly.<br><br>`;
+      errorMessage = game.i18n.localize("Mosh.NoShipSelectedTokenTarget");
     }
     //create final dialog data
     const dialogData = {
-      window: {title: `Macro Issue`},
+      window: {title: game.i18n.localize("Mosh.MacroIssue")},
       classes: ["macro-popup-dialog"],
       content: errorMessage,
       buttons: [
         {
-          label: `Ok`,
+          label: game.i18n.localize("Mosh.OK"),
           action: 'action_ok',
           callback: () => { },
           icon: 'fas fa-check'

@@ -3,8 +3,8 @@ import { rolltableConfig } from "./windows/settings-rolltables.js";
 export const registerSettings = function () {
   
   game.settings.register('mosh', 'firstEdition', {
-    name: "1e Rules",
-    hint: "Use the 1st edition rules and character sheet.",
+    name: "Mosh.Settings.FirstEdition.Name",
+    hint: "Mosh.Settings.FirstEdition.Hint",
     default: true,
     scope: 'world',
     type: Boolean,
@@ -86,14 +86,14 @@ export const registerSettings = function () {
   });
 
   game.settings.register('mosh', 'macroTarget', {
-    name: "Macro Target",
-    hint: "Who should be the target for macros?",
+    name: "Mosh.Settings.MacroTarget.Name",
+    hint: "Mosh.Settings.MacroTarget.Hint",
     default: "character",
     scope: 'world',
     type: String,
     choices: {
-      "character": "Currently selected character for the player",
-      "token": "Currently selected token(s) in the scene"
+      "character": "Mosh.Settings.MacroTarget.Character",
+      "token": "Mosh.Settings.MacroTarget.Token"
     },
     config: true,
     onChange: value => {
@@ -103,18 +103,18 @@ export const registerSettings = function () {
   });
 
   game.settings.register('mosh', 'critDamage', {
-    name: "Critical Hit Damage",
-    hint: "What should the damage be on a critical hit?",
+    name: "Mosh.Settings.CritDamage.Name",
+    hint: "Mosh.Settings.CritDamage.Hint",
     default: "advantage",
     scope: 'world',
     type: String,
     choices: {
-      "advantage": "Roll with advantage",
-      "doubleDamage": "Double the damage result",
-      "doubleDice": "Double the damage dice",
-      "maxDamage": "Maximum possible damage result",
-      "weaponValue": "Defer to each weapon's critical damage",
-      "none": "No critical damage"
+      "advantage": "Mosh.Settings.CritDamage.Advantage",
+      "doubleDamage": "Mosh.Settings.CritDamage.DoubleDamage",
+      "doubleDice": "Mosh.Settings.CritDamage.DoubleDice",
+      "maxDamage": "Mosh.Settings.CritDamage.MaxDamage",
+      "weaponValue": "Mosh.Settings.CritDamage.WeaponValue",
+      "none": "Mosh.Settings.CritDamage.None"
     },
     config: true,
     onChange: value => {
@@ -124,8 +124,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register('mosh', 'damageDiceTheme', {
-    name: "Damage Dice Theme",
-    hint: "If DiceSoNice is installed, what theme should be applied to damage dice?",
+    name: "Mosh.Settings.DamageDiceTheme.Name",
+    hint: "Mosh.Settings.DamageDiceTheme.Hint",
     default: "damage",
     scope: 'world',
     type: String,
@@ -137,8 +137,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register('mosh', 'panicDieTheme', {
-    name: "Panic Die Theme",
-    hint: "If DiceSoNice is installed, what theme should be applied to the panic die?",
+    name: "Mosh.Settings.PanicDieTheme.Name",
+    hint: "Mosh.Settings.PanicDieTheme.Hint",
     default: "panic",
     scope: 'world',
     type: String,
@@ -150,8 +150,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register('mosh', 'hideWeight', {
-    name: "Hide 0e Weight",
-    hint: "Hide the 0e weight mechanic in the items list for players and ships?",
+    name: "Mosh.Settings.HideWeight.Name",
+    hint: "Mosh.Settings.HideWeight.Hint",
     default: true,
     scope: 'world',
     type: Boolean,
@@ -163,8 +163,8 @@ export const registerSettings = function () {
   });
   
   game.settings.register('mosh', 'useCalm', {
-    name: "Use Calm?",
-    hint: "Uses the traaa.sh Calm system instead of Stress.",
+    name: "Mosh.Settings.UseCalm.Name",
+    hint: "Mosh.Settings.UseCalm.Hint",
     default: false,
     scope: 'world',
     type: Boolean,
@@ -289,8 +289,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register('mosh', 'androidPanic', {
-    name: "Use Android Panic Tables?",
-    hint: "Adds android-specific tables for Panic and Calm checks.",
+    name: "Mosh.Settings.AndroidPanic.Name",
+    hint: "Mosh.Settings.AndroidPanic.Hint",
     default: false,
     scope: 'world',
     type: Boolean,
@@ -302,8 +302,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register('mosh', 'autoStress', {
-    name: "Auto Stress Gain on Failures?",
-    hint: "Automatically handles stress gain on a failed roll.",
+    name: "Mosh.Settings.AutoStress.Name",
+    hint: "Mosh.Settings.AutoStress.Hint",
     default: true,
     scope: 'world',
     type: Boolean,
@@ -315,9 +315,9 @@ export const registerSettings = function () {
   });
 
   game.settings.registerMenu('mosh', 'rolltableSelector', {
-    name: "Rolltable Configuration",
-    label: "Choose Tables",
-    hint: "Customize which rolltables are used.",
+    name: "Mosh.Settings.RolltableSelector.Name",
+    label: "Mosh.Settings.RolltableSelector.Label",
+    hint: "Mosh.Settings.RolltableSelector.Hint",
     icon: "fa-solid fa-list",
     type: rolltableConfig
   });

@@ -340,7 +340,7 @@ export class DLActorGenerator extends FormApplication {
                {
                   icon: 'fas fa-check',
 			         action: `action_save`,
-                  label: "Save",
+                  label: game.i18n.localize("Mosh.Save"),
                   callback: (event, button, dialog) => {
                      let form = button.form;
                      let formData = new FormData(form);

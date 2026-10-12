@@ -215,7 +215,7 @@
         <div class="grid grid-1col" style="display: flex; flex-direction: column; gap: 10px;">
 
             <!-- Make/Model/ETC -->
-            <div class="area-title">Make / Model / Jump / Class / Type</div>
+            <div class="area-title">{{ localize 'Mosh.MakeModelJumpClassType' }}</div>
             <textarea name="system.make" rows="2" class="sbt-text-area" type="text"
             data-target="system.make" placeholder="" style="height: 110px; text-align: center;">{{system.make}}</textarea>
 
@@ -232,8 +232,8 @@
                             value="{{system.supplies.fuel.max}}" data-dtype="Number" />
                     </div>
 
-                    <div class="healthmaxtext">Current</div>
-                    <div class="healthmaxtext">Maximum</div>
+                    <div class="healthmaxtext">{{ localize 'Mosh.Current' }}</div>
+                    <div class="healthmaxtext">{{ localize 'Mosh.Maximum' }}</div>
                 </div>
 
                 <!-- Warp Cores -->
@@ -243,8 +243,8 @@
                             value="{{system.supplies.warp-cores.value}}" data-dtype="Number" />
                     </div>
                     <div class="circlestatlabel">
-                        <span class="ability-mod circlestattext">WARP</span>
-                        <span class="ability-mod circlestattext">CORES</span>
+                        <span class="ability-mod circlestattext">{{ localize 'Mosh.Warp' }}</span>
+                        <span class="ability-mod circlestattext">{{ localize 'Mosh.Cores' }}</span>
                     </div>
                 </div>
             </div>
@@ -396,7 +396,7 @@
 
                 <!-- Hardpoints -->
                 <div class="resource healthspread minmaxtopstat flex-center">
-                    <label for="system.weapon-stats.hardpoints.value" class="resource-label minmaxtext">Hardpoints</label>
+                    <label for="system.weapon-stats.hardpoints.value" class="resource-label minmaxtext">{{ localize 'Mosh.Hardpoints' }}</label>
 
                     <div class="minmaxwrapper">
                         <input class="maxhealth-input darkGreyText" type="text" name="system.weapon-stats.hardpoints.value"
@@ -419,7 +419,7 @@
                     <div class="skill-stat" style="flex-grow: 2;">{{ localize 'Mosh.Name' }}</div>
                     <div class="skill-stat">{{ localize 'Mosh.Bonus' }}</div>
                     <div class="item-controls">
-                        <a class="item-control weapon-create" title="Create Weapon" data-type="weapon">
+                        <a class="item-control weapon-create" title="{{ localize 'Mosh.CreateWeapon' }}" data-type="weapon">
                             <i class="fas fa-plus"></i>{{ localize 'Mosh.Add' }} 
                         </a>
                     </div>
@@ -503,7 +503,7 @@
                     <div class="skill-stat">{{ localize 'Mosh.Value' }}</div>
                     <div class="item-controls">
                         <a class="item-control item-create" title="{{ localize 'Mosh.CreateItem' }}" data-type="item"><i
-                                class="fas fa-plus"></i> Add</a>
+                                class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
                     </div>
                 </li>
                 {{#each cargo as |item id|}}
@@ -529,11 +529,11 @@
                 <ol class="items-list" style="width: 100%;">
                     <li class="item flexrow item-header">
                         <div class="item-image"></div>
-                        <div class="skill-stat" style="flex-grow: 2;">Repairs</div>
-                        <div class="skill-stat">Type</div>
+                        <div class="skill-stat" style="flex-grow: 2;">{{ localize 'Mosh.Repairs' }}</div>
+                        <div class="skill-stat">{{ localize 'Mosh.Type' }}</div>
                         <div class="item-controls">
-                            <a class="item-control item-create" title="Create Item" data-type="repair" data-subtype="minor"><i
-                                    class="fas fa-plus"></i> Add</a>
+                            <a class="item-control item-create" title="{{ localize 'Mosh.CreateItem' }}" data-type="repair" data-subtype="minor"><i
+                                    class="fas fa-plus"></i> {{ localize 'Mosh.Add' }}</a>
                         </div>
                     </li>
                     {{#each majorRepairs as |item id|}}
@@ -542,11 +542,11 @@
                         </div>
                         <h4 class="skill-name list-roll description-roll" style="flex-grow: 2;">{{item.name}}</h4>
                         <div class="skill-stat">
-                            Major
+                            {{ localize 'Mosh.Major' }}
                         </div>
                         <div class="item-controls">
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            <a class="item-control item-edit" title="{{ localize 'Mosh.EditItem' }}"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="{{ localize 'Mosh.DeleteItem' }}"><i class="fas fa-trash"></i></a>
                         </div>
                     </li>
                     {{/each}}
@@ -556,11 +556,11 @@
                         </div>
                         <h4 class="skill-name list-roll description-roll" style="flex-grow: 2;">{{item.name}}</h4>
                         <div class="skill-stat">
-                            Minor
+                            {{ localize 'Mosh.Minor' }}
                         </div>
                         <div class="item-controls">
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            <a class="item-control item-edit" title="{{ localize 'Mosh.EditItem' }}"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="{{ localize 'Mosh.DeleteItem' }}"><i class="fas fa-trash"></i></a>
                         </div>
                     </li>
                     {{/each}}

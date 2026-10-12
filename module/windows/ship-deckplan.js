@@ -15,7 +15,7 @@ export class DLShipDeckplan extends foundry.appv1.sheets.ActorSheet {
      * @type {String}
      */
     get title() {
-        return `${this.object.name}: Deckplan`;
+        return `${this.object.name}: ${game.i18n.localize("Mosh.Deckplan")}`;
     }
     /* -------------------------------------------- */
 

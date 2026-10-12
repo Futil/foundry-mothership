@@ -1,5 +1,35 @@
 import { fromIdUuid } from "../mosh.js";
 
+//world settings that select a rolltable, mapped to the Mosh.table.* key of that table
+//(this lets renamed or translated tables keep their wound, panic and flavor text behavior)
+const ROLLTABLE_SETTING_KEYS = {
+  table0ePanicStressNormal: 'panic_check',
+  table0ePanicStressAndroid: 'panic_check',
+  table0ePanicCalmNormal: 'panic_check',
+  table0ePanicCalmAndroid: 'panic_check',
+  table1ePanicStressNormal: 'panic_check',
+  table1ePanicStressAndroid: 'panic_check',
+  table1ePanicCalmNormal: 'panic_check',
+  table1ePanicCalmAndroid: 'panic_check',
+  table1eWoundBluntForce: 'blunt_force_wound',
+  table1eWoundBleeding: 'bleeding_wound',
+  table1eWoundGunshot: 'gunshot_wound',
+  table1eWoundFireExplosives: 'fire_explosives_wound',
+  table1eWoundGoreMassive: 'gore_massive_wound',
+  table0eDeath: 'death_save',
+  table1eDeath: 'death_save',
+  table1eDistressSignal: 'distress_signal',
+  table1eMegadamageEffects: 'megadamage_effects',
+  table1eMaintenance: 'maintenance_issues',
+  table1eBankruptcy: 'bankruptcy_save'
+};
+
+//is this item the Bleeding condition? checks the compendium entry it was created from, falling back to its English name
+function isBleedingCondition(item) {
+  let source = item._stats?.compendiumSource ?? item.flags?.core?.sourceId ?? '';
+  return source.endsWith('.pxtF1NfletmoFFGV') || item.name === 'Bleeding';
+}
+
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -50,7 +80,7 @@ export class MothershipActor extends Actor {
       let bleedingValue = 0;
       //count values
       for (const condition of this.items.filter(i => i.type === "condition")) {
-        if (condition.name === 'Bleeding') {
+        if (isBleedingCondition(condition)) {
           bleedingValue += Number(condition.system.severity ?? 0);
         }
       }
@@ -90,7 +120,7 @@ export class MothershipActor extends Actor {
       let bleedingValue = 0;
       //count values
       for (const condition of this.items.filter(i => i.type === "condition")) {
-        if (condition.name === 'Bleeding') {
+        if (isBleedingCondition(condition)) {
           bleedingValue += Number(condition.system.severity ?? 0);
         }
       }
@@ -107,6 +137,15 @@ export class MothershipActor extends Actor {
     //nothing needed yet
   }
 
+  //is this character an android? uses the robotic flag of its class item, falling back to the class name
+  isAndroid() {
+    if (!this.system.class) {
+      return false;
+    }
+    let classItem = this.system.class.uuid ? fromUuidSync(this.system.class.uuid, {strict: false}) : null;
+    return classItem?.system?.robotic === true || String(this.system.class.value ?? '').toLowerCase() === 'android';
+  }
+
   //central flavor text library for all chat messages
   getFlavorText(type, context, action) {
     
@@ -115,9 +154,8 @@ export class MothershipActor extends Actor {
       context = 'calm';
     }
     let systemclass = "human";
-    if (this.type === 'character' && this.system.class && this.system.class.value.toLowerCase() === "android") {
+    if (this.type === 'character' && this.isAndroid()) {
       systemclass = "android";
-      //todo: get the class item for the character to check the "is robotic" flag
     }
     let locString = `Mosh.${type}.${context}.${action}.${systemclass}`;
     //check to see if this address exists in the library, return the action parameter if not
@@ -444,13 +482,13 @@ export class MothershipActor extends Actor {
           //prepare outcome
             //success
             if (enrichedRollResult.success) {
-              outcome = `SUCCESS!`;
+              outcome = game.i18n.localize("Mosh.Success");
             } else {
-              outcome = `FAILURE!`;
+              outcome = game.i18n.localize("Mosh.Failure");
             }
             //crit
             if (enrichedRollResult.critical) {
-              outcome = `CRITICAL ` + outcome;
+              outcome = game.i18n.format("Mosh.CriticalOutcome", {outcome: outcome});
             }
           //make HTML
           outcomeHtml = `
@@ -618,7 +656,7 @@ export class MothershipActor extends Actor {
         specialRoll = tableId;
         //assign variables depending on settings
         if (firstEdition) { 
-          if (androidPanic && this.system.class.value.toLowerCase() === 'android') { 
+          if (androidPanic && this.isAndroid()) { 
             if (useCalm) {
             tableId = game.settings.get('mosh', 'table1ePanicCalmAndroid');
               aimFor = 'low';
@@ -652,7 +690,7 @@ export class MothershipActor extends Actor {
             }
           }
         } else {
-          if (androidPanic && this.system.class.value.toLowerCase() === 'android') { 
+          if (androidPanic && this.isAndroid()) { 
             if (useCalm) { 
             tableId = game.settings.get('mosh', 'table0ePanicCalmAndroid');
               aimFor = 'low';
@@ -758,8 +796,22 @@ export class MothershipActor extends Actor {
         //extract dice needed
       tableName = tableName.substr(0, tableName.indexOf(' ('));
       }
+      //identify the table by the world setting that selects it, falling back to its English name
+      let tableKey = null;
+      for (const [setting, key] of Object.entries(ROLLTABLE_SETTING_KEYS)) {
+        let selectedTable = game.settings.get('mosh', setting);
+        if (selectedTable && [tableId, tableData.id, tableData.uuid].includes(selectedTable)) {
+          tableKey = key;
+          break;
+        }
+      }
+      let isWoundTable = tableKey ? tableKey.slice(-6) === '_wound' : tableName.slice(-5) === 'Wound';
+      let isPanicTable = tableKey ? tableKey === 'panic_check' : tableName === 'Panic Check';
+      if (!tableKey) {
+        tableKey = tableName.replaceAll('& ', '').replaceAll(' ', '_').toLowerCase();
+      }
       //if a wound table, add a wound to the player and prepare text for the final message
-      if (tableName.slice(-5) === 'Wound') {
+      if (isWoundTable) {
       let addWound = await this.modifyActor('system.hits.value', 1, null, false);
         woundText = addWound[1];
       }
@@ -777,7 +829,7 @@ export class MothershipActor extends Actor {
         //set panic die color
       let dsnTheme = game.settings.get('mosh', 'panicDieTheme');
         //apply theme if this is a panic check
-        if (tableName === 'Panic Check') {
+        if (isPanicTable) {
           parsedRollString = parsedRollString + '[' + dsnTheme + ']';
         }
      }
@@ -832,18 +884,18 @@ export class MothershipActor extends Actor {
     let tableResult = tableData.getResultsForRoll(tableResultNumber);
     //make any custom changes to chat message
       //panic check #19 customiziation
-      if (tableName === 'Panic Check' && tableResultNumber === 19) {
-        if (this.system.class.value.toLowerCase() === 'android') {
+      if (isPanicTable && tableResultNumber === 19) {
+        if (this.isAndroid()) {
         tableResultEdited = tableResult[0].description.replace(game.i18n.localize("Mosh.HEARTATTACKSHORTCIRCUITANDROIDS"), game.i18n.localize("Mosh.SHORTCIRCUIT"));
         } else {
         tableResultEdited = tableResult[0].description.replace(game.i18n.localize("Mosh.HEARTATTACKSHORTCIRCUITANDROIDS"), game.i18n.localize("Mosh.HEARTATTACK"));
         }
       }
     //assign message description text
-    msgDesc = this.getFlavorText('table', tableName.replaceAll('& ', '').replaceAll(' ', '_').toLowerCase(), 'roll');
+    msgDesc = this.getFlavorText('table', tableKey, 'roll');
     //assign flavor text
       //get main flavor text
-    flavorText = this.getFlavorText('table', tableName.replaceAll('& ', '').replaceAll(' ', '_').toLowerCase(), 'success');
+    flavorText = this.getFlavorText('table', tableKey, 'success');
       //append 0e crit success effect
       if (!firstEdition && !useCalm && parsedRollResult.success && parsedRollResult.critical) {
       flavorText = flavorText + game.i18n.localize("Mosh.Relieve1Stressqbq694JMbXeZrHj");
@@ -854,27 +906,27 @@ export class MothershipActor extends Actor {
       }
       //append Calm effects for Critical Panic Failure
       if (useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        tableResultFooter = `<br><br>You lose 1d10 Calm because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+        tableResultFooter = `<br><br>${game.i18n.localize("Mosh.CalmCriticalFailure")}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{${game.i18n.localize("Mosh.Minus1d10Calm")}}`;
       }
       //append effects for Stress + Maintenance Check Failure
       if (specialRoll === 'maintenanceCheck' && !useCalm && !parsedRollResult.success && !parsedRollResult.critical) {
-        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}`;
+        tableResultFooter = `<br><br>${game.i18n.localize("Mosh.ShipTakes1Stress")}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{${game.i18n.localize("Mosh.Plus1Stress")}}`;
       }
       //append effects for Stress + Critical Maintenance Check Failure
       if (specialRoll === 'maintenanceCheck' && !useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        tableResultFooter = `<br><br>Everyone on board the ship takes 1 Stress. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{+1 Stress}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
+        tableResultFooter = `<br><br>${game.i18n.localize("Mosh.ShipTakes1Stress")} ${game.i18n.localize("Mosh.RollAnotherMaintenanceIssue")}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.dvJR9DYXI2kV0BbR]{${game.i18n.localize("Mosh.Plus1Stress")}}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{${game.i18n.localize("Mosh.RollForMaintenanceIssue")}}`;
       }
       //append effects for Calm + Maintenance Check Failure
       if (specialRoll === 'maintenanceCheck' && useCalm && !parsedRollResult.success && !parsedRollResult.critical) {
-        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}`;
+        tableResultFooter = `<br><br>${game.i18n.localize("Mosh.ShipLoses1d10Calm")}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{${game.i18n.localize("Mosh.Minus1d10Calm")}}`;
       }
       //append effects for Calm + Critical Maintenance Check Failure
       if (specialRoll === 'maintenanceCheck' && useCalm && !parsedRollResult.success && parsedRollResult.critical) {
-        tableResultFooter = `<br><br>Everyone on board the ship loses 1d10 Calm. You must roll for another maintenance issue because you critically failed.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{-1d10 Calm}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{Roll for Maintenance Issue}`;
+        tableResultFooter = `<br><br>${game.i18n.localize("Mosh.ShipLoses1d10Calm")} ${game.i18n.localize("Mosh.RollAnotherMaintenanceIssue")}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.jHyqXb2yDFTNWxpy]{${game.i18n.localize("Mosh.Minus1d10Calm")}}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.hRapiXGVW8WZQH12]{${game.i18n.localize("Mosh.RollForMaintenanceIssue")}}`;
       }
       //append effects for Calm + Critical Maintenance Check Success
       if (specialRoll === 'maintenanceCheck' && useCalm && parsedRollResult.success && parsedRollResult.critical) {
-        flavorText = flavorText + ` Gain 1d10 Calm.<br><br>@UUID[Compendium.mosh.macros_triggered_1e.k2TtLFOG9mGaWVx3]{+1d10 Calm}`;
+        flavorText = flavorText + ` ${game.i18n.localize("Mosh.Gain1d10Calm")}<br><br>@UUID[Compendium.mosh.macros_triggered_1e.k2TtLFOG9mGaWVx3]{${game.i18n.localize("Mosh.Plus1d10Calm")}}`;
       }
     //set table result type (using first value)
     if (tableResult[0].type === 0 || tableResult[0].type === 'text') {
@@ -1399,9 +1451,9 @@ export class MothershipActor extends Actor {
       //prepare flavortext
       if (weapon.system.damage === "Str/10" && this.type === 'character') {
         //determine the damage string
-        flavorText = 'You strike your target for <strong>[[floor(' + this.system.stats.strength.value + '/10)]] damage</strong>.';
+        flavorText = game.i18n.format("Mosh.YouStrikeYourTarget", {damage: '[[floor(' + this.system.stats.strength.value + '/10)]]'});
       } else {
-        flavorText = 'You inflict [[' + parsedDamageString + '[' + dsnTheme + ']' + critMod + ']] points of damage.';
+        flavorText = game.i18n.format("Mosh.YouInflictPointsOfDamage", {damage: '[[' + parsedDamageString + '[' + dsnTheme + ']' + critMod + ']]'});
       }
       //determine if this roll needs a description area
       if (weapon.system.description || weapon.system.woundEffect) {
@@ -1478,16 +1530,16 @@ export class MothershipActor extends Actor {
       //set comparison based on aimFor
       if (aimFor === 'low') {
         comparison = '<';
-        comparisonText = 'less than';
+        comparisonText = game.i18n.localize("Mosh.LessThan");
       } else if (aimFor === 'low-equal') {
         comparison = '<=';
-        comparisonText = 'less than or equal to';
+        comparisonText = game.i18n.localize("Mosh.LessThanOrEqualTo");
       } else if (aimFor === 'high') {
         comparison = '>';
-        comparisonText = 'greater than';
+        comparisonText = game.i18n.localize("Mosh.GreaterThan");
       } else if (aimFor === 'high-equal') {
         comparison = '>=';
-        comparisonText = 'greater than or equal to';
+        comparisonText = game.i18n.localize("Mosh.GreaterThanOrEqualTo");
       }
       //interpret the results
     let parsedRollResult = this.parseRollResult(rollString, rollResult, zeroBased, checkCrit, rollTarget, comparison, specialRoll);
@@ -1503,9 +1555,9 @@ export class MothershipActor extends Actor {
     //set chat message text
       //set roll result as greater than or less than
       if (parsedRollResult.success) {
-        outcomeVerb = `rolled`;
+        outcomeVerb = game.i18n.localize("Mosh.Rolled");
       } else {
-        outcomeVerb = `did not roll`;
+        outcomeVerb = game.i18n.localize("Mosh.DidNotRoll");
       }
       //prepare flavor text for attacks
       if (weapon) {
@@ -1541,9 +1593,9 @@ export class MothershipActor extends Actor {
           //if success
           if (weapon.system.damage === "Str/10" && this.type === 'character') {
             //determine the damage string
-            flavorText = 'You strike your target for <strong>[[floor(' + this.system.stats.strength.value + '/10)]] damage</strong>.';
+            flavorText = game.i18n.format("Mosh.YouStrikeYourTarget", {damage: '[[floor(' + this.system.stats.strength.value + '/10)]]'});
           } else {
-            flavorText = 'You inflict [[' + parsedDamageString + '[' + dsnTheme + ']' + critMod + ']] points of damage.';
+            flavorText = game.i18n.format("Mosh.YouInflictPointsOfDamage", {damage: '[[' + parsedDamageString + '[' + dsnTheme + ']' + critMod + ']]'});
           }
         } else if (parsedRollResult.success === false && this.type === 'character') {
           //if first edition
@@ -1783,10 +1835,10 @@ export class MothershipActor extends Actor {
           //prep text based on success or failure
           if (!parsedRollResult.success) {
             //flavor text
-            flavorText = `The crew, once focused on their tasks, now exchange anxious glances as the reality of the situation set in. Struggling to maintain composure in the chaos, the crew decides to send a hail and hope for mercy.`;
+            flavorText = game.i18n.localize("Mosh.MoraleCheckFailure");
           } else {
           //flavor texattributes/
-            flavorText = `As the ship shudders under the impact of enemy fire, a sense of urgency fills the control room. Alarms blare, emergency lights bath the crew in a stark glow, but there is no panic. The crew, seasoned and unyielding, maintain their focus on the task at hand.`;
+            flavorText = game.i18n.localize("Mosh.MoraleCheckSuccess");
           }
         }
       //prepare flavor text for regular checks
@@ -1871,7 +1923,7 @@ export class MothershipActor extends Actor {
         msgHeader: msgHeader,
         msgImgPath: msgImgPath,
         outcomeVerb: outcomeVerb,
-        attribute: attributeLabel,
+        attribute: game.i18n.has(`Mosh.${attributeLabel}`) ? game.i18n.localize(`Mosh.${attributeLabel}`) : attributeLabel,
         flavorText: flavorText,
         comparisonText: comparisonText,
         needsDesc: needsDesc,
@@ -1965,9 +2017,14 @@ export class MothershipActor extends Actor {
       modifyCurrent = fieldValue.reduce((a, v) => a[v], this);
     //check to see if this is a min/max part of a main field
     if (fieldAddress.slice(-3) === `min`) {
-      fieldPrefix = `Minimum `;
+      fieldPrefix = `${game.i18n.localize("Mosh.Minimum")} `;
     } else if (fieldAddress.slice(-3) === `max`) {
-      fieldPrefix = `Maximum `;
+      fieldPrefix = `${game.i18n.localize("Mosh.Maximum")} `;
+    }
+    //localized field name for chat text
+    let fieldName = fieldLabel.reduce((a, v) => a[v], this);
+    if (game.i18n.has(`Mosh.${fieldName}`)) {
+      fieldName = game.i18n.localize(`Mosh.${fieldName}`);
     }
     //calculate the change, whether from a value, roll (can only be one, it will check modValue first)
       //apply the modValue directly with no roll
@@ -2012,12 +2069,12 @@ export class MothershipActor extends Actor {
           //get flavor text
           if (modifyChange > 0) {
         msgFlavor = this.getFlavorText('attribute', fieldId, 'increase');
-            msgChange = 'increased';
+            msgChange = game.i18n.localize("Mosh.Increased");
         msgHeader = fieldPrefix + this.getFlavorText('attribute', fieldId, 'increaseHeader');
         msgImgPath = this.getFlavorText('attribute', fieldId, 'increaseImg');
           } else if (modifyChange < 0) {
         msgFlavor = this.getFlavorText('attribute', fieldId, 'decrease');
-            msgChange = 'decreased';
+            msgChange = game.i18n.localize("Mosh.Decreased");
         msgHeader = fieldPrefix + this.getFlavorText('attribute', fieldId, 'decreaseHeader');
         msgImgPath = this.getFlavorText('attribute', fieldId, 'decreaseImg');
           }
@@ -2059,15 +2116,15 @@ export class MothershipActor extends Actor {
         msgOutcome = this.getFlavorText('attribute', fieldId, msgAction);
           //set message outcome for stress going from < 20 to > 20
           } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifySurplus > 0) {
-        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + game.i18n.format("Mosh.FieldChangedFromTo", {field: fieldPrefix + fieldName, change: msgChange, from: modifyCurrent, to: modifyNew}) + ` ` + game.i18n.format("Mosh.ReduceMostRelevantStatOrSave", {amount: modifySurplus});
           //set message outcome for stress going from 20 to > 20
           } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifySurplus > 0) {
-        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + game.i18n.format("Mosh.ReduceMostRelevantStatOrSave", {amount: modifySurplus});
           //set default message outcome
           } else if (msgAction === 'increase' || msgAction === 'decrease') {
-            msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+            msgOutcome = game.i18n.format("Mosh.FieldChangedFromTo", {field: fieldPrefix + fieldName, change: msgChange, from: modifyCurrent, to: modifyNew});
           } else {
-        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + game.i18n.format("Mosh.FieldChangedFromTo", {field: fieldPrefix + fieldName, change: msgChange, from: modifyCurrent, to: modifyNew});
           }
         //push message if asked
         if (outputChatMsg) {
@@ -2152,12 +2209,12 @@ export class MothershipActor extends Actor {
               //get flavor text
               if (modifyChange > 0) {
         msgFlavor = this.getFlavorText('attribute', fieldId, 'increase');
-                msgChange = 'increased';
+                msgChange = game.i18n.localize("Mosh.Increased");
         msgHeader = fieldPrefix + this.getFlavorText('attribute', fieldId, 'increaseHeader');
         msgImgPath = this.getFlavorText('attribute', fieldId, 'increaseImg');
               } else if (modifyChange < 0) {
         msgFlavor = this.getFlavorText('attribute', fieldId, 'decrease');
-                msgChange = 'decreased';
+                msgChange = game.i18n.localize("Mosh.Decreased");
         msgHeader = fieldPrefix + this.getFlavorText('attribute', fieldId, 'decreaseHeader');
         msgImgPath = this.getFlavorText('attribute', fieldId, 'decreaseImg');
               }
@@ -2198,15 +2255,15 @@ export class MothershipActor extends Actor {
         msgOutcome = this.getFlavorText('attribute', fieldId, msgAction);
                 //set message outcome for stress going from < 20 to > 20
                 } else if (fieldId === 'stress' && modifyCurrent < modifyMaximum && modifySurplus > 0) {
-        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>. <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + game.i18n.format("Mosh.FieldChangedFromTo", {field: fieldPrefix + fieldName, change: msgChange, from: modifyCurrent, to: modifyNew}) + ` ` + game.i18n.format("Mosh.ReduceMostRelevantStatOrSave", {amount: modifySurplus});
                 //set message outcome for stress going from 20 to > 20
                 } else if (fieldId === 'stress' && modifyCurrent === modifyMaximum && modifySurplus > 0) {
-        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` <strong>Reduce the most relevant Stat or Save by ${modifySurplus}</strong>.`;
+        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + game.i18n.format("Mosh.ReduceMostRelevantStatOrSave", {amount: modifySurplus});
                 //set default message outcome
                 } else if (msgAction === 'increase' || msgAction === 'decrease') {
-                  msgOutcome = fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+                  msgOutcome = game.i18n.format("Mosh.FieldChangedFromTo", {field: fieldPrefix + fieldName, change: msgChange, from: modifyCurrent, to: modifyNew});
                 } else {
-        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + fieldPrefix + fieldLabel.reduce((a, v) => a[v], this) + ` ` + msgChange + ` from <strong>${modifyCurrent}</strong> to <strong>${modifyNew}</strong>.`;
+        msgOutcome = this.getFlavorText('attribute', fieldId, msgAction) + ` ` + game.i18n.format("Mosh.FieldChangedFromTo", {field: fieldPrefix + fieldName, change: msgChange, from: modifyCurrent, to: modifyNew});
                 }
             //push message if asked
             if (outputChatMsg) {
@@ -2268,6 +2325,10 @@ export class MothershipActor extends Actor {
     let chatId = foundry.utils.randomID();
     //get item data
     let itemData = await fromIdUuid(itemId,{type:"Item"});
+    //remember the compendium entry the item comes from, as a drag and drop would (identifies e.g. the Bleeding condition)
+    if (itemData.pack && !itemData._stats.compendiumSource) {
+      itemData.updateSource({'_stats.compendiumSource': itemData.uuid});
+    }
     //add or increase the count of the item, depending on type, if the actor has it
     if (this.items.getName(itemData.name)) {
       //if this is an item, increase the count
@@ -2280,7 +2341,7 @@ export class MothershipActor extends Actor {
           'system.quantity': newValue
         });
         //create message text
-        flavorText = `Quantity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
+        flavorText = game.i18n.format("Mosh.QuantityIncreasedFromTo", {from: oldValue, to: newValue});
       //if this is a condition, increase the severity
       } else if (itemData.type === 'condition') {
         //get current severity
@@ -2291,7 +2352,7 @@ export class MothershipActor extends Actor {
           'system.severity': newValue
         });
         //create message text
-        flavorText = this.getFlavorText('item', 'condition', 'increase') + `Severity has increased from <strong>` + oldValue + `</strong> to <strong>` + newValue + `</strong>.`;
+        flavorText = this.getFlavorText('item', 'condition', 'increase') + game.i18n.format("Mosh.SeverityIncreasedFromTo", {from: oldValue, to: newValue});
       //if this is a weapon or armor, add another one
       } else if (itemData.type === 'weapon' || itemData.type === 'armor') {
         //add item to the players inventory
@@ -2309,7 +2370,7 @@ export class MothershipActor extends Actor {
           'system.quantity': addAmount
         });
         //create message text
-        flavorText = `You add <strong>` + addAmount + `</strong> of these to your inventory.`;
+        flavorText = game.i18n.format("Mosh.YouAddAmountToYourInventory", {amount: addAmount});
       //if this is a condition, add it
       } else if (itemData.type === 'condition') {
         //give the character the item
@@ -2319,7 +2380,7 @@ export class MothershipActor extends Actor {
           'system.severity': addAmount
         });
         //create message text
-        flavorText = this.getFlavorText('item', 'condition', 'add') + `, with a severity of <strong>` + addAmount + `</strong>.`;
+        flavorText = this.getFlavorText('item', 'condition', 'add') + game.i18n.format("Mosh.WithASeverityOf", {amount: addAmount});
       //if this is a weapon or armor, add it
       } else if (itemData.type === 'weapon' || itemData.type === 'armor') {
         //add item to the players inventory
@@ -2386,7 +2447,7 @@ export class MothershipActor extends Actor {
             icon: `fas fa-check`
           },
           {
-            label: `Cancel`,
+            label: game.i18n.localize("Mosh.Cancel"),
 			      action: `action_cancel`,
             callback: () => {},
             icon: `fas fa-times`
@@ -2509,7 +2570,7 @@ export class MothershipActor extends Actor {
     //init vars
     let chatId = foundry.utils.randomID();
     //determine bleeding amount
-    let healthLost = this.items.getName("Bleeding").system.severity * -1;
+    let healthLost = this.items.find(isBleedingCondition).system.severity * -1;
     //run the function for the player's 'Selected Character'
     let modification = await this.modifyActor('system.health.value', healthLost, null, false);
     //get flavor text
@@ -2894,11 +2955,11 @@ export class MothershipActor extends Actor {
           <div class="macro_desc"><h3>${moraleCheck}</h3>${moraleCheckDescription}</div>
         </div>
       </div>
-      <h4>Select your roll type:</h4>
+      <h4>${game.i18n.localize("Mosh.SelectYourRollType")}:</h4>
       `;
       //create final dialog data
       const dialogData = {
-        window: {title: `Morale Check`},
+        window: {title: game.i18n.localize("Mosh.MoraleCheck")},
         classes: ["macro-popup-dialog"],
         position: {width: 600,height: 265},
         content: msgContent,

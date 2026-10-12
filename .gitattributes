@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# LevelDB packs are binary: a CRLF in packs/*/CURRENT makes LevelDB look for "MANIFEST-00000N" and fail to open the pack
+packs/** binary

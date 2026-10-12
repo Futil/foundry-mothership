@@ -215,7 +215,7 @@ export class MothershipClassSheet extends MothershipItemSheet {
         "from_list": [],
       }
       if(new_data.name ==""){
-        new_data.name = `Option: ${(this.object.system.selected_adjustment.choose_skill_or[li.data("itemId")].length)+1}`
+        new_data.name = `${game.i18n.localize("Mosh.CharacterGenerator.SkillOption.ChoiceWord")}: ${(this.object.system.selected_adjustment.choose_skill_or[li.data("itemId")].length)+1}`
       }
       if(new_data.trained ==""){
         new_data.trained = 0;
@@ -275,14 +275,14 @@ export class MothershipClassSheet extends MothershipItemSheet {
       `
 
       let d = new foundry.applications.api.DialogV2({
-		    window: {title: `Select Stat`},
+		    window: {title: game.i18n.localize("Mosh.SelectStat")},
         classes: ["macro-popup-dialog"],
         content: DialogContent,
         buttons: [
           {
             icon: 'fas fa-check',
             action: "create",
-            label: "Create",
+            label: game.i18n.localize("Mosh.Create"),
             callback: (event, button, dialog) => {
               
             let new_stat_option = {
@@ -323,7 +323,7 @@ export class MothershipClassSheet extends MothershipItemSheet {
           {
             icon: 'fas fa-times',
             action: "cancel",
-            label: "Cancel",
+            label: game.i18n.localize("Mosh.Cancel"),
             callback: () => { }
           }
         ],

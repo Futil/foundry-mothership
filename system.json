@@ -143,6 +143,12 @@
       "lang": "pt-BR",
       "path": "lang/pt-BR.json",
       "flags": {}
+    },
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json",
+      "flags": {}
     }
   ],
   "grid": {

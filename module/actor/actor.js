@@ -1,5 +1,29 @@
 import { fromIdUuid } from "../mosh.js";
 
+//world settings that select a rolltable, mapped to the Mosh.table.* key of that table
+//(this lets renamed or translated tables keep their wound, panic and flavor text behavior)
+const ROLLTABLE_SETTING_KEYS = {
+  table0ePanicStressNormal: 'panic_check',
+  table0ePanicStressAndroid: 'panic_check',
+  table0ePanicCalmNormal: 'panic_check',
+  table0ePanicCalmAndroid: 'panic_check',
+  table1ePanicStressNormal: 'panic_check',
+  table1ePanicStressAndroid: 'panic_check',
+  table1ePanicCalmNormal: 'panic_check',
+  table1ePanicCalmAndroid: 'panic_check',
+  table1eWoundBluntForce: 'blunt_force_wound',
+  table1eWoundBleeding: 'bleeding_wound',
+  table1eWoundGunshot: 'gunshot_wound',
+  table1eWoundFireExplosives: 'fire_explosives_wound',
+  table1eWoundGoreMassive: 'gore_massive_wound',
+  table0eDeath: 'death_save',
+  table1eDeath: 'death_save',
+  table1eDistressSignal: 'distress_signal',
+  table1eMegadamageEffects: 'megadamage_effects',
+  table1eMaintenance: 'maintenance_issues',
+  table1eBankruptcy: 'bankruptcy_save'
+};
+
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -758,8 +782,22 @@ export class MothershipActor extends Actor {
         //extract dice needed
       tableName = tableName.substr(0, tableName.indexOf(' ('));
       }
+      //identify the table by the world setting that selects it, falling back to its English name
+      let tableKey = null;
+      for (const [setting, key] of Object.entries(ROLLTABLE_SETTING_KEYS)) {
+        let selectedTable = game.settings.get('mosh', setting);
+        if (selectedTable && [tableId, tableData.id, tableData.uuid].includes(selectedTable)) {
+          tableKey = key;
+          break;
+        }
+      }
+      let isWoundTable = tableKey ? tableKey.slice(-6) === '_wound' : tableName.slice(-5) === 'Wound';
+      let isPanicTable = tableKey ? tableKey === 'panic_check' : tableName === 'Panic Check';
+      if (!tableKey) {
+        tableKey = tableName.replaceAll('& ', '').replaceAll(' ', '_').toLowerCase();
+      }
       //if a wound table, add a wound to the player and prepare text for the final message
-      if (tableName.slice(-5) === 'Wound') {
+      if (isWoundTable) {
       let addWound = await this.modifyActor('system.hits.value', 1, null, false);
         woundText = addWound[1];
       }
@@ -777,7 +815,7 @@ export class MothershipActor extends Actor {
         //set panic die color
       let dsnTheme = game.settings.get('mosh', 'panicDieTheme');
         //apply theme if this is a panic check
-        if (tableName === 'Panic Check') {
+        if (isPanicTable) {
           parsedRollString = parsedRollString + '[' + dsnTheme + ']';
         }
      }
@@ -832,7 +870,7 @@ export class MothershipActor extends Actor {
     let tableResult = tableData.getResultsForRoll(tableResultNumber);
     //make any custom changes to chat message
       //panic check #19 customiziation
-      if (tableName === 'Panic Check' && tableResultNumber === 19) {
+      if (isPanicTable && tableResultNumber === 19) {
         if (this.system.class.value.toLowerCase() === 'android') {
         tableResultEdited = tableResult[0].description.replace(game.i18n.localize("Mosh.HEARTATTACKSHORTCIRCUITANDROIDS"), game.i18n.localize("Mosh.SHORTCIRCUIT"));
         } else {
@@ -840,10 +878,10 @@ export class MothershipActor extends Actor {
         }
       }
     //assign message description text
-    msgDesc = this.getFlavorText('table', tableName.replaceAll('& ', '').replaceAll(' ', '_').toLowerCase(), 'roll');
+    msgDesc = this.getFlavorText('table', tableKey, 'roll');
     //assign flavor text
       //get main flavor text
-    flavorText = this.getFlavorText('table', tableName.replaceAll('& ', '').replaceAll(' ', '_').toLowerCase(), 'success');
+    flavorText = this.getFlavorText('table', tableKey, 'success');
       //append 0e crit success effect
       if (!firstEdition && !useCalm && parsedRollResult.success && parsedRollResult.critical) {
       flavorText = flavorText + game.i18n.localize("Mosh.Relieve1Stressqbq694JMbXeZrHj");

@@ -24,6 +24,12 @@ const ROLLTABLE_SETTING_KEYS = {
   table1eBankruptcy: 'bankruptcy_save'
 };
 
+//is this item the Bleeding condition? checks the compendium entry it was created from, falling back to its English name
+function isBleedingCondition(item) {
+  let source = item._stats?.compendiumSource ?? item.flags?.core?.sourceId ?? '';
+  return source.endsWith('.pxtF1NfletmoFFGV') || item.name === 'Bleeding';
+}
+
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -74,7 +80,7 @@ export class MothershipActor extends Actor {
       let bleedingValue = 0;
       //count values
       for (const condition of this.items.filter(i => i.type === "condition")) {
-        if (condition.name === 'Bleeding') {
+        if (isBleedingCondition(condition)) {
           bleedingValue += Number(condition.system.severity ?? 0);
         }
       }
@@ -114,7 +120,7 @@ export class MothershipActor extends Actor {
       let bleedingValue = 0;
       //count values
       for (const condition of this.items.filter(i => i.type === "condition")) {
-        if (condition.name === 'Bleeding') {
+        if (isBleedingCondition(condition)) {
           bleedingValue += Number(condition.system.severity ?? 0);
         }
       }
@@ -2319,6 +2325,10 @@ export class MothershipActor extends Actor {
     let chatId = foundry.utils.randomID();
     //get item data
     let itemData = await fromIdUuid(itemId,{type:"Item"});
+    //remember the compendium entry the item comes from, as a drag and drop would (identifies e.g. the Bleeding condition)
+    if (itemData.pack && !itemData._stats.compendiumSource) {
+      itemData.updateSource({'_stats.compendiumSource': itemData.uuid});
+    }
     //add or increase the count of the item, depending on type, if the actor has it
     if (this.items.getName(itemData.name)) {
       //if this is an item, increase the count
@@ -2560,7 +2570,7 @@ export class MothershipActor extends Actor {
     //init vars
     let chatId = foundry.utils.randomID();
     //determine bleeding amount
-    let healthLost = this.items.getName("Bleeding").system.severity * -1;
+    let healthLost = this.items.find(isBleedingCondition).system.severity * -1;
     //run the function for the player's 'Selected Character'
     let modification = await this.modifyActor('system.health.value', healthLost, null, false);
     //get flavor text

@@ -15,7 +15,7 @@ export class DLShipSetup extends FormApplication {
      * @type {String}
      */
     get title() {
-        return `${this.object.name}: Ship Setup`;
+        return `${this.object.name}: ${game.i18n.localize("Mosh.ShipSetup")}`;
     }
     /* -------------------------------------------- */
     /**

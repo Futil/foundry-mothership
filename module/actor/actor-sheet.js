@@ -536,7 +536,7 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
     data = foundry.utils.duplicate(header.dataset);
     //const data = duplicate(header.dataset);
     // Initialize a default name.
-    const name = `New Skill`;
+    const name = game.i18n.localize("Mosh.NewSkill");
     // Prepare the item object.
     const itemData = {
       name: name,
@@ -545,23 +545,23 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
     };
 
     let d = new foundry.applications.api.DialogV2({
-		  window: {title: `New Skill`},
+		  window: {title: game.i18n.localize("Mosh.NewSkill")},
       classes: ["macro-popup-dialog"],
       content: `
         <div class="macro_window">
           <div class="macro_desc" style="padding-left: 8px; padding-bottom: 0px;">
-            <h4> Name </h4>
+            <h4> ${game.i18n.localize("Mosh.Name")} </h4>
           </div>  
-          <input type="text" id="name" name="name" value="New Skill">
+          <input type="text" id="name" name="name" value="${name}">
         </div>
         <div class="macro_window">
           <div class="macro_desc" style="padding-left: 8px; padding-bottom: 0px;">
-            <h4> Rank </h4>
+            <h4> ${game.i18n.localize("Mosh.RANK")} </h4>
           </div>
           <select name="rank" id="rank">
-            <option value="Trained">Trained</option>
-            <option value="Expert">Expert</option>
-            <option value="Master">Master</option>
+            <option value="Trained">${game.i18n.localize("Mosh.SkillRankTrained")}</option>
+            <option value="Expert">${game.i18n.localize("Mosh.SkillRankExpert")}</option>
+            <option value="Master">${game.i18n.localize("Mosh.SkillRankMaster")}</option>
           </select>
         </div>
       `,
@@ -569,7 +569,7 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
         {
           icon: 'fas fa-check',
           action: "create",
-          label: "Create",
+          label: game.i18n.localize("Mosh.Create"),
           callback: (event, button, dialog) => {
             var rank = button.form.querySelector('[id=\"rank\"]')?.value;
             if (rank == "Trained")
@@ -587,7 +587,7 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
         {
           icon: 'fas fa-times',
           action: "cancel",
-          label: "Cancel",
+          label: game.i18n.localize("Mosh.Cancel"),
           callback: () => { }
         }
       ],

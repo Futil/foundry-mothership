@@ -14,7 +14,7 @@ export class DLCreatureSettings extends FormApplication {
      * @type {String}
      */
     get title() {
-        return `${this.object.name}: Creature Settings`;
+        return `${this.object.name}: ${game.i18n.localize("Mosh.CreatureSettings")}`;
     }
     /* -------------------------------------------- */
 

@@ -144,9 +144,23 @@ export class DLActorGenerator extends FormApplication {
    }
 
 
+   /**
+    * Explain why a class table can't be rolled: no class selected yet, or the selected class has no such table
+    * @param {String} tableLabel localization key of the table name
+    */
+   warnMissingTable(tableLabel) {
+      let class_uuid = this._element.find(`input[id="system.class.uuid"]`).prop("value");
+      if (!class_uuid) {
+         ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
+         return;
+      }
+      let class_name = this._element.find(`input[id="system.class.value"]`).prop("value");
+      ui.notifications.warn(game.i18n.format("Mosh.CharacterGenerator.Error.NoClassTable", { class: class_name, table: game.i18n.localize(tableLabel) }));
+   }
+
    async rollPatch(html) {
       if (!this.patchTable) {
-         ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
+         this.warnMissingTable("Mosh.CharacterGenerator.Table.Patch");
          return;
       }
       await this.rollTable(html, "system.class.patch", this.patchTable);
@@ -154,7 +168,7 @@ export class DLActorGenerator extends FormApplication {
    }
    async rollTrinket(html) {
       if (!this.trinketTable) {
-         ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
+         this.warnMissingTable("Mosh.CharacterGenerator.Table.Trinket");
          return;
       }
       await this.rollTable(html, "system.class.trinket", this.trinketTable);
@@ -162,7 +176,7 @@ export class DLActorGenerator extends FormApplication {
    }
    async rollLoadout(html) {
       if (!this.loadoutTable) {
-         ui.notifications.error(game.i18n.localize("Mosh.CharacterGenerator.Error.NoClass"));
+         this.warnMissingTable("Mosh.CharacterGenerator.Table.Loadout");
          return;
       }
       await this.rollTable(html, "system.class.loadout", this.loadoutTable, "ul");
@@ -652,6 +666,7 @@ export class DLActorGenerator extends FormApplication {
          let class_option = html.find(`option[class="class_option"][value="${class_name}"]`).prop('dataset');
          if (class_option == null) {
             //class name is not part of the option, leave the string, and dont process uuid.
+            ui.notifications.warn(game.i18n.format("Mosh.CharacterGenerator.Error.UnknownClass", { class: class_name }));
             return;
          }
          //we have a valid class item to process.

@@ -908,6 +908,7 @@
         "Table.Trinket": "Trinket Table",
         "Error.NoClass": "You need to select a class first."
     },
+    "RollTargetMissing": "{actor} cannot make this roll: it is meant for another type of actor (e.g. a ship roll sent to a character).",
     "Add": "Add",
     "AddOr":"Add Or",
     "AddOption":"Add Option",

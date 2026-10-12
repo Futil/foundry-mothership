@@ -768,7 +768,12 @@ export class MothershipActor extends Actor {
       //turn string address into array
       valueAddress = rollAgainst.split('.');
       //set rollTarget
-      rollTarget = valueAddress.reduce((a, v) => a[v], this);
+      rollTarget = valueAddress.reduce((a, v) => a?.[v], this);
+      //this actor doesn't have the stat (e.g. a ship roll sent to a character): say so instead of throwing
+      if (rollTarget === undefined) {
+        ui.notifications.warn(game.i18n.format("Mosh.RollTargetMissing", { actor: this.name }));
+        return;
+      }
     }
     //roll the dice
       //parse the roll string

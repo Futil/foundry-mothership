@@ -5,7 +5,7 @@ async function prepModifyActor(fieldAddress,modValue,modRollString,outputChatMsg
   //determine who to run the macro for
   if (game.settings.get('mosh','macroTarget') === 'character') {
     //is there a selected character? warn if no
-    if (!game.user.character || !game.user.character.type === 'ship') {
+    if (!game.user.character || game.user.character.type !== 'ship') {
       //warn player
       game.mosh.noCharSelected();
     } else {

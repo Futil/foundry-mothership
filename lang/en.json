@@ -906,7 +906,9 @@
         "Table.Loadout": "Loadout Table",
         "Table.Patch": "Patch Table",
         "Table.Trinket": "Trinket Table",
-        "Error.NoClass": "You need to select a class first."
+        "Error.NoClass": "You need to select a class first.",
+        "Error.NoClassTable": "The class {class} has no {table}. Add one in the Tables section of the class item, or skip this roll.",
+        "Error.UnknownClass": "No class named {class} was found. Pick a class from the list, or drag a class item onto this window. Classes are not included in the system: create them as items or use a module that provides them."
     },
     "Add": "Add",
     "AddOr":"Add Or",

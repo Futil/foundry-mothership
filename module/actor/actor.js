@@ -131,6 +131,15 @@ export class MothershipActor extends Actor {
     //nothing needed yet
   }
 
+  //is this character an android? uses the robotic flag of its class item, falling back to the class name
+  isAndroid() {
+    if (!this.system.class) {
+      return false;
+    }
+    let classItem = this.system.class.uuid ? fromUuidSync(this.system.class.uuid, {strict: false}) : null;
+    return classItem?.system?.robotic === true || String(this.system.class.value ?? '').toLowerCase() === 'android';
+  }
+
   //central flavor text library for all chat messages
   getFlavorText(type, context, action) {
     
@@ -139,9 +148,8 @@ export class MothershipActor extends Actor {
       context = 'calm';
     }
     let systemclass = "human";
-    if (this.type === 'character' && this.system.class && this.system.class.value.toLowerCase() === "android") {
+    if (this.type === 'character' && this.isAndroid()) {
       systemclass = "android";
-      //todo: get the class item for the character to check the "is robotic" flag
     }
     let locString = `Mosh.${type}.${context}.${action}.${systemclass}`;
     //check to see if this address exists in the library, return the action parameter if not
@@ -642,7 +650,7 @@ export class MothershipActor extends Actor {
         specialRoll = tableId;
         //assign variables depending on settings
         if (firstEdition) { 
-          if (androidPanic && this.system.class.value.toLowerCase() === 'android') { 
+          if (androidPanic && this.isAndroid()) { 
             if (useCalm) {
             tableId = game.settings.get('mosh', 'table1ePanicCalmAndroid');
               aimFor = 'low';
@@ -676,7 +684,7 @@ export class MothershipActor extends Actor {
             }
           }
         } else {
-          if (androidPanic && this.system.class.value.toLowerCase() === 'android') { 
+          if (androidPanic && this.isAndroid()) { 
             if (useCalm) { 
             tableId = game.settings.get('mosh', 'table0ePanicCalmAndroid');
               aimFor = 'low';
@@ -871,7 +879,7 @@ export class MothershipActor extends Actor {
     //make any custom changes to chat message
       //panic check #19 customiziation
       if (isPanicTable && tableResultNumber === 19) {
-        if (this.system.class.value.toLowerCase() === 'android') {
+        if (this.isAndroid()) {
         tableResultEdited = tableResult[0].description.replace(game.i18n.localize("Mosh.HEARTATTACKSHORTCIRCUITANDROIDS"), game.i18n.localize("Mosh.SHORTCIRCUIT"));
         } else {
         tableResultEdited = tableResult[0].description.replace(game.i18n.localize("Mosh.HEARTATTACKSHORTCIRCUITANDROIDS"), game.i18n.localize("Mosh.HEARTATTACK"));

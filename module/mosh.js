@@ -43,6 +43,8 @@ Hooks.once('init', async function () {
   // Define custom Entity classes
   CONFIG.Actor.documentClass = MothershipActor;
   CONFIG.Item.documentClass = MothershipItem;
+  //index the robotic flag so compendium classes can identify androids synchronously
+  CONFIG.Item.compendiumIndexFields.push('system.robotic');
 
 
   // Register sheet application classes

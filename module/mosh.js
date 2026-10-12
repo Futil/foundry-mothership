@@ -43,7 +43,7 @@ Hooks.once('init', async function () {
   // Define custom Entity classes
   CONFIG.Actor.documentClass = MothershipActor;
   CONFIG.Item.documentClass = MothershipItem;
-  //index the robotic flag so compendium classes can identify androids synchronously
+  //index the robotic flag of compendium classes, read synchronously by MothershipActor#isAndroid()
   CONFIG.Item.compendiumIndexFields.push('system.robotic');
 
 
@@ -123,6 +123,10 @@ Hooks.once("ready", async function () {
     }
   });
   
+  //load the index fields added in init (e.g. system.robotic) for Item compendiums
+  for (const pack of game.packs.filter(p => p.documentName === 'Item')) {
+    pack.getIndex();
+  }
 });
 
 //add custom damage dice for MOSH

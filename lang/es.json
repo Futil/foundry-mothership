@@ -1,0 +1,1145 @@
+{
+    "Mosh": {
+        "table": {
+            "death_save": {
+                "roll": {
+                    "android": "Llamas a las puertas de la muerte.",
+                    "human": "Llamas a las puertas de la muerte."
+                }
+            },
+            "blunt_force_wound": {
+                "roll": {
+                    "android": "Te preparas para lo peor.",
+                    "human": "Te preparas para lo peor."
+                }
+            },
+            "bleeding_wound": {
+                "roll": {
+                    "android": "Te preparas para lo peor.",
+                    "human": "Te preparas para lo peor."
+                }
+            },
+            "gunshot_wound": {
+                "roll": {
+                    "android": "Te preparas para lo peor.",
+                    "human": "Te preparas para lo peor."
+                }
+            },
+            "fire_explosives_wound": {
+                "roll": {
+                    "android": "Te preparas para lo peor.",
+                    "human": "Te preparas para lo peor."
+                }
+            },
+            "gore_massive_wound": {
+                "roll": {
+                    "android": "Te preparas para lo peor.",
+                    "human": "Te preparas para lo peor."
+                }
+            },
+            "panic_check": {
+                "roll": {
+                    "android": "Pierdes el control motor por un instante mientras tus entradas sensoriales parpadean.",
+                    "human": "Tus latidos se aceleran sin control y empiezas a sentirte mareado."
+                },
+                "success": {
+                    "android": "Los recursos del sistema se liberan y recuperas el control.",
+                    "human": "Respiras hondo y recuperas la compostura."
+                }
+            },
+            "distress_signal": {
+                "roll": {
+                    "human": "Pones la nave en energía de emergencia, se encierran en las criocápsulas, envían una señal de auxilio y esperan ayuda. Es una posibilidad remota, pero a veces es la única oportunidad que tienen. ¿Los encontrarán?"
+                }
+            },
+            "maintenance_issues": {
+                "roll": {
+                    "human": "Realizas una inspección completa de la nave en busca de desgaste."
+                },
+                "success": {
+                    "human": "No encuentras ningún problema en la nave."
+                }
+            }
+        },
+        "item": {
+            "condition": {
+                "add": {
+                    "android": "Ahora sufres de esta condición",
+                    "human": "Ahora sufres de esta condición"
+                },
+                "increase": {
+                    "android": "Tu condición empeora.",
+                    "human": "Tu condición empeora."
+                },
+                "bleed": {
+                    "android": "Tus sensores detectan una pérdida significativa de nanofluidos.",
+                    "human": "Te sientes mareado mientras te desangras."
+                },
+                "radiation": {
+                    "android": "Pérd▒da catastróf⟑ca de d▓tos det|/~ ⋥ct⋱da",
+                    "human": "Miras fijamente a la negrura y te sientes completamente incapaz de salir de ella."
+                },
+                "cryo": {
+                    "android": "Tus sistemas fallan por los daños causados por la condensación.",
+                    "human": "Te despiertas entumecido por el frío, apenas capaz de moverte."
+                }
+            }
+        },
+        "attribute": {
+            "stress": {
+                "increase": {
+                    "android": "Una sobrecarga de energía recorre tu pecho y comienzas a sobrecalentarte.",
+                    "human": "Sientes una opresión en el pecho y comienzas a sudar."
+                },
+                "increaseHeader": {
+                    "android": "Estrés ganado",
+                    "human": "Estrés ganado"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/macros/gain_stress.png",
+                    "human": "systems/mosh/images/icons/ui/macros/gain_stress.png"
+                },
+                "hitCeiling": {
+                    "android": "El rendimiento del sistema se detiene por completo.",
+                    "human": "Tocas fondo."
+                },
+                "pastCeiling": {
+                    "android": "Detectas una pérdida irrecuperable de datos.",
+                    "human": "Sientes cómo una parte de ti se desvanece."
+                },
+                "decrease": {
+                    "android": "Te reinicias parcialmente, purgando procesos innecesarios en segundo plano.",
+                    "human": "Sientes cómo una sensación de calma te invade."
+                },
+                "decreaseHeader": {
+                    "android": "Estrés aliviado",
+                    "human": "Estrés aliviado"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/macros/relieve_stress.png",
+                    "human": "systems/mosh/images/icons/ui/macros/relieve_stress.png"
+                },
+                "hitFloor": {
+                    "android": "Alcanzas una concentración y claridad perfectas. ",
+                    "human": "Alcanzas una completa paz mental."
+                },
+                "pastFloor": {
+                    "android": "Ya estás tan concentrado como es posible.",
+                    "human": "Ya estás tan calmado como es posible."
+                }
+            },
+            "calm": {
+                "increase": {
+                    "android": "Te reinicias parcialmente, purgando procesos innecesarios en segundo plano.",
+                    "human": "Sientes cómo una sensación de calma te invade."
+                },
+                "increaseHeader": {
+                    "android": "Calma obtenida",
+                    "human": "Calma obtenida"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/macros/relieve_stress.png",
+                    "human": "systems/mosh/images/icons/ui/macros/relieve_stress.png"
+                },
+                "hitCeiling": {
+                    "android": "Alcanzas una concentración y claridad perfectas.",
+                    "human": "Alcanzas una completa paz mental."
+                },
+                "pastCeiling": {
+                    "android": "Ya estás tan concentrado como es posible.",
+                    "human": "Ya estás tan calmado como es posible."
+                },
+                "decrease": {
+                    "android": "Una sobrecarga de energía recorre tu pecho y comienzas a sobrecalentarte.",
+                    "human": "Sientes una opresión en el pecho y comienzas a sudar."
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/macros/gain_stress.png",
+                    "human": "systems/mosh/images/icons/ui/macros/gain_stress.png"
+                },
+                "decreaseHeader": {
+                    "android": "Calma Perdida",
+                    "human": "Calma Perdida"
+                },
+                "hitFloor": {
+                    "android": "El rendimiento del sistema se detiene por completo.",
+                    "human": "Tocas fondo."
+                },
+                "pastFloor": {
+                    "android": "Detectas una pérdida irrecuperable de datos.",
+                    "human": "Sientes cómo una parte de ti se desvanece."
+                }
+            },
+            "health": {
+                "increaseHeader": {
+                    "android": "Salud obtenida",
+                    "human": "Salud obtenida"
+                },
+                "decrease": {
+                    "human": "Te estremeces de dolor.",
+                    "android": "Tus receptores de dolor indican daño en el núcleo."
+                },
+                "increase": {
+                    "android": "Los recursos del sistema se liberan y te sientes energizado.",
+                    "human": "Siente una explosión de energía."
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/health.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/health.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora estás en plena salud.",
+                    "human": "Ahora estás en plena salud."
+                },
+                "pastCeiling": {
+                    "android": "Ya estás en plena salud.",
+                    "human": "Ya estás en plena salud."
+                },
+                "decreaseHeader": {
+                    "android": "Salud perdida",
+                    "human": "Salud perdida"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/health.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/health.png"
+                },
+                "hitFloor": {
+                    "android": "Tus receptores de dolor indican daño en el núcleo.",
+                    "human": "Te estremeces por el dolor.."
+                },
+                "pastFloor": {
+                    "android": "Tus receptores de dolor indican daño en el núcleo.",
+                    "human": "No te queda salud."
+                }
+            },
+            "hits": {
+                "increase": {
+                    "android": "@UUID[Compendium.mosh.macros_hotbar_1e.ZzKgfEmRdvDfyBMS]{Hacer una tirada de heridas}",
+                    "human": "@UUID[Compendium.mosh.macros_hotbar_1e.ZzKgfEmRdvDfyBMS]{Hacer una tirada de heridas}"
+                },
+                "increaseHeader": {
+                    "android": "Dañado",
+                    "human": "Herido"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/health.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/health.png"
+                },
+                "hitCeiling": {
+                    "android": "@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Hacer una tirada de salvación contra la muerte}",
+                    "human": "@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Hacer una tirada de salvación contra la muerte}"
+                },
+                "pastCeiling": {
+                    "android": "@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Hacer una tirada de salvación contra la muerte}",
+                    "human": "El fin se acerca . . . <br><br>@UUID[Compendium.mosh.macros_hotbar_1e.NsRHfRuuNGPfkYVf]{Hacer una tirada de salvación contra la muerte}"
+                },
+                "decrease": {
+                    "android": "Se liberan recursos del sistema y te sientes con energía.",
+                    "human": "Sientes una ráfaga de energía."
+                },
+                "decreaseHeader": {
+                    "android": "Reparado",
+                    "human": "Remendado"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/health.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/health.png"
+                },
+                "hitFloor": {
+                    "android": "Tu salud vuelve a estar al máximo.",
+                    "human": "Tu salud vuelve a estar al máximo."
+                },
+                "pastFloor": {
+                    "android": "Ya tienes la salud al máximo.",
+                    "human": "Ya tienes la salud al máximo."
+                }
+            },
+            "strength": {
+                "check": {
+                    "android": "Ganas algo de confianza en tus habilidades.",
+                    "human": "Ganas algo de confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Fuerza aumentada",
+                    "human": "Fuerza obtenida"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/strength.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/strength.png"
+                },
+                "hitCeiling": {
+                    "android": "Tu Fuerza vuelve a estar al máximo.",
+                    "human": "Tu Fuerza vuelve a estar al máximo."
+                },
+                "pastCeiling": {
+                    "android": "Tu Fuerza ya está al máximo.",
+                    "human": "Tu Fuerza ya está al máximo."
+                },
+                "decrease": {
+                    "android": "Daño detectado en la partición central. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Fuerza afectada",
+                    "human": "Fuerza perdida"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/strength.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/strength.png"
+                },
+                "hitFloor": {
+                    "android": "No te queda fuerza.",
+                    "human": "No te queda fuerza."
+                },
+                "pastFloor": {
+                    "android": "Tu fuerza no puede bajar más.",
+                    "human": "Tu fuerza no puede bajar más."
+                }
+            },
+            "speed": {
+                "check": {
+                    "android": "Ganas algo de confianza en tus habilidades.",
+                    "human": "Ganas algo de confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Velocidad mejorada",
+                    "human": "Velocidad ganada"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/speed.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/speed.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora estás a la velocidad máxima.",
+                    "human": "Ahora estás a la velocidad máxima."
+                },
+                "pastCeiling": {
+                    "android": "Ya estás a velocidad máxima.",
+                    "human": "Ya estás a velocidad máxima."
+                },
+                "decrease": {
+                    "android": "Daño detectado en la partición central. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Velocidad afectada",
+                    "human": "Velocidad perdida"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/speed.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/speed.png"
+                },
+                "hitFloor": {
+                    "android": "Te sientes completamente letárgico.",
+                    "human": "Te sientes completamente letárgico."
+                },
+                "pastFloor": {
+                    "android": "Tu velocidad no puede bajar más.",
+                    "human": "Tu velocidad no puede bajar más."
+                }
+            },
+            "intellect": {
+                "check": {
+                    "android": "Ganas algo de confianza en tus habilidades.",
+                    "human": "Ganas algo de confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Intelecto mejorado",
+                    "human": "Intelecto ganado"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/intellect.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/intellect.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora estás a intelecto máximo.",
+                    "human": "Ahora estás a intelecto máximo."
+                },
+                "pastCeiling": {
+                    "android": "Ya tienes el intelecto al máximo.",
+                    "human": "Ya tienes el intelecto al máximo."
+                },
+                "decrease": {
+                    "android": "Daño detectado en la partición central. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Intelecto afectado",
+                    "human": "Intelecto perdido"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/intellect.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/intellect.png"
+                },
+                "hitFloor": {
+                    "android": "Te sientes totalmente confundido.",
+                    "human": "Te sientes totalmente confundido."
+                },
+                "pastFloor": {
+                    "android": "Tu intelecto no puede bajar más.",
+                    "human": "Tu intelecto no puede bajar más."
+                }
+            },
+            "combat": {
+                "check": {
+                    "android": "Ganas algo de confianza en tus habilidades.",
+                    "human": "Ganas algo de confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Combate mejorado",
+                    "human": "Combate ganado"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/combat.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/combat.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora tienes el combate al máximo.",
+                    "human": "Ahora tienes el combate al máximo."
+                },
+                "pastCeiling": {
+                    "android": "Ya tienes el combate al máximo.",
+                    "human": "Ya tienes el combate al máximo."
+                },
+                "decrease": {
+                    "android": "Daño detectado en la partición central. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Combate afectado",
+                    "human": "Combate perdido"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/combat.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/combat.png"
+                },
+                "hitFloor": {
+                    "android": "Ya no te imaginas peleando.",
+                    "human": "Ya no te imaginas peleando."
+                },
+                "pastFloor": {
+                    "android": "Tu combate no puede bajar más.",
+                    "human": "Tu combate no puede bajar más."
+                }
+            },
+            "instinct": {
+                "check": {
+                    "android": "Ganas algo de confianza en tus habilidades.",
+                    "human": "Ganas algo de confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Instinto mejorado",
+                    "human": "Instinto ganado"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/instinct.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/instinct.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora tienes el instinto al máximo.",
+                    "human": "Ahora tienes el instinto al máximo."
+                },
+                "pastCeiling": {
+                    "android": "Ya tienes el instinto al máximo.",
+                    "human": "Ya tienes el instinto al máximo."
+                },
+                "decrease": {
+                    "android": "Daño en la partición central detectado. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Instinto afectado",
+                    "human": "Instinto perdido"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/instinct.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/instinct.png"
+                },
+                "hitFloor": {
+                    "android": "Has perdido tus instintos.",
+                    "human": "Has perdido tus instintos."
+                },
+                "pastFloor": {
+                    "android": "Tu instinto no puede bajar más.",
+                    "human": "Tu instinto no puede bajar más."
+                }
+            },
+            "loyalty": {
+                "check": {
+                    "android": "Ganas algo de confianza en tus habilidades.",
+                    "human": "Ganas algo de confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Lealtad mejorada",
+                    "human": "Lealtad ganada"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/loyalty.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/loyalty.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora estás a lealtad máxima.",
+                    "human": "Ahora estás a lealtad máxima."
+                },
+                "pastCeiling": {
+                    "android": "Ya estás a lealtad máxima.",
+                    "human": "Ya estás a lealtad máxima."
+                },
+                "decrease": {
+                    "android": "Daño en la partición central detectado. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Lealtad afectada",
+                    "human": "Lealtad perdida"
+                },
+                "decreaseImg": {
+                    "human": "systems/mosh/images/icons/ui/attributes/loyalty.png",
+                    "android": "systems/mosh/images/icons/ui/attributes/loyalty.png"
+                },
+                "hitFloor": {
+                    "android": "Solo te importas a ti mismo.",
+                    "human": "Solo te importas a ti mismo."
+                },
+                "pastFloor": {
+                    "android": "Tu lealtad no puede bajar más.",
+                    "human": "Tu lealtad no puede bajar más."
+                }
+            },
+            "sanity": {
+                "check": {
+                    "android": "Ganas confianza en tus habilidades.",
+                    "human": "Ganas confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Cordura potenciada",
+                    "human": "Cordura potenciada"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/sanity.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/sanity.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora tienes la cordura al máximo.",
+                    "human": "Ahora tienes la cordura al máximo."
+                },
+                "pastCeiling": {
+                    "android": "Ya tienes la cordura al máximo.",
+                    "human": "Ya tienes la cordura al máximo."
+                },
+                "decrease": {
+                    "android": "Daño en la partición central detectado. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Cordura afectada",
+                    "human": "Cordura perdida"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/sanity.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/sanity.png"
+                },
+                "hitFloor": {
+                    "android": "Has perdido la cabeza.",
+                    "human": "Has perdido la cabeza."
+                },
+                "pastFloor": {
+                    "android": "Tu cordura no puede bajar más.",
+                    "human": "Tu cordura no puede bajar más."
+                }
+            },
+            "fear": {
+                "check": {
+                    "android": "Ganas confianza en tus habilidades.",
+                    "human": "Ganas confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Valor potenciado",
+                    "human": "Valor potenciado"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/fear.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/fear.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora tienes el miedo al máximo.",
+                    "human": "Ahora tienes el miedo al máximo."
+                },
+                "pastCeiling": {
+                    "android": "Ya tienes el miedo al máximo.",
+                    "human": "Ya tienes el miedo al máximo."
+                },
+                "decrease": {
+                    "android": "Daño en la partición central detectado. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Valor afectado",
+                    "human": "Valor perdido"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/fear.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/fear.png"
+                },
+                "hitFloor": {
+                    "android": "Tienes miedo de todo.",
+                    "human": "Tienes miedo de todo."
+                },
+                "pastFloor": {
+                    "android": "Tu miedo no puede bajar más.",
+                    "human": "Tu miedo no puede bajar más."
+                }
+            },
+            "body": {
+                "check": {
+                    "android": "Ganas confianza en tus habilidades.",
+                    "human": "Ganas confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Cuerpo mejorado",
+                    "human": "Cuerpo potenciado"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/body.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/body.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora tienes el cuerpo al máximo.",
+                    "human": "Ahora tienes el cuerpo al máximo."
+                },
+                "pastCeiling": {
+                    "android": "Ya tienes el cuerpo al máximo.",
+                    "human": "Ya tienes el cuerpo al máximo."
+                },
+                "decrease": {
+                    "android": "Daño en la partición central detectado. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Cuerpo afectado",
+                    "human": "Cuerpo debilitado"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/body.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/body.png"
+                },
+                "hitFloor": {
+                    "android": "Tu cuerpo se siente débil y frágil.",
+                    "human": "Tu cuerpo se siente débil y frágil."
+                },
+                "pastFloor": {
+                    "android": "Tu cuerpo no puede bajar más.",
+                    "human": "Tu cuerpo no puede bajar más."
+                }
+            },
+            "armor": {
+                "check": {
+                    "android": "Ganas confianza en tus habilidades.",
+                    "human": "Ganas confianza en tus habilidades."
+                },
+                "increase": {
+                    "android": "Datos recuperados. Datos de la partición central restaurados.",
+                    "human": "Empiezas a sentirte tú mismo de nuevo."
+                },
+                "increaseHeader": {
+                    "android": "Armadura mejorada",
+                    "human": "Armadura ganada"
+                },
+                "increaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/armor.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/armor.png"
+                },
+                "hitCeiling": {
+                    "android": "Ahora estás en la armadura máxima.",
+                    "human": "Ahora tienes la armadura al máximo."
+                },
+                "pastCeiling": {
+                    "android": "Ya tienes la armadura al máximo.",
+                    "human": "Ya tienes la armadura al máximo."
+                },
+                "decrease": {
+                    "android": "Daño en la partición central detectado. Sectores irrecuperables encontrados.",
+                    "human": "Sientes que una parte de ti se desvanece."
+                },
+                "decreaseHeader": {
+                    "android": "Armadura afectada",
+                    "human": "Armadura perdida"
+                },
+                "decreaseImg": {
+                    "android": "systems/mosh/images/icons/ui/attributes/armor.png",
+                    "human": "systems/mosh/images/icons/ui/attributes/armor.png"
+                },
+                "hitFloor": {
+                    "android": "Nada te protege ahora.",
+                    "human": "Nada te protege ahora."
+                },
+                "pastFloor": {
+                    "android": "Tu armadura no puede bajar más.",
+                    "human": "Tu armadura no puede bajar más."
+                }
+            },
+            "thrusters": {
+                "check": {
+                    "human": "Maniobras la nave con éxito a través del peligro."
+                },
+                "increase": {
+                    "human": "Propulsores mejorados. La agilidad, la aceleración y la velocidad máxima han mejorado."
+                },
+                "increaseHeader": {
+                    "human": "Propulsores potenciados"
+                },
+                "increaseImg": {
+                    "human": "systems/mosh/images/icons/ui/attributes/thrusters.png"
+                },
+                "hitCeiling": {
+                    "human": "Tus propulsores están al máximo."
+                },
+                "pastCeiling": {
+                    "human": "Tus propulsores ya están al máximo y no se pueden mejorar más."
+                },
+                "decrease": {
+                    "human": "Propulsores dañados. La agilidad, la aceleración y la velocidad máxima están afectadas."
+                },
+                "decreaseHeader": {
+                    "human": "Propulsores afectados"
+                },
+                "decreaseImg": {
+                    "human": "systems/mosh/images/icons/ui/attributes/thrusters.png"
+                },
+                "hitFloor": {
+                    "human": "Has perdido tus propulsores."
+                },
+                "pastFloor": {
+                    "human": "Tus propulsores están rotos y no se pueden dañar más."
+                }
+            },
+            "battle": {
+                "check": {
+                    "human": "Asestas un golpe exitoso al objetivo."
+                },
+                "increase": {
+                    "human": "Sistemas de orientación mejorados. La preparación para el combate ha mejorado."
+                },
+                "increaseHeader": {
+                    "human": "Combate potenciado"
+                },
+                "increaseImg": {
+                    "human": "systems/mosh/images/icons/ui/attributes/battle.png"
+                },
+                "hitCeiling": {
+                    "human": "Tus sistemas de orientación están al máximo."
+                },
+                "pastCeiling": {
+                    "human": "Tus sistemas de orientación ya están al máximo y no se pueden mejorar más."
+                },
+                "decrease": {
+                    "human": "Sistemas de orientación dañados. La preparación para el combate está afectada."
+                },
+                "decreaseHeader": {
+                    "human": "Combate afectado"
+                },
+                "decreaseImg": {
+                    "human": "systems/mosh/images/icons/ui/attributes/battle.png"
+                },
+                "hitFloor": {
+                    "human": "Has perdido tus sistemas de orientación."
+                },
+                "pastFloor": {
+                    "human": "Tus sistemas de orientación están rotos y no se pueden dañar más."
+                }
+            },
+            "systems": {
+                "check": {
+                    "human": "Los sistemas de tu nave funcionan sin problemas."
+                },
+                "increase": {
+                    "human": "Sistemas mejorados. Los sensores, las computadoras y otros sistemas han mejorado."
+                },
+                "increaseHeader": {
+                    "human": "Sistemas mejorados"
+                },
+                "increaseImg": {
+                    "human": "systems/mosh/images/icons/ui/attributes/battle.png"
+                },
+                "hitCeiling": {
+                    "human": "Los sistemas de tu nave están al máximo."
+                },
+                "pastCeiling": {
+                    "human": "Los sistemas de tu nave ya están al máximo y no se pueden mejorar más."
+                },
+                "decrease": {
+                    "human": "Sistemas dañados. Los sensores, las computadoras y otros sistemas han sido afectados."
+                },
+                "decreaseHeader": {
+                    "human": "Sistemas afectados"
+                },
+                "decreaseImg": {
+                    "human": "systems/mosh/images/icons/ui/attributes/battle.png"
+                },
+                "hitFloor": {
+                    "human": "Has perdido los sistemas de tu nave."
+                },
+                "pastFloor": {
+                    "human": "Los sistemas de tu nave están rotos y no se pueden dañar más."
+                }
+            }
+        },
+        "Sanity": "Cordura",
+        "macro": {
+            "wound": {
+                "bleeding": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.1DD8i6eCS6nx2Ip0]{Hemorragia}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.1DD8i6eCS6nx2Ip0]{Hemorragia}"
+                },
+                "bleeding_dis": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.xr2o2PU5vdrR6fxQ]{Hemorragia [-]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.xr2o2PU5vdrR6fxQ]{Hemorragia [-]}"
+                },
+                "bleeding_adv": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.tFcWNddtZvlv7tsg]{Hemorragia [+]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.tFcWNddtZvlv7tsg]{Hemorragia [+]}"
+                },
+                "blunt_force": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.TAjlQjA5AAy3qYL3]{Fuerza contundente}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.TAjlQjA5AAy3qYL3]{Fuerza contundente}"
+                },
+                "blunt_force_dis": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.k0zf8ZGivRguc0wb]{Fuerza contundente [-]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.k0zf8ZGivRguc0wb]{Fuerza contundente [-]}"
+                },
+                "blunt_force_adv": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.oL3GH0HoEPlP8vzG]{Fuerza contundente [+]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.oL3GH0HoEPlP8vzG]{Fuerza contundente [+]}"
+                },
+                "fire_explosives": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.bZi1qKmcKLFvnhZ2]{Fuego y explosivos}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.bZi1qKmcKLFvnhZ2]{Fuego y explosivos}"
+                },
+                "fire_explosives_dis": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.7rYhbDAaFeok1Daq]{Fuego y explosivos [-]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.7rYhbDAaFeok1Daq]{Fuego y explosivos [-]}"
+                },
+                "fire_explosives_adv": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.dJnQKDf0AlwK27QD]{Fuego y explosivos [+]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.dJnQKDf0AlwK27QD]{Fuego y explosivos [+]}"
+                },
+                "gore_massive": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.S9nnHKWYGSQmjQdp]{Gore}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.S9nnHKWYGSQmjQdp]{Gore}"
+                },
+                "gore_massive_dis": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.eQPuDgwv8evetFIk]{Gore [-]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.eQPuDgwv8evetFIk]{Gore [-]}"
+                },
+                "gore_massive_adv": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.DuVjNlE4lsnR7Emc]{Gore [+]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.DuVjNlE4lsnR7Emc]{Gore [+]}"
+                },
+                "gunshot": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.XgCOLv9UunBddUyW]{Herida de bala}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.XgCOLv9UunBddUyW]{Herida de bala}"
+                },
+                "gunshot_dis": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.LTpa1ZYVZl4m9k6z]{Herida de bala [-]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.LTpa1ZYVZl4m9k6z]{Herida de bala [-]}"
+                },
+                "gunshot_adv": {
+                    "android": "@UUID[Compendium.mosh.macros_triggered_1e.fnVATRHYJEUlS3pR]{Herida de bala [+]}",
+                    "human": "@UUID[Compendium.mosh.macros_triggered_1e.fnVATRHYJEUlS3pR]{Herida de bala [+]}"
+                }
+            }
+        },
+        "CharacterGenerator": {
+            "name": "Generador de personajes",
+            "CommonSkills": "Habilidades comunes",
+            "CommonSkillExplanation": "Esta es una lista de habilidades habituales para esta clase que se utilizará para la generación aleatoria de personajes.",
+            "StatOption": "Atributos y salvaciones",
+            "StatOptionPopupTitle": "Opción de atributos y salvaciones de clase",
+            "StatOptionPopupText": "Elige dónde aplicar la bonificación de:",
+            "SkillOption.Classerror": "Primero debes seleccionar una clase.",
+            "SkillOption.PopupTitle": "Elige tus habilidades",
+            "SkillOption.PopupTrainedDescription": "Elige 1 habilidad entrenada",
+            "SkillOption.PopupExpertDescription": "Elige 1 habilidad experta",
+            "SkillOption.PopupMasterDescription": "Elige 1 habilidad maestra",
+            "SkillOption.PopupFullMasterName": "Conjunto maestro",
+            "SkillOption.PopupFullMasterDescription": "Elige 1 habilidad maestra y un requisito de habilidad experta y entrenada.",
+            "SkillOption.PopupFullExpertName": "Conjunto experto",
+            "SkillOption.PopupFullExperDescription": "Elige 1 habilidad experta y un requisito de habilidad entrenada.",
+            "SkillOption.ChoiceWord": "Opción",
+            "SkillOption.ChoiceText": "Elige 1 de estas opciones de bonificación de habilidad",
+            "Tables": "Tablas",
+            "Table.Loadout": "Tabla de equipamiento inicial",
+            "Table.Patch": "Tabla de parches",
+            "Table.Trinket": "Tabla de baratijas",
+            "Error.NoClass": "Primero debes seleccionar una clase."
+        },
+        "Add": "Añadir",
+        "AddOption": "Añadir opción",
+        "AddGroup": "Añadir grupo",
+        "AddASkill": "¿Añadir una habilidad?",
+        "Advantage": "Ventaja",
+        "AllStatsAndSavesDecreasedBy": "Todos los atributos y tiradas de salvación disminuyen en",
+        "Ammo": "Munición",
+        "Ammunition": "Municiones",
+        "AmmoType": "Tipo de munición",
+        "AntiArmorAcronym": "AA",
+        "AntiArmor": "Anti Armadura",
+        "AP": "AP",
+        "Armor": "Armadura",
+        "ArmorName": "Nombre de la armadura",
+        "ArmorPoints": "Puntos de armadura",
+        "Background": "Trasfondo",
+        "Bankruptcy": "Bancarrota",
+        "BankruptcyCheck": "Tirada de bancarrota",
+        "BankruptcySave": "Tirada de bancarrota",
+        "Base": "Base",
+        "Battle": "Combate",
+        "Bio": "Bio",
+        "Body": "Cuerpo",
+        "BodySave": "Salvación de cuerpo",
+        "Bonus": "Bonificación",
+        "Calm": "Calma",
+        "Cargo": "Cargo",
+        "CarryingCapacity": "Capacidad de carga",
+        "CLASS": "CLASE",
+        "classNewStatOptionEmptyError": "Debes seleccionar al menos dos atributos o tiradas de salvación",
+        "classNewSkillOptionSkillTip": "Guardar primero.",
+        "Combat": "Combate",
+        "Condition": "Estados",
+        "Cost": "Costo",
+        "CreateCondition": "Crear condición",
+        "CreateItem": "Crear objeto",
+        "CreateSkill": "Crear habilidad",
+        "CreateWeapon": "Crear arma",
+        "CreatureSettings": "Configuración de criatura",
+        "Credits": "Créditos",
+        "Crew": "Tripulación",
+        "CriticalDamage": "Daño crítico",
+        "Cryopods": "Criocámaras",
+        "CryofreezeDamage": "Daño por criocongelación",
+        "CurrentShots": "Disparos actuales",
+        "CurrentWeight": "Peso actual",
+        "Damage": "Daño",
+        "Current": "Actual",
+        "DeleteArmor": "Eliminar armadura",
+        "DeleteCondition": "Eliminar condición",
+        "DeleteItem": "Eliminar objeto",
+        "DeleteSkill": "Eliminar habilidad",
+        "DeleteWeapon": "Borrar arma",
+        "DeleteGroup": "Borrar grupo",
+        "DeleteOption": "Borrar opción",
+        "Description": "Descripción",
+        "Disabled": "Desactivado",
+        "Disadvantage": "Desventaja",
+        "DistressSignal": "Señal de auxilio",
+        "DoNotAddASkillToThisRoll": "No añadas ninguna habilidad a esta tirada.",
+        "DMGReduction": "Reducción de daño",
+        "DR": "RD",
+        "Fuel": "Combustible",
+        "Feature": "Característica",
+        "EditItem": "Editar objeto",
+        "Enabled": "Activado",
+        "EnemyShips": "Naves enemigas",
+        "EscapePods": "Cápsulas de escape",
+        "HighScore": "Puntuación máxima",
+        "Hits": "Impactos",
+        "HullPoints": "Puntos de casco",
+        "Installed": "Instalado",
+        "Instinct": "Instinto",
+        "Intellect": "Intelecto",
+        "ItemName": "Nombre del objeto",
+        "Item": "Objeto",
+        "Items": "Objetos",
+        "Level": "Nivel",
+        "Loyalty": "Lealtad",
+        "Macros": "Macros",
+        "MaintenanceAndRepairs": "Mantenimiento y reparaciones",
+        "MaintenanceCheck": "Revisión de mantenimiento",
+        "Major": "Mayor",
+        "MaxShots": "Disparos máx.",
+        "MaxO2": "O2 máx.",
+        "Megadamage": "Megadaño",
+        "MoraleCheck": "Tirada de moral",
+        "MoraleCheckDescription": "Tras cualquier ronda de nave en la que un enemigo sufra MEGADAÑO, este debe realizar una tirada de moral. Para realizar una tirada de moral, tira 1d10. Si sacan un resultado inferior a su MEGADAÑO actual, pueden enviar una transmisión en la que ofrecen un alto el fuego y la reanudación de las negociaciones.",
+        "NA": "N/A",
+        "Name": "Nombre",
+        "O2Remaining": "O2 Restante",
+        "OpenDeckplan": "Abrir plano de cubierta",
+        "Other": "Otro",
+        "Oxygen": "Oxígeno",
+        "PanicCheck": "Tirada de pánico",
+        "RANK": "Rango",
+        "Repairs": "Reparaciones",
+        "Robotic": "Robótico",
+        "RollingForGeneric": "Tirando por {name}",
+        "RollingForPanicEffect": "Tirando por efecto de pánico...",
+        "RollingForMaintenanceIssue": "Tirando por problema de mantenimiento...",
+        "SaveBonus": "Bonificación de salvación",
+        "Severity": "Gravedad",
+        "ShipIdentifier": "Identificador de la nave",
+        "ShipWeaponBonus": "Bonificación de armas de la nave",
+        "Shots": "Disparos",
+        "ShotsPerFiring": "Disparos por ráfaga",
+        "SkillBonus": "Bonificación de habilidad",
+        "SkillName": "Nombre de habilidad",
+        "SkillRank": "Rango de habilidad",
+        "SkillRankTrained": "Entrenada",
+        "SkillRankExpert": "Experta",
+        "SkillRankMaster": "Maestra",
+        "SkillTraining": "Entrenamiento de habilidades",
+        "SpecialAbilities": "Habilidades especiales",
+        "Speed": "Velocidad",
+        "StatsAndSaves": "Atributos y tiradas de salvación",
+        "Stress": "Estrés",
+        "StressResponse": "Respuesta al estrés",
+        "Thrusters": "Propulsores",
+        "Features": "Características",
+        "EditArmor": "Editar armadura",
+        "EditCondition": "Editar condición",
+        "EditSkill": "Editar habilidad",
+        "EditWeapon": "Editar arma",
+        "Equipped": "Equipado",
+        "Emergency": "Emergencia",
+        "Fear": "Miedo",
+        "Finances": "Finanzas",
+        "Health": "Salud",
+        "Maximum": "Máximo",
+        "Minimum": "Mínimo",
+        "ModuleName": "Nombre del módulo",
+        "Next": "Siguiente",
+        "Normal": "Normal",
+        "Notes": "Notas",
+        "OK": "OK",
+        "Pronouns": "Pronombres",
+        "Quantity": "Cantidad",
+        "RadiationDamage": "Daño por radiación",
+        "Range": "Rango",
+        "Resolve": "Resolver",
+        "Skills": "Habilidades",
+        "SkillsFixed": "Habilidades fijas",
+        "SkillsPrerequisite": "Habilidades necesarias",
+        "SkillsOptionalAnd": "Habilidades seleccionadas",
+        "SkillsOptionalOr": "Habilidades opcionales",
+        "Strength": "Fuerza",
+        "Systems": "Sistemas",
+        "Total": "Total",
+        "Treatment": "Tratamiento",
+        "Value": "Valor",
+        "WeaponName": "Nombre del arma",
+        "Weapons": "Armas",
+        "Weight": "Peso",
+        "XP": "XP",
+        "CombatSkillExample": "Luchando por tu vida.",
+        "HeavyCover": "Cobertura pesada",
+        "NoCover": "Sin cobertura",
+        "InsignificantCover": "Cobertura insignificante",
+        "TraumaResponse": "Respuesta al trauma",
+        "Transponder": "Transpondedor",
+        "Upgrades": "Mejoras",
+        "UsesAmmo": "Usa munición",
+        "WarpCores": "Núcleos warp",
+        "Wounds": "Heridas",
+        "WoundEffect": "Efecto de la herida",
+        "YouRolled90OrHigher": "Has sacado 90 o más, lo que siempre se considera un fallo.",
+        "HEARTATTACKSHORTCIRCUITANDROIDS": "ATAQUE CARDÍACO / CORTOCIRCUITO (ANDROIDES)",
+        "SHORTCIRCUIT": "CORTOCIRCUITO.",
+        "HEARTATTACK": "ATAQUE CARDÍACO.",
+        "Relieve1Stressqbq694JMbXeZrHj": " Alivia 1 de Estrés.<br><br>@UUID[Compendium.macros_triggered_1e.qbq694JMbXeZrHjj]{-1 de Estrés}",
+        "Gain1d10Calmk2TtLFOG9mGaWVx31d10Calm": " Gana 1d10 de Calma.<br><br>@UUID[Compendium.macros_triggered_1e.k2TtLFOG9mGaWVx3]{+1d10 de Calma}",
+        "SelectAStat": "Selecciona un atributo",
+        "ChooseTheStatForSkillCheck": "Elige el atributo que mejor se adapte a la naturaleza de esta tirada de habilidad. Añadirás tu bono de habilidad al valor del atributo para esta tirada",
+        "GivingYouAHigherNumber": "(lo que te da un número más alto por debajo del cual tirar).",
+        "StrengthSkillExample": "Mantener esclusas cerradas, acarrear compañeros caídos, escalar, empujar, saltar.",
+        "SpeedSkillExample": "Salir de la bahía de carga antes de que se cierren las puertas blindadas, actuar antes que alguien (o algo) más, huir.",
+        "IntellectSkillExample": "Recordar tu entrenamiento y experiencia bajo presión, resolver problemas difíciles, inventar o reparar cosas.",
+        "SelectYourRollType": "Selecciona tu tipo de tirada",
+        "ChooseAStat": "Elige un atributo",
+        "SwarmWoundShort": "H*",
+        "IfYouHaveARelevantSkill": "Si tienes una habilidad relevante para la tarea en cuestión, puedes añadir el bono de la habilidad a tu atributo o salvación antes de realizar la tirada",
+        "Cover": "Cobertura",
+        "LightCover": "Cobertura ligera",
+        "SelectYourCurrentCoverSituation": "Selecciona tu situación de cobertura actual",
+        "TheEnvironmentCanProvideProtectionCalled": "El entorno puede proporcionar protección llamada",
+        "IfYouShotWhileInCover": "Si disparas mientras te encuentras bajo cobertura, se considerará que ya no estás cubierto hasta tu siguiente turno",
+        "ItCanBeDestroyedLikeArmor": "Puede ser destruida, al igual que la armadura, siempre que reciba un daño mayor o igual a sus Puntos de Blindaje (PA). La cobertura normalmente solo protege contra ataques a distancia, pero en algunas situaciones puede ayudar a bloquear un ataque cuerpo a cuerpo.",
+        "YourCoverValuesAreDisplayedIn": "Tus valores de cobertura se muestran en",
+        "UnprotectedOutInTheOpen": "Sin protección, a la intemperie, etc.",
+        "WoodFurnitureDoorsShields": "Muebles/puertas de madera, escudos corporales, etc.",
+        "TreesBulkheadWallMetalFurniture": "Árboles, mamparos, muebles metálicos, etc.",
+        "AirlockDoorsCementBeamsShips": "Puertas de esclusa, vigas de cemento, naves, etc.",
+        "DistressSignalTableExplanation": "Ocasionalmente es posible que necesites poner tu nave en energía de emergencia, sellarse en criocámaras, emitir una señal de socorro y esperar ayuda. Es una probabilidad remota, pero a veces es la única oportunidad que tienes. Cuando esto suceda, tira en esta tabla.",
+        "MaintenanceCheckExplanation1": "Con el tiempo, tu nave necesita una puesta a punto o, a veces, una revisión completa. Cuando esto sucede, tendrás que encargar su reparación.",
+        "MayorRepairs": "Reparaciones mayores",
+        "MinorRepairsExplanation": "cubren daños estéticos, limpieza y otros trabajos de mantenimiento menor que se pueden realizar durante el vuelo, normalmente en un plazo de 2d10 días",
+        "MayorRepairsExplanation": "cubren daños estructurales o de sistemas a gran escala, incluyendo la reparación del Megadaño y del Casco, y solo pueden arreglarse en puerto.",
+        "BankrupcyCheckExplanation": "Una ínfima minoría de las naves pertenece a pequeñas firmas bancarias que comparten la propiedad con los operadores, cubriendo todos los costos de la nave y llevándose la mayor parte de las ganancias. A cambio, obtienes una nave y bastante libertad para llevar a cabo tus negocios en el Borde. Cada año",
+        "OrQuarterAsDeterminedBWarden": "o trimestre, según lo determine tu Director de Juego",
+        "MakeA": "haz un",
+        "OutOfAmmo": "Sin munición",
+        "OutOfAmmoNeedReload": "Sin munición, necesitas recargar",
+        "WeaponIssue": "Problema con el arma",
+        "AddOr": "Añadir",
+        "YouAddThisToYourInventory": "Añades esto a tu inventario.",
+        "YouAddAnotherOfThisToYourInventory": "Añades otro de estos a tu inventario.",
+        "HealthZeroMessage": "Tu salud ha llegado a cero y debes sufrir una herida.",
+        "HealthZeroMessage2": "Tu salud ha llegado a cero y debes sufrir una herida. Tu salud se ha restablecido a ",
+        "YouSenseTheWeightOfYourSetbacks": "Sientes el peso de tus errores.",
+        "Bankrupcy": "Bancarrota",
+        "BankrupcySave": "Tirada de bancarrota",
+        "RestSave": "Tirada de descanso",
+        "Owed": "Debido",
+        "Hull": "Casco",
+        "Stock": "Inventario",
+        "Errors": {
+            "NoDropTarget": "Algo ha ido mal con el lanzamiento, por favor inténtalo de nuevo.",
+            "SkillAlreadyInList": "Esta habilidad ya está en la lista."
+        },
+        "Orange": "naranja",
+        "MinorRepairs": "Reparaciones menores",
+        "BankrupcySaveExplanationEnd": "para determinar la salud financiera de la empresa",
+        "WeaponReloaded": "Recarga de armas",
+        "Reload": "Recarga",
+        "YouLearnThisSkill": "Aprendes esta habilidad",
+        "Job": "Ocupación",
+        "Class": "Clase",
+        "Type": "Tipo",
+        "Modules": "Módulos",
+        "DeckPlan": "Plan de cubierta"
+    }
+}

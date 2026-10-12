@@ -60,9 +60,9 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
             superData.xp.html += '<div class="circle"></div>';
           }
           else { //If a special one
-            let trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -54px;">Trained</div>';
-            if (i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px;">Expert</div>';
-            else if (i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px;">Master</div>';
+            let trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -54px;">' + game.i18n.localize('Mosh.SkillRankTrained') + '</div>';
+            if (i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px;">' + game.i18n.localize('Mosh.SkillRankExpert') + '</div>';
+            else if (i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px;">' + game.i18n.localize('Mosh.SkillRankMaster') + '</div>';
             superData.xp.html += '<div class="circle" style="background:rgb(200,200,200);">' + trainLevel + '</div>';
           }
         }
@@ -71,9 +71,9 @@ export class MothershipActorSheet extends foundry.appv1.sheets.ActorSheet {
             superData.xp.html += '<div class="circle-f"></div>';
           }
           else { //If a special one
-            let trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -54px; color:black;">Trained</div>';
-            if (i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px; color:black;">Expert</div>';
-            else if (i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px; color:black;">Master</div>';
+            let trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -54px; color:black;">' + game.i18n.localize('Mosh.SkillRankTrained') + '</div>';
+            if (i == 10) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -50px; color:black;">' + game.i18n.localize('Mosh.SkillRankExpert') + '</div>';
+            else if (i == 15) trainLevel = '<div class="skill_training_text" style="position: relative; top: 17px; text-align: center; left: -52px; color:black;">' + game.i18n.localize('Mosh.SkillRankMaster') + '</div>';
             superData.xp.html += '<div class="circle-f" style="background:black;">' + trainLevel + '</div>';
           }
 

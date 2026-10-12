@@ -1192,6 +1192,57 @@
     "RollCheckOutcomeSkill": "You {verb} {comparison} your <strong>{attribute}</strong> plus <strong>{skill}</strong> skill bonus.",
     "RollCheckOutcome": "You {verb} {comparison} your <strong>{attribute}</strong>.",
     "MakeAPanicCheck": "Make a Panic Check",
+    "Settings": {
+      "FirstEdition": {
+        "Name": "1e Rules",
+        "Hint": "Use the 1st edition rules and character sheet."
+      },
+      "MacroTarget": {
+        "Name": "Macro Target",
+        "Hint": "Who should be the target for macros?",
+        "Character": "Currently selected character for the player",
+        "Token": "Currently selected token(s) in the scene"
+      },
+      "CritDamage": {
+        "Name": "Critical Hit Damage",
+        "Hint": "What should the damage be on a critical hit?",
+        "Advantage": "Roll with advantage",
+        "DoubleDamage": "Double the damage result",
+        "DoubleDice": "Double the damage dice",
+        "MaxDamage": "Maximum possible damage result",
+        "WeaponValue": "Defer to each weapon's critical damage",
+        "None": "No critical damage"
+      },
+      "DamageDiceTheme": {
+        "Name": "Damage Dice Theme",
+        "Hint": "If DiceSoNice is installed, what theme should be applied to damage dice?"
+      },
+      "PanicDieTheme": {
+        "Name": "Panic Die Theme",
+        "Hint": "If DiceSoNice is installed, what theme should be applied to the panic die?"
+      },
+      "HideWeight": {
+        "Name": "Hide 0e Weight",
+        "Hint": "Hide the 0e weight mechanic in the items list for players and ships?"
+      },
+      "UseCalm": {
+        "Name": "Use Calm?",
+        "Hint": "Uses the traaa.sh Calm system instead of Stress."
+      },
+      "AndroidPanic": {
+        "Name": "Use Android Panic Tables?",
+        "Hint": "Adds android-specific tables for Panic and Calm checks."
+      },
+      "AutoStress": {
+        "Name": "Auto Stress Gain on Failures?",
+        "Hint": "Automatically handles stress gain on a failed roll."
+      },
+      "RolltableSelector": {
+        "Name": "Rolltable Configuration",
+        "Label": "Choose Tables",
+        "Hint": "Customize which rolltables are used."
+      }
+    },
     "Errors":{
       "SkillAlreadyInList":"This skill is already in the list.",
       "NoDropTarget":"Something went wrong with the drop, please try again."
